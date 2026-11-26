@@ -10,3 +10,6 @@ result
 docs
 server/testdata
 eslint-suppressions.json
+
+# Design files are written by Archnemesis itself, in its own canonical form.
+architecture/
