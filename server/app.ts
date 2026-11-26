@@ -170,7 +170,11 @@ export async function createApp(config: Config): Promise<App> {
   const handle: App["handle"] = async (req, res, fallback) => {
     try {
       if (!listen.hosts.has(req.headers.host ?? "")) {
-        res.writeHead(403).end("Archnemesis only answers on its own address");
+        res
+          .writeHead(403)
+          .end(
+            `Archnemesis only answers on its own address, ${listen.publicUrl}, and this request came for ${req.headers.host ?? "no host"}. On another port, set ARCHNM_PORT to it (with Docker: -e ARCHNM_PORT=8080 -p 127.0.0.1:8080:8080); behind a domain, set ARCHNM_PUBLIC_URL.`,
+          );
         return;
       }
       const origin = req.headers.origin;

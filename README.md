@@ -43,6 +43,9 @@ Fastest first.
    history are kept in the `archnm-data` volume. To host it for other people, with sign-in
    and pull requests on GitHub, see [Docker](#1-docker-the-default).
 
+   If port 5190 is taken, change it in all three places, because Archnemesis refuses requests
+   for an address it wasn't told about: `-e ARCHNM_PORT=8080 -p 127.0.0.1:8080:8080`.
+
 4. **Run it from source.** Needs Node 24 or newer and pnpm.
 
    ```sh

@@ -339,7 +339,8 @@ describe("local mode", () => {
     expect(getFrom.status).toBe(200);
     const h = await call(s, "GET", "/api/config", { headers: { host: "evil.example" } });
     expect(h.status).toBe(403);
-    expect(h.text).toBe("Archnemesis only answers on its own address");
+    expect(h.text).toContain("Archnemesis only answers on its own address");
+    expect(h.text).toContain("ARCHNM_PORT");
   });
 
   it("reaches /mcp, 404s the OAuth documents, and serves the app", async () => {
