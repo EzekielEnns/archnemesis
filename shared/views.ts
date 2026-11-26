@@ -50,6 +50,8 @@ export type Selector =
   | { guess: true }
   /** Outside services (external: true), and what's inside them. */
   | { external: true }
+  /** Whatever is at the top level (in nothing), of any kind: what a landscape shows. */
+  | { top: true }
   /** In hide_lines: lines between two boxes outside the view's scope (neighbour to neighbour). */
   | { between: "neighbours" };
 
@@ -69,8 +71,17 @@ const SELECTOR_KEYS = [
   "uses",
   "guess",
   "external",
+  "top",
   "between",
 ] as const;
+
+/** Rules whose only value is true, and what to say when it's anything else. */
+const TRUE_ONLY: Record<string, string | undefined> = {
+  guess: "guess takes true ({guess: true}: guessed lines, in hide_lines)",
+  external:
+    "external takes true ({external: true}: outside services; in hide_lines, the lines to them)",
+  top: "top takes true ({top: true}: every box at the top level, in nothing)",
+};
 
 /** Why a selector is malformed, or null. */
 export function selectorError(s: unknown): string | null {
@@ -86,18 +97,14 @@ export function selectorError(s: unknown): string | null {
       k === "id"
         ? "ids"
         : (SELECTOR_KEYS as readonly string[]).find((x) => x.startsWith(k.slice(0, 3)));
-    return `unknown rule "${k}"${near ? ` (did you mean ${near}?)` : ""}; a rule is one of {ids: [a, b]}, {children: box}, {descendants: box}, {neighbours: box}, {tag: t}, {kind: k}, {status: s}, {uses: kind}, {guess: true}, {external: true}, {between: neighbours}`;
+    return `unknown rule "${k}"${near ? ` (did you mean ${near}?)` : ""}; a rule is one of {ids: [a, b]}, {children: box}, {descendants: box}, {neighbours: box}, {tag: t}, {kind: k}, {status: s}, {uses: kind}, {guess: true}, {external: true}, {top: true}, {between: neighbours}`;
   }
   if (k === "ids")
     return Array.isArray(v) && v.every((x) => typeof x === "string")
       ? null
       : "ids takes a list of ids";
-  if (k === "guess")
-    return v === true ? null : "guess takes true ({guess: true}: guessed lines, in hide_lines)";
-  if (k === "external")
-    return v === true
-      ? null
-      : "external takes true ({external: true}: outside services; in hide_lines, the lines to them)";
+  const mustBeTrue = TRUE_ONLY[k];
+  if (mustBeTrue) return v === true ? null : mustBeTrue;
   if (k === "between")
     return v === "neighbours"
       ? null
@@ -120,6 +127,7 @@ export function describeSelector(s: Selector, name: (id: string) => string): str
   if ("uses" in s) return `whatever uses a ${s.uses} (with its file)`;
   if ("guess" in s) return "guesses (lines matched by name)";
   if ("external" in s) return "outside services";
+  if ("top" in s) return "at the top level";
   if ("between" in s) return "lines between neighbours (outside the scope)";
   return `status ${s.status}`;
 }
@@ -178,6 +186,8 @@ export function matchSelector(idx: ModelIndex, s: Selector): Set<string> {
     for (const o of idx.objects.values())
       if (o.external || ancestors(idx, o.id).some((a) => idx.objects.get(a)?.external))
         out.add(o.id);
+  } else if ("top" in s) {
+    for (const o of idx.objects.values()) if (!o.parentId) out.add(o.id);
   } else if ("uses" in s) {
     const kindOf = (id: string) => idx.objects.get(id)?.kind;
     for (const c of idx.connections.values()) {

@@ -60,6 +60,8 @@ export interface Canvas {
   /** The walkthrough is over: their view is theirs again. */
   end(): void;
   here(): Here;
+  /** Bring everything on the view they are looking at into sight (after an agent rearranged it). */
+  fit?(): void;
   /** How many have this design open (0: nobody will see it). */
   watching?(): number;
 }

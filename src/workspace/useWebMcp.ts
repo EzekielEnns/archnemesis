@@ -10,6 +10,7 @@ import type { useTour } from "./useTour";
 
 export function useWebMcp({
   store,
+  scene,
   diagramId,
   sel,
   localReply,
@@ -18,6 +19,7 @@ export function useWebMcp({
   setLocalGuide,
 }: {
   store: Store;
+  scene: { current: { fit(): void } | null };
   diagramId: string | null;
   sel: Selection;
   localReply: ReturnType<typeof useTour>["localReply"];
@@ -72,11 +74,12 @@ export function useWebMcp({
         selection: looking.current.sel.nodes,
       }),
       watching: () => 1,
+      fit: () => scene.current?.fit(),
     };
     const off = registerWebMcp(store, () => canvas);
     return () => {
       off();
       settle(null);
     };
-  }, [store]);
+  }, [store, scene]);
 }

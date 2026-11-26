@@ -1145,7 +1145,16 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
                     : [],
             ),
           ),
-        ].filter((id) => now.diagrams.has(id))
+          // ...and the views that follow rules and so picked up (or lost) boxes because of it.
+          ...[...now.diagrams.keys()].filter((id) => {
+            const was = idx.placements.get(id);
+            const is = now.placements.get(id);
+            return (
+              (was?.size ?? 0) !== (is?.size ?? 0) ||
+              [...(is?.keys() ?? [])].some((k) => !was?.has(k))
+            );
+          }),
+        ].filter((id, i, all) => now.diagrams.has(id) && all.indexOf(id) === i)
       : tidyKeys.map(
           (v) => [...now.diagrams.values()].find((d) => d.key === v)?.id ?? findView(now, v).id,
         );
@@ -1248,6 +1257,31 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
     }
   }
   out.push(...(warn ? [warn.trim()] : []));
+  // New boxes that no view draws (nor anything they are inside): the person sees nothing of them.
+  {
+    const now = host.index();
+    const drawn = (id: string | null): boolean => {
+      for (let at = id; at; at = now.objects.get(at)?.parentId ?? null)
+        if (now.placedOn.get(at)?.size) return true;
+      return false;
+    };
+    const unseen = ops.flatMap((op) =>
+      op.op === "object.put" && !idx.objects.has(op.object.id) && !drawn(op.object.id)
+        ? [op.object]
+        : [],
+    );
+    if (unseen.length)
+      out.push(
+        `warning: ${unseen
+          .slice(0, 6)
+          .map((o) => idOf(o))
+          .join(", ")}${unseen.length > 6 ? ` and ${unseen.length - 6} more` : ""} ${
+          unseen.length === 1 ? "is" : "are"
+        } on no view, so nobody sees ${unseen.length === 1 ? "it" : "them"}: put ${
+          unseen.length === 1 ? "it" : "them"
+        } in a box that is drawn (in: <system>), or add to a view (views: {<view>: {include: [{ids: [...]}]}}); read {ref: "<view>"} says what a view shows and why`,
+      );
+  }
   // A view this write set hide_lines on, left with boxes and no lines (four went out so).
   for (const op of ops) {
     if (op.op !== "diagram.put" || !op.diagram.hideLines?.length) continue;

@@ -1,3 +1,4 @@
+import { LANDSCAPE_RULES } from "../shared/landscape.ts";
 import { linkNoteOps } from "../shared/notes.ts";
 import type { FConfig } from "../shared/files.ts";
 // The live documents on the server, one per design. Hocuspocus relays every edit between
@@ -661,10 +662,7 @@ export class Live {
                   diagram: makeDiagram({
                     name: "Landscape",
                     key: "landscape",
-                    rules: {
-                      include: [{ kind: "actor" }, { kind: "system" }],
-                      exclude: [{ status: "removed" }],
-                    },
+                    rules: LANDSCAPE_RULES,
                   }),
                 },
               ];

@@ -161,6 +161,9 @@ export function registerWebMcp(store: Store, canvas: () => Canvas | undefined): 
         outChars: text.length,
         ...judge(text, !!r.isError),
       });
+      // The agent laid a view out: bring it into sight, once the canvas has drawn it.
+      if (def.name === "write" && !r.isError && /^tidied /m.test(text))
+        setTimeout(() => canvas()?.fit?.(), 250);
       // WebMCP hands the agent whatever this resolves to, so give it the words themselves (a
       // refusal included: it says what to do next). A picture goes as it is.
       return r.content.every((c) => c.type === "text") ? text : r;

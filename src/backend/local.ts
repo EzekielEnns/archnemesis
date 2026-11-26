@@ -2,6 +2,7 @@
 // kept in IndexedDB (y-indexeddb), the list of designs in localStorage, and there is one
 // person, you, who can edit everything. There's no git, GitHub, sign-in, sharing, telemetry or
 // other people: those parts of the Backend are simply absent, and the app hides what needs them.
+import { LANDSCAPE_RULES } from "../../shared/landscape.ts";
 import { IndexeddbPersistence } from "y-indexeddb";
 import * as Y from "yjs";
 import type { DesignInfo, StateJson } from "../../shared/api.ts";
@@ -61,10 +62,7 @@ const startOps = (): Op[] => [
     diagram: makeDiagram({
       name: "Landscape",
       key: "landscape",
-      rules: {
-        include: [{ kind: "actor" }, { kind: "system" }],
-        exclude: [{ status: "removed" }],
-      },
+      rules: LANDSCAPE_RULES,
     }),
   },
 ];
