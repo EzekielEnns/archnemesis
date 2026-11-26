@@ -15,8 +15,7 @@ Fastest first.
 
 1. **Open the hosted demo.** It runs in your browser and keeps designs in your browser only.
    <https://ezekielenns.github.io/archnemesis/>
-2. **Run it with npx** (available once the `archnemesis` package is published to npm; until
-   then use Docker or source). Needs Node 24 or newer, nothing else.
+2. **Run it with npx.** Needs Node 24 or newer, nothing else.
 
    ```sh
    npx archnemesis
