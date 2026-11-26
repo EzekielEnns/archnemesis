@@ -1,0 +1,51 @@
+# archnemesis:src/Bench.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-bench-tsx-17gin:
+    kind: module
+    name: Bench.tsx
+    in: web-shell
+    context: "The canvas stress test (?n=500|2000|5000|10000): a generated graph and a frame meter, nothing saved. The real app is Workspace."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/Bench.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Bench.tsx
+  bench-tsx-bench-19s4j:
+    kind: function
+    name: Bench()
+    in: src-bench-tsx-17gin
+    signature: "Bench({ count }: { count: number; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Bench.tsx:10
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-vite-122n3
+  bench-tsx-benchsize-zi59z:
+    kind: function
+    name: benchSize()
+    in: src-bench-tsx-17gin
+    signature: "benchSize(): number | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Bench.tsx:59
+  bench-tsx-meter-14abq:
+    kind: function
+    name: Meter()
+    in: src-bench-tsx-17gin
+    signature: "Meter({ stats }: { stats: SceneStats; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Bench.tsx:64
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: bench-tsx-bench-19s4j, to: bench-tsx-meter-14abq}
+  - {from: bench-tsx-bench-19s4j, to: generate-ts-generate-obpag}
+  - {from: bench-tsx-bench-19s4j, to: scene-ts-scene-constructor-8e3bx}
+  - {from: bench-tsx-bench-19s4j, to: scene-ts-scene-destroy-qhmor}
+  - {from: bench-tsx-bench-19s4j, to: scene-ts-scene-fit-klilw}
+  - {from: bench-tsx-bench-19s4j, to: scene-ts-scene-init-1sslj}
+  - {from: bench-tsx-bench-19s4j, to: scene-ts-scene-sync-4z0mq}
+  - {from: bench-tsx-bench-19s4j, to: types-ts-typeliteral59-svg-1t2qk}

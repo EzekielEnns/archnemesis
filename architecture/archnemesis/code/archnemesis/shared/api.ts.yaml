@@ -1,0 +1,13 @@
+# archnemesis:shared/api.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-api-ts-ey6oz:
+    kind: module
+    name: api.ts
+    in: shared-support
+    context: The shapes the app and the server share over the wire (type declarations only). The app imports these from here, never from server/.
+    tech: [TypeScript]
+    path: archnemesis:shared/api.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/api.ts

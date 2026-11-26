@@ -1,0 +1,34 @@
+# archnemesis:src/ui/InsetTabs.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-insettabs-tsx-bvjnu:
+    kind: module
+    name: InsetTabs.tsx
+    in: web-ui
+    context: "The tab on a box opened in place (shared/explode.ts): the diagram's name, a way into its own view, and close. HTML over the canvas, kept on the frame's top edge as the canvas moves."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/InsetTabs.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/InsetTabs.tsx
+  insettabs-tsx-hex-1cqe1:
+    kind: function
+    name: hex()
+    in: ui-insettabs-tsx-bvjnu
+    signature: "hex: (n: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/InsetTabs.tsx:8
+  insettabs-tsx-insettabs-1lt34:
+    kind: function
+    name: InsetTabs()
+    in: ui-insettabs-tsx-bvjnu
+    signature: "InsetTabs(p: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/InsetTabs.tsx:23
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: insettabs-tsx-insettabs-1lt34, to: insettabs-tsx-hex-1cqe1}

@@ -1,0 +1,40 @@
+# archnemesis:src/ui/TypeSuggest.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-typesuggest-tsx-1qmzk:
+    kind: module
+    name: TypeSuggest.tsx
+    in: web-ui
+    context: "Suggestions while typing a signature: the entities the design already has, for the capitalised word at the cursor. Tab takes the first (or the one arrowed to); Enter takes one only when you've arrowed to it, so Enter after a whole name still finishes. A name nothing has yet is fine: it becomes a TBD entity when it's saved."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/TypeSuggest.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TypeSuggest.tsx
+  typesuggest-tsx-signaturefield-1fkzr:
+    kind: function
+    name: SignatureField()
+    in: ui-typesuggest-tsx-1qmzk
+    context: "The card's \"Takes\": a signature field that saves on Enter or blur, with type suggestions."
+    signature: "SignatureField(p: { idx: ModelIndex; value: string; placeholder?: string | undefined; className?: string | undefined; onCommit: (v: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TypeSuggest.tsx:95
+    references:
+      - dependency: lib-types-react-1i7zx
+  typesuggest-tsx-usetypesuggest-1avvr:
+    kind: function
+    name: useTypeSuggest()
+    in: ui-typesuggest-tsx-1qmzk
+    signature: "useTypeSuggest(idx: ModelIndex, value: string, setValue: (v: string) => void, input: RefObject<HTMLInputElement | null>): { onKey: (e: KeyboardEvent<HTMLInputElement>) => boolean; track: () => void; changed: () => number; list: Element | null; open: boolean; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TypeSuggest.tsx:16
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: typesuggest-tsx-signaturefield-1fkzr, to: typesuggest-tsx-usetypesuggest-1avvr}
+  - {from: typesuggest-tsx-usetypesuggest-1avvr, to: entities-ts-completetype-1cyj4}
+  - {from: typesuggest-tsx-usetypesuggest-1avvr, to: entities-ts-entitysummary-i5oax}
+  - {from: typesuggest-tsx-usetypesuggest-1avvr, to: entities-ts-suggesttypes-vfr7k}
+  - {from: typesuggest-tsx-usetypesuggest-1avvr, to: entities-ts-typeat-tuhjc}

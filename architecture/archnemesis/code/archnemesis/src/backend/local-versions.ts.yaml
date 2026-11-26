@@ -1,0 +1,125 @@
+# archnemesis:src/backend/local-versions.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-versions-ts-1xbbw:
+    kind: module
+    name: local-versions.ts
+    in: web-backend
+    context: "Main's history in the static build: each version is the design's files as they were, kept in this browser's IndexedDB (the list in one store, the files in another so listing is cheap). Forks remember the version they started from, and the diff against main reads it back."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local-versions.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts
+  local-versions-ts-browserversions-1elab:
+    kind: function
+    name: browserVersions()
+    in: backend-local-versions-ts-1xbbw
+    context: Versions kept in this browser's IndexedDB.
+    signature: "browserVersions(): VersionStore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:60
+  local-versions-ts-done-af7kz:
+    kind: function
+    name: done()
+    in: backend-local-versions-ts-1xbbw
+    signature: "done: (t: IDBTransaction) => Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:52
+  local-versions-ts-id-1t66c:
+    kind: function
+    name: id()
+    in: backend-local-versions-ts-1xbbw
+    signature: "id: (design: string, sha: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:45
+  local-versions-ts-memoryversions-hc2l3:
+    kind: function
+    name: memoryVersions()
+    in: backend-local-versions-ts-1xbbw
+    context: Versions kept in memory only (a test, or a browser without IndexedDB).
+    signature: "memoryVersions(): VersionStore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:26
+  local-versions-ts-statejsonof-1av7z:
+    kind: function
+    name: stateJsonOf()
+    in: backend-local-versions-ts-1xbbw
+    context: A version's files as the model JSON Export gives.
+    signature: "stateJsonOf(files: Files): StateJson"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:114
+  local-versions-ts-versionstore-add-h8ljm:
+    kind: function
+    name: VersionStore.add()
+    in: backend-local-versions-ts-1xbbw
+    tech: [method of VersionStore]
+    signature: "add(design: string, v: VersionMeta, files: Files): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:20
+  local-versions-ts-versionstore-files-1ts39:
+    kind: function
+    name: VersionStore.files()
+    in: backend-local-versions-ts-1xbbw
+    tech: [method of VersionStore]
+    signature: "files(design: string, sha: string): Promise<Files | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:19
+  local-versions-ts-versionstore-list-1t7ms:
+    kind: function
+    name: VersionStore.list()
+    in: backend-local-versions-ts-1xbbw
+    context: A design's versions, newest first.
+    tech: [method of VersionStore]
+    signature: "list(design: string): Promise<VersionMeta[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:18
+  local-versions-ts-versionstore-remove-90bnl:
+    kind: function
+    name: VersionStore.remove()
+    in: backend-local-versions-ts-1xbbw
+    tech: [method of VersionStore]
+    signature: "remove(design: string, sha: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:21
+  local-versions-ts-versionstore-removedesign-x5f52:
+    kind: function
+    name: VersionStore.removeDesign()
+    in: backend-local-versions-ts-1xbbw
+    tech: [method of VersionStore]
+    signature: "removeDesign(design: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:22
+  local-versions-ts-wait-1ax6f:
+    kind: function
+    name: wait()
+    in: backend-local-versions-ts-1xbbw
+    signature: "wait: <T>(r: IDBRequest<T>) => Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-versions.ts:47
+connections:
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-done-af7kz}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-id-1t66c}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-versionstore-add-h8ljm}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-versionstore-remove-90bnl}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-versionstore-removedesign-x5f52}
+  - {from: local-versions-ts-browserversions-1elab, to: local-versions-ts-wait-1ax6f}
+  - {from: local-versions-ts-memoryversions-hc2l3, to: local-versions-ts-versionstore-add-h8ljm}
+  - {from: local-versions-ts-memoryversions-hc2l3, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-versions-ts-memoryversions-hc2l3, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-versions-ts-memoryversions-hc2l3, to: local-versions-ts-versionstore-remove-90bnl}
+  - {from: local-versions-ts-memoryversions-hc2l3, to: local-versions-ts-versionstore-removedesign-x5f52}
+  - {from: local-versions-ts-statejsonof-1av7z, to: diff-ts-statefromfiles-oqdnu}

@@ -1,0 +1,47 @@
+# archnemesis:src/ui/TechImg.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-techimg-tsx-4cky9:
+    kind: module
+    name: TechImg.tsx
+    in: web-ui
+    context: "A technology's logo as an <img>, from whatever the backend serves logos with: a URL for the server, SVG text (turned into a data URI) for the static build. Where there's no logo it renders nothing (or keeps its space, so a list stays lined up) and says so."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/TechImg.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TechImg.tsx
+  techimg-tsx-datauri-8rs8m:
+    kind: function
+    name: dataUri()
+    in: ui-techimg-tsx-4cky9
+    signature: "dataUri: (svg: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TechImg.tsx:9
+  techimg-tsx-techimg-158vq:
+    kind: function
+    name: TechImg()
+    in: ui-techimg-tsx-4cky9
+    signature: 'TechImg(p: { tech: string; width?: number | undefined; height?: number | undefined; className?: string | undefined; onMissing?: (() => void) | undefined; missing?: "keep" | "hide" | undefined; }): Element | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TechImg.tsx:30
+    references:
+      - dependency: lib-types-react-1i7zx
+  techimg-tsx-uselogo-8vshv:
+    kind: function
+    name: useLogo()
+    in: ui-techimg-tsx-4cky9
+    context: "The logo's source: undefined while it loads, null when there is none."
+    signature: "useLogo(tech: string): string | null | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TechImg.tsx:12
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: techimg-tsx-techimg-158vq, to: techimg-tsx-uselogo-8vshv}
+  - {from: techimg-tsx-uselogo-8vshv, to: techimg-tsx-datauri-8rs8m}
+  - {from: techimg-tsx-uselogo-8vshv, to: types-ts-typeliteral59-svg-1t2qk}
+  - {from: techimg-tsx-uselogo-8vshv, to: types-ts-typeliteral59-url-donuj}

@@ -1,0 +1,29 @@
+# archnemesis:server/auth/providers/github.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  providers-github-ts-1yx6d:
+    kind: module
+    name: github.ts
+    in: srv-auth
+    context: "github: sign in with GitHub, through the GitHub App this server already has (server/github.ts; ARCHNM_GITHUB_*). The person is their GitHub login, so ARCHNM_ADMINS / ARCHNM_EDITORS / ARCHNM_VIEWERS list GitHub logins (octocat), not emails. Signing in also connects their GitHub account for pull requests, so they are not asked twice."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/providers/github.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/github.ts
+  github-ts-githubprovider-nkujz:
+    kind: function
+    name: githubProvider()
+    in: providers-github-ts-1yx6d
+    signature: "githubProvider(github: GitHub, ctx: ProviderContext): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/github.ts:16
+connections:
+  - {from: github-ts-githubprovider-nkujz, to: github-ts-github-get-configured-139vx}
+  - {from: github-ts-githubprovider-nkujz, to: github-ts-github-signinurl-1q0si}
+  - {from: github-ts-githubprovider-nkujz, to: provider-ts-authprovider-describe-cepor}
+  - {from: github-ts-githubprovider-nkujz, to: provider-ts-authprovider-identify-3u74p}
+  - {from: github-ts-githubprovider-nkujz, to: provider-ts-authprovider-ready-9e0rm}
+  - {from: github-ts-githubprovider-nkujz, to: provider-ts-authprovider-routes-4ikph}
+  - {from: github-ts-githubprovider-nkujz, to: provider-ts-providercontext-failed-1gt4q}

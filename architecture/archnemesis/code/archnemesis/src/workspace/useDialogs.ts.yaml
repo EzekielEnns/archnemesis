@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/useDialogs.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usedialogs-ts-lv2w4:
+    kind: module
+    name: useDialogs.ts
+    in: web-workspace
+    context: 'Which dialogs and pop-ups are open: the command palette, the shortcuts sheet, the report and "this is confusing" dialogs, settings, the layers panel and the performance meter.'
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDialogs.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDialogs.ts
+  usedialogs-ts-usedialogs-49m3c:
+    kind: function
+    name: useDialogs()
+    in: workspace-usedialogs-ts-lv2w4
+    signature: "useDialogs(): { palette: boolean; setPalette: Dispatch<SetStateAction<boolean>>; help: boolean; setHelp: Dispatch<SetStateAction<boolean>>; ... 9 more ...; setLayersOpen: Dispatch<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDialogs.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usedialogs-ts-usedialogs-49m3c, to: perf-tsx-perfmeteron-zll55}
+  - {from: usedialogs-ts-usedialogs-49m3c, to: storage-ts-backfromgithub-1pm08}

@@ -1,0 +1,49 @@
+# archnemesis:src/backend/portable-remote.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-portable-remote-ts-zzcil:
+    kind: module
+    name: portable-remote.ts
+    in: web-backend
+    context: "Read-only designs from a public GitHub repository: fetched when a `#~gh=` link is opened, kept in memory (so a reload fetches them again), shown as they are there until the person makes a copy. A fork's branch also carries main's version of the design, for the diff."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/portable-remote.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-remote.ts
+  portable-remote-ts-createremotes-14ur2:
+    kind: function
+    name: createRemotes()
+    in: backend-portable-remote-ts-zzcil
+    signature: "createRemotes(open: Map<string, { ydoc: Doc; }>, where: ListStore, fetcher?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefi…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-remote.ts:47
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-remote-ts-readjson-1woro:
+    kind: function
+    name: readJson()
+    in: backend-portable-remote-ts-zzcil
+    signature: "readJson(text: string | null): Record<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-remote.ts:26
+connections:
+  - {from: portable-remote-ts-createremotes-14ur2, to: diff-ts-statefromfiles-oqdnu}
+  - {from: portable-remote-ts-createremotes-14ur2, to: doc-ts-readstate-1orda}
+  - {from: portable-remote-ts-createremotes-14ur2, to: ghlink-ts-ghtext-3legk}
+  - {from: portable-remote-ts-createremotes-14ur2, to: ghlink-ts-parseghspec-1h073}
+  - {from: portable-remote-ts-createremotes-14ur2, to: github-public-ts-fetchghdesign-1evxg}
+  - {from: portable-remote-ts-createremotes-14ur2, to: local-ts-liststore-read-ohayq}
+  - {from: portable-remote-ts-createremotes-14ur2, to: local-ts-liststore-write-h43sd}
+  - {from: portable-remote-ts-createremotes-14ur2, to: model-ts-slug-1nu4f}
+  - {from: portable-remote-ts-createremotes-14ur2, to: portable-files-ts-cleanname-ul6qc}
+  - {from: portable-remote-ts-createremotes-14ur2, to: portable-files-ts-loadmodel-1tf3r}
+  - {from: portable-remote-ts-createremotes-14ur2, to: portable-files-ts-readwithproblems-1j7zz}
+  - {from: portable-remote-ts-createremotes-14ur2, to: portable-remote-ts-readjson-1woro}
+  - {from: portable-remote-ts-createremotes-14ur2, to: sharelink-ts-fingerprint-1eq0b}
+  - {from: portable-remote-ts-createremotes-14ur2, to: types-ts-backenderror-constructor-trfnp}
+  - {from: portable-remote-ts-createremotes-14ur2, to: types-ts-docconnection-close-e5j69}
+  - {from: portable-remote-ts-createremotes-14ur2, to: types-ts-dochandlers-onstatus-1tui3}
+  - {from: portable-remote-ts-createremotes-14ur2, to: whatsnew-ts-changedwithcontext-1yvpv}

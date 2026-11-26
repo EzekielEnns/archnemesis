@@ -1,0 +1,32 @@
+# archnemesis:src/demo/generate.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  demo-generate-ts-1e8op:
+    kind: module
+    name: generate.ts
+    in: web-shell
+    context: "A deterministic stress graph for the canvas (?n=2000): clusters of a dozen boxes, wired inside each cluster and now and then across. Same seed, same graph. Never touches the model."
+    tech: [TypeScript]
+    path: archnemesis:src/demo/generate.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/demo/generate.ts
+  generate-ts-generate-obpag:
+    kind: function
+    name: generate()
+    in: demo-generate-ts-1e8op
+    signature: "generate(count: number, seed?: number): CanvasGraph"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/demo/generate.ts:61
+  generate-ts-rng-1t9bu:
+    kind: function
+    name: rng()
+    in: demo-generate-ts-1e8op
+    context: "mulberry32: a tiny seeded PRNG, enough for test data."
+    signature: "rng(seed: number): () => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/demo/generate.ts:14
+connections:
+  - {from: generate-ts-generate-obpag, to: generate-ts-rng-1t9bu}

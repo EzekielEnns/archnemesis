@@ -1,0 +1,35 @@
+# archnemesis:src/workspace/useCanvasSession.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usecanvassession-ts-6dfmq:
+    kind: module
+    name: useCanvasSession.ts
+    in: web-workspace
+    context: "The canvas and what happens on it: moving between diagrams, notes, edits, the tour, the Scene itself, who else is on the diagram, what's lit by hovering, and jumps. Builds on useDiagramState."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useCanvasSession.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useCanvasSession.ts
+  usecanvassession-ts-usecanvassession-151ko:
+    kind: function
+    name: useCanvasSession()
+    in: workspace-usecanvassession-ts-6dfmq
+    signature: "useCanvasSession(s: { flowId: string | null; setFlowId: Dispatch<SetStateAction<string | null>>; step: number; setStep: Dispatch<SetStateAction<number>>; ... 96 more ...; setAllLayers: (all: boolean) => void; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useCanvasSession.ts:20
+connections:
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usediagramactions-ts-usediagramactions-odcs1}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usedragdrop-ts-usedragdrop-w8w6n}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: useeditactions-ts-useeditactions-12xbx}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usehighlights-ts-usehighlights-vpxee}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usejump-ts-usejump-bukbq}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usenavigation-ts-usenavigation-rtxhu}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usenotes-ts-usenotes-k5vgh}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usepeersync-ts-usepeersync-1gywi}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usescene-ts-usescene-90alb}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usestoreevents-ts-usestoreevents-116yj}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usetour-ts-usetour-1d3fu}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usetrail-ts-usetrail-52wgp}
+  - {from: usecanvassession-ts-usecanvassession-151ko, to: usewebmcp-ts-usewebmcp-1u1up}

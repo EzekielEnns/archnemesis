@@ -1,0 +1,31 @@
+# archnemesis:src/workspace/useInteraction.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useinteraction-ts-1ekks:
+    kind: module
+    name: useInteraction.ts
+    in: web-workspace
+    context: "How you work on the diagram: what's lit for a flow or the diff, going up, the card following its box, copy and paste, the keyboard, and the lists built for the right-click menu, the palette, the diff and settings. Builds on useDiagramState and useCanvasSession, and hands everything on, flat, to the components."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useInteraction.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useInteraction.ts
+  useinteraction-ts-useinteraction-nestc:
+    kind: function
+    name: useInteraction()
+    in: workspace-useinteraction-ts-1ekks
+    signature: "useInteraction(s: { flowId: string | null; setFlowId: Dispatch<SetStateAction<string | null>>; step: number; setStep: Dispatch<SetStateAction<number>>; ... 96 more ...; setAllLayers: (all: boolean) => void; }, c: { ...; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useInteraction.ts:20
+connections:
+  - {from: useinteraction-ts-useinteraction-nestc, to: commands-ts-buildcommands-1q1iu}
+  - {from: useinteraction-ts-useinteraction-nestc, to: diffchanges-ts-diffchangesof-ca58u}
+  - {from: useinteraction-ts-useinteraction-nestc, to: usecard-ts-usecardfollow-113l3}
+  - {from: useinteraction-ts-useinteraction-nestc, to: useclipboard-ts-useclipboard-lyv2p}
+  - {from: useinteraction-ts-useinteraction-nestc, to: useflow-ts-usefloweffects-rkz2s}
+  - {from: useinteraction-ts-useinteraction-nestc, to: usekeyboard-ts-usekeyboard-1ttio}
+  - {from: useinteraction-ts-useinteraction-nestc, to: usespotlight-ts-usespotlight-gz3du}
+  - {from: useinteraction-ts-useinteraction-nestc, to: useup-tsx-useup-15a7v}
+  - {from: useinteraction-ts-useinteraction-nestc, to: viewsettings-ts-viewsettingsof-5k39y}

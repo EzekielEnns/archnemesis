@@ -1,0 +1,48 @@
+# archnemesis:src/ui/DiffLayer.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-difflayer-tsx-69je5:
+    kind: module
+    name: DiffLayer.tsx
+    in: web-ui
+    context: "A fork's changes drawn on the canvas like a file diff, over the boxes: new a green outline and \"+ new\" changed a +n −n badge, and under the box its old lines (struck, red) and new ones (green) deleted drawn by the scene as a real box (main's, put back for the diff), tagged here It only draws; the boxes themselves are the scene's."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/DiffLayer.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DiffLayer.tsx
+  difflayer-tsx-deletedcard-1avsy:
+    kind: function
+    name: DeletedCard()
+    in: ui-difflayer-tsx-69je5
+    context: "The card for a deleted thing in a diff: it as it is on main (its YAML), and putting it back."
+    signature: "DeletedCard(p: { r: Removed; all: Removed[]; views: RemovedView[]; idx: ModelIndex; canEdit: boolean; onRestore: (ops: Op[], label: string) => void; onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DiffLayer.tsx:120
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  difflayer-tsx-difflayer-1bw16:
+    kind: function
+    name: DiffLayer()
+    in: ui-difflayer-tsx-69je5
+    signature: "DiffLayer(p: Props): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DiffLayer.tsx:26
+    references:
+      - dependency: lib-types-react-1i7zx
+  difflayer-tsx-restoreops-w9nwf:
+    kind: function
+    name: restoreOps()
+    in: ui-difflayer-tsx-69je5
+    context: "What putting a deleted thing back takes: it, anything deleted it was inside (first), its boxes, and its lines whose other end is here."
+    signature: "restoreOps(r: Removed, all: Removed[], idx: ModelIndex, views?: RemovedView[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DiffLayer.tsx:88
+connections:
+  - {from: difflayer-tsx-deletedcard-1avsy, to: difflayer-tsx-restoreops-w9nwf}
+  - {from: difflayer-tsx-difflayer-1bw16, to: camera-ts-worldtoscreen-1hyxf}
+  - {from: difflayer-tsx-difflayer-1bw16, to: scene-ts-scene-watch-v2a0b}

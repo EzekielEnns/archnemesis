@@ -1,0 +1,56 @@
+# archnemesis:src/Workspace.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-workspace-tsx-11zkx:
+    kind: module
+    name: Workspace.tsx
+    in: web-shell
+    context: "The app: the sidebar (diagrams and the model), the canvas for one diagram, the inspector for what's selected. Gestures on the canvas become ops (shared/actions.ts) sent to the server; the store's change events bring them back and the canvas re-syncs."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/Workspace.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Workspace.tsx
+  workspace-tsx-workspace-a9h1s:
+    kind: function
+    name: Workspace()
+    in: src-workspace-tsx-11zkx
+    signature: "Workspace({ store }: { store: Store; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/Workspace.tsx:36
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: workspace-tsx-workspace-a9h1s, to: banners-tsx-banners-ox0ss}
+  - {from: workspace-tsx-workspace-a9h1s, to: canvaslayers-tsx-canvashost-cnr2a}
+  - {from: workspace-tsx-workspace-a9h1s, to: canvaslayers-tsx-diffhost-1u6pp}
+  - {from: workspace-tsx-workspace-a9h1s, to: canvaslayers-tsx-legend-cyfmn}
+  - {from: workspace-tsx-workspace-a9h1s, to: canvaslayers-tsx-noteshost-q06b6}
+  - {from: workspace-tsx-workspace-a9h1s, to: canvaslayers-tsx-partshost-1porb}
+  - {from: workspace-tsx-workspace-a9h1s, to: cardhost-tsx-cardhost-8vp55}
+  - {from: workspace-tsx-workspace-a9h1s, to: chrome-tsx-emptystate-1k009}
+  - {from: workspace-tsx-workspace-a9h1s, to: corners-tsx-bottomcorner-rr87r}
+  - {from: workspace-tsx-workspace-a9h1s, to: corners-tsx-helpcorner-jdlk4}
+  - {from: workspace-tsx-workspace-a9h1s, to: corners-tsx-peersisland-7rufp}
+  - {from: workspace-tsx-workspace-a9h1s, to: corners-tsx-reporthost-zyfi9}
+  - {from: workspace-tsx-workspace-a9h1s, to: dialogs-tsx-contextmenuhost-cntsn}
+  - {from: workspace-tsx-workspace-a9h1s, to: dialogs-tsx-markingdialog-dkhj0}
+  - {from: workspace-tsx-workspace-a9h1s, to: dialogs-tsx-palettehost-1q09u}
+  - {from: workspace-tsx-workspace-a9h1s, to: flowhost-tsx-flowhost-t3d07}
+  - {from: workspace-tsx-workspace-a9h1s, to: inlineeditors-tsx-edgerenameinput-110je}
+  - {from: workspace-tsx-workspace-a9h1s, to: inlineeditors-tsx-renameinput-1nuc0}
+  - {from: workspace-tsx-workspace-a9h1s, to: notepanels-tsx-notepanels-1hlne}
+  - {from: workspace-tsx-workspace-a9h1s, to: overlays-tsx-dialogshost-qgps7}
+  - {from: workspace-tsx-workspace-a9h1s, to: overlays-tsx-drophint-1ec3r}
+  - {from: workspace-tsx-workspace-a9h1s, to: overlays-tsx-insettabshost-byw4w}
+  - {from: workspace-tsx-workspace-a9h1s, to: overlays-tsx-panelopenbutton-12zor}
+  - {from: workspace-tsx-workspace-a9h1s, to: overlays-tsx-toasts-1ae45}
+  - {from: workspace-tsx-workspace-a9h1s, to: sidebarhost-tsx-sidebarhost-o6mj4}
+  - {from: workspace-tsx-workspace-a9h1s, to: tips-tsx-tips-ar6yl}
+  - {from: workspace-tsx-workspace-a9h1s, to: topbar-tsx-guidebar-vgl8l}
+  - {from: workspace-tsx-workspace-a9h1s, to: topbar-tsx-topbar-1genq}
+  - {from: workspace-tsx-workspace-a9h1s, to: usecanvassession-ts-usecanvassession-151ko}
+  - {from: workspace-tsx-workspace-a9h1s, to: usediagramstate-ts-usediagramstate-huazx}
+  - {from: workspace-tsx-workspace-a9h1s, to: useinteraction-ts-useinteraction-nestc}
+  - {from: workspace-tsx-workspace-a9h1s, to: welcomehost-tsx-welcomehost-1cqib}

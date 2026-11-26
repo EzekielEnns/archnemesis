@@ -1,0 +1,109 @@
+# archnemesis:shared/references.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-references-ts-18wjw:
+    kind: module
+    name: references.ts
+    in: shared-model
+    context: "References: what a node points at outside the model (links, images, docs, code, the libraries it depends on), and the other way round, everything that points at the same thing, which is what the spiderweb lights up."
+    tech: [TypeScript]
+    path: archnemesis:shared/references.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts
+  references-ts-designtechs-6qyld:
+    kind: function
+    name: designTechs()
+    in: shared-references-ts-18wjw
+    context: Every tech the design uses, with how many nodes use it, most used first.
+    signature: "designTechs(idx: ModelIndex): { name: string; count: number; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:80
+  references-ts-librarydocs-18mxp:
+    kind: function
+    name: libraryDocs()
+    in: shared-references-ts-18wjw
+    context: "Where to read a library's docs: a link of its own that looks like docs, else the usual place for its ecosystem (docs.rs, npm, PyPI, pkg.go.dev…), at its version."
+    signature: "libraryDocs(lib: ModelObject): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:120
+  references-ts-referencedby-1e30l:
+    kind: function
+    name: referencedBy()
+    in: shared-references-ts-18wjw
+    context: Everything that lists this object as a dependency.
+    signature: "referencedBy(idx: ModelIndex, id: string): ModelObject[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:56
+  references-ts-referencelines-xmoax:
+    kind: function
+    name: referenceLines()
+    in: shared-references-ts-18wjw
+    context: 'Lines for an agent: "references:" then one per reference, kind first. Empty when there are none.'
+    signature: "referenceLines(idx: ModelIndex, o: ModelObject): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:41
+  references-ts-referencesof-aox32:
+    kind: function
+    name: referencesOf()
+    in: shared-references-ts-18wjw
+    context: "A node's references, links first. A dependency's title is its library's name. Entities aren't among them: they have their own row and sub-nodes (shared/entities.ts)."
+    signature: 'referencesOf(idx: ModelIndex, o: Pick<ModelObject, "links" | "references">): RefRow[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:18
+  references-ts-refkey-1oigp:
+    kind: function
+    name: refKey()
+    in: shared-references-ts-18wjw
+    context: 'What makes two references the same thing, for "who else points here": a link by its address (no trailing slash or #part), an image or doc by its path, code by its file (any line in it), a dependency by its library.'
+    signature: 'refKey(r: { kind: "image" | "doc" | "code" | "dependency" | "entity" | "link"; to: string; }): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:99
+  references-ts-reftitle-17la1:
+    kind: function
+    name: refTitle()
+    in: shared-references-ts-18wjw
+    context: "What to call a reference without a title: a library's name, a file's name, the code's place."
+    signature: "refTitle(idx: ModelIndex, r: Reference): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:33
+  references-ts-sharingref-styjy:
+    kind: function
+    name: sharingRef()
+    in: shared-references-ts-18wjw
+    context: Everything (not removed) with a reference to the same thing, this one included.
+    signature: "sharingRef(idx: ModelIndex, key: string): ModelObject[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:107
+  references-ts-sharingtech-dtyr1:
+    kind: function
+    name: sharingTech()
+    in: shared-references-ts-18wjw
+    context: "Everything sharing a tech with this one, by name (case aside): the tech's spiderweb."
+    signature: "sharingTech(idx: ModelIndex, tech: string): ModelObject[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:64
+  references-ts-techsof-5vts4:
+    kind: function
+    name: techsOf()
+    in: shared-references-ts-18wjw
+    context: "A tech field's entries: \"Go, Cloud Run\" → [\"Go\", \"Cloud Run\"]."
+    signature: "techsOf(technology: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/references.ts:72
+connections:
+  - {from: references-ts-designtechs-6qyld, to: references-ts-techsof-5vts4}
+  - {from: references-ts-referencesof-aox32, to: references-ts-reftitle-17la1}
+  - {from: references-ts-sharingref-styjy, to: references-ts-referencesof-aox32}
+  - {from: references-ts-sharingref-styjy, to: references-ts-refkey-1oigp}
+  - {from: references-ts-sharingtech-dtyr1, to: references-ts-techsof-5vts4}

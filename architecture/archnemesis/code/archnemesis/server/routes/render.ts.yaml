@@ -1,0 +1,27 @@
+# archnemesis:server/routes/render.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-render-ts-1qlb1:
+    kind: module
+    name: render.ts
+    in: srv-edge
+    context: "A view as an image: /api/d/<key>/render/<view>.svg|.png?flow=<name>&step=<n from 1>"
+    tech: [TypeScript]
+    path: archnemesis:server/routes/render.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/render.ts
+  render-ts-renderroutes-1iwom:
+    kind: function
+    name: renderRoutes()
+    in: routes-render-ts-1qlb1
+    signature: "renderRoutes(_ctx: Ctx, d: DesignCall): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/render.ts:7
+connections:
+  - {from: render-ts-renderroutes-1iwom, to: http-ts-json-3ycbr}
+  - {from: render-ts-renderroutes-1iwom, to: live-ts-live-config-1ps60}
+  - {from: render-ts-renderroutes-1iwom, to: live-ts-live-index-8r94z}
+  - {from: render-ts-renderroutes-1iwom, to: render-ts-renderview-19anl}
+  - {from: render-ts-renderroutes-1iwom, to: render-ts-topng-c4jqn}

@@ -1,0 +1,216 @@
+# archnemesis:server/routes/design.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-design-ts-1drce:
+    kind: module
+    name: design.ts
+    in: srv-edge
+    context: "One design: /api/d/<key>/... Finds the design (someone else's private design answers exactly like one that isn't there), then hands the request to the area it belongs to: git.ts, import.ts and render.ts, or answers it here (what the design is, its model, history, files, edits, sharing)."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/design.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts
+  design-ts-cleanlabel-1scbx:
+    kind: function
+    name: cleanLabel()
+    in: routes-design-ts-1drce
+    context: "An edit's label: one line of plain text (it ends up in history and commit messages)."
+    signature: "cleanLabel(label: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:33
+  design-ts-designroutes-1d9fm:
+    kind: function
+    name: designRoutes()
+    in: routes-design-ts-1drce
+    signature: "designRoutes(ctx: Ctx, call: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:287
+  design-ts-files-i9dvm:
+    kind: function
+    name: files()
+    in: routes-design-ts-1drce
+    context: Where the files are on the server is for admins; what's wrong with them is for anyone.
+    signature: "files(ctx: Ctx, { res, who, live }: DesignCall): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:196
+  design-ts-guide-hj731:
+    kind: function
+    name: guide()
+    in: routes-design-ts-1drce
+    context: The person answers a guided step (Next / Back / Stop / a question) for a waiting agent.
+    signature: "guide(_ctx: Ctx, { req, res, who, live }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:145
+  design-ts-info-1ecq6:
+    kind: function
+    name: info()
+    in: routes-design-ts-1drce
+    signature: "info(ctx: Ctx, d: DesignCall): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:44
+  design-ts-libstats-1mh5s:
+    kind: function
+    name: libstats()
+    in: routes-design-ts-1drce
+    context: Library stats for this design's libraries, by statsKey (cached; never in the files).
+    signature: "libstats(ctx: Ctx, { res, live }: DesignCall): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:216
+  design-ts-ops-o19wx:
+    kind: function
+    name: ops()
+    in: routes-design-ts-1drce
+    signature: "ops(ctx: Ctx, { req, res, who, live }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:203
+  design-ts-ownroutes-a42r4:
+    kind: function
+    name: ownRoutes()
+    in: routes-design-ts-1drce
+    context: The routes answered here, by "<METHOD> <sub>". The rest of a path (arg) is checked where it matters.
+    signature: "ownRoutes(ctx: Ctx, d: DesignCall): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:224
+  design-ts-remove-1fp4x:
+    kind: function
+    name: remove()
+    in: routes-design-ts-1drce
+    context: "Delete a design (not a fork, not one that follows a real git repo): its owner, or an admin for a team design."
+    signature: "remove(ctx: Ctx, { res, who, live }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:70
+  design-ts-share-145zc:
+    kind: function
+    name: share()
+    in: routes-design-ts-1drce
+    context: "Share a private design with the team, or take it back: its owner only."
+    signature: "share(ctx: Ctx, { req, res, who, live }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:88
+  design-ts-state-sxtn8:
+    kind: function
+    name: state()
+    in: routes-design-ts-1drce
+    signature: "state(_ctx: Ctx, { res, live }: DesignCall): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:111
+  design-ts-touchedby-grhkn:
+    kind: function
+    name: touchedBy()
+    in: routes-design-ts-1drce
+    context: "Who's touched a box: its sources' recent commits, by author (server/touched.ts)."
+    signature: "touchedBy(ctx: Ctx, { res, live, arg }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:179
+  design-ts-trail-j109e:
+    kind: function
+    name: trail()
+    in: routes-design-ts-1drce
+    context: Where someone went (recorded only when they turn it on in their browser).
+    signature: "trail(ctx: Ctx, { req, res, who, live }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:124
+  design-ts-versionat-1pl10:
+    kind: function
+    name: versionAt()
+    in: routes-design-ts-1drce
+    context: The design as of one of main's past versions, to look at (read-only in the browser).
+    signature: "versionAt({ res, arg, git }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:162
+  design-ts-whatsnew-m0uj8:
+    kind: function
+    name: whatsNew()
+    in: routes-design-ts-1drce
+    context: What's new on a fork against what it started from, and where it plugs in (✦).
+    signature: "whatsNew(_ctx: Ctx, { res, live, git }: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/design.ts:102
+connections:
+  - {from: design-ts-designroutes-1d9fm, to: design-ts-ownroutes-a42r4}
+  - {from: design-ts-designroutes-1d9fm, to: git-ts-gitroutes-8z1ds}
+  - {from: design-ts-designroutes-1d9fm, to: http-ts-json-3ycbr}
+  - {from: design-ts-designroutes-1d9fm, to: import-ts-importroutes-6rfnj}
+  - {from: design-ts-designroutes-1d9fm, to: live-ts-hub-get-171sh}
+  - {from: design-ts-designroutes-1d9fm, to: live-ts-hub-list-1ewsx}
+  - {from: design-ts-designroutes-1d9fm, to: perms-ts-perms-can-kqb2y}
+  - {from: design-ts-designroutes-1d9fm, to: perms-ts-perms-prepare-13vzz}
+  - {from: design-ts-designroutes-1d9fm, to: render-ts-renderroutes-1iwom}
+  - {from: design-ts-designroutes-1d9fm, to: share-ts-shareroutes-18mrp}
+  - {from: design-ts-files-i9dvm, to: auth-ts-auth-authorize-hqj8x}
+  - {from: design-ts-files-i9dvm, to: http-ts-json-3ycbr}
+  - {from: design-ts-guide-hj731, to: http-ts-body-14i98}
+  - {from: design-ts-guide-hj731, to: http-ts-json-3ycbr}
+  - {from: design-ts-guide-hj731, to: live-ts-live-reply-tlsce}
+  - {from: design-ts-info-1ecq6, to: http-ts-json-3ycbr}
+  - {from: design-ts-info-1ecq6, to: live-ts-hub-access-6z19v}
+  - {from: design-ts-info-1ecq6, to: live-ts-live-docid-1cxew}
+  - {from: design-ts-info-1ecq6, to: live-ts-live-get-mode-1wax1}
+  - {from: design-ts-info-1ecq6, to: live-ts-live-name-w0cjk}
+  - {from: design-ts-info-1ecq6, to: perms-ts-perms-can-kqb2y}
+  - {from: design-ts-info-1ecq6, to: perms-ts-perms-owns-9o8kl}
+  - {from: design-ts-libstats-1mh5s, to: http-ts-json-3ycbr}
+  - {from: design-ts-libstats-1mh5s, to: libstats-ts-libstatsjob-get-1bsef}
+  - {from: design-ts-libstats-1mh5s, to: libstats-ts-libstatsjob-get-enabled-gmhbr}
+  - {from: design-ts-libstats-1mh5s, to: libstats-ts-statskey-wm4ub}
+  - {from: design-ts-ops-o19wx, to: design-ts-cleanlabel-1scbx}
+  - {from: design-ts-ops-o19wx, to: http-ts-body-14i98}
+  - {from: design-ts-ops-o19wx, to: http-ts-json-3ycbr}
+  - {from: design-ts-ops-o19wx, to: live-ts-live-commit-1ohvh}
+  - {from: design-ts-ops-o19wx, to: live-ts-live-get-mode-1wax1}
+  - {from: design-ts-ops-o19wx, to: model-ts-isthreadop-18qdp}
+  - {from: design-ts-ops-o19wx, to: perms-ts-perms-can-kqb2y}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-files-i9dvm}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-guide-hj731}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-info-1ecq6}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-libstats-1mh5s}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-ops-o19wx}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-remove-1fp4x}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-share-145zc}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-state-sxtn8}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-touchedby-grhkn}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-trail-j109e}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-versionat-1pl10}
+  - {from: design-ts-ownroutes-a42r4, to: design-ts-whatsnew-m0uj8}
+  - {from: design-ts-ownroutes-a42r4, to: gitsync-ts-gitsync-versions-4p9n4}
+  - {from: design-ts-ownroutes-a42r4, to: http-ts-json-3ycbr}
+  - {from: design-ts-ownroutes-a42r4, to: live-ts-live-recent-1mba2}
+  - {from: design-ts-remove-1fp4x, to: gitsync-ts-droplocalrepo-1l66m}
+  - {from: design-ts-remove-1fp4x, to: http-ts-json-3ycbr}
+  - {from: design-ts-remove-1fp4x, to: live-ts-hub-remove-11vhc}
+  - {from: design-ts-remove-1fp4x, to: live-ts-live-name-w0cjk}
+  - {from: design-ts-remove-1fp4x, to: perms-ts-perms-can-kqb2y}
+  - {from: design-ts-share-145zc, to: http-ts-body-14i98}
+  - {from: design-ts-share-145zc, to: http-ts-json-3ycbr}
+  - {from: design-ts-share-145zc, to: live-ts-hub-access-6z19v}
+  - {from: design-ts-share-145zc, to: live-ts-hub-setprivate-1k9k2}
+  - {from: design-ts-share-145zc, to: perms-ts-perms-can-kqb2y}
+  - {from: design-ts-share-145zc, to: perms-ts-perms-owns-9o8kl}
+  - {from: design-ts-state-sxtn8, to: http-ts-json-3ycbr}
+  - {from: design-ts-touchedby-grhkn, to: http-ts-json-3ycbr}
+  - {from: design-ts-touchedby-grhkn, to: live-ts-live-config-1ps60}
+  - {from: design-ts-touchedby-grhkn, to: touched-ts-touched-1th1v}
+  - {from: design-ts-trail-j109e, to: http-ts-body-14i98}
+  - {from: design-ts-trail-j109e, to: http-ts-json-3ycbr}
+  - {from: design-ts-trail-j109e, to: store-ts-docstore-addtrail-1ixnl}
+  - {from: design-ts-versionat-1pl10, to: gitsync-ts-gitsync-stateat-1gkgh}
+  - {from: design-ts-versionat-1pl10, to: http-ts-json-3ycbr}
+  - {from: design-ts-whatsnew-m0uj8, to: gitsync-ts-gitsync-basestate-1sb7j}
+  - {from: design-ts-whatsnew-m0uj8, to: http-ts-json-3ycbr}
+  - {from: design-ts-whatsnew-m0uj8, to: whatsnew-ts-changedwithcontext-1yvpv}

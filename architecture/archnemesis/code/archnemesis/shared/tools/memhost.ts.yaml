@@ -1,0 +1,43 @@
+# archnemesis:shared/tools/memhost.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-memhost-ts-12wp2:
+    kind: module
+    name: memhost.ts
+    in: shared-tools-1cbb9
+    context: "A Host over a design held in memory: a Y doc of its own. For tests, scripts and anything that has a design but no server (an imported folder, the local demo)."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/memhost.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/memhost.ts
+  memhost-ts-memhost-wi45i:
+    kind: function
+    name: memHost()
+    in: tools-memhost-ts-12wp2
+    signature: "memHost(o?: { key?: string | undefined; actor?: Author | undefined; ops?: Op[] | undefined; config?: FConfig | undefined; canvas?: Canvas | undefined; canEdit?: boolean | undefined; base?: ModelState | undefined; }): MemHost"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/memhost.ts:24
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-applyops-7k6hw}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-emptystate-1a3cm}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-logentryok-1rxk0}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-logof-drj7i}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-mirror-1k3af}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-undosteps-apply-15ixe}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-undosteps-constructor-17njk}
+  - {from: memhost-ts-memhost-wi45i, to: doc-ts-undosteps-undo-b5zj7}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-applyrules-f2do4}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-base-3uc76}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-commit-j2yh7}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-config-12dpi}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-index-23rxl}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-recent-40oaa}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-state-150dr}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-undo-1ur4s}
+  - {from: memhost-ts-memhost-wi45i, to: host-ts-host-url-6ll81}
+  - {from: memhost-ts-memhost-wi45i, to: problems-ts-indexof-zj098}
+  - {from: memhost-ts-memhost-wi45i, to: views-ts-viewops-1bd47}

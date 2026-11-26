@@ -1,0 +1,196 @@
+# archnemesis:server/render.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-render-ts-b98yk:
+    kind: module
+    name: render.ts
+    in: srv-edge
+    context: "A diagram as an image, drawn on the server: what an agent looks at to check its own work, what a pull request shows before and after, what a link preview uses. SVG first; PNG is that SVG through resvg (WebAssembly, so the build stays the same on every platform) with Inter bundled, since there are no system fonts to count on."
+    tech: [TypeScript]
+    path: archnemesis:server/render.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts
+  render-ts-boot-1dho7:
+    kind: function
+    name: boot()
+    in: server-render-ts-b98yk
+    context: Load the WebAssembly renderer and the font once.
+    signature: "boot(): Promise<{ fonts: Uint8Array<ArrayBufferLike>[]; has: Set<number>; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:597
+    references:
+      - dependency: lib-vite-122n3
+      - dependency: lib-resvg-resvg-wasm-qis4x
+  render-ts-card-1h811:
+    kind: function
+    name: card()
+    in: server-render-ts-b98yk
+    context: "A box, as the canvas draws it: logo tile, name, kind and tech, tags at the bottom."
+    signature: "card(n: CanvasNode, on: boolean): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:435
+  render-ts-clip-1haio:
+    kind: function
+    name: clip()
+    in: server-render-ts-b98yk
+    signature: "clip: (s: string, room: number, size: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:114
+  render-ts-covered-7oq2d:
+    kind: function
+    name: covered()
+    in: server-render-ts-b98yk
+    context: The characters a TrueType font draws (its cmap, format 12 or 4).
+    signature: "covered(ttf: Uint8Array<ArrayBufferLike>): Set<number>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:610
+  render-ts-drawable-6umuz:
+    kind: function
+    name: drawable()
+    in: server-render-ts-b98yk
+    context: "`text` with each character `has` lacks swapped for the nearest it has (else left as is)."
+    signature: "drawable(text: string, has: Set<number>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:669
+  render-ts-esc-1brd6:
+    kind: function
+    name: esc()
+    in: server-render-ts-b98yk
+    signature: "esc: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:110
+  render-ts-loadavoid-1dbyc:
+    kind: function
+    name: loadAvoid()
+    in: server-render-ts-b98yk
+    context: libavoid in Node, once; null if it won't load (arrows stay curved).
+    signature: "loadAvoid(): Promise<Avoid | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:519
+    references:
+      - dependency: lib-libavoid-js-114oj
+  render-ts-pathof-6b46g:
+    kind: function
+    name: pathOf()
+    in: server-render-ts-b98yk
+    context: An SVG path's "d" for a route.
+    signature: "pathOf(r: Route): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:121
+  render-ts-rendersvg-wdiuf:
+    kind: function
+    name: renderSvg()
+    in: server-render-ts-b98yk
+    context: The view as an SVG document.
+    signature: "renderSvg(idx: ModelIndex, diagramId: string, config: FConfig, opts?: RenderOptions): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:138
+  render-ts-renderview-19anl:
+    kind: function
+    name: renderView()
+    in: server-render-ts-b98yk
+    context: A view of a design by key, id or name, with a flow by name or id; what the endpoint and MCP share.
+    signature: "renderView(idx: ModelIndex, config: FConfig, view: string, flow?: string | null | undefined, step?: number | undefined): Promise<{ svg: string; diagramId: string; flow: Flow | null; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:561
+  render-ts-routepaths-4dmzl:
+    kind: function
+    name: routePaths()
+    in: server-render-ts-b98yk
+    context: "A view with elbow or straight arrows: route them around the boxes as the canvas does, with the same router. Curved views (the default) need nothing; arrows bent by hand keep their bends."
+    signature: "routePaths(idx: ModelIndex, diagramId: string): Promise<Map<string, Point[]> | undefined>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:536
+  render-ts-slim-kld07:
+    kind: function
+    name: slim()
+    in: server-render-ts-b98yk
+    context: "A function: a slim box, its name in code type and what it is beside it."
+    signature: "slim(n: CanvasNode, on: boolean): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:494
+  render-ts-topng-c4jqn:
+    kind: function
+    name: toPng()
+    in: server-render-ts-b98yk
+    context: The SVG as a PNG, at `scale` (2 for sharp text), capped so a huge view stays a sane size.
+    signature: "toPng(svg: string, scale?: number): Promise<Uint8Array<ArrayBufferLike>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:691
+    references:
+      - dependency: lib-resvg-resvg-wasm-qis4x
+  render-ts-width-t3ia8:
+    kind: function
+    name: width()
+    in: server-render-ts-b98yk
+    context: Roughly how wide text is in Inter, good enough to clip and to size label backgrounds.
+    signature: "width: (s: string, size: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/render.ts:113
+connections:
+  - {from: render-ts-boot-1dho7, to: render-ts-covered-7oq2d}
+  - {from: render-ts-card-1h811, to: icons-ts-brandcolor-nkhyz}
+  - {from: render-ts-card-1h811, to: icons-ts-iconfor-1sq34}
+  - {from: render-ts-card-1h811, to: icons-ts-iconsvg-1n5by}
+  - {from: render-ts-card-1h811, to: project-ts-logoof-1i1c5}
+  - {from: render-ts-card-1h811, to: render-ts-clip-1haio}
+  - {from: render-ts-card-1h811, to: render-ts-esc-1brd6}
+  - {from: render-ts-card-1h811, to: render-ts-slim-kld07}
+  - {from: render-ts-card-1h811, to: render-ts-width-t3ia8}
+  - {from: render-ts-clip-1haio, to: render-ts-width-t3ia8}
+  - {from: render-ts-pathof-6b46g, to: geometry-ts-pathsink-beziercurveto-1sefd}
+  - {from: render-ts-pathof-6b46g, to: geometry-ts-pathsink-lineto-lvhqs}
+  - {from: render-ts-pathof-6b46g, to: geometry-ts-pathsink-moveto-vmgz0}
+  - {from: render-ts-pathof-6b46g, to: geometry-ts-pathsink-quadraticcurveto-cr6ci}
+  - {from: render-ts-pathof-6b46g, to: geometry-ts-traceroute-1obmx}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-arrowhead-hmfce}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-bentroute-ojpwi}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-boundsof-1fvuk}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-boxgrid-add-vcn8d}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-boxgrid-constructor-1uxkw}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-choosesides-1ue4u}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-cliptoboxes-109zs}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-curvearound-104cj}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-lineroute-1f1dz}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-placelabel-zxld1}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-placelabelon-5ntzp}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-ports-1dg9c}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-route-26rwn}
+  - {from: render-ts-rendersvg-wdiuf, to: geometry-ts-routepoint-vghoc}
+  - {from: render-ts-rendersvg-wdiuf, to: project-ts-colorgraph-1yczs}
+  - {from: render-ts-rendersvg-wdiuf, to: project-ts-lineends-1d5fx}
+  - {from: render-ts-rendersvg-wdiuf, to: project-ts-projectdiagram-1p3dd}
+  - {from: render-ts-rendersvg-wdiuf, to: render-ts-card-1h811}
+  - {from: render-ts-rendersvg-wdiuf, to: render-ts-clip-1haio}
+  - {from: render-ts-rendersvg-wdiuf, to: render-ts-esc-1brd6}
+  - {from: render-ts-rendersvg-wdiuf, to: render-ts-pathof-6b46g}
+  - {from: render-ts-rendersvg-wdiuf, to: render-ts-width-t3ia8}
+  - {from: render-ts-renderview-19anl, to: render-ts-rendersvg-wdiuf}
+  - {from: render-ts-renderview-19anl, to: render-ts-routepaths-4dmzl}
+  - {from: render-ts-routepaths-4dmzl, to: project-ts-lineends-1d5fx}
+  - {from: render-ts-routepaths-4dmzl, to: project-ts-projectdiagram-1p3dd}
+  - {from: render-ts-routepaths-4dmzl, to: render-ts-loadavoid-1dbyc}
+  - {from: render-ts-routepaths-4dmzl, to: router-ts-edgerouter-constructor-10edv}
+  - {from: render-ts-routepaths-4dmzl, to: router-ts-edgerouter-destroy-k0vux}
+  - {from: render-ts-routepaths-4dmzl, to: router-ts-edgerouter-path-1rnnq}
+  - {from: render-ts-routepaths-4dmzl, to: router-ts-edgerouter-sync-m5k0t}
+  - {from: render-ts-routepaths-4dmzl, to: router-ts-routeredges-8dt0a}
+  - {from: render-ts-slim-kld07, to: render-ts-clip-1haio}
+  - {from: render-ts-slim-kld07, to: render-ts-esc-1brd6}
+  - {from: render-ts-topng-c4jqn, to: render-ts-boot-1dho7}
+  - {from: render-ts-topng-c4jqn, to: render-ts-drawable-6umuz}

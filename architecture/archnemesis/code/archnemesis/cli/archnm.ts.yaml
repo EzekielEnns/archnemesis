@@ -1,0 +1,109 @@
+# archnemesis:cli/archnm.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-archnm-ts-jti9l:
+    kind: module
+    name: archnm.ts
+    in: cli
+    context: "Archnemesis on the command line, for agents and CI: no server needed, just the folder."
+    tech: [TypeScript]
+    path: archnemesis:cli/archnm.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts
+  archnm-ts-calltool-ou4f2:
+    kind: function
+    name: callTool()
+    in: cli-archnm-ts-jti9l
+    context: "One call of an MCP tool on the server: initialize, then tools/call (the server is stateless)."
+    signature: "callTool(server: string, name: string, args: Record<string, unknown>): Promise<{ text: string; isError: boolean; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:153
+  archnm-ts-dirarg-v1oa6:
+    kind: function
+    name: dirArg()
+    in: cli-archnm-ts-jti9l
+    signature: "dirArg: (i: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:80
+  archnm-ts-indexfor-6bi9e:
+    kind: function
+    name: indexFor()
+    in: cli-archnm-ts-jti9l
+    signature: "indexFor(flags: Record<string, string | true>, repoDir: string): CodeIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:139
+  archnm-ts-load-1fejv:
+    kind: function
+    name: load()
+    in: cli-archnm-ts-jti9l
+    context: Read and check a folder; on errors print them and exit.
+    signature: "load(dir: string): { state: ModelState; idx: ModelIndex; problems: Problem[]; files: Map<string, string>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:86
+    references:
+      - dependency: lib-yjs-1y6wn
+  archnm-ts-parseargs-1vcmd:
+    kind: function
+    name: parseArgs()
+    in: cli-archnm-ts-jti9l
+    context: --name value, or a bare --flag (true), from args; the rest positional.
+    signature: "parseArgs(bare?: string[]): { flags: Record<string, string | true>; rest: string[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:127
+  archnm-ts-print-21vph:
+    kind: function
+    name: print()
+    in: cli-archnm-ts-jti9l
+    signature: "print: (p: Problem) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/archnm.ts:82
+connections:
+  - {from: archnm-ts-indexfor-6bi9e, to: importer-ts-indexrepo-1euzi}
+  - {from: archnm-ts-load-1fejv, to: archnm-ts-print-21vph}
+  - {from: archnm-ts-load-1fejv, to: doc-ts-applyops-7k6hw}
+  - {from: archnm-ts-load-1fejv, to: doc-ts-emptystate-1a3cm}
+  - {from: archnm-ts-load-1fejv, to: doc-ts-mirror-1k3af}
+  - {from: archnm-ts-load-1fejv, to: files-ts-check-toyfi}
+  - {from: archnm-ts-load-1fejv, to: files-ts-readfiles-1ttso}
+  - {from: archnm-ts-load-1fejv, to: files-ts-readfolder-1jdfc}
+  - {from: archnm-ts-load-1fejv, to: files-ts-toops-1d908}
+  - {from: archnm-ts-load-1fejv, to: project-ts-buildindex-dkcy4}
+  - {from: archnm-ts-load-1fejv, to: views-ts-viewops-1bd47}
+  - {from: cli-archnm-ts-jti9l, to: agent-ts-planchanges-i14x4}
+  - {from: cli-archnm-ts-jti9l, to: agentsmd-ts-isgeneratedagents-h0c04}
+  - {from: cli-archnm-ts-jti9l, to: archnm-ts-calltool-ou4f2}
+  - {from: cli-archnm-ts-jti9l, to: archnm-ts-dirarg-v1oa6}
+  - {from: cli-archnm-ts-jti9l, to: archnm-ts-indexfor-6bi9e}
+  - {from: cli-archnm-ts-jti9l, to: archnm-ts-load-1fejv}
+  - {from: cli-archnm-ts-jti9l, to: archnm-ts-parseargs-1vcmd}
+  - {from: cli-archnm-ts-jti9l, to: codeindex-ts-importchanges-1rj1i}
+  - {from: cli-archnm-ts-jti9l, to: codeindex-ts-importsummary-164fo}
+  - {from: cli-archnm-ts-jti9l, to: config-ts-describeconfig-1xoc2}
+  - {from: cli-archnm-ts-jti9l, to: config-ts-loadclientconfig-1lcx2}
+  - {from: cli-archnm-ts-jti9l, to: convert-ts-convert-68qem}
+  - {from: cli-archnm-ts-jti9l, to: curate-ts-worklist-99wef}
+  - {from: cli-archnm-ts-jti9l, to: curate-ts-worklisttext-jw4nb}
+  - {from: cli-archnm-ts-jti9l, to: doc-ts-applyops-7k6hw}
+  - {from: cli-archnm-ts-jti9l, to: doc-ts-emptystate-1a3cm}
+  - {from: cli-archnm-ts-jti9l, to: doc-ts-mirror-1k3af}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-check-toyfi}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-hasdesignfolder-abc2j}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-keyops-hk86o}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-normalizedesignfile-wlcla}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-readfiles-1ttso}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-readfolder-1jdfc}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-toops-1d908}
+  - {from: cli-archnm-ts-jti9l, to: files-ts-writefiles-dumd7}
+  - {from: cli-archnm-ts-jti9l, to: project-ts-buildindex-dkcy4}
+  - {from: cli-archnm-ts-jti9l, to: score-ts-viewproblems-d4f00}
+  - {from: cli-archnm-ts-jti9l, to: seed-ts-seedops-1s1it}
+  - {from: cli-archnm-ts-jti9l, to: views-ts-adoptrules-nsc9c}
+  - {from: cli-archnm-ts-jti9l, to: views-ts-describeselector-aqh3b}
+  - {from: cli-archnm-ts-jti9l, to: views-ts-resolve-17a3a}

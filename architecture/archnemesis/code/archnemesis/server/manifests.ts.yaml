@@ -1,0 +1,137 @@
+# archnemesis:server/manifests.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-manifests-ts-17yxr:
+    kind: module
+    name: manifests.ts
+    in: srv-index
+    context: "Libraries from manifests and lockfiles, one small reader per format: Cargo (with Cargo.lock for resolved versions), package.json, pyproject.toml / requirements.txt, go.mod, Gemfile, Maven pom.xml, .NET csproj. Each turns a file into {ecosystem, name, version}. Path and workspace-local dependencies are the repo's own code, not libraries, and are left out."
+    tech: [TypeScript]
+    path: archnemesis:server/manifests.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts
+  manifests-ts-pkg-1lg8d:
+    kind: function
+    name: pkg()
+    in: server-manifests-ts-17yxr
+    signature: 'pkg: (ecosystem: "cargo" | "npm" | "pypi" | "go" | "maven" | "nuget" | "rubygems" | "other", name: string, version: string | undefined, manifest: string) => Found'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:29
+  manifests-ts-plain-1exw4:
+    kind: function
+    name: plain()
+    in: server-manifests-ts-17yxr
+    context: A version range down to the version it names ("^1.2.3" → "1.2.3"); none for "*" or a git ref.
+    signature: "plain: (v: string | undefined) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:25
+  manifests-ts-readcargolock-zwm1g:
+    kind: function
+    name: readCargoLock()
+    in: server-manifests-ts-17yxr
+    context: "Cargo.lock: name → the version resolved (the first, when two versions are in the tree)."
+    signature: "readCargoLock(text: string): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:37
+  manifests-ts-readcargotoml-gosdz:
+    kind: function
+    name: readCargoToml()
+    in: server-manifests-ts-17yxr
+    signature: "readCargoToml(text: string, manifest: string, lock?: Map<string, string>): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:48
+  manifests-ts-readcsproj-gis90:
+    kind: function
+    name: readCsproj()
+    in: server-manifests-ts-17yxr
+    signature: "readCsproj(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:190
+  manifests-ts-readgemfile-d1gmc:
+    kind: function
+    name: readGemfile()
+    in: server-manifests-ts-17yxr
+    signature: "readGemfile(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:172
+  manifests-ts-readgomod-1b0tc:
+    kind: function
+    name: readGoMod()
+    in: server-manifests-ts-17yxr
+    signature: "readGoMod(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:158
+  manifests-ts-readmanifests-102lu:
+    kind: function
+    name: readManifests()
+    in: server-manifests-ts-17yxr
+    context: Every manifest under root, read; a library declared twice is listed once (first version wins).
+    signature: "readManifests(root: string, opts?: { maxFiles?: number | undefined; }): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:197
+  manifests-ts-readpackagejson-750jq:
+    kind: function
+    name: readPackageJson()
+    in: server-manifests-ts-17yxr
+    signature: "readPackageJson(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:99
+  manifests-ts-readpom-1x90a:
+    kind: function
+    name: readPom()
+    in: server-manifests-ts-17yxr
+    signature: "readPom(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:178
+  manifests-ts-readpyproject-4ysk7:
+    kind: function
+    name: readPyproject()
+    in: server-manifests-ts-17yxr
+    signature: "readPyproject(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:136
+  manifests-ts-readrequirements-wtk80:
+    kind: function
+    name: readRequirements()
+    in: server-manifests-ts-17yxr
+    signature: "readRequirements(text: string, manifest: string): Found[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/manifests.ts:117
+connections:
+  - {from: manifests-ts-readcargotoml-gosdz, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readcargotoml-gosdz, to: manifests-ts-plain-1exw4}
+  - {from: manifests-ts-readcsproj-gis90, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readcsproj-gis90, to: manifests-ts-plain-1exw4}
+  - {from: manifests-ts-readgemfile-d1gmc, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readgemfile-d1gmc, to: manifests-ts-plain-1exw4}
+  - {from: manifests-ts-readgomod-1b0tc, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readcargolock-zwm1g}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readcargotoml-gosdz}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readcsproj-gis90}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readgemfile-d1gmc}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readgomod-1b0tc}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readpackagejson-750jq}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readpom-1x90a}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readpyproject-4ysk7}
+  - {from: manifests-ts-readmanifests-102lu, to: manifests-ts-readrequirements-wtk80}
+  - {from: manifests-ts-readpackagejson-750jq, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readpackagejson-750jq, to: manifests-ts-plain-1exw4}
+  - {from: manifests-ts-readpom-1x90a, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readpyproject-4ysk7, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readpyproject-4ysk7, to: manifests-ts-plain-1exw4}
+  - {from: manifests-ts-readpyproject-4ysk7, to: manifests-ts-readrequirements-wtk80}
+  - {from: manifests-ts-readrequirements-wtk80, to: manifests-ts-pkg-1lg8d}
+  - {from: manifests-ts-readrequirements-wtk80, to: manifests-ts-plain-1exw4}

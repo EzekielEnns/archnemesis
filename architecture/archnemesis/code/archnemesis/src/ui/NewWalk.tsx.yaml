@@ -1,0 +1,95 @@
+# archnemesis:src/ui/NewWalk.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-newwalk-tsx-1o7o3:
+    kind: module
+    name: NewWalk.tsx
+    in: web-ui
+    context: "A box just placed: its card walks you through what it needs, one step at a time, by kind (an app: its name, then its tech; a store: what it is, Postgres or S3, and a name only if it needs one). Each step is saved as you go, so the box on the canvas fills in while you type. Enter: next, and done after the last one it needs. Tab: on to the optional ones (a summary). Esc: done. Finishing closes the…"
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/NewWalk.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx
+  newwalk-tsx-eco-1di8z:
+    kind: function
+    name: ECO()
+    in: ui-newwalk-tsx-1o7o3
+    signature: 'ECO: (name: string) => "cargo" | "npm" | "pypi" | "go" | "maven" | "nuget" | "rubygems" | "other"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:66
+  newwalk-tsx-newwalk-14z50:
+    kind: function
+    name: NewWalk()
+    in: ui-newwalk-tsx-1o7o3
+    signature: "NewWalk({ o, idx, save, done, }: { o: ModelObject; idx: ModelIndex; save: (patch: Partial<ModelObject>, label: string) => void; done: () => void; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:69
+    references:
+      - dependency: lib-types-react-1i7zx
+  newwalk-tsx-summary-cvpwk:
+    kind: function
+    name: SUMMARY()
+    in: ui-newwalk-tsx-1o7o3
+    signature: "SUMMARY: (what: string) => Step"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:33
+  newwalk-tsx-techstep-1icf5:
+    kind: function
+    name: TechStep()
+    in: ui-newwalk-tsx-1o7o3
+    signature: "TechStep({ o, idx, ask, save, next, done, skip, }: StepProps & { idx: ModelIndex; ask: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:327
+    references:
+      - dependency: lib-types-react-1i7zx
+  newwalk-tsx-textstep-nz8r9:
+    kind: function
+    name: TextStep()
+    in: ui-newwalk-tsx-1o7o3
+    signature: "TextStep({ o, idx, step, start, save, next, done, skip, }: StepProps & { idx: ModelIndex; step: Step; start: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:193
+    references:
+      - dependency: lib-types-react-1i7zx
+  newwalk-tsx-unnamed-1n9ty:
+    kind: function
+    name: unnamed()
+    in: ui-newwalk-tsx-1o7o3
+    context: Its name is still the one it was made with.
+    signature: "unnamed: (o: ModelObject) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:64
+  newwalk-tsx-usefocus-v0d4z:
+    kind: function
+    name: useFocus()
+    in: ui-newwalk-tsx-1o7o3
+    context: "The card floats in after it mounts: focus once it's there."
+    signature: "useFocus(): RefObject<HTMLInputElement | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NewWalk.tsx:11
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: newwalk-tsx-newwalk-14z50, to: newwalk-tsx-techstep-1icf5}
+  - {from: newwalk-tsx-newwalk-14z50, to: newwalk-tsx-textstep-nz8r9}
+  - {from: newwalk-tsx-newwalk-14z50, to: newwalk-tsx-unnamed-1n9ty}
+  - {from: newwalk-tsx-newwalk-14z50, to: nodecard-tsx-fieldgrid-8cybi}
+  - {from: newwalk-tsx-techstep-1icf5, to: newwalk-tsx-unnamed-1n9ty}
+  - {from: newwalk-tsx-techstep-1icf5, to: newwalk-tsx-usefocus-v0d4z}
+  - {from: newwalk-tsx-techstep-1icf5, to: references-ts-designtechs-6qyld}
+  - {from: newwalk-tsx-techstep-1icf5, to: references-ts-techsof-5vts4}
+  - {from: newwalk-tsx-textstep-nz8r9, to: newwalk-tsx-eco-1di8z}
+  - {from: newwalk-tsx-textstep-nz8r9, to: newwalk-tsx-unnamed-1n9ty}
+  - {from: newwalk-tsx-textstep-nz8r9, to: newwalk-tsx-usefocus-v0d4z}
+  - {from: newwalk-tsx-textstep-nz8r9, to: nodecard-ts-parsepackage-py0w6}
+  - {from: newwalk-tsx-textstep-nz8r9, to: nodecard-ts-parsesignature-18if3}
+  - {from: newwalk-tsx-textstep-nz8r9, to: typesuggest-tsx-usetypesuggest-1avvr}
+  - {from: ui-newwalk-tsx-1o7o3, to: newwalk-tsx-summary-cvpwk}

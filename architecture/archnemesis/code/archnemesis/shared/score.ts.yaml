@@ -1,0 +1,92 @@
+# archnemesis:shared/score.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-score-ts-wo4jq:
+    kind: module
+    name: score.ts
+    in: shared-support
+    context: "How readable each diagram is, as numbers and as warnings an agent can act on: too many boxes or lines for one screen, arrows that cross, and things with an inside that no diagram opens. Used by `archnm check`, the MCP's check and apply, and the outline."
+    tech: [TypeScript]
+    path: archnemesis:shared/score.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts
+  score-ts-cross-1hph4:
+    kind: function
+    name: cross()
+    in: shared-score-ts-wo4jq
+    signature: "cross: (a: P, b: P, c: P, d: P) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:76
+  score-ts-fileof-2dnz6:
+    kind: function
+    name: fileOf()
+    in: shared-score-ts-wo4jq
+    context: "The model file an object is written to: its top-level ancestor's."
+    signature: "fileOf: (idx: ModelIndex, id: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:17
+  score-ts-ispersonal-1x4rt:
+    kind: function
+    name: isPersonal()
+    in: shared-score-ts-wo4jq
+    context: personal-data, or a value of that tag group (personal-data:holds), except personal-data:none.
+    signature: "isPersonal: (t: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:178
+  score-ts-scoregraph-1yj7p:
+    kind: function
+    name: scoreGraph()
+    in: shared-score-ts-wo4jq
+    signature: "scoreGraph(g: CanvasGraph): ViewScore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:35
+  score-ts-scoreline-1jqjz:
+    kind: function
+    name: scoreLine()
+    in: shared-score-ts-wo4jq
+    context: 'One line for an outline: "12 boxes, 18 lines, 3 crossings".'
+    signature: "scoreLine(s: ViewScore): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:84
+  score-ts-scoreview-ldvks:
+    kind: function
+    name: scoreView()
+    in: shared-score-ts-wo4jq
+    signature: "scoreView(idx: ModelIndex, diagramId: string): ViewScore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:79
+  score-ts-side-1sqxz:
+    kind: function
+    name: side()
+    in: shared-score-ts-wo4jq
+    signature: "side: (a: P, b: P, c: P) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:75
+  score-ts-viewproblems-d4f00:
+    kind: function
+    name: viewProblems()
+    in: shared-score-ts-wo4jq
+    signature: "viewProblems(idx: ModelIndex, limits?: { boxes?: number | undefined; lines?: number | undefined; }): Problem[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/score.ts:92
+connections:
+  - {from: score-ts-cross-1hph4, to: score-ts-side-1sqxz}
+  - {from: score-ts-fileof-2dnz6, to: project-ts-ancestors-lfs25}
+  - {from: score-ts-scoregraph-1yj7p, to: project-ts-lineends-1d5fx}
+  - {from: score-ts-scoregraph-1yj7p, to: router-ts-framepoint-zb2j4}
+  - {from: score-ts-scoregraph-1yj7p, to: score-ts-cross-1hph4}
+  - {from: score-ts-scoreview-ldvks, to: project-ts-projectdiagram-1p3dd}
+  - {from: score-ts-scoreview-ldvks, to: score-ts-scoregraph-1yj7p}
+  - {from: score-ts-viewproblems-d4f00, to: boundaries-ts-crossesregions-13w8p}
+  - {from: score-ts-viewproblems-d4f00, to: score-ts-fileof-2dnz6}
+  - {from: score-ts-viewproblems-d4f00, to: score-ts-ispersonal-1x4rt}
+  - {from: score-ts-viewproblems-d4f00, to: score-ts-scoreview-ldvks}

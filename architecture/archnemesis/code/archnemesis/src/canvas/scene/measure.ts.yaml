@@ -1,0 +1,74 @@
+# archnemesis:src/canvas/scene/measure.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-measure-ts-978mp:
+    kind: module
+    name: measure.ts
+    in: canvas-scene-iaxtu
+    context: "Small pure helpers: a box's fade, where a column's row sits, whether a box changed (its signature), how text is shortened, and the points on a box's edge."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/measure.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts
+  measure-ts-basealpha-crz7b:
+    kind: function
+    name: baseAlpha()
+    in: scene-measure-ts-978mp
+    signature: "baseAlpha(n: CanvasNode): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:36
+  measure-ts-clip-103pb:
+    kind: function
+    name: clip()
+    in: scene-measure-ts-978mp
+    signature: "clip(text: string, max: number): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:79
+  measure-ts-handles-9geml:
+    kind: function
+    name: handles()
+    in: scene-measure-ts-978mp
+    context: "The middle of each side: hints that a box's edge can be dragged from."
+    signature: "handles(n: Rect): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:27
+  measure-ts-nearestonborder-pi0sx:
+    kind: function
+    name: nearestOnBorder()
+    in: scene-measure-ts-978mp
+    context: The point on a box's border closest to p.
+    signature: "nearestOnBorder(r: Rect, p: Point): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:15
+  measure-ts-pad-zaeba:
+    kind: function
+    name: pad()
+    in: scene-measure-ts-978mp
+    signature: "pad: (r: Rect, by: number) => Rect"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:7
+  measure-ts-rowoffset-n2ye3:
+    kind: function
+    name: rowOffset()
+    in: scene-measure-ts-978mp
+    context: "Where a column's row is on an open table's side, from the side's middle (null: not shown)."
+    signature: "rowOffset(n: CanvasNode, column?: string | undefined): number | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:51
+  measure-ts-signature-m4t0y:
+    kind: function
+    name: signature()
+    in: scene-measure-ts-978mp
+    signature: "signature(n: CanvasNode): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/measure.ts:59
+connections:
+  - {from: measure-ts-rowoffset-n2ye3, to: project-ts-tableshowscolumns-v1kor}

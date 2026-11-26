@@ -1,0 +1,21 @@
+{
+  "agent": {"x": 400, "y": 0},
+  "db": {"x": 216, "y": 1752},
+  "design-repos": {"x": 544, "y": 1600},
+  "github": {"x": 672, "y": 1960},
+  "identity-provider": {"x": 416, "y": 1960},
+  "srv-auth": {"x": 544, "y": 848},
+  "srv-edge": {"x": 472, "y": 536},
+  "srv-files": {"x": 344, "y": 1376},
+  "srv-git": {"x": 600, "y": 1376},
+  "srv-index": {"x": 224, "y": 848},
+  "srv-live": {"x": 344, "y": 1128},
+  "srv-mcp": {"x": 536, "y": 240},
+  "srv-store": {"x": 216, "y": 1600},
+  "srv-telemetry": {"x": 0, "y": 848},
+  "telemetry-db": {"x": 0, "y": 1128},
+  "web": {"x": 656, "y": 0},
+  "@arrows": {
+    "srv-mcp>srv-store": {"bends": [[608, 1136]]}
+  }
+}

@@ -1,0 +1,39 @@
+# archnemesis:shared/libstats.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-libstats-ts-o331d:
+    kind: module
+    name: libstats.ts
+    in: shared-support
+    context: "Library stats as people and agents read them: the numbers, and the reasons to look twice. Fetched and cached by the server (server/libstats.ts); never written to a design's files."
+    tech: [TypeScript]
+    path: archnemesis:shared/libstats.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/libstats.ts
+  libstats-ts-statskey-wm4ub:
+    kind: function
+    name: statsKey()
+    in: shared-libstats-ts-o331d
+    signature: "statsKey: (p: Package) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/libstats.ts:7
+  libstats-ts-statsline-1oe8l:
+    kind: function
+    name: statsLine()
+    in: shared-libstats-ts-o331d
+    context: 'One line for an agent: "★ 18k · 312 people · MIT · released 2025-09 (latest 0.8.9) · look twice: ...".'
+    signature: "statsLine(s: LibStats): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/libstats.ts:55
+  libstats-ts-warningsof-1vx72:
+    kind: function
+    name: warningsOf()
+    in: shared-libstats-ts-o331d
+    context: "Why to look twice, from the stats: few people, no release in a year, no licence, advisories, a low score."
+    signature: 'warningsOf(s: Omit<LibStats, "warnings">, now?: number): string[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/libstats.ts:34

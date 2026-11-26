@@ -1,0 +1,38 @@
+# archnemesis:src/workspace/sceneCallbacks.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-scenecallbacks-ts-q8bw7:
+    kind: module
+    name: sceneCallbacks.ts
+    in: web-workspace
+    context: "What the canvas tells us (clicks, drags, drops, right-clicks) and what we do about it: each one becomes an edit, a selection, a card or a menu. Bound once, so they read the latest model and tool through a ref."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/sceneCallbacks.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneCallbacks.ts
+  scenecallbacks-ts-scenecallbacks-2i45i:
+    kind: function
+    name: sceneCallbacks()
+    in: workspace-scenecallbacks-ts-q8bw7
+    signature: "sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCallbacks"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneCallbacks.ts:47
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: actions-ts-addobject-ny43p}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: actions-ts-connect-andb0}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: inspector-tsx-showobjecttab-9clwt}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: model-ts-boxsize-1fd2o}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: names-ts-defaultname-1ulo4}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: navtree-ts-iconof-c6vjj}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: perf-tsx-noteperf-1ov6y}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: scene-ts-scene-clientrectof-106i8}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: scene-ts-scene-select-1g1o3}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: scenemove-ts-movehandler-8f8ov}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: sceneplace-ts-placehandler-1uefh}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: sceneselect-ts-selecthandler-19a8i}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: spread-ts-spread-up-1n409}
+  - {from: scenecallbacks-ts-scenecallbacks-2i45i, to: types-ts-typeliteral59-svg-1t2qk}

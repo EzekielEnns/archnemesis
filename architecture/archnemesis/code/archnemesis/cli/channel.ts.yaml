@@ -1,0 +1,24 @@
+# archnemesis:cli/channel.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-channel-ts-1dcf3:
+    kind: module
+    name: channel.ts
+    in: cli
+    context: "`archnm channel`: Archnemesis's MCP for Claude Code, run locally, that also hears @agent. Claude Code starts it over stdio. It passes every Archnemesis tool through to the server's hosted MCP (so it replaces the http one), and, as a Claude Code channel (a research preview), polls the server for flags waiting on this agent (someone wrote @agent, or answered a flag) and pushes each into the…"
+    tech: [TypeScript]
+    path: archnemesis:cli/channel.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/channel.ts
+  channel-ts-runchannel-qjl83:
+    kind: function
+    name: runChannel()
+    in: cli-channel-ts-1dcf3
+    context: "Seen: note id → the time of the last message pushed, so each new word is pushed once."
+    signature: "runChannel(opts: { server: string; every: number; token?: string | undefined; }): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/channel.ts:29
+    references:
+      - dependency: lib-modelcontextprotocol-sdk-pwf6s

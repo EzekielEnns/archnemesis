@@ -1,0 +1,222 @@
+# Archnemesis and everything inside it.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  archnemesis:
+    kind: system
+    name: Archnemesis
+    context: One model of a software system, drawn as many views, saved as YAML in git and edited live by people and AI agents. Runs as a self-hosted server, or entirely in the browser as a static demo.
+  build:
+    kind: component
+    name: Build and packaging
+    in: archnemesis
+    context: Builds the web app, the static demo, the indexer and channel bundles, and the npm package (npx archnemesis).
+    path: archnemesis:{scripts/**/*.ts,vite*.ts,eslint.config.js}
+  cli:
+    kind: app
+    name: archnm CLI
+    in: archnemesis
+    context: "Works on design folders without a server: check validates them, convert upgrades old files, channel relays note mentions to an agent, and the indexer surveys a repo for mapping."
+    tech: [TypeScript, Node]
+    path: archnemesis:cli
+  design-files:
+    kind: store
+    name: Design folders
+    in: archnemesis
+    context: "One folder per design: archnm.yaml, model/, views/, layout/. These files are the architecture; commit them with your repo."
+    tech: [YAML]
+  server:
+    kind: app
+    name: Server
+    in: archnemesis
+    context: Holds every design as a live shared document, mirrors it to YAML files and git, and serves the web app, the HTTP API and the MCP endpoint on one port (5190).
+    tech: [TypeScript, Node, Hocuspocus, SQLite]
+    path: archnemesis:server
+  shared:
+    kind: component
+    name: Shared model and tools
+    in: archnemesis
+    context: The model, the YAML file grammar, the view rules and the agent tools. Used unchanged by the server, the web app and the CLI, which is why the static demo can offer the same tools as a server.
+    tech: [TypeScript]
+    path: archnemesis:shared
+  web:
+    kind: app
+    name: Web app
+    in: archnemesis
+    context: The canvas people work on. The same build runs against a server or with no server at all (the static demo), by swapping its backend.
+    tech: [TypeScript, React, Vite, Yjs]
+    path: archnemesis:src
+  browser-storage:
+    kind: store
+    name: Browser storage
+    in: web
+    context: Where the static demo keeps designs, forks and history. Nothing leaves the browser.
+    tech: [IndexedDB, localStorage]
+  db:
+    kind: store
+    name: archnm.sqlite
+    in: server
+    context: Every document's updates and snapshots, plus forks, git bindings, share links and settings. Optionally replicated to object storage by Litestream in the Docker image.
+    tech: [SQLite]
+  design-repos:
+    kind: store
+    name: Design repos
+    in: server
+    context: A bare repo per design that Archnemesis keeps itself, and a clone of each repo a design follows.
+    tech: [git]
+  shared-layout:
+    kind: component
+    name: Layout and geometry
+    in: shared
+    context: "Tidy: places boxes and routes arrows so a view reads, the same on the server and in the browser."
+    path: archnemesis:shared/{layout,geometry,align,router,rect}.ts
+  shared-model:
+    kind: component
+    name: Model and file grammar
+    in: shared
+    context: What a design is (boxes, connections, entities, views), how it becomes YAML files and back, how view rules pick boxes, and how two versions are compared.
+    path: archnemesis:shared/{model,doc,files,filesFromOps,spec,project,views,entities,boundaries,tables,references,landscape,seed,diff,slice,explode,navtree,impact,context,codeindex}.ts
+  shared-support:
+    kind: component
+    name: Notes, links and guides
+    in: shared
+    context: "The smaller shared pieces: notes and mentions, share links, the generated AGENTS.md and guides, icons and the box card."
+    path: archnemesis:shared/{notes,mentions,flags,presence-link,sharelink,ghlink,handover,trail,clipboard,actions,agent,agentsmd,guide,curate,score,whatsnew,icons,nodecard,libstats,ours,api,deflate,zip}.ts
+  shared-tools:
+    kind: component
+    name: Agent tools
+    in: shared
+    context: "read, write, note, show, guide, design and index: one implementation, served over MCP by the server and over WebMCP by the page."
+    path: archnemesis:shared/tools
+  srv-auth:
+    kind: component
+    name: Sign-in and permissions
+    in: server
+    context: The only place that knows how anyone signs in. Providers are pluggable (local, tokens, header, OIDC, GitHub); the rest of the server asks who is calling and whether they may act.
+    path: archnemesis:server/{auth.ts,access.ts,perms.ts,auth/**/*.ts,signin/*.ts}
+  srv-edge:
+    kind: component
+    name: Request edge
+    in: server
+    context: Starts the server from its config, refuses requests for any address but its own, and routes the HTTP API.
+    path: archnemesis:server/{app.ts,http.ts,main.ts,config*.ts,addr.ts,env-compat.ts,routes/*.ts,uploads.ts,scripts.ts,render.ts,links.ts}
+  srv-files:
+    kind: component
+    name: Design files
+    in: server
+    context: Mirrors each design to a folder of YAML and reads edits made to those files back in. Personal mode points it at ./architecture in your project.
+    path: archnemesis:server/{files.ts,personal*.ts}
+  srv-git:
+    kind: component
+    name: Git sync
+    in: server
+    context: Makes main follow a git repo, a fork a branch and a proposal a pull request. Works with a repo Archnemesis keeps itself, or any https or ssh remote.
+    path: archnemesis:server/{git.ts,gitsync.ts,forge.ts,github.ts,repoaccess.ts}
+  srv-index:
+    kind: component
+    name: Repo survey and import
+    in: server
+    context: Turns an uploaded index of a repo into what runs, what holds state, and code boxes with their calls.
+    path: archnemesis:server/{survey.ts,scip.ts,importer.ts,manifests.ts,libstats.ts,scale-index.ts}
+  srv-live:
+    kind: component
+    name: Live documents
+    in: server
+    context: "The hub: opens each design as a shared Yjs document, syncs every connected browser and agent, and keeps presence."
+    path: archnemesis:server/{live.ts,presence.ts,seed.ts,backup.ts,touched.ts,tags.ts}
+  srv-mcp:
+    kind: component
+    name: MCP endpoint
+    in: server
+    context: Serves the shared agent tools over MCP at /mcp, one session per agent with its own undo.
+    path: archnemesis:server/mcp.ts
+  srv-store:
+    kind: component
+    name: Document store
+    in: server
+    context: Persists documents, forks, git bindings, share links and settings.
+    path: archnemesis:server/store.ts
+  srv-telemetry:
+    kind: component
+    name: Telemetry
+    in: server
+    context: Counts tool use on this instance, kept locally in its own database.
+    path: archnemesis:server/telemetry.ts
+  srv-test:
+    kind: component
+    name: Test harness
+    in: server
+    context: "Helpers the server's tests share: a config for a temp folder, and an end-to-end runner."
+    path: archnemesis:server/{testing.ts,e2e.ts}
+  telemetry-db:
+    kind: store
+    name: telemetry.sqlite
+    in: server
+    context: Tool-use counts for this instance.
+    tech: [SQLite]
+  web-backend:
+    kind: component
+    name: Backend interface
+    in: web
+    context: "What the app asks of wherever designs live. Two implementations: the server backend talks HTTP and WebSocket; the local backend keeps designs, forks and history in the browser and can read a public GitHub repo."
+    path: archnemesis:src/backend
+  web-canvas:
+    kind: component
+    name: Canvas
+    in: web
+    context: Draws a diagram's boxes and arrows and handles pointer work on them. Arrow routing runs in a worker.
+    path: archnemesis:src/canvas
+  web-shell:
+    kind: component
+    name: App shell
+    in: web
+    context: Starts the app, picks the backend, reads the address (which design, diagram and share link), and holds the store the workspace renders from.
+    path: archnemesis:src/{App.tsx,Bench.tsx,Workspace.tsx,main.tsx,favicon.ts,presence.ts,route.ts,share.ts,storage.ts,store.ts,trail.ts,demo/**/*.ts,demo/**/*.tsx}
+  web-ui:
+    kind: component
+    name: Panels and dialogs
+    in: web
+    context: "Everything around the canvas: the left panel (tree, branches, history), the box card, settings, the welcome and the connect-an-agent steps."
+    path: archnemesis:src/ui
+  web-webmcp:
+    kind: component
+    name: WebMCP tools
+    in: web
+    context: Registers the agent tools on the page itself, so an agent driving the browser can read and write the open design without any server.
+    path: archnemesis:src/webmcp.ts
+  web-workspace:
+    kind: component
+    name: Workspace
+    in: web
+    context: "The editing session around the canvas: selection, keyboard, navigation between diagrams, diff mode, tours and dialogs, as hooks composed by Workspace.tsx."
+    path: archnemesis:src/workspace
+connections:
+  - {from: cli, to: design-files, label: checks and converts}
+  - {from: cli, to: shared-model, label: validates with the same grammar}
+  - {from: cli, to: srv-edge, label: uploads a repo index, tech: HTTP}
+  - {from: db, to: object-storage, label: replicated by Litestream, guess: true}
+  - {from: shared-tools, to: shared-layout, label: tidies a view after a write}
+  - {from: shared-tools, to: shared-model, label: reads and edits the model}
+  - {from: srv-auth, to: identity-provider, label: checks sign-ins, tech: OIDC, guess: true}
+  - {from: srv-edge, to: srv-auth, label: "who is calling, may they"}
+  - {from: srv-edge, to: srv-index, label: takes an uploaded index}
+  - {from: srv-edge, to: srv-live, label: opens and edits designs}
+  - {from: srv-files, to: design-files, label: writes and watches}
+  - {from: srv-git, to: design-repos, label: "commits, fetches, merges", tech: git}
+  - {from: srv-git, to: github, label: "pushes branches, opens pull requests", tech: "HTTPS, git"}
+  - {from: srv-live, to: srv-files, label: mirrors to YAML}
+  - {from: srv-live, to: srv-git, label: "follows repos, forks to branches"}
+  - {from: srv-live, to: srv-store, label: saves updates}
+  - {from: srv-mcp, to: shared-tools, label: runs the agent tools}
+  - {from: srv-mcp, to: srv-live, label: applies writes to the live document}
+  - {from: srv-store, to: db, label: reads and writes, tech: SQL}
+  - {from: srv-telemetry, to: telemetry-db, label: counts, tech: SQL}
+  - {from: web-backend, to: browser-storage, label: keeps designs with no server}
+  - {from: web-backend, to: github, label: reads a public repo's design, tech: HTTPS}
+  - {from: web-backend, to: srv-edge, label: "designs, forks, git, share links", tech: HTTP}
+  - {from: web-backend, to: srv-live, label: live edits and presence, tech: WebSocket}
+  - {from: web-shell, to: web-backend, label: picks server or in-browser}
+  - {from: web-shell, to: web-workspace, label: renders the open design}
+  - {from: web-ui, to: web-backend, label: "branches, history, settings"}
+  - {from: web-webmcp, to: shared-tools, label: runs the agent tools in the page}
+  - {from: web-workspace, to: web-backend, label: loads and saves}
+  - {from: web-workspace, to: web-canvas, label: draws the open diagram}

@@ -1,0 +1,76 @@
+# archnemesis:src/workspace/CanvasLayers.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-canvaslayers-tsx-1xspr:
+    kind: module
+    name: CanvasLayers.tsx
+    in: web-workspace
+    context: "What's drawn over the canvas: the colour legend, the layer nodes (references, what arrows carry), the diff markers and the notes."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/CanvasLayers.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx
+  canvaslayers-tsx-canvashost-cnr2a:
+    kind: function
+    name: CanvasHost()
+    in: workspace-canvaslayers-tsx-1xspr
+    context: The element the canvas is made in; a click on it lets go of the drawer and of a note.
+    signature: 'CanvasHost({ noteSel, closeNote, host, sidebar, setSidebar, pinned, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "host" | ... 4 more ...…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx:13
+    references:
+      - dependency: lib-types-react-1i7zx
+  canvaslayers-tsx-diffhost-1u6pp:
+    kind: function
+    name: DiffHost()
+    in: workspace-canvaslayers-tsx-1xspr
+    context: The diff markers over the canvas, while diffing a fork.
+    signature: 'DiffHost({ graph, drawn, whatsNew, showNew, goneIds, scene, ready, store, diagramId, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx:166
+    references:
+      - dependency: lib-types-react-1i7zx
+  canvaslayers-tsx-legend-cyfmn:
+    kind: function
+    name: Legend()
+    in: workspace-canvaslayers-tsx-1xspr
+    context: The key to the colours, when the view is coloured by a tag group.
+    signature: 'Legend({ colorBy, legend }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "colorBy" | "legend">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx:38
+    references:
+      - dependency: lib-types-react-1i7zx
+  canvaslayers-tsx-noteshost-q06b6:
+    kind: function
+    name: NotesHost()
+    in: workspace-canvaslayers-tsx-1xspr
+    context: Notes and links pinned on the diagram.
+    signature: "NotesHost({ noteSel, draft, selectNote, spread, scene, ready, store, idx, run, diagramId, layers, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => vo…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx:196
+    references:
+      - dependency: lib-types-react-1i7zx
+  canvaslayers-tsx-partshost-1porb:
+    kind: function
+    name: PartsHost()
+    in: workspace-canvaslayers-tsx-1xspr
+    context: "The layer nodes: references beside boxes and what arrows carry."
+    signature: "PartsHost({ goToObject, setPartPairs, graph, drawn, setPanel, scene, ready, store, idx, run, diagramId, layers, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: …"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CanvasLayers.tsx:58
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: canvaslayers-tsx-diffhost-1u6pp, to: difflayer-tsx-difflayer-1bw16}
+  - {from: canvaslayers-tsx-noteshost-q06b6, to: model-ts-now-1lkd5}
+  - {from: canvaslayers-tsx-noteshost-q06b6, to: notes-tsx-noteslayer-1a8jv}
+  - {from: canvaslayers-tsx-noteshost-q06b6, to: project-ts-noteson-1sqc1}
+  - {from: canvaslayers-tsx-partshost-1porb, to: layers-tsx-partslayer-1t7z1}
+  - {from: canvaslayers-tsx-partshost-1porb, to: scene-ts-scene-centeron-12ft8}
+  - {from: canvaslayers-tsx-partshost-1porb, to: scene-ts-scene-select-1g1o3}

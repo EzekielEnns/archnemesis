@@ -1,0 +1,42 @@
+# archnemesis:server/e2e.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-e2e-ts-pqq6i:
+    kind: module
+    name: e2e.ts
+    in: srv-test
+    context: "A scratch Archnemesis for end-to-end tests: its own free port (the OS picks it, so it never meets an Archnemesis someone is running), folder and database, and an MCP client connected to it."
+    tech: [TypeScript]
+    path: archnemesis:server/e2e.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/e2e.ts
+  e2e-ts-freeport-13lzc:
+    kind: function
+    name: freePort()
+    in: server-e2e-ts-pqq6i
+    signature: "freePort(): Promise<number>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/e2e.ts:84
+  e2e-ts-startarchnm-u0nml:
+    kind: function
+    name: startArchnm()
+    in: server-e2e-ts-pqq6i
+    context: Start one; env adds to (or overrides) the scratch settings.
+    signature: "startArchnm(env?: Record<string, string>): Promise<Archnm>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/e2e.ts:31
+    references:
+      - dependency: lib-modelcontextprotocol-sdk-pwf6s
+  e2e-ts-text-dsq8w:
+    kind: function
+    name: text()
+    in: server-e2e-ts-pqq6i
+    signature: "text: (r: Result) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/e2e.ts:16
+connections:
+  - {from: e2e-ts-startarchnm-u0nml, to: e2e-ts-freeport-13lzc}

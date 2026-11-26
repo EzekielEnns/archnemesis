@@ -1,0 +1,191 @@
+# archnemesis:server/config.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-config-ts-sjf1u:
+    kind: module
+    name: config.ts
+    in: srv-edge
+    context: Every setting the server and the CLI read from the environment, in one place.
+    tech: [TypeScript]
+    path: archnemesis:server/config.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts
+  config-ts-authof-mdmoo:
+    kind: function
+    name: authOf()
+    in: server-config-ts-sjf1u
+    signature: "authOf(env: Env, listen: { host: string; port: number; loopback: boolean; dev: boolean; publicUrl: string; origins: Set<string>; hosts: Set<string>; mcpName: string; }): { mode: string; ... 15 more ...; tokenKey: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:389
+  config-ts-backupsof-4vxcc:
+    kind: function
+    name: backupsOf()
+    in: server-config-ts-sjf1u
+    signature: "backupsOf(env: Env, db: string): BackupOptions | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:487
+  config-ts-defaultdbpath-1wg6o:
+    kind: function
+    name: defaultDbPath()
+    in: server-config-ts-sjf1u
+    context: data/archnm.sqlite; an install from before the rename has data/atlas.sqlite, which is opened in place.
+    signature: "defaultDbPath(root: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:140
+  config-ts-describeconfig-1xoc2:
+    kind: function
+    name: describeConfig()
+    in: server-config-ts-sjf1u
+    context: The reference, for `archnm config`.
+    signature: "describeConfig(env?: Env): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:21
+  config-ts-flag-x26fx:
+    kind: function
+    name: flag()
+    in: server-config-ts-sjf1u
+    context: "A yes/no setting: 1, true, yes or on; 0, false, no or off, in any case. Unset or empty is the default; anything else is an error that names the variable."
+    signature: 'flag(env: Env, name: "ARCHNM_HOST" | "ARCHNM_PORT" | "ARCHNM_PUBLIC_URL" | "ARCHNM_ALLOW_OPEN" | "ARCHNM_PERSONAL" | "ARCHNM_MCP_NAME" | "NODE_ENV" | "ARCHNM_DB" | "ARCHNM_ROOT" | ... 62 more ... | "ARCHNM_DIR", fallback: boolean): boolean'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:168
+  config-ts-githubof-1av8k:
+    kind: function
+    name: githubOf()
+    in: server-config-ts-sjf1u
+    signature: "githubOf(env: Env): { web: string; api: string; host: string; envApp: { id: number; slug: string; clientId: string; clientSecret: string; privateKey: string | undefined; privateKeyFile: string | undefined; } | null; appPublic: boolean; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:436
+  config-ts-gitof-lqjs6:
+    kind: function
+    name: gitOf()
+    in: server-config-ts-sjf1u
+    signature: "gitOf(env: Env): { newInGit: boolean; localRepos: boolean; pollMs: number; idleMs: number; maxMs: number; localRemotes: boolean; remotes: string[]; forges: Map<string, ForgeKind>; env: ProcessEnv; sshCommand: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:465
+  config-ts-headerof-tzcen:
+    kind: function
+    name: headerOf()
+    in: server-config-ts-sjf1u
+    context: The "what do I read from the request" for header, tailscale, iap and cloudflare-access.
+    signature: "headerOf(env: Env, mode: string, allowOpen: boolean): HeaderConfig | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:256
+  config-ts-list-1ku8y:
+    kind: function
+    name: list()
+    in: server-config-ts-sjf1u
+    signature: "list: (v?: string | undefined) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:148
+  config-ts-listenof-ijoei:
+    kind: function
+    name: listenOf()
+    in: server-config-ts-sjf1u
+    signature: "listenOf(env: Env): { host: string; port: number; loopback: boolean; dev: boolean; publicUrl: string; origins: Set<string>; hosts: Set<string>; mcpName: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:194
+  config-ts-loadclientconfig-1lcx2:
+    kind: function
+    name: loadClientConfig()
+    in: server-config-ts-sjf1u
+    context: What the CLI needs to reach a server and to find a design folder.
+    signature: "loadClientConfig(env?: Env): ClientConfig"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:535
+  config-ts-loadconfig-69nnh:
+    kind: function
+    name: loadConfig()
+    in: server-config-ts-sjf1u
+    context: Read the environment once. Throws a ConfigError that names the variable when one is wrong, so the server stops at start with a message, not later with a stack.
+    signature: "loadConfig(env?: Env): Config"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:500
+  config-ts-lookslikepath-hznts:
+    kind: function
+    name: looksLikePath()
+    in: server-config-ts-sjf1u
+    signature: "looksLikePath: (v: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:235
+  config-ts-need-o4467:
+    kind: function
+    name: need()
+    in: server-config-ts-sjf1u
+    context: A required setting, or an error that names it and what it is for.
+    signature: 'need(env: Env, name: "ARCHNM_HOST" | "ARCHNM_PORT" | "ARCHNM_PUBLIC_URL" | "ARCHNM_ALLOW_OPEN" | "ARCHNM_PERSONAL" | "ARCHNM_MCP_NAME" | "NODE_ENV" | "ARCHNM_DB" | "ARCHNM_ROOT" | ... 62 more ... | "ARCHNM_DIR", why: string): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:239
+  config-ts-num-119nf:
+    kind: function
+    name: num()
+    in: server-config-ts-sjf1u
+    context: A number from a variable, or the default; the error names the variable.
+    signature: 'num(env: Env, name: "ARCHNM_HOST" | "ARCHNM_PORT" | "ARCHNM_PUBLIC_URL" | "ARCHNM_ALLOW_OPEN" | "ARCHNM_PERSONAL" | "ARCHNM_MCP_NAME" | "NODE_ENV" | "ARCHNM_DB" | "ARCHNM_ROOT" | ... 62 more ... | "ARCHNM_DIR", fallback: number, what: string, min?: number): number'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:155
+  config-ts-oidcof-fhaii:
+    kind: function
+    name: oidcOf()
+    in: server-config-ts-sjf1u
+    signature: "oidcOf(env: Env, mode: string): OidcConfig | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:368
+  config-ts-parseforges-18a3n:
+    kind: function
+    name: parseForges()
+    in: server-config-ts-sjf1u
+    signature: "parseForges(raw: string): Map<string, ForgeKind>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:178
+  config-ts-url-4wcn0:
+    kind: function
+    name: url()
+    in: server-config-ts-sjf1u
+    signature: 'url: (env: Env, name: "ARCHNM_HOST" | "ARCHNM_PORT" | "ARCHNM_PUBLIC_URL" | "ARCHNM_ALLOW_OPEN" | "ARCHNM_PERSONAL" | "ARCHNM_MCP_NAME" | "NODE_ENV" | "ARCHNM_DB" | "ARCHNM_ROOT" | ... 62 more ... | "ARCHNM_DIR", why: string) => string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config.ts:245
+connections:
+  - {from: config-ts-authof-mdmoo, to: config-ts-flag-x26fx}
+  - {from: config-ts-authof-mdmoo, to: config-ts-headerof-tzcen}
+  - {from: config-ts-authof-mdmoo, to: config-ts-list-1ku8y}
+  - {from: config-ts-authof-mdmoo, to: config-ts-lookslikepath-hznts}
+  - {from: config-ts-authof-mdmoo, to: config-ts-num-119nf}
+  - {from: config-ts-authof-mdmoo, to: config-ts-oidcof-fhaii}
+  - {from: config-ts-backupsof-4vxcc, to: config-ts-num-119nf}
+  - {from: config-ts-githubof-1av8k, to: config-ts-flag-x26fx}
+  - {from: config-ts-gitof-lqjs6, to: config-ts-flag-x26fx}
+  - {from: config-ts-gitof-lqjs6, to: config-ts-num-119nf}
+  - {from: config-ts-gitof-lqjs6, to: config-ts-parseforges-18a3n}
+  - {from: config-ts-headerof-tzcen, to: config-ts-need-o4467}
+  - {from: config-ts-headerof-tzcen, to: config-ts-url-4wcn0}
+  - {from: config-ts-listenof-ijoei, to: config-ts-num-119nf}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-authof-mdmoo}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-backupsof-4vxcc}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-defaultdbpath-1wg6o}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-flag-x26fx}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-githubof-1av8k}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-gitof-lqjs6}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-listenof-ijoei}
+  - {from: config-ts-loadconfig-69nnh, to: config-ts-num-119nf}
+  - {from: config-ts-oidcof-fhaii, to: config-ts-need-o4467}
+  - {from: config-ts-oidcof-fhaii, to: config-ts-url-4wcn0}
+  - {from: config-ts-url-4wcn0, to: config-ts-need-o4467}

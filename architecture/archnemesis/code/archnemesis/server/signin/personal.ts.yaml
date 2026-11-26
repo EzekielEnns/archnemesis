@@ -1,0 +1,133 @@
+# archnemesis:server/signin/personal.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  signin-personal-ts-mcelf:
+    kind: module
+    name: personal.ts
+    in: srv-auth
+    context: "Personal tokens: how an agent (Claude Code, say, or a script) gets into an Archnemesis whose people sign in with a browser (gcip, iap, tailscale). Someone signed in makes one in the app; it acts as them, with whatever role the lists give them at the time it's used, so taking them off the lists takes effect at once. Only a hash is kept; the token is shown once. They run out after TTL_DAYS and can…"
+    tech: [TypeScript]
+    path: archnemesis:server/signin/personal.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts
+  personal-ts-hashof-gz74b:
+    kind: function
+    name: hashOf()
+    in: signin-personal-ts-mcelf
+    signature: "hashOf: (token: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:41
+  personal-ts-ispersonaltoken-1dq52:
+    kind: function
+    name: isPersonalToken()
+    in: signin-personal-ts-mcelf
+    signature: "isPersonalToken: (t: string | null | undefined) => t is string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:11
+  personal-ts-personaltokens-check-1dxcl:
+    kind: function
+    name: PersonalTokens.check()
+    in: signin-personal-ts-mcelf
+    context: Who a token acts as, or null (unknown, revoked or run out).
+    tech: [method of PersonalTokens]
+    signature: "check(token: string | null | undefined): { owner: string; login: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:75
+  personal-ts-personaltokens-constructor-1l6jj:
+    kind: function
+    name: PersonalTokens.<constructor>()
+    in: signin-personal-ts-mcelf
+    tech: [method of PersonalTokens]
+    signature: "constructor(store: SettingsStore, now?: () => number): PersonalTokens"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:48
+  personal-ts-personaltokens-info-1avyy:
+    kind: function
+    name: PersonalTokens.info()
+    in: signin-personal-ts-mcelf
+    tech: [method of PersonalTokens]
+    signature: "info(id: string, s: Saved): TokenInfo"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:107
+  personal-ts-personaltokens-list-1rt6y:
+    kind: function
+    name: PersonalTokens.list()
+    in: signin-personal-ts-mcelf
+    context: Someone's own tokens.
+    tech: [method of PersonalTokens]
+    signature: "list(owner: string): TokenInfo[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:91
+  personal-ts-personaltokens-make-2cyxc:
+    kind: function
+    name: PersonalTokens.make()
+    in: signin-personal-ts-mcelf
+    context: A new token for `owner`; the token itself is only ever in this return value.
+    tech: [method of PersonalTokens]
+    signature: "make(owner: string, login: string, label: string): { token: string; info: TokenInfo; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:58
+  personal-ts-personaltokens-revoke-1am42:
+    kind: function
+    name: PersonalTokens.revoke()
+    in: signin-personal-ts-mcelf
+    context: Revoke one of `owner`'s tokens; false if it isn't theirs.
+    tech: [method of PersonalTokens]
+    signature: "revoke(owner: string, id: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:99
+  personal-ts-settingsstore-deletesetting-vh206:
+    kind: function
+    name: SettingsStore.deleteSetting()
+    in: signin-personal-ts-mcelf
+    tech: [method of SettingsStore]
+    signature: "deleteSetting(key: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:37
+  personal-ts-settingsstore-setsetting-1coh9:
+    kind: function
+    name: SettingsStore.setSetting()
+    in: signin-personal-ts-mcelf
+    tech: [method of SettingsStore]
+    signature: "setSetting(key: string, value: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:36
+  personal-ts-settingsstore-setting-ijcxr:
+    kind: function
+    name: SettingsStore.setting()
+    in: signin-personal-ts-mcelf
+    tech: [method of SettingsStore]
+    signature: "setting(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:35
+  personal-ts-settingsstore-settings-1nj34:
+    kind: function
+    name: SettingsStore.settings()
+    in: signin-personal-ts-mcelf
+    tech: [method of SettingsStore]
+    signature: "settings(prefix: string): { key: string; value: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/personal.ts:38
+connections:
+  - {from: personal-ts-personaltokens-check-1dxcl, to: personal-ts-hashof-gz74b}
+  - {from: personal-ts-personaltokens-check-1dxcl, to: personal-ts-ispersonaltoken-1dq52}
+  - {from: personal-ts-personaltokens-check-1dxcl, to: personal-ts-settingsstore-setsetting-1coh9}
+  - {from: personal-ts-personaltokens-constructor-1l6jj, to: personal-ts-settingsstore-settings-1nj34}
+  - {from: personal-ts-personaltokens-list-1rt6y, to: personal-ts-personaltokens-info-1avyy}
+  - {from: personal-ts-personaltokens-make-2cyxc, to: personal-ts-hashof-gz74b}
+  - {from: personal-ts-personaltokens-make-2cyxc, to: personal-ts-personaltokens-info-1avyy}
+  - {from: personal-ts-personaltokens-make-2cyxc, to: personal-ts-settingsstore-setsetting-1coh9}
+  - {from: personal-ts-personaltokens-revoke-1am42, to: personal-ts-settingsstore-deletesetting-vh206}

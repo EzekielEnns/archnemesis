@@ -1,0 +1,98 @@
+# archnemesis:src/route.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-route-ts-3qj0k:
+    kind: module
+    name: route.ts
+    in: web-shell
+    context: "Where you are, in the URL: #/<design>/d/<diagram>/o/<object> (or /n/<note>), or #/<design>@<fork>/... on a fork. Every part after the design is optional; links from the MCP and the history use the same shape, so a link to a fork is a link anyone can open."
+    tech: [TypeScript]
+    path: archnemesis:src/route.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts
+  route-ts-carrytoast-10tze:
+    kind: function
+    name: carryToast()
+    in: src-route-ts-3qj0k
+    signature: 'carryToast(text: string, tone?: "error" | "info"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:82
+  route-ts-copylink-qbc5s:
+    kind: function
+    name: copyLink()
+    in: src-route-ts-3qj0k
+    context: Put a link on the clipboard; true when it got there.
+    signature: "copyLink(to: { diagramId: string; objectId?: string | null | undefined; noteId?: string | null | undefined; }): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:49
+  route-ts-go-1cual:
+    kind: function
+    name: go()
+    in: src-route-ts-3qj0k
+    context: Go to a diagram (and object) in the design that's open.
+    signature: "go(diagramId: string, objectId?: string | null | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:59
+  route-ts-godoc-1q44f:
+    kind: function
+    name: goDoc()
+    in: src-route-ts-3qj0k
+    context: Go to another document of the same design, staying on the same diagram and object.
+    signature: "goDoc(doc: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:72
+  route-ts-hashfor-km4zf:
+    kind: function
+    name: hashFor()
+    in: src-route-ts-3qj0k
+    signature: "hashFor(r: Route): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:30
+  route-ts-linkto-aynmk:
+    kind: function
+    name: linkTo()
+    in: src-route-ts-3qj0k
+    context: "A link to something in the design that's open (this fork included): a box on a diagram, or a note. The one \"Copy link\" everywhere: a person opens it, an agent reads it with the MCP (open, or context for a box)."
+    signature: "linkTo(to: { diagramId: string; objectId?: string | null | undefined; noteId?: string | null | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:40
+  route-ts-parsehash-1rghw:
+    kind: function
+    name: parseHash()
+    in: src-route-ts-3qj0k
+    signature: "parseHash(hash?: string): Route"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:13
+  route-ts-splitdoc-m7onu:
+    kind: function
+    name: splitDoc()
+    in: src-route-ts-3qj0k
+    context: "A document name, split: the design it belongs to and the fork (null for main)."
+    signature: "splitDoc(doc: string): { design: string; branch: string | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:64
+  route-ts-takecarried-kwvt8:
+    kind: function
+    name: takeCarried()
+    in: src-route-ts-3qj0k
+    signature: 'takeCarried(): { text: string; tone: "error" | "info"; } | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/route.ts:85
+connections:
+  - {from: route-ts-copylink-qbc5s, to: route-ts-linkto-aynmk}
+  - {from: route-ts-go-1cual, to: route-ts-hashfor-km4zf}
+  - {from: route-ts-go-1cual, to: route-ts-parsehash-1rghw}
+  - {from: route-ts-godoc-1q44f, to: route-ts-hashfor-km4zf}
+  - {from: route-ts-godoc-1q44f, to: route-ts-parsehash-1rghw}
+  - {from: route-ts-linkto-aynmk, to: route-ts-hashfor-km4zf}
+  - {from: route-ts-linkto-aynmk, to: route-ts-parsehash-1rghw}

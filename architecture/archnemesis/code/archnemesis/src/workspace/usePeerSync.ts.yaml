@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/usePeerSync.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usepeersync-ts-rh0e6:
+    kind: module
+    name: usePeerSync.ts
+    in: web-workspace
+    context: "Tell everyone else which diagram this tab is on and what it has selected, and show them: only the people on this diagram get a cursor here."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/usePeerSync.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/usePeerSync.ts
+  usepeersync-ts-usepeersync-1gywi:
+    kind: function
+    name: usePeerSync()
+    in: workspace-usepeersync-ts-rh0e6
+    signature: "usePeerSync({ scene, ready, diagramId, sel, peers, setPresence, }: { scene: SceneRef; ready: boolean; diagramId: string | null; sel: Selection; peers: PeerInfo[]; setPresence: (patch: Partial<PresenceState>, now?: boolean) => void; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/usePeerSync.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usepeersync-ts-usepeersync-1gywi, to: presence-ts-usepresence-8zy3c}
+  - {from: usepeersync-ts-usepeersync-1gywi, to: scene-ts-scene-setpeers-khvot}

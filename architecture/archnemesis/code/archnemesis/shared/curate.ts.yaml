@@ -1,0 +1,51 @@
+# archnemesis:shared/curate.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-curate-ts-au1l9:
+    kind: module
+    name: curate.ts
+    in: shared-support
+    context: "The curator's worklist: what's keeping a design's code layer from being true, gathered in one place for an agent to fix on a fork and propose. Archnemesis doesn't run a model itself; a scheduled agent (a Claude Code routine, a CI job) reads it through the MCP (read {lens: \"flags\"}, \"drift\", \"guesses\") or `archnm curate`, works through it, and hands a person the pull request. Nothing lands on…"
+    tech: [TypeScript]
+    path: archnemesis:shared/curate.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/curate.ts
+  curate-ts-isempty-enqf8:
+    kind: function
+    name: isEmpty()
+    in: shared-curate-ts-au1l9
+    signature: "isEmpty: (w: Worklist) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/curate.ts:131
+  curate-ts-shaof-7uk3z:
+    kind: function
+    name: shaOf()
+    in: shared-curate-ts-au1l9
+    signature: "shaOf: (source: string) => RegExpExecArray | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/curate.ts:30
+  curate-ts-worklist-99wef:
+    kind: function
+    name: worklist()
+    in: shared-curate-ts-au1l9
+    signature: "worklist(idx: ModelIndex, opts?: { stats?: ((p: Package) => LibStats | null) | undefined; url?: ((diagramId: string, objectId?: string | undefined) => string) | undefined; }): Worklist"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/curate.ts:32
+  curate-ts-worklisttext-jw4nb:
+    kind: function
+    name: worklistText()
+    in: shared-curate-ts-au1l9
+    context: The worklist as instructions an agent follows.
+    signature: "worklistText(w: Worklist, design: string, opts?: { max?: number | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/curate.ts:141
+connections:
+  - {from: curate-ts-worklist-99wef, to: context-ts-coderef-1vzch}
+  - {from: curate-ts-worklist-99wef, to: curate-ts-shaof-7uk3z}
+  - {from: curate-ts-worklist-99wef, to: project-ts-processof-19730}
+  - {from: curate-ts-worklisttext-jw4nb, to: curate-ts-isempty-enqf8}

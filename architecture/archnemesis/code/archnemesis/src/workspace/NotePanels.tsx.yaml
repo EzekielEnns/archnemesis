@@ -1,0 +1,28 @@
+# archnemesis:src/workspace/NotePanels.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-notepanels-tsx-1knt0:
+    kind: module
+    name: NotePanels.tsx
+    in: web-workspace
+    context: The panel for the selected note or link, or the draft being written.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/NotePanels.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/NotePanels.tsx
+  notepanels-tsx-notepanels-1hlne:
+    kind: function
+    name: NotePanels()
+    in: workspace-notepanels-tsx-1knt0
+    context: The note, link or draft panel.
+    signature: "NotePanels({ noteSel, draft, mentionable, closeNote, selectNote, store, idx, run, diagramId, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/NotePanels.tsx:7
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: notepanels-tsx-notepanels-1hlne, to: notes-tsx-draftpanel-18avv}
+  - {from: notepanels-tsx-notepanels-1hlne, to: notes-tsx-linkpanel-dewwx}
+  - {from: notepanels-tsx-notepanels-1hlne, to: notes-tsx-notepanel-1dwpl}

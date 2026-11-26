@@ -1,0 +1,79 @@
+# archnemesis:shared/spec.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-spec-ts-1n2ta:
+    kind: module
+    name: spec.ts
+    in: shared-model
+    context: "The file format, once. Everything about what may be written in an Archnemesis folder comes from here: the JSON schemas in schema/ (`archnm schema` writes them; a test keeps them equal), the fields `archnm check` accepts, and the reference in the AGENTS.md Archnemesis writes into every folder. Change a field here and all three follow."
+    tech: [TypeScript]
+    path: archnemesis:shared/spec.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts
+  spec-ts-bool-16ujp:
+    kind: function
+    name: bool()
+    in: shared-spec-ts-1n2ta
+    signature: "bool: (description: string) => Schema"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:34
+  spec-ts-fieldreference-qx5rv:
+    kind: function
+    name: fieldReference()
+    in: shared-spec-ts-1n2ta
+    context: A field reference, as markdown, for AGENTS.md and the guide.
+    signature: "fieldReference(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:494
+  spec-ts-fieldsof-9ur6c:
+    kind: function
+    name: fieldsOf()
+    in: shared-spec-ts-1n2ta
+    context: The fields a schema allows, for check's "unknown field" errors.
+    signature: "fieldsOf: (s: Schema) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:477
+  spec-ts-list-1yutj:
+    kind: function
+    name: list()
+    in: shared-spec-ts-1n2ta
+    signature: "list: (items: Schema, description: string) => Schema"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:25
+  spec-ts-oneof-1xhxg:
+    kind: function
+    name: oneOf()
+    in: shared-spec-ts-1n2ta
+    signature: "oneOf: (values: readonly string[], description: string) => Schema"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:30
+  spec-ts-str-1rc9r:
+    kind: function
+    name: str()
+    in: shared-spec-ts-1n2ta
+    signature: "str: (description: string, extra?: Schema) => Schema"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:20
+  spec-ts-words-e1ejt:
+    kind: function
+    name: words()
+    in: shared-spec-ts-1n2ta
+    context: A list of words, or one word on its own (written back as a list).
+    signature: "words: (description: string) => Schema"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/spec.ts:36
+connections:
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-bool-16ujp}
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-fieldsof-9ur6c}
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-list-1yutj}
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-oneof-1xhxg}
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-str-1rc9r}
+  - {from: shared-spec-ts-1n2ta, to: spec-ts-words-e1ejt}

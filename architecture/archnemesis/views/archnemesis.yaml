@@ -1,0 +1,10 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Archnemesis
+scope: archnemesis
+arrows: elbow
+tidy: down
+include:
+  - children: archnemesis
+  - neighbours: archnemesis
+exclude:
+  - kind: library

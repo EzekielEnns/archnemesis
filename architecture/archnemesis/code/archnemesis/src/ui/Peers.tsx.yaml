@@ -1,0 +1,95 @@
+# archnemesis:src/ui/Peers.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-peers-tsx-18qzj:
+    kind: module
+    name: Peers.tsx
+    in: web-ui
+    context: "Top right: who's here. One dot per person or agent, in their colour; click one to jump to what they're looking at. Your own dot sets the name others see."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Peers.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx
+  peers-tsx-accountfields-m7jzq:
+    kind: function
+    name: AccountFields()
+    in: ui-peers-tsx-18qzj
+    context: "Who you are here: your name (on this machine), how you're signed in, and GitHub."
+    signature: "AccountFields({ store }: { store: Store; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:208
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  peers-tsx-ago-1ky5r:
+    kind: function
+    name: ago()
+    in: ui-peers-tsx-18qzj
+    signature: "ago: (at?: number | undefined) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:48
+  peers-tsx-errorfromaddress-qflux:
+    kind: function
+    name: errorFromAddress()
+    in: ui-peers-tsx-18qzj
+    context: "The reason a sign-in flow sent the browser back (the server puts it in the address as #~signin-error=…)."
+    signature: "errorFromAddress(): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:261
+  peers-tsx-initials-lrk43:
+    kind: function
+    name: initials()
+    in: ui-peers-tsx-18qzj
+    signature: "initials: (name: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:27
+  peers-tsx-peers-1kz7n:
+    kind: function
+    name: Peers()
+    in: ui-peers-tsx-18qzj
+    signature: "Peers({ store, peers, diagramName, onFollow, ownTabs, before, onAccount }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:54
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-dom-1pvn2
+  peers-tsx-signin-1eenz:
+    kind: function
+    name: SignIn()
+    in: ui-peers-tsx-18qzj
+    context: "Not signed in: the one screen before anything else."
+    signature: "SignIn({ store }: { store: Store; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:330
+  peers-tsx-signinform-e4qiv:
+    kind: function
+    name: SignInForm()
+    in: ui-peers-tsx-18qzj
+    context: "The one sign-in page, whatever the server signs people in with: the name, a line of plain text, then a token field or one button per way in, and the error, if any, in one place."
+    signature: "SignInForm({ page }: { page: SignInPage; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Peers.tsx:274
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: peers-tsx-accountfields-m7jzq, to: peers-tsx-initials-lrk43}
+  - {from: peers-tsx-accountfields-m7jzq, to: presence-ts-colorfor-1fa9e}
+  - {from: peers-tsx-accountfields-m7jzq, to: storage-ts-setstored-9bk3c}
+  - {from: peers-tsx-accountfields-m7jzq, to: store-ts-store-signout-3upxw}
+  - {from: peers-tsx-peers-1kz7n, to: peers-tsx-ago-1ky5r}
+  - {from: peers-tsx-peers-1kz7n, to: peers-tsx-initials-lrk43}
+  - {from: peers-tsx-peers-1kz7n, to: presence-ts-colorfor-1fa9e}
+  - {from: peers-tsx-peers-1kz7n, to: route-ts-hashfor-km4zf}
+  - {from: peers-tsx-signin-1eenz, to: peers-tsx-signinform-e4qiv}
+  - {from: peers-tsx-signinform-e4qiv, to: peers-tsx-errorfromaddress-qflux}
+  - {from: peers-tsx-signinform-e4qiv, to: types-ts-typeliteral55-start-1s5uh}
+  - {from: peers-tsx-signinform-e4qiv, to: types-ts-typeliteral55-withtoken-1ne7y}

@@ -1,0 +1,54 @@
+# archnemesis:server/app.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-app-ts-8ey98:
+    kind: module
+    name: app.ts
+    in: srv-edge
+    context: "The server's pieces, built from a Config: the store, the hub of live designs, sign-in, GitHub, telemetry, uploads, scripts and the MCP endpoint. createApp() returns them as a context (what the routes in routes/ use) and a request handler; it doesn't listen, so tests can use it and main.ts only has to open the port."
+    tech: [TypeScript]
+    path: archnemesis:server/app.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/app.ts
+  app-ts-createapp-1chkt:
+    kind: function
+    name: createApp()
+    in: server-app-ts-8ey98
+    signature: "createApp(config: Config): Promise<App>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/app.ts:81
+connections:
+  - {from: app-ts-createapp-1chkt, to: auth-ts-auth-get-browsersignin-apbwa}
+  - {from: app-ts-createapp-1chkt, to: auth-ts-auth-identify-1293d}
+  - {from: app-ts-createapp-1chkt, to: auth-ts-auth-ready-10qec}
+  - {from: app-ts-createapp-1chkt, to: auth-ts-bearer-s5fzd}
+  - {from: app-ts-createapp-1chkt, to: backup-ts-startbackups-1k5pa}
+  - {from: app-ts-createapp-1chkt, to: github-ts-github-constructor-g1qtn}
+  - {from: app-ts-createapp-1chkt, to: github-ts-github-username-14c7p}
+  - {from: app-ts-createapp-1chkt, to: gitsync-ts-binddesign-1a3fl}
+  - {from: app-ts-createapp-1chkt, to: http-ts-archnmheader-1v00w}
+  - {from: app-ts-createapp-1chkt, to: http-ts-json-3ycbr}
+  - {from: app-ts-createapp-1chkt, to: http-ts-servebuilt-1y9kn}
+  - {from: app-ts-createapp-1chkt, to: index-ts-apiroutes-spm50}
+  - {from: app-ts-createapp-1chkt, to: libstats-ts-libstatsjob-constructor-jc6zx}
+  - {from: app-ts-createapp-1chkt, to: libstats-ts-libstatsjob-get-1bsef}
+  - {from: app-ts-createapp-1chkt, to: libstats-ts-libstatsjob-start-1naiv}
+  - {from: app-ts-createapp-1chkt, to: live-ts-hub-close-1gcha}
+  - {from: app-ts-createapp-1chkt, to: live-ts-hub-constructor-fqprl}
+  - {from: app-ts-createapp-1chkt, to: live-ts-hub-create-1bqx6}
+  - {from: app-ts-createapp-1chkt, to: live-ts-hub-start-1kbs5}
+  - {from: app-ts-createapp-1chkt, to: live-ts-hub-upgrade-km93n}
+  - {from: app-ts-createapp-1chkt, to: load-ts-createauth-12j0y}
+  - {from: app-ts-createapp-1chkt, to: mcp-ts-mcphandler-axpgb}
+  - {from: app-ts-createapp-1chkt, to: oauth-ts-oauth-challenge-v99cm}
+  - {from: app-ts-createapp-1chkt, to: oauth-ts-oauth-constructor-xjtr9}
+  - {from: app-ts-createapp-1chkt, to: oauth-ts-oauthendpoints-1t3eh}
+  - {from: app-ts-createapp-1chkt, to: personal-ts-personaltokens-constructor-1l6jj}
+  - {from: app-ts-createapp-1chkt, to: scripts-ts-scripts-constructor-1mhhm}
+  - {from: app-ts-createapp-1chkt, to: scripts-ts-scripts-ensure-w0uav}
+  - {from: app-ts-createapp-1chkt, to: signin-ts-providerroutes-9e7rs}
+  - {from: app-ts-createapp-1chkt, to: store-ts-docstore-constructor-fehae}
+  - {from: app-ts-createapp-1chkt, to: telemetry-ts-opentelemetry-tze99}
+  - {from: app-ts-createapp-1chkt, to: upload-ts-uploadroutes-1bjmr}

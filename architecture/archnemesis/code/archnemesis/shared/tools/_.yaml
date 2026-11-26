@@ -1,0 +1,9 @@
+# archnemesis:shared/tools: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-tools-1cbb9:
+    kind: module
+    name: tools
+    in: shared-tools
+    path: archnemesis:shared/tools
+    tags: [generated]

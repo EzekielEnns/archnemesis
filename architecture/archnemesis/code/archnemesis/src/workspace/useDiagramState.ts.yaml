@@ -1,0 +1,44 @@
+# archnemesis:src/workspace/useDiagramState.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usediagramstate-ts-iq077:
+    kind: module
+    name: useDiagramState.ts
+    in: web-workspace
+    context: "The state behind the open diagram, in the order it's needed: the model, toasts and dialogs, the layout around the canvas, the selection, which diagram is open (and the diff), who else is here, the tool in hand, the card, what's drawn, arrows and flows. Everything it makes is handed on flat, to useCanvasSession and useInteraction, which build on it."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDiagramState.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagramState.ts
+  usediagramstate-ts-usediagramstate-huazx:
+    kind: function
+    name: useDiagramState()
+    in: workspace-usediagramstate-ts-iq077
+    signature: "useDiagramState(store: Store, simple: boolean): { flowId: string | null; setFlowId: Dispatch<SetStateAction<string | null>>; step: number; setStep: Dispatch<SetStateAction<number>>; ... 96 more ...; setAllLayers: (all: boolean) => void; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagramState.ts:27
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: latest-ts-uselatestref-ypq8c}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: layers-tsx-uselayers-9fbdr}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: presence-ts-usepresence-8zy3c}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: store-ts-store-getversion-1jscx}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: store-ts-store-index-1gool}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: store-ts-store-subscribe-1px4z}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: toasts-ts-userun-1wmly}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: toasts-ts-usetoasts-9nb79}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usearrows-ts-usearrows-1u19t}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usecard-ts-usecardstate-1fmnj}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usediagram-ts-usediagram-umfqa}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usedialogs-ts-usedialogs-49m3c}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usediffmode-ts-usediffmode-1q2c9}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usedocking-ts-usedocking-a1h14}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: useflow-ts-useflow-k7v32}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: useopened-ts-useopened-1m98d}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: useoverlays-ts-useoverlays-132ae}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usescenerefs-ts-usescenerefs-1xwq3}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: usetools-tsx-usetools-rf1hc}
+  - {from: usediagramstate-ts-usediagramstate-huazx, to: useviewroute-ts-useviewroute-mfp6l}

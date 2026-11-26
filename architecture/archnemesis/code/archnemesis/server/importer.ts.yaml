@@ -1,0 +1,89 @@
+# archnemesis:server/importer.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-importer-ts-1tdno:
+    kind: module
+    name: importer.ts
+    in: srv-index
+    context: "Index a repo on disk into the neutral code index, with the best adapter it has: 1. a SCIP index (given, or made by an indexer on the path: rust-analyzer, scip-typescript, scip-python, scip-go): exact calls; 2. Universal Ctags: definitions, and calls guessed by name; and the manifests for libraries, always. `archnm index` and `archnm import` call this."
+    tech: [TypeScript]
+    path: archnemesis:server/importer.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts
+  importer-ts-fillfrom-tkro1:
+    kind: function
+    name: fillFrom()
+    in: server-importer-ts-1tdno
+    context: "The functions of `missing` files from a fallback index, into a SCIP one: their own, and the calls into and out of them (guesses), with the other end named as the SCIP index names it (the same file and name)."
+    signature: "fillFrom(index: CodeIndex, fallback: CodeIndex, missing: Set<string>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:124
+  importer-ts-gitfiles-1wod3:
+    kind: function
+    name: gitFiles()
+    in: server-importer-ts-1tdno
+    signature: "gitFiles(root: string): string[] | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:50
+  importer-ts-gitsha-1ayig:
+    kind: function
+    name: gitSha()
+    in: server-importer-ts-1tdno
+    signature: "gitSha(root: string): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:42
+  importer-ts-has-gk9fg:
+    kind: function
+    name: has()
+    in: server-importer-ts-1tdno
+    signature: "has: (cmd: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:33
+  importer-ts-indexrepo-1euzi:
+    kind: function
+    name: indexRepo()
+    in: server-importer-ts-1tdno
+    signature: "indexRepo(root: string, opts?: IndexOptions): { index: CodeIndex; adapter: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:165
+  importer-ts-run-1t8y4:
+    kind: function
+    name: run()
+    in: server-importer-ts-1tdno
+    signature: "run: (cmd: string, args: string[], cwd: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:26
+  importer-ts-sciphint-1o8jw:
+    kind: function
+    name: scipHint()
+    in: server-importer-ts-1tdno
+    context: "How to get exact calls for a language: the SCIP indexer to install. Archnemesis reads every SCIP indexer's output the same way, so a language not run by INDEXERS still works: run its indexer and pass the index.scip with --scip. undefined: no SCIP indexer exists for it."
+    signature: "scipHint(language: string): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/importer.ts:79
+connections:
+  - {from: importer-ts-fillfrom-tkro1, to: tags-ts-languageof-l0ljc}
+  - {from: importer-ts-gitfiles-1wod3, to: importer-ts-run-1t8y4}
+  - {from: importer-ts-gitsha-1ayig, to: importer-ts-run-1t8y4}
+  - {from: importer-ts-indexrepo-1euzi, to: codeindex-ts-headercomment-bo5us}
+  - {from: importer-ts-indexrepo-1euzi, to: importer-ts-fillfrom-tkro1}
+  - {from: importer-ts-indexrepo-1euzi, to: importer-ts-gitfiles-1wod3}
+  - {from: importer-ts-indexrepo-1euzi, to: importer-ts-gitsha-1ayig}
+  - {from: importer-ts-indexrepo-1euzi, to: importer-ts-has-gk9fg}
+  - {from: importer-ts-indexrepo-1euzi, to: importer-ts-run-1t8y4}
+  - {from: importer-ts-indexrepo-1euzi, to: manifests-ts-readmanifests-102lu}
+  - {from: importer-ts-indexrepo-1euzi, to: scip-ts-sciptoindex-ei4gc}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-builtintags-44mpv}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-hasuniversalctags-lct5h}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-languageof-l0ljc}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-readfrom-i5at7}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-runctags-13yyg}
+  - {from: importer-ts-indexrepo-1euzi, to: tags-ts-tagstoindex-17vjx}

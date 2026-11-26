@@ -1,0 +1,37 @@
+# archnemesis:src/ui/ContextMenu.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-contextmenu-tsx-oi0lg:
+    kind: module
+    name: ContextMenu.tsx
+    in: web-ui
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/ContextMenu.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ContextMenu.tsx
+  contextmenu-tsx-contextmenu-bx501:
+    kind: function
+    name: ContextMenu()
+    in: ui-contextmenu-tsx-oi0lg
+    context: A right-click menu at a page point; closes on any outside click, Escape or a pick.
+    signature: 'ContextMenu({ x, y, items, onClose, }: { x: number; y: number; items: ("sep" | MenuItem)[]; onClose: () => void; }): ReactPortal'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ContextMenu.tsx:15
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-types-react-dom-1pvn2
+  contextmenu-tsx-usemenu-rw61o:
+    kind: function
+    name: useMenu()
+    in: ui-contextmenu-tsx-oi0lg
+    context: "A right-click menu for rows in a list: `on(items)` goes on a row's onContextMenu, and `node` goes anywhere in the component. Items are built when the menu opens."
+    signature: 'useMenu(): { on: (items: () => ("sep" | MenuItem)[]) => (e: MouseEvent<Element, MouseEvent>) => void; node: Element | null; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ContextMenu.tsx:74
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: contextmenu-tsx-usemenu-rw61o, to: contextmenu-tsx-contextmenu-bx501}

@@ -1,0 +1,192 @@
+# archnemesis:src/canvas/scene/overlay.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-overlay-ts-3m8dc:
+    kind: module
+    name: overlay.ts
+    in: canvas-scene-iaxtu
+    context: "What is drawn over the boxes at the same size on screen at any zoom: selection outlines, handles, guides, the connection being dragged, hover; and the marquee."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/overlay.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts
+  overlay-ts-curve-1d5hu:
+    kind: function
+    name: curve()
+    in: scene-overlay-ts-3m8dc
+    context: A route traced on the highlight layer, ready to be stroked.
+    signature: "curve(eh: Graphics, r: Route): Graphics"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:49
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawconnectpreview-17kl2:
+    kind: function
+    name: drawConnectPreview()
+    in: scene-overlay-ts-3m8dc
+    context: "The connection being dragged: its target lit, and the line to it (or to the pointer)."
+    signature: 'drawConnectPreview(state: SceneState, g: Graphics, d: { kind: "connect"; from: string; start: Point; current: Point; target: string | null; }, px: number): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:148
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawdroptarget-nqenc:
+    kind: function
+    name: drawDropTarget()
+    in: scene-overlay-ts-3m8dc
+    context: "Simple mode: the box or frame a drag would drop into."
+    signature: "drawDropTarget(state: SceneState, g: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:134
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawedgehighlights-1gfkl:
+    kind: function
+    name: drawEdgeHighlights()
+    in: scene-overlay-ts-3m8dc
+    context: Arrow highlights go on their own layer under the labels, so the labels stay readable.
+    signature: "drawEdgeHighlights(state: SceneState, g: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:107
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawguides-18shb:
+    kind: function
+    name: drawGuides()
+    in: scene-overlay-ts-3m8dc
+    context: Alignment guides shown while a drag snaps to other boxes.
+    signature: "drawGuides(state: SceneState, g: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:40
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawhover-1758i:
+    kind: function
+    name: drawHover()
+    in: scene-overlay-ts-3m8dc
+    context: "The hovered box: its outline, and what says its edge can be dragged from."
+    signature: "drawHover(state: SceneState, g: Graphics, hover: CanvasNode, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:193
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawknob-1kgov:
+    kind: function
+    name: drawKnob()
+    in: scene-overlay-ts-3m8dc
+    context: "On the edge of the hovered box: a dot with an arrow pointing out of that side."
+    signature: "drawKnob(g: Graphics, hover: CanvasNode, k: Point, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:170
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawmarquee-1x56q:
+    kind: function
+    name: drawMarquee()
+    in: scene-overlay-ts-3m8dc
+    signature: "drawMarquee(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:228
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawoverlay-1dyr1:
+    kind: function
+    name: drawOverlay()
+    in: scene-overlay-ts-3m8dc
+    context: Outlines and handles stay the same size on screen at any zoom, so they're redrawn on zoom.
+    signature: "drawOverlay(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:210
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawpickedframes-59e3m:
+    kind: function
+    name: drawPickedFrames()
+    in: scene-overlay-ts-3m8dc
+    context: The picked boundary's and the picked diagram frame's outlines.
+    signature: "drawPickedFrames(state: SceneState, g: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:23
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawpinnedside-x5ca1:
+    kind: function
+    name: drawPinnedSide()
+    in: scene-overlay-ts-3m8dc
+    context: "While an arrow's end is dragged: the side of its box it will be pinned to, lit."
+    signature: "drawPinnedSide(state: SceneState, g: Graphics, ev: EdgeView, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:55
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawselectedarrow-zlrma:
+    kind: function
+    name: drawSelectedArrow()
+    in: scene-overlay-ts-3m8dc
+    context: "The selected arrow, lit, with its handles: an end, a bend."
+    signature: "drawSelectedArrow(state: SceneState, g: Graphics, eh: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:78
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawselectedboxes-1r6j0:
+    kind: function
+    name: drawSelectedBoxes()
+    in: scene-overlay-ts-3m8dc
+    context: The selected boxes' outlines, and the corner to resize the one selected box by.
+    signature: "drawSelectedBoxes(state: SceneState, g: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:119
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  overlay-ts-drawspotpairs-san6x:
+    kind: function
+    name: drawSpotPairs()
+    in: scene-overlay-ts-3m8dc
+    context: "A flow step between boxes with no arrow between them on this diagram: draw where it would go."
+    signature: "drawSpotPairs(state: SceneState, eh: Graphics, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/overlay.ts:93
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: overlay-ts-curve-1d5hu, to: geometry-ts-traceroute-1obmx}
+  - {from: overlay-ts-drawconnectpreview-17kl2, to: geometry-ts-center-vbw2y}
+  - {from: overlay-ts-drawconnectpreview-17kl2, to: geometry-ts-route-26rwn}
+  - {from: overlay-ts-drawedgehighlights-1gfkl, to: overlay-ts-curve-1d5hu}
+  - {from: overlay-ts-drawedgehighlights-1gfkl, to: overlay-ts-drawselectedarrow-zlrma}
+  - {from: overlay-ts-drawedgehighlights-1gfkl, to: overlay-ts-drawspotpairs-san6x}
+  - {from: overlay-ts-drawhover-1758i, to: measure-ts-handles-9geml}
+  - {from: overlay-ts-drawhover-1758i, to: overlay-ts-drawknob-1kgov}
+  - {from: overlay-ts-drawmarquee-1x56q, to: geometry-ts-rectfromcorners-kqq47}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: flow-ts-drawsteps-z3fmk}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawconnectpreview-17kl2}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawdroptarget-nqenc}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawedgehighlights-1gfkl}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawguides-18shb}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawhover-1758i}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawpickedframes-59e3m}
+  - {from: overlay-ts-drawoverlay-1dyr1, to: overlay-ts-drawselectedboxes-1r6j0}
+  - {from: overlay-ts-drawpinnedside-x5ca1, to: lookup-ts-endrect-10url}
+  - {from: overlay-ts-drawpinnedside-x5ca1, to: lookup-ts-shapeof-18bgx}
+  - {from: overlay-ts-drawselectedarrow-zlrma, to: lookup-ts-shapeof-18bgx}
+  - {from: overlay-ts-drawselectedarrow-zlrma, to: overlay-ts-curve-1d5hu}
+  - {from: overlay-ts-drawselectedarrow-zlrma, to: overlay-ts-drawpinnedside-x5ca1}
+  - {from: overlay-ts-drawspotpairs-san6x, to: geometry-ts-arrowhead-hmfce}
+  - {from: overlay-ts-drawspotpairs-san6x, to: geometry-ts-route-26rwn}
+  - {from: overlay-ts-drawspotpairs-san6x, to: overlay-ts-curve-1d5hu}

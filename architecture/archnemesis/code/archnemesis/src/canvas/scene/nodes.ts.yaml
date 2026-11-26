@@ -1,0 +1,94 @@
+# archnemesis:src/canvas/scene/nodes.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-nodes-ts-1vydg:
+    kind: module
+    name: nodes.ts
+    in: canvas-scene-iaxtu
+    context: "Building a box's display objects: its card, logo tile, name, subtitle, badges, tags and a table's columns, and replacing them when the box changes."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/nodes.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts
+  nodes-ts-addfooter-1n397:
+    kind: function
+    name: addFooter()
+    in: scene-nodes-ts-1vydg
+    context: "The bottom of a box: what's inside, connections off the diagram, and its tags. Returns where the off-diagram label is."
+    signature: "addFooter(root: Container<ContainerChild>, node: CanvasNode, inset: number): Rect | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:31
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodes-ts-cardcontext-y1xjk:
+    kind: function
+    name: cardContext()
+    in: scene-nodes-ts-1vydg
+    context: "One shared drawing per look: thousands of cards, a handful of geometries."
+    signature: "cardContext(state: SceneState, n: CanvasNode): GraphicsContext"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:188
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodes-ts-drawcolumns-d9i25:
+    kind: function
+    name: drawColumns()
+    in: scene-nodes-ts-1vydg
+    context: "A table's columns under its name: a mark (PK, FK, UQ, PII), the name, its type on the right."
+    signature: "drawColumns(root: Container<ContainerChild>, node: CanvasNode): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:140
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodes-ts-makeslimview-1qem2:
+    kind: function
+    name: makeSlimView()
+    in: scene-nodes-ts-1vydg
+    context: "A function: a slim box with its kind's icon, its name, and what it is. No stripe on its edge: arrows land on the edges, and a stripe there reads as part of the arrowhead."
+    signature: "makeSlimView(state: SceneState, node: CanvasNode, sig: string): NodeView"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:221
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodes-ts-makeview-gzt5w:
+    kind: function
+    name: makeView()
+    in: scene-nodes-ts-1vydg
+    signature: "makeView(state: SceneState, node: CanvasNode, sig: string): NodeView"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:71
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodes-ts-replaceview-d7txq:
+    kind: function
+    name: replaceView()
+    in: scene-nodes-ts-1vydg
+    signature: "replaceView(state: SceneState, v: NodeView, n: CanvasNode, sig: string): NodeView"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodes.ts:13
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: nodes-ts-drawcolumns-d9i25, to: measure-ts-clip-103pb}
+  - {from: nodes-ts-makeslimview-1qem2, to: icons-ts-kindtexture-ejpz6}
+  - {from: nodes-ts-makeslimview-1qem2, to: measure-ts-basealpha-crz7b}
+  - {from: nodes-ts-makeslimview-1qem2, to: measure-ts-clip-103pb}
+  - {from: nodes-ts-makeslimview-1qem2, to: nodes-ts-cardcontext-y1xjk}
+  - {from: nodes-ts-makeview-gzt5w, to: icons-ts-icontexture-1gacf}
+  - {from: nodes-ts-makeview-gzt5w, to: icons-ts-kindtexture-ejpz6}
+  - {from: nodes-ts-makeview-gzt5w, to: measure-ts-basealpha-crz7b}
+  - {from: nodes-ts-makeview-gzt5w, to: measure-ts-clip-103pb}
+  - {from: nodes-ts-makeview-gzt5w, to: nodes-ts-addfooter-1n397}
+  - {from: nodes-ts-makeview-gzt5w, to: nodes-ts-cardcontext-y1xjk}
+  - {from: nodes-ts-makeview-gzt5w, to: nodes-ts-drawcolumns-d9i25}
+  - {from: nodes-ts-makeview-gzt5w, to: nodes-ts-makeslimview-1qem2}
+  - {from: nodes-ts-makeview-gzt5w, to: project-ts-tableshowscolumns-v1kor}
+  - {from: nodes-ts-replaceview-d7txq, to: measure-ts-basealpha-crz7b}
+  - {from: nodes-ts-replaceview-d7txq, to: nodes-ts-makeview-gzt5w}

@@ -1,0 +1,228 @@
+# archnemesis:server/scip.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-scip-ts-61z99:
+    kind: module
+    name: scip.ts
+    in: srv-index
+    context: "The SCIP adapter: reads an index.scip (written by rust-analyzer, scip-typescript, scip-python, scip-java, scip-go, scip-clang, scip-ruby, scip-dotnet...) into Archnemesis's neutral code index. Every SCIP indexer writes the same format, so this one reader covers them all."
+    tech: [TypeScript]
+    path: archnemesis:server/scip.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts
+  scip-ts-assignedname-1436j:
+    kind: function
+    name: assignedName()
+    in: server-scip-ts-61z99
+    context: The last descriptor when it's a term ("Card." or "Hub#onClick."), with its type if it has one.
+    signature: "assignedName(descriptors: string): { name: string; owner?: string | undefined; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:228
+  scip-ts-assignsfunction-1nc1w:
+    kind: function
+    name: assignsFunction()
+    in: server-scip-ts-61z99
+    context: "What follows a name where it's defined assigns it a function: \"= (a) =>\", \"= async x =>\", \"= function\", \": FC<P> = …\", \"= memo(\", \"= forwardRef(\" (the next line when it breaks after =)."
+    signature: "assignsFunction(after: string, next?: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:238
+  scip-ts-endof-xszbx:
+    kind: function
+    name: endOf()
+    in: server-scip-ts-61z99
+    signature: "endOf: (range: number[]) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:286
+  scip-ts-functionname-1empm:
+    kind: function
+    name: functionName()
+    in: server-scip-ts-61z99
+    context: "The last descriptor, when it's a method or function (\"name().\" or \"name(+1).\"), and the type it belongs to: \"Hub#post().\" (most indexers) or \"impl#[Hub]post().\" (rust-analyzer)."
+    signature: "functionName(descriptors: string): { name: string; owner?: string | undefined; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:216
+  scip-ts-ints-17bpg:
+    kind: function
+    name: ints()
+    in: server-scip-ts-61z99
+    context: A repeated int32, packed or not.
+    signature: "ints(r: Reader, wire: number, into: number[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:60
+  scip-ts-islanguage-1n7x0:
+    kind: function
+    name: isLanguage()
+    in: server-scip-ts-61z99
+    signature: "isLanguage: (manager: string, pkg: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:283
+  scip-ts-lineof-1q2gc:
+    kind: function
+    name: lineOf()
+    in: server-scip-ts-61z99
+    signature: "lineOf: (range: number[]) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:285
+  scip-ts-parsesymbol-5yda4:
+    kind: function
+    name: parseSymbol()
+    in: server-scip-ts-61z99
+    context: "A SCIP symbol: \"<scheme> <manager> <package> <version> <descriptors>\", a space inside a field written as two. \"local N\" symbols are a file's own locals."
+    signature: "parseSymbol(sym: string): { manager: string; pkg: string; version: string; descriptors: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:187
+  scip-ts-readdocument-1zcnd:
+    kind: function
+    name: readDocument()
+    in: server-scip-ts-61z99
+    signature: "readDocument(b: Uint8Array<ArrayBufferLike>): Doc"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:156
+  scip-ts-reader-bytes-1p9fj:
+    kind: function
+    name: Reader.bytes()
+    in: server-scip-ts-61z99
+    tech: [method of Reader]
+    signature: "bytes(): Uint8Array<ArrayBufferLike>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:34
+  scip-ts-reader-constructor-1la3g:
+    kind: function
+    name: Reader.<constructor>()
+    in: server-scip-ts-61z99
+    tech: [method of Reader]
+    signature: "constructor(buf: Uint8Array<ArrayBufferLike>): Reader"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:18
+  scip-ts-reader-fields-1le9b:
+    kind: function
+    name: Reader.fields()
+    in: server-scip-ts-61z99
+    context: Each field as [number, wire type]; the caller reads or skips its value.
+    tech: [method of Reader]
+    signature: "fields(): Generator<[number, number], any, any>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:49
+  scip-ts-reader-skip-1dgo2:
+    kind: function
+    name: Reader.skip()
+    in: server-scip-ts-61z99
+    tech: [method of Reader]
+    signature: "skip(wire: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:41
+  scip-ts-reader-varint-1dcg3:
+    kind: function
+    name: Reader.varint()
+    in: server-scip-ts-61z99
+    tech: [method of Reader]
+    signature: "varint(): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:22
+  scip-ts-readoccurrence-1x7oz:
+    kind: function
+    name: readOccurrence()
+    in: server-scip-ts-61z99
+    signature: "readOccurrence(b: Uint8Array<ArrayBufferLike>): Occurrence"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:82
+  scip-ts-readscipdocuments-aqbis:
+    kind: function
+    name: readScipDocuments()
+    in: server-scip-ts-61z99
+    signature: "readScipDocuments(buf: Uint8Array<ArrayBufferLike>): Doc[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:171
+  scip-ts-readsymbol-1wtzo:
+    kind: function
+    name: readSymbol()
+    in: server-scip-ts-61z99
+    signature: "readSymbol(b: Uint8Array<ArrayBufferLike>): { symbol: string; kind: number; display: string; docs: string[]; signature: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:95
+  scip-ts-sciptoindex-ei4gc:
+    kind: function
+    name: scipToIndex()
+    in: server-scip-ts-61z99
+    context: "SCIP to the neutral index: functions are the definitions whose symbol is a method or function; a call is a reference to one inside another's body (exact: the indexer resolved it); a reference to another package's symbol is a use of that library."
+    signature: "scipToIndex(buf: Uint8Array<ArrayBufferLike>, opts: { repo: string; sha?: string | undefined; read?: ((path: string) => string | null) | undefined; }): CodeIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:293
+  scip-ts-signatureof-1obmt:
+    kind: function
+    name: signatureOf()
+    in: server-scip-ts-61z99
+    context: "A symbol's signature and doc comment from its documentation: indexers write the signature as a code block (```ts\\nfunction newId(prefix: string): string\\n```) and the comment as text. The declaring words go (function, fn, def, func, pub, async, (method)…): what's left reads as the function's own line."
+    signature: "signatureOf(docs: string[], given?: string): { signature?: string | undefined; doc?: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:127
+  scip-ts-str-7u579:
+    kind: function
+    name: str()
+    in: server-scip-ts-61z99
+    signature: "str: (r: Reader) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scip.ts:58
+connections:
+  - {from: scip-ts-ints-17bpg, to: scip-ts-reader-bytes-1p9fj}
+  - {from: scip-ts-ints-17bpg, to: scip-ts-reader-constructor-1la3g}
+  - {from: scip-ts-ints-17bpg, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-reader-bytes-1p9fj}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-reader-constructor-1la3g}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-reader-fields-1le9b}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-reader-skip-1dgo2}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-readoccurrence-1x7oz}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-readsymbol-1wtzo}
+  - {from: scip-ts-readdocument-1zcnd, to: scip-ts-str-7u579}
+  - {from: scip-ts-reader-bytes-1p9fj, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-reader-fields-1le9b, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-reader-skip-1dgo2, to: scip-ts-reader-bytes-1p9fj}
+  - {from: scip-ts-reader-skip-1dgo2, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-ints-17bpg}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-reader-constructor-1la3g}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-reader-fields-1le9b}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-reader-skip-1dgo2}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-readoccurrence-1x7oz, to: scip-ts-str-7u579}
+  - {from: scip-ts-readscipdocuments-aqbis, to: scip-ts-readdocument-1zcnd}
+  - {from: scip-ts-readscipdocuments-aqbis, to: scip-ts-reader-bytes-1p9fj}
+  - {from: scip-ts-readscipdocuments-aqbis, to: scip-ts-reader-constructor-1la3g}
+  - {from: scip-ts-readscipdocuments-aqbis, to: scip-ts-reader-fields-1le9b}
+  - {from: scip-ts-readscipdocuments-aqbis, to: scip-ts-reader-skip-1dgo2}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-reader-bytes-1p9fj}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-reader-constructor-1la3g}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-reader-fields-1le9b}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-reader-skip-1dgo2}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-reader-varint-1dcg3}
+  - {from: scip-ts-readsymbol-1wtzo, to: scip-ts-str-7u579}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-assignedname-1436j}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-assignsfunction-1nc1w}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-endof-xszbx}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-functionname-1empm}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-islanguage-1n7x0}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-lineof-1q2gc}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-parsesymbol-5yda4}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-readscipdocuments-aqbis}
+  - {from: scip-ts-sciptoindex-ei4gc, to: scip-ts-signatureof-1obmt}
+  - {from: scip-ts-str-7u579, to: scip-ts-reader-bytes-1p9fj}

@@ -1,0 +1,26 @@
+# archnemesis:src/ui/Shortcuts.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-shortcuts-tsx-plkld:
+    kind: module
+    name: Shortcuts.tsx
+    in: web-ui
+    context: "The cheat sheet behind the ? button: what each key or gesture does, grouped."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Shortcuts.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Shortcuts.tsx
+  shortcuts-tsx-shortcuts-12lr2:
+    kind: function
+    name: Shortcuts()
+    in: ui-shortcuts-tsx-plkld
+    signature: "Shortcuts({ onClose, mcp, fromLink, onGettingStarted, }: { onClose: () => void; mcp?: McpSetup | null | undefined; fromLink: boolean; onGettingStarted: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Shortcuts.tsx:72
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: shortcuts-tsx-shortcuts-12lr2, to: connectagent-tsx-agentcommand-28iwl}

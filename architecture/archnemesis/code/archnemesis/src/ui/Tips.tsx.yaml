@@ -1,0 +1,24 @@
+# archnemesis:src/ui/Tips.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-tips-tsx-z5dvr:
+    kind: module
+    name: Tips.tsx
+    in: web-ui
+    context: "Tooltips: anything with data-tip=\"…\" gets one, shortly after the pointer rests on it. One listener for the whole app, drawn above everything (not clipped by the panel it's in)."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Tips.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Tips.tsx
+  tips-tsx-tips-ar6yl:
+    kind: function
+    name: Tips()
+    in: ui-tips-tsx-z5dvr
+    signature: "Tips(): ReactPortal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Tips.tsx:8
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-types-react-dom-1pvn2

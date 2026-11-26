@@ -1,0 +1,28 @@
+# archnemesis:src/workspace/useViewRoute.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useviewroute-ts-1dqic:
+    kind: module
+    name: useViewRoute.ts
+    in: web-workspace
+    context: "Which diagram is open: the address bar's route (and the hash changing under us), the diagram that follows from it, the tab's title, and the address bar following the selection."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useViewRoute.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useViewRoute.ts
+  useviewroute-ts-useviewroute-mfp6l:
+    kind: function
+    name: useViewRoute()
+    in: workspace-useviewroute-ts-1dqic
+    signature: "useViewRoute({ store, idx, diffIdx, sel, }: { store: Store; idx: ModelIndex; diffIdx: ModelIndex | null; sel: Selection; }): { route: Route; diagramId: string | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useViewRoute.ts:11
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: useviewroute-ts-useviewroute-mfp6l, to: favicon-ts-showintab-8du03}
+  - {from: useviewroute-ts-useviewroute-mfp6l, to: project-ts-diagramforscope-1ff5x}
+  - {from: useviewroute-ts-useviewroute-mfp6l, to: route-ts-hashfor-km4zf}
+  - {from: useviewroute-ts-useviewroute-mfp6l, to: route-ts-parsehash-1rghw}

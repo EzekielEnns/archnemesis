@@ -1,0 +1,9 @@
+# archnemesis:src/canvas/scene: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-scene-iaxtu:
+    kind: module
+    name: scene
+    in: web-canvas
+    path: archnemesis:src/canvas/scene
+    tags: [generated]

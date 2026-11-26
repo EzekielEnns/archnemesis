@@ -1,0 +1,27 @@
+# archnemesis:server/auth/builtin.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-builtin-ts-126kf:
+    kind: module
+    name: builtin.ts
+    in: srv-auth
+    context: The providers that come with Archnemesis, by the name ARCHNM_AUTH gives them.
+    tech: [TypeScript]
+    path: archnemesis:server/auth/builtin.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/builtin.ts
+  builtin-ts-builtinprovider-1iy59:
+    kind: function
+    name: builtinProvider()
+    in: auth-builtin-ts-126kf
+    signature: 'builtinProvider(cfg: { mode: string; builtin: "github" | "local" | "header" | "tokens" | "tailscale" | "iap" | "cloudflare-access" | "oidc" | null; module: string | null; publicUrl: string; loopback: boolean; ... 11 more ...; tokenKey: string | undefined; }, ctx: ProviderContext, deps?: BuiltinDe…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/builtin.ts:16
+connections:
+  - {from: builtin-ts-builtinprovider-1iy59, to: github-ts-githubprovider-nkujz}
+  - {from: builtin-ts-builtinprovider-1iy59, to: header-ts-headerprovider-1bd11}
+  - {from: builtin-ts-builtinprovider-1iy59, to: local-ts-localprovider-8n77d}
+  - {from: builtin-ts-builtinprovider-1iy59, to: oidc-ts-oidcprovider-19d12}
+  - {from: builtin-ts-builtinprovider-1iy59, to: tokens-ts-tokensprovider-1526u}

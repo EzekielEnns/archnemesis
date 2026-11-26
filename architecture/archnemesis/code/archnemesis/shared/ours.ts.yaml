@@ -1,0 +1,42 @@
+# archnemesis:shared/ours.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-ours-ts-vzl2m:
+    kind: module
+    name: ours.ts
+    in: shared-support
+    context: "Which paths belong to a design's folder (the files Archnemesis reads and writes), and how to find the folders in a list of paths that hold a design. Pure: the server's git sync, the browser's \"open files\" and the public GitHub loader all use the same rule. code/ mirrors the source tree, so it goes as deep as the code does: each part a plain name, never \".\" or \"..\"."
+    tech: [TypeScript]
+    path: archnemesis:shared/ours.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ours.ts
+  ours-ts-designfolders-mfne6:
+    kind: function
+    name: designFolders()
+    in: shared-ours-ts-vzl2m
+    context: The folders ("" for the top) that hold a design file, shortest first.
+    signature: "designFolders(paths: Iterable<string>): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ours.ts:15
+  ours-ts-filesunder-1kr9b:
+    kind: function
+    name: filesUnder()
+    in: shared-ours-ts-vzl2m
+    context: The files under `folder` that are a design's, with the folder taken off their paths.
+    signature: "filesUnder<T>(all: Map<string, T>, folder: string): Map<string, T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ours.ts:26
+  ours-ts-isours-8rj10:
+    kind: function
+    name: isOurs()
+    in: shared-ours-ts-vzl2m
+    context: Is this path (relative to a design's folder) one Archnemesis reads and writes?
+    signature: "isOurs: (rel: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ours.ts:12
+connections:
+  - {from: ours-ts-filesunder-1kr9b, to: ours-ts-isours-8rj10}

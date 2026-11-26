@@ -1,0 +1,551 @@
+# archnemesis:src/backend/types.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-types-ts-18vsp:
+    kind: module
+    name: types.ts
+    in: web-backend
+    context: "What the app asks of whatever keeps its designs. The Node server is one answer (HTTP, a live WebSocket, git, GitHub, sign-in); the static build's is another (everything in this browser, no network). The app asks for a capability (`backend.git?`, `backend.github?`, ...) and shows the matching UI only when it's there: it never checks which backend it has."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/types.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts
+  types-ts-backend-config-1rscx:
+    kind: function
+    name: Backend.config()
+    in: backend-types-ts-18vsp
+    context: "How this instance works: sign-in mode, the MCP address, what it can keep."
+    tech: [method of Backend]
+    signature: "config(): Promise<InstanceConfig>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:178
+  types-ts-backend-me-ci4a3:
+    kind: function
+    name: Backend.me()
+    in: backend-types-ts-18vsp
+    context: Who you are (throws "signin" when you aren't signed in).
+    tech: [method of Backend]
+    signature: "me(): Promise<Me>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:180
+  types-ts-backenderror-constructor-trfnp:
+    kind: function
+    name: BackendError.<constructor>()
+    in: backend-types-ts-18vsp
+    tech: [method of BackendError]
+    signature: "constructor(code: BackendErrorCode, message: string, status?: number | null): BackendError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:39
+  types-ts-docconnection-close-e5j69:
+    kind: function
+    name: DocConnection.close()
+    in: backend-types-ts-18vsp
+    tech: [method of DocConnection]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:98
+  types-ts-dochandlers-onevent-1my7r:
+    kind: function
+    name: DocHandlers.onEvent()
+    in: backend-types-ts-18vsp
+    tech: [method of DocHandlers]
+    signature: "onEvent(event: DocEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:92
+    references:
+      - dependency: lib-y-protocols-pwcjh
+  types-ts-dochandlers-onstatus-1tui3:
+    kind: function
+    name: DocHandlers.onStatus()
+    in: backend-types-ts-18vsp
+    context: "\"live\" once the document has loaded (and after a reconnect), \"offline\" while it can't sync."
+    tech: [method of DocHandlers]
+    signature: 'onStatus(status: "live" | "signin" | "offline"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:91
+  types-ts-portablecapability-copy-11d1v:
+    kind: function
+    name: PortableCapability.copy()
+    in: backend-types-ts-18vsp
+    context: A design of your own, copied from a local one or a read-only one from GitHub.
+    tech: [method of PortableCapability]
+    signature: "copy(key: string): Promise<{ key: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:169
+  types-ts-portablecapability-download-1ffb6:
+    kind: function
+    name: PortableCapability.download()
+    in: backend-types-ts-18vsp
+    context: Save the design's files as a .zip.
+    tech: [method of PortableCapability]
+    signature: "download(key: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:163
+  types-ts-portablecapability-fragmentof-1g3lj:
+    kind: function
+    name: PortableCapability.fragmentOf()
+    in: backend-types-ts-18vsp
+    context: "The fragment that opens a read-only design again (null: it isn't one)."
+    tech: [method of PortableCapability]
+    signature: "fragmentOf(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:171
+  types-ts-portablecapability-link-lm0cr:
+    kind: function
+    name: PortableCapability.link()
+    in: backend-types-ts-18vsp
+    context: "A link that carries the design (`tooBig`: it wouldn't fit in a link)."
+    tech: [method of PortableCapability]
+    signature: "link(key: string): Promise<{ url: string; length: number; } | { tooBig: true; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:161
+  types-ts-portablecapability-openfiles-c4fl5:
+    kind: function
+    name: PortableCapability.openFiles()
+    in: backend-types-ts-18vsp
+    context: "Pick a .zip or a folder of a design's files and open it as a new design (null: cancelled)."
+    tech: [method of PortableCapability]
+    signature: 'openFiles(kind: "zip" | "folder"): Promise<{ key: string; } | null>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:165
+  types-ts-portablecapability-openshared-102rc:
+    kind: function
+    name: PortableCapability.openShared()
+    in: backend-types-ts-18vsp
+    context: Open what a `#~d=` or `#~gh=` link says (the fragment without the `#`).
+    tech: [method of PortableCapability]
+    signature: "openShared(fragment: string, o?: { again?: boolean | undefined; } | undefined): Promise<SharedOpen>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:167
+  types-ts-portablecapability-whatsnew-lg7sk:
+    kind: function
+    name: PortableCapability.whatsNew()
+    in: backend-types-ts-18vsp
+    context: "On a fork opened from GitHub: what changed against the repository's main branch."
+    tech: [method of PortableCapability]
+    signature: "whatsNew(doc: string): Promise<WhatsNew | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:173
+  types-ts-typeliteral34-create-1sko1:
+    kind: function
+    name: typeLiteral34:create()
+    in: backend-types-ts-18vsp
+    context: "`example`: start from the example shop instead of an empty design."
+    signature: "create(name: string, opts?: { example?: boolean | undefined; } | undefined): Promise<{ key: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:187
+  types-ts-typeliteral34-info-7i2ig:
+    kind: function
+    name: typeLiteral34:info()
+    in: backend-types-ts-18vsp
+    context: A design or fork by document name (throws "missing").
+    signature: "info(doc: string): Promise<DesignDoc>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:185
+  types-ts-typeliteral34-list-1e2bc:
+    kind: function
+    name: typeLiteral34:list()
+    in: backend-types-ts-18vsp
+    signature: "list(): Promise<DesignInfo[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:183
+  types-ts-typeliteral34-open-9v861:
+    kind: function
+    name: typeLiteral34:open()
+    in: backend-types-ts-18vsp
+    context: "Open a design's document into `ydoc`: cached here, kept in step with the backend."
+    signature: "open(info: DesignDoc, ydoc: Doc, handlers: DocHandlers): DocConnection"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:190
+    references:
+      - dependency: lib-yjs-1y6wn
+  types-ts-typeliteral34-remove-1pfvs:
+    kind: function
+    name: typeLiteral34:remove()
+    in: backend-types-ts-18vsp
+    signature: "remove(key: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:188
+  types-ts-typeliteral34-share-3rhm1:
+    kind: function
+    name: typeLiteral34:share()
+    in: backend-types-ts-18vsp
+    context: Make a design private to you, or share it with the team.
+    signature: "share(key: string, priv: boolean): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:194
+  types-ts-typeliteral34-state-z99us:
+    kind: function
+    name: typeLiteral34:state()
+    in: backend-types-ts-18vsp
+    context: The whole model as JSON (Export).
+    signature: "state(doc: string): Promise<StateJson>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:192
+  types-ts-typeliteral40-copy-1lzwr:
+    kind: function
+    name: typeLiteral40:copy()
+    in: backend-types-ts-18vsp
+    context: A new private design of yours, copied from this document as it is now.
+    signature: "copy(doc: string): Promise<{ key: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:204
+  types-ts-typeliteral40-create-gtwp7:
+    kind: function
+    name: typeLiteral40:create()
+    in: backend-types-ts-18vsp
+    context: A new link (optionally ending after `days`); its address, with the token, is only in this answer.
+    signature: "create(doc: string, days: number | null): Promise<{ url: string; link: ShareLink; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:201
+  types-ts-typeliteral40-holds-fvqb3:
+    kind: function
+    name: typeLiteral40:holds()
+    in: backend-types-ts-18vsp
+    context: Whether this tab holds a share link for the design (it may open without signing in).
+    signature: "holds(doc: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:206
+  types-ts-typeliteral40-list-1058d:
+    kind: function
+    name: typeLiteral40:list()
+    in: backend-types-ts-18vsp
+    signature: "list(doc: string): Promise<{ links: ShareLink[]; reach: ShareReach; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:199
+  types-ts-typeliteral40-revoke-cs0io:
+    kind: function
+    name: typeLiteral40:revoke()
+    in: backend-types-ts-18vsp
+    signature: "revoke(doc: string, id: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:202
+  types-ts-typeliteral44-at-ipdqg:
+    kind: function
+    name: typeLiteral44:at()
+    in: backend-types-ts-18vsp
+    signature: "at(key: string, sha: string): Promise<StateJson>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:212
+  types-ts-typeliteral44-list-96u9m:
+    kind: function
+    name: typeLiteral44:list()
+    in: backend-types-ts-18vsp
+    signature: "list(key: string): Promise<VersionInfo[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:211
+  types-ts-typeliteral45-discard-a3n7v:
+    kind: function
+    name: typeLiteral45:discard()
+    in: backend-types-ts-18vsp
+    signature: "discard(doc: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:232
+  types-ts-typeliteral45-edit-oyj74:
+    kind: function
+    name: typeLiteral45:edit()
+    in: backend-types-ts-18vsp
+    context: "Edits made on main: they go to your fork (made on the first)."
+    signature: "edit(key: string, batches: { ops: Op[]; label: string; }[]): Promise<{ doc: string; created: boolean; errors: string[]; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:224
+  types-ts-typeliteral45-follow-1jca0:
+    kind: function
+    name: typeLiteral45:follow()
+    in: backend-types-ts-18vsp
+    signature: "follow(key: string, o: FollowOptions): Promise<GitInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:220
+  types-ts-typeliteral45-fork-1lja4:
+    kind: function
+    name: typeLiteral45:fork()
+    in: backend-types-ts-18vsp
+    signature: "fork(key: string, name?: string | undefined): Promise<{ doc: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:222
+  types-ts-typeliteral45-info-pyl7c:
+    kind: function
+    name: typeLiteral45:info()
+    in: backend-types-ts-18vsp
+    signature: "info(key: string): Promise<GitInfo | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:219
+  types-ts-typeliteral45-merge-yjv00:
+    kind: function
+    name: typeLiteral45:merge()
+    in: backend-types-ts-18vsp
+    signature: "merge(doc: string): Promise<{ result: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:230
+  types-ts-typeliteral45-propose-16vkm:
+    kind: function
+    name: typeLiteral45:propose()
+    in: backend-types-ts-18vsp
+    signature: "propose(doc: string): Promise<Proposal>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:231
+  types-ts-typeliteral45-savenotes-17phs:
+    kind: function
+    name: typeLiteral45:saveNotes()
+    in: backend-types-ts-18vsp
+    context: "Notes aren't in git: they go on main itself."
+    signature: "saveNotes(doc: string, ops: Op[], label: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:229
+  types-ts-typeliteral45-sync-1vfsv:
+    kind: function
+    name: typeLiteral45:sync()
+    in: backend-types-ts-18vsp
+    signature: "sync(key: string): Promise<GitInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:221
+  types-ts-typeliteral45-whatsnew-1hmgp:
+    kind: function
+    name: typeLiteral45:whatsNew()
+    in: backend-types-ts-18vsp
+    context: "On a fork: what changed since it started (null: nothing to say)."
+    signature: "whatsNew(doc: string): Promise<WhatsNew | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:234
+  types-ts-typeliteral53-branches-1fd21:
+    kind: function
+    name: typeLiteral53:branches()
+    in: backend-types-ts-18vsp
+    signature: "branches(repo: string): Promise<BranchChoice[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:241
+  types-ts-typeliteral53-disconnect-19vj3:
+    kind: function
+    name: typeLiteral53:disconnect()
+    in: backend-types-ts-18vsp
+    signature: "disconnect(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:245
+  types-ts-typeliteral53-login-9no4s:
+    kind: function
+    name: typeLiteral53:login()
+    in: backend-types-ts-18vsp
+    signature: "login(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:243
+  types-ts-typeliteral53-logout-9cf8n:
+    kind: function
+    name: typeLiteral53:logout()
+    in: backend-types-ts-18vsp
+    signature: "logout(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:244
+  types-ts-typeliteral53-repos-1ffdp:
+    kind: function
+    name: typeLiteral53:repos()
+    in: backend-types-ts-18vsp
+    signature: "repos(): Promise<RepoChoice[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:240
+  types-ts-typeliteral53-setup-1hosp:
+    kind: function
+    name: typeLiteral53:setup()
+    in: backend-types-ts-18vsp
+    signature: "setup(org?: string | undefined): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:242
+  types-ts-typeliteral53-status-1vqvo:
+    kind: function
+    name: typeLiteral53:status()
+    in: backend-types-ts-18vsp
+    signature: "status(): Promise<GitHubStatus>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:239
+  types-ts-typeliteral54-create-1hwks:
+    kind: function
+    name: typeLiteral54:create()
+    in: backend-types-ts-18vsp
+    signature: "create(label: string): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:251
+  types-ts-typeliteral54-list-133vr:
+    kind: function
+    name: typeLiteral54:list()
+    in: backend-types-ts-18vsp
+    signature: "list(): Promise<TokenInfo[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:250
+  types-ts-typeliteral54-revoke-3izxr:
+    kind: function
+    name: typeLiteral54:revoke()
+    in: backend-types-ts-18vsp
+    signature: "revoke(id: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:252
+  types-ts-typeliteral55-signout-1pk62:
+    kind: function
+    name: typeLiteral55:signOut()
+    in: backend-types-ts-18vsp
+    signature: "signOut(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:260
+  types-ts-typeliteral55-start-1s5uh:
+    kind: function
+    name: typeLiteral55:start()
+    in: backend-types-ts-18vsp
+    context: "A button: the browser goes to the provider's start URL, and comes back to where it was, signed in."
+    signature: "start(url: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:259
+  types-ts-typeliteral55-withtoken-1ne7y:
+    kind: function
+    name: typeLiteral55:withToken()
+    in: backend-types-ts-18vsp
+    signature: "withToken(token: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:257
+  types-ts-typeliteral56-decide-1hlkv:
+    kind: function
+    name: typeLiteral56:decide()
+    in: backend-types-ts-18vsp
+    context: "Allow or deny: where to send the browser next."
+    signature: "decide(id: string, allow: boolean): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:267
+  types-ts-typeliteral56-read-7prwr:
+    kind: function
+    name: typeLiteral56:read()
+    in: backend-types-ts-18vsp
+    signature: "read(id: string): Promise<OauthAsk>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:265
+  types-ts-typeliteral57-libstats-11aew:
+    kind: function
+    name: typeLiteral57:libstats()
+    in: backend-types-ts-18vsp
+    signature: "libstats(doc: string): Promise<{ enabled: boolean; stats: Record<string, LibStats | null>; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:273
+  types-ts-typeliteral57-touched-1mic9:
+    kind: function
+    name: typeLiteral57:touched()
+    in: backend-types-ts-18vsp
+    signature: "touched(doc: string, id: string): Promise<TouchedInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:272
+  types-ts-typeliteral59-search-iz06g:
+    kind: function
+    name: typeLiteral59:search()
+    in: backend-types-ts-18vsp
+    signature: "search(q: string, signal?: AbortSignal | undefined): Promise<string[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:281
+  types-ts-typeliteral59-svg-1t2qk:
+    kind: function
+    name: typeLiteral59:svg()
+    in: backend-types-ts-18vsp
+    context: "A logo as SVG text (null: none by that name)."
+    signature: 'svg(technology: string, color?: "brand" | undefined): Promise<string | null>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:283
+  types-ts-typeliteral59-url-donuj:
+    kind: function
+    name: typeLiteral59:url()
+    in: backend-types-ts-18vsp
+    context: The same logo as a plain URL for an <img>, where the backend can serve one.
+    signature: "url(technology: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:285
+  types-ts-typeliteral60-send-mv0n7:
+    kind: function
+    name: typeLiteral60:send()
+    in: backend-types-ts-18vsp
+    signature: "send(r: ReportInput): Promise<number>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:289
+  types-ts-typeliteral61-call-1gy49:
+    kind: function
+    name: typeLiteral61:call()
+    in: backend-types-ts-18vsp
+    signature: "call(body: Record<string, unknown>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:293
+  types-ts-typeliteral61-feedback-1yn33:
+    kind: function
+    name: typeLiteral61:feedback()
+    in: backend-types-ts-18vsp
+    signature: "feedback(body: Record<string, unknown>): Promise<number | undefined>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:294
+  types-ts-typeliteral62-send-12gzc:
+    kind: function
+    name: typeLiteral62:send()
+    in: backend-types-ts-18vsp
+    signature: "send(doc: string, session: string, events: TrailEvent[], keepalive: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:298
+  types-ts-typeliteral63-reply-fdj7i:
+    kind: function
+    name: typeLiteral63:reply()
+    in: backend-types-ts-18vsp
+    signature: "reply(doc: string, r: { seq: number; action: string; text?: string | undefined; }): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/types.ts:302

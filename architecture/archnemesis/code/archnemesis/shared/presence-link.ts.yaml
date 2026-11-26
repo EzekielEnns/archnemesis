@@ -1,0 +1,36 @@
+# archnemesis:shared/presence-link.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-presence-link-ts-1ba13:
+    kind: module
+    name: presence-link.ts
+    in: shared-support
+    context: Presence that follows the connection, not timers.
+    tech: [TypeScript]
+    path: archnemesis:shared/presence-link.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/presence-link.ts
+  presence-link-ts-linkpresence-a7br1:
+    kind: function
+    name: linkPresence()
+    in: shared-presence-link-ts-1ba13
+    context: Wire a provider's awareness to its connection. Returns a function that undoes it.
+    signature: "linkPresence(provider: HocuspocusProvider): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/presence-link.ts:23
+    references:
+      - dependency: lib-hocuspocus-provider-1w7uf
+      - dependency: lib-y-protocols-pwcjh
+  presence-link-ts-stopawarenesstimer-dfz68:
+    kind: function
+    name: stopAwarenessTimer()
+    in: shared-presence-link-ts-1ba13
+    context: "Stop y-protocols' timer: no renewals, and no expiring of others."
+    signature: "stopAwarenessTimer(awareness: { _checkInterval?: unknown; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/presence-link.ts:18
+connections:
+  - {from: presence-link-ts-linkpresence-a7br1, to: presence-link-ts-stopawarenesstimer-dfz68}

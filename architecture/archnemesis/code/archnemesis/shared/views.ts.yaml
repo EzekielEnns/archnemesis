@@ -1,0 +1,145 @@
+# archnemesis:shared/views.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-views-ts-52wlv:
+    kind: module
+    name: views.ts
+    in: shared-model
+    context: "Diagrams as rules: a diagram can say what belongs on it (\"Shop's children and whatever they talk to, minus the warehouse\") instead of listing boxes. When the model changes, the boxes follow: a new app inside Shop shows up on Shop's diagram with no edit to it."
+    tech: [TypeScript]
+    path: archnemesis:shared/views.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts
+  views-ts-adoptrules-nsc9c:
+    kind: function
+    name: adoptRules()
+    in: shared-views-ts-52wlv
+    context: "Start following rules without changing what's on the diagram today: base rules (the inside of the scope, or nothing for a landscape), plus a pin for each extra box and an exclude for each box the rules would add."
+    signature: "adoptRules(idx: ModelIndex, d: Diagram): Diagram"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:443
+  views-ts-describeselector-aqh3b:
+    kind: function
+    name: describeSelector()
+    in: shared-views-ts-52wlv
+    signature: "describeSelector(s: Selector, name: (id: string) => string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:120
+  views-ts-frameids-1197f:
+    kind: function
+    name: frameIds()
+    in: shared-views-ts-52wlv
+    context: "The frame: a scoped diagram's scope and its ancestors, which are never boxes on it."
+    signature: "frameIds(idx: ModelIndex, d: Diagram): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:217
+  views-ts-frameops-1iszc:
+    kind: function
+    name: frameOps()
+    in: shared-views-ts-52wlv
+    context: "New things whose parent is drawn as a frame (a file around its functions) join that frame on every diagram that draws it: under the last of their siblings, the same width. Only for new objects, so hiding one by hand stays hidden."
+    signature: 'frameOps(idx: ModelIndex, added: Pick<ModelObject, "kind" | "id" | "parentId">[], skip?: Set<string>): Op[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:322
+  views-ts-insiderules-16n1j:
+    kind: function
+    name: insideRules()
+    in: shared-views-ts-52wlv
+    context: 'Rules for "the inside of x": its children and whatever they talk to.'
+    signature: "insideRules: (scopeId: string) => Rules"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:433
+  views-ts-matchselector-1g0mh:
+    kind: function
+    name: matchSelector()
+    in: shared-views-ts-52wlv
+    signature: "matchSelector(idx: ModelIndex, s: Selector): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:152
+  views-ts-nearestplacedneighbour-5hh21:
+    kind: function
+    name: nearestPlacedNeighbour()
+    in: shared-views-ts-52wlv
+    signature: "nearestPlacedNeighbour(idx: ModelIndex, diagramId: string, id: string): Placement | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:368
+  views-ts-pinedits-tr8o8:
+    kind: function
+    name: pinEdits()
+    in: shared-views-ts-52wlv
+    context: "Keep a ruled diagram's rules in step with hand edits: placing a box the rules don't cover adds it to an `ids` rule; taking off a box the rules put there adds an exclude. Returns the diagram with updated rules, or null if nothing needs to change."
+    signature: "pinEdits(idx: ModelIndex, d: Diagram, added: string[], removed: string[]): Diagram | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:392
+  views-ts-resolve-17a3a:
+    kind: function
+    name: resolve()
+    in: shared-views-ts-52wlv
+    signature: "resolve(idx: ModelIndex, d: Diagram): Resolved"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:221
+  views-ts-selectorerror-geuez:
+    kind: function
+    name: selectorError()
+    in: shared-views-ts-52wlv
+    context: Why a selector is malformed, or null.
+    signature: "selectorError(s: unknown): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:87
+  views-ts-tableof-11dg0:
+    kind: function
+    name: tableOf()
+    in: shared-views-ts-52wlv
+    context: The id, if it's a table.
+    signature: "tableOf(idx: ModelIndex, id: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:148
+  views-ts-topmostoutside-1xwqg:
+    kind: function
+    name: topmostOutside()
+    in: shared-views-ts-52wlv
+    context: The highest ancestor of `id` that isn't on `scopeId`'s own line (itself or an ancestor).
+    signature: "topmostOutside(idx: ModelIndex, id: string, scopeId: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:136
+  views-ts-viewops-1bd47:
+    kind: function
+    name: viewOps()
+    in: shared-views-ts-52wlv
+    context: "`recall`: where this view last had a box it dropped, so one that comes back (an undone move out of its scope) goes back where it was instead of to a new spot."
+    signature: "viewOps(idx: ModelIndex, diagramId: string, recall?: ((diagramId: string, objectId: string) => Placement | undefined) | undefined): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/views.ts:260
+connections:
+  - {from: views-ts-adoptrules-nsc9c, to: views-ts-insiderules-16n1j}
+  - {from: views-ts-adoptrules-nsc9c, to: views-ts-pinedits-tr8o8}
+  - {from: views-ts-adoptrules-nsc9c, to: views-ts-resolve-17a3a}
+  - {from: views-ts-frameids-1197f, to: project-ts-ancestors-lfs25}
+  - {from: views-ts-frameops-1iszc, to: model-ts-boxsize-1fd2o}
+  - {from: views-ts-matchselector-1g0mh, to: project-ts-ancestors-lfs25}
+  - {from: views-ts-matchselector-1g0mh, to: project-ts-descendants-121jc}
+  - {from: views-ts-matchselector-1g0mh, to: views-ts-tableof-11dg0}
+  - {from: views-ts-matchselector-1g0mh, to: views-ts-topmostoutside-1xwqg}
+  - {from: views-ts-nearestplacedneighbour-5hh21, to: project-ts-descendants-121jc}
+  - {from: views-ts-pinedits-tr8o8, to: views-ts-resolve-17a3a}
+  - {from: views-ts-resolve-17a3a, to: views-ts-frameids-1197f}
+  - {from: views-ts-resolve-17a3a, to: views-ts-matchselector-1g0mh}
+  - {from: views-ts-topmostoutside-1xwqg, to: project-ts-ancestors-lfs25}
+  - {from: views-ts-viewops-1bd47, to: actions-ts-freespot-dpuji}
+  - {from: views-ts-viewops-1bd47, to: model-ts-boxsize-1fd2o}
+  - {from: views-ts-viewops-1bd47, to: views-ts-nearestplacedneighbour-5hh21}
+  - {from: views-ts-viewops-1bd47, to: views-ts-resolve-17a3a}

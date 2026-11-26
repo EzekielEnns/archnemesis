@@ -1,0 +1,136 @@
+# archnemesis:shared/codeindex.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-codeindex-ts-2a2wx:
+    kind: module
+    name: codeindex.ts
+    in: shared-model
+    context: The neutral code index, the same for every language, and the one step that turns it into changes to a design. Language knowledge lives only in the adapters that fill the index (server/scip.ts for any SCIP indexer, server/tags.ts for the name-matching fallback, server/manifests.ts for libraries).
+    tech: [TypeScript]
+    path: archnemesis:shared/codeindex.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts
+  codeindex-ts-bare-vb1pf:
+    kind: function
+    name: bare()
+    in: shared-codeindex-ts-2a2wx
+    signature: "bare: (name: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:61
+  codeindex-ts-callsadvice-1l6ql:
+    kind: function
+    name: callsAdvice()
+    in: shared-codeindex-ts-2a2wx
+    context: How the calls were found, the ways to import them, and which one to pick, for scan. A compiler's calls come in as they are; guesses by name are a choice the agent makes (or asks the person about, when the better way means installing something).
+    signature: 'callsAdvice(index: Pick<CodeIndex, "calls">, indexer: { adapter: string; exact: boolean; language?: string | undefined; hint?: string | undefined; } | undefined): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:105
+  codeindex-ts-dirsof-1nblb:
+    kind: function
+    name: dirsOf()
+    in: shared-codeindex-ts-2a2wx
+    signature: "dirsOf: (path: string) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:62
+  codeindex-ts-globre-ul43c:
+    kind: function
+    name: globRe()
+    in: shared-codeindex-ts-2a2wx
+    context: "A path pattern as a regex: * within a folder, ** across folders, {a,b} either."
+    signature: "globRe(glob: string): RegExp"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:80
+  codeindex-ts-hash-1mzif:
+    kind: function
+    name: hash()
+    in: shared-codeindex-ts-2a2wx
+    context: A short stable hash, so long paths make short keys that still differ.
+    signature: "hash(s: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:52
+  codeindex-ts-headercomment-bo5us:
+    kind: function
+    name: headerComment()
+    in: shared-codeindex-ts-2a2wx
+    context: "A file's leading comment, as what the file is for (its first paragraph): line comments (//, #, --, ;, %), a block comment (slash-star, (* *), {- -}) or a docstring (\"\"\" or '''), after a shebang or an encoding line, skipping a licence header. By the shape of comments, not by language, so it reads any language that writes one at the top; null when there's none."
+    signature: "headerComment(text: string, cap?: number): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:596
+  codeindex-ts-homepath-ng5x6:
+    kind: function
+    name: homePath()
+    in: shared-codeindex-ts-2a2wx
+    signature: "homePath(idx: ModelIndex, o: ModelObject): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:558
+  codeindex-ts-importchanges-1rj1i:
+    kind: function
+    name: importChanges()
+    in: shared-codeindex-ts-2a2wx
+    context: The changes that bring the design in line with the index.
+    signature: "importChanges(idx: ModelIndex, index: CodeIndex, opts: ImportOptions): ImportPlan"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:140
+  codeindex-ts-importsummary-164fo:
+    kind: function
+    name: importSummary()
+    in: shared-codeindex-ts-2a2wx
+    context: "In plain words, for the person running the import: the totals, then where things go."
+    signature: 'importSummary(p: ImportPlan, opts?: { under?: string | undefined; calls?: "none" | "all" | "exact" | undefined; }): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:566
+  codeindex-ts-isglob-ovc26:
+    kind: function
+    name: isGlob()
+    in: shared-codeindex-ts-2a2wx
+    context: "A path with a pattern in it: *, ** or {a,b}."
+    signature: "isGlob: (path: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:78
+  codeindex-ts-keyfor-am22x:
+    kind: function
+    name: keyFor()
+    in: shared-codeindex-ts-2a2wx
+    context: "A readable key: the last two parts of the path (and the function), plus a short hash of the whole."
+    signature: "keyFor: (readable: string, whole: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:58
+  codeindex-ts-lasttwo-18u5d:
+    kind: function
+    name: lastTwo()
+    in: shared-codeindex-ts-2a2wx
+    signature: "lastTwo: (path: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:60
+  codeindex-ts-slug-nys7o:
+    kind: function
+    name: slug()
+    in: shared-codeindex-ts-2a2wx
+    signature: "slug: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/codeindex.ts:46
+connections:
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-bare-vb1pf}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-dirsof-1nblb}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-globre-ul43c}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-homepath-ng5x6}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-isglob-ovc26}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-keyfor-am22x}
+  - {from: codeindex-ts-importchanges-1rj1i, to: codeindex-ts-lasttwo-18u5d}
+  - {from: codeindex-ts-importchanges-1rj1i, to: project-ts-descendants-121jc}
+  - {from: codeindex-ts-keyfor-am22x, to: codeindex-ts-hash-1mzif}
+  - {from: codeindex-ts-keyfor-am22x, to: codeindex-ts-slug-nys7o}

@@ -1,0 +1,24 @@
+# archnemesis:src/ui/JobBanner.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-jobbanner-tsx-rqwx7:
+    kind: module
+    name: JobBanner.tsx
+    in: web-ui
+    context: "An agent on a long job (mapping a code base) says what it's on with the MCP progress tool: a strip across the top of the design, with a bar when it gives step and of."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/JobBanner.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/JobBanner.tsx
+  jobbanner-tsx-jobbanner-5rkck:
+    kind: function
+    name: JobBanner()
+    in: ui-jobbanner-tsx-rqwx7
+    signature: "JobBanner({ here, design }: { here: HereEntry[]; design: string; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/JobBanner.tsx:6
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz

@@ -1,0 +1,64 @@
+# archnemesis:shared/clipboard.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-clipboard-ts-84wjr:
+    kind: module
+    name: clipboard.ts
+    in: shared-support
+    context: "Copy and paste on the canvas, as Archnemesis YAML: what's selected (and what's inside it), the connections between them, and where they sit relative to each other. The same idea as Excalidraw's clipboard (its elements as JSON, pasted back as new ones at the pointer), in the format the model files and agents already use, so YAML from an agent or a model file pastes too (without a layout, the…"
+    tech: [TypeScript]
+    path: archnemesis:shared/clipboard.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/clipboard.ts
+  clipboard-ts-copytext-uhapd:
+    kind: function
+    name: copyText()
+    in: shared-clipboard-ts-84wjr
+    context: The selection (with everything inside it that's on this diagram) as YAML.
+    signature: "copyText(idx: ModelIndex, diagramId: string, ids: string[]): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/clipboard.ts:60
+    references:
+      - dependency: lib-yaml-1wm54
+  clipboard-ts-groupkind-poj82:
+    kind: function
+    name: groupKind()
+    in: shared-clipboard-ts-84wjr
+    context: "What a group made from a selection is: a store around tables, a folder around code, an app around components, else a system."
+    signature: 'groupKind(kinds: ("function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table")[]): "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/clipboard.ts:294
+  clipboard-ts-pastedrefs-wj0hd:
+    kind: function
+    name: pastedRefs()
+    in: shared-clipboard-ts-84wjr
+    context: "References from pasted YAML: links (http(s) only) and the rest; a dependency only on a library that's here."
+    signature: "pastedRefs(raw: unknown, existing: (r: string) => ModelObject | undefined): { links?: DocLink[] | undefined; references?: Reference[] | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/clipboard.ts:255
+  clipboard-ts-pasteops-p1bxd:
+    kind: function
+    name: pasteOps()
+    in: shared-clipboard-ts-84wjr
+    context: Ops that add what the text holds as new objects (fresh ids; nothing is merged into what's there), placed with its top-left at `at`. Null when the text isn't Archnemesis YAML. Things inside something that isn't copied go in `parentId` (the view's scope, or a box they were pasted into), or the object the YAML names, when it exists here.
+    signature: "pasteOps(idx: ModelIndex, diagramId: string, text: string, at: { x: number; y: number; }, parentId: string | null): { ops: Op[]; ids: string[]; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/clipboard.ts:143
+    references:
+      - dependency: lib-yaml-1wm54
+connections:
+  - {from: clipboard-ts-copytext-uhapd, to: files-ts-techlist-b6km6}
+  - {from: clipboard-ts-copytext-uhapd, to: model-ts-mergedcontext-d55w6}
+  - {from: clipboard-ts-copytext-uhapd, to: project-ts-descendants-121jc}
+  - {from: clipboard-ts-pastedrefs-wj0hd, to: model-ts-safeurl-f4wjp}
+  - {from: clipboard-ts-pastedrefs-wj0hd, to: notes-ts-titlefromurl-1wamb}
+  - {from: clipboard-ts-pasteops-p1bxd, to: clipboard-ts-pastedrefs-wj0hd}
+  - {from: clipboard-ts-pasteops-p1bxd, to: files-ts-techlist-b6km6}
+  - {from: clipboard-ts-pasteops-p1bxd, to: model-ts-boxsize-1fd2o}
+  - {from: clipboard-ts-pasteops-p1bxd, to: model-ts-makeconnection-22l8u}
+  - {from: clipboard-ts-pasteops-p1bxd, to: model-ts-makeobject-ojdfc}

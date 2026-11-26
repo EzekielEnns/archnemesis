@@ -1,0 +1,61 @@
+# archnemesis:shared/tools/tidy.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-tidy-ts-5dud8:
+    kind: module
+    name: tidy.ts
+    in: shared-tools-1cbb9
+    context: "Tidy a view: lay it out again and say how it reads (write's tidy). Layout (elk) loads when a view is tidied: the page keeps it out of its first load."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/tidy.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tidy.ts
+  tidy-ts-measure-1j9q9:
+    kind: function
+    name: measure()
+    in: tools-tidy-ts-5dud8
+    signature: "measure(idx: ModelIndex, diagramId: string): { score: ViewScore; w: number; h: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tidy.ts:29
+  tidy-ts-preview-1irf1:
+    kind: function
+    name: preview()
+    in: tools-tidy-ts-5dud8
+    context: The index as it would be after layout ops (placements and the view itself), without committing.
+    signature: "preview(idx: ModelIndex, ops: Op[]): ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tidy.ts:9
+  tidy-ts-stripness-18vx7:
+    kind: function
+    name: stripness()
+    in: tools-tidy-ts-5dud8
+    context: A long strip reads badly on a screen (about 16:10).
+    signature: "stripness: (m: { w: number; h: number; score: { boxes: number; }; }) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tidy.ts:43
+  tidy-ts-tidyview-bfl8t:
+    kind: function
+    name: tidyView()
+    in: tools-tidy-ts-5dud8
+    context: "settings: what the same write changed on the view (arrows curved → elbow), said apart from the boxes moving."
+    signature: 'tidyView(host: Host, d: Diagram, direction?: "right" | "down" | undefined, step?: { started: boolean; }, settings?: readonly string[]): Promise<string>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tidy.ts:52
+connections:
+  - {from: tidy-ts-measure-1j9q9, to: project-ts-projectdiagram-1p3dd}
+  - {from: tidy-ts-measure-1j9q9, to: score-ts-scoregraph-1yj7p}
+  - {from: tidy-ts-tidyview-bfl8t, to: host-ts-host-commit-j2yh7}
+  - {from: tidy-ts-tidyview-bfl8t, to: host-ts-host-config-12dpi}
+  - {from: tidy-ts-tidyview-bfl8t, to: host-ts-host-index-23rxl}
+  - {from: tidy-ts-tidyview-bfl8t, to: layout-ts-layoutops-1r6pk}
+  - {from: tidy-ts-tidyview-bfl8t, to: project-ts-crossinghelp-1luhe}
+  - {from: tidy-ts-tidyview-bfl8t, to: project-ts-notelanes-ye0dz}
+  - {from: tidy-ts-tidyview-bfl8t, to: score-ts-scoreline-1jqjz}
+  - {from: tidy-ts-tidyview-bfl8t, to: tidy-ts-measure-1j9q9}
+  - {from: tidy-ts-tidyview-bfl8t, to: tidy-ts-preview-1irf1}
+  - {from: tidy-ts-tidyview-bfl8t, to: tidy-ts-stripness-18vx7}

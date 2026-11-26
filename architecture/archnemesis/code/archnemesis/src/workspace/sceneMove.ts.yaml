@@ -1,0 +1,82 @@
+# archnemesis:src/workspace/sceneMove.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-scenemove-ts-ym5ym:
+    kind: module
+    name: sceneMove.ts
+    in: web-workspace
+    context: "Boxes dragged on the canvas: their new places, and (simple mode) dropped into a frame or onto a box they go inside it in the model, dropped out of its frame they come out."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/sceneMove.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts
+  scenemove-ts-intodrawnbox-1iirn:
+    kind: function
+    name: intoDrawnBox()
+    in: workspace-scenemove-ts-ym5ym
+    context: "Into a box drawn as a box: it goes in, closed (off this diagram, and off the view of any box opened here it was drawn in; the box counts it)."
+    signature: "intoDrawnBox(ops: Op[], o: ModelObject, { i, d, ex }: MoveContext, was: unknown): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:83
+  scenemove-ts-intoopenedview-t0o8s:
+    kind: function
+    name: intoOpenedView()
+    in: workspace-scenemove-ts-ym5ym
+    context: "Into a box opened here: where it was let go, in that box's own view; off this one."
+    signature: "intoOpenedView(ops: Op[], o: ModelObject, panel: { viewId: string; x: number; y: number; }, size: Size, d: string, was: unknown): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:58
+  scenemove-ts-movehandler-8f8ov:
+    kind: function
+    name: moveHandler()
+    in: workspace-scenemove-ts-ym5ym
+    signature: "moveHandler(latest: LatestRef): ((moves: { id: string; x: number; y: number; }[], into?: string | null | undefined) => void) | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:137
+    references:
+      - dependency: lib-types-react-1i7zx
+  scenemove-ts-newparent-1adeg:
+    kind: function
+    name: newParent()
+    in: workspace-scenemove-ts-ym5ym
+    context: "Where a box dropped into (or out of) a frame goes in the model: undefined when it stays."
+    signature: "newParent(o: ModelObject, into: string | null, { i, g }: MoveContext, scope: string | null): string | null | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:23
+  scenemove-ts-outontodiagram-wpqqa:
+    kind: function
+    name: outOntoDiagram()
+    in: workspace-scenemove-ts-ym5ym
+    context: "Out of a box opened here onto this diagram: where it was let go."
+    signature: "outOntoDiagram(ops: Op[], o: ModelObject, ex: Exploded, m: { x: number; y: number; }, sp: Spread, d: string, size: Size): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:91
+  scenemove-ts-reparentops-dsqve:
+    kind: function
+    name: reparentOps()
+    in: workspace-scenemove-ts-ym5ym
+    context: Put one box into `to` (or out onto this diagram), in the right view; says what it did.
+    signature: "reparentOps(ops: Op[], o: ModelObject, to: string | null, drawnMoves: { id: string; x: number; y: number; }[], c: MoveContext): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneMove.ts:114
+connections:
+  - {from: scenemove-ts-movehandler-8f8ov, to: actions-ts-moveops-8dtw8}
+  - {from: scenemove-ts-movehandler-8f8ov, to: scenemove-ts-newparent-1adeg}
+  - {from: scenemove-ts-movehandler-8f8ov, to: scenemove-ts-reparentops-dsqve}
+  - {from: scenemove-ts-movehandler-8f8ov, to: spread-ts-spread-up-1n409}
+  - {from: scenemove-ts-newparent-1adeg, to: project-ts-descendants-121jc}
+  - {from: scenemove-ts-outontodiagram-wpqqa, to: explode-ts-unexplode-1r6q4}
+  - {from: scenemove-ts-outontodiagram-wpqqa, to: spread-ts-spread-up-1n409}
+  - {from: scenemove-ts-reparentops-dsqve, to: actions-ts-updateobject-b8yrs}
+  - {from: scenemove-ts-reparentops-dsqve, to: explode-ts-inview-1lq8v}
+  - {from: scenemove-ts-reparentops-dsqve, to: scenemove-ts-intodrawnbox-1iirn}
+  - {from: scenemove-ts-reparentops-dsqve, to: scenemove-ts-intoopenedview-t0o8s}
+  - {from: scenemove-ts-reparentops-dsqve, to: scenemove-ts-outontodiagram-wpqqa}
+  - {from: scenemove-ts-reparentops-dsqve, to: spread-ts-spread-up-1n409}

@@ -1,0 +1,369 @@
+# archnemesis:shared/tools/host.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-host-ts-10p7d:
+    kind: module
+    name: host.ts
+    in: shared-tools-1cbb9
+    context: "The agent tools (docs/mcp-v2.md) are functions over a design, given a Host: what the place they run in can do. The server's MCP and the web app's WebMCP each make one, so the same code (and the same tests) answer both."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/host.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts
+  host-ts-arr-d4mci:
+    kind: function
+    name: arr()
+    in: tools-host-ts-10p7d
+    context: A list parameter given as one value or a list.
+    signature: "arr: <T>(v: T | T[] | null | undefined) => T[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:168
+  host-ts-canvas-end-v0f0s:
+    kind: function
+    name: Canvas.end()
+    in: tools-host-ts-10p7d
+    context: "The walkthrough is over: their view is theirs again."
+    tech: [method of Canvas]
+    signature: "end(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:61
+  host-ts-canvas-fit-6q4u9:
+    kind: function
+    name: Canvas.fit()
+    in: tools-host-ts-10p7d
+    context: Bring everything on the view they are looking at into sight (after an agent rearranged it).
+    tech: [method of Canvas]
+    signature: "fit(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:64
+  host-ts-canvas-here-ow69f:
+    kind: function
+    name: Canvas.here()
+    in: tools-host-ts-10p7d
+    tech: [method of Canvas]
+    signature: "here(): Here"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:62
+  host-ts-canvas-show-gmybw:
+    kind: function
+    name: Canvas.show()
+    in: tools-host-ts-10p7d
+    context: "Show a stop. With wait, resolves when they answer (null: nothing pressed in time)."
+    tech: [method of Canvas]
+    signature: "show(stop: Stop, wait?: { ms: number; signal?: AbortSignal | undefined; } | undefined): Promise<StopReply | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:59
+  host-ts-canvas-watching-uzme0:
+    kind: function
+    name: Canvas.watching()
+    in: tools-host-ts-10p7d
+    context: "How many have this design open (0: nobody will see it)."
+    tech: [method of Canvas]
+    signature: "watching(): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:66
+  host-ts-clip-wy39m:
+    kind: function
+    name: clip()
+    in: tools-host-ts-10p7d
+    signature: "clip: (s: string, n?: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:184
+  host-ts-designs-create-sar0u:
+    kind: function
+    name: Designs.create()
+    in: tools-host-ts-10p7d
+    context: "writesTo: where writes go when the design follows git (the caller's fork); views: what it starts with."
+    tech: [method of Designs]
+    signature: 'create(a: { name: string; key?: string | undefined; from?: "code" | "example" | "empty" | undefined; }): Promise<{ key: string; name: string; url: string; note?: string | undefined; writesTo?: { key: string; url: string; } | undefined; views?: { ...; }[] | undefined; }>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:92
+  host-ts-designs-delete-fdulu:
+    kind: function
+    name: Designs.delete()
+    in: tools-host-ts-10p7d
+    context: "Without confirm: what would go."
+    tech: [method of Designs]
+    signature: "delete(key: string, confirm: boolean): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:101
+  host-ts-designs-discard-1frrz:
+    kind: function
+    name: Designs.discard()
+    in: tools-host-ts-10p7d
+    tech: [method of Designs]
+    signature: "discard(design: string | undefined): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:108
+  host-ts-designs-fork-1qzte:
+    kind: function
+    name: Designs.fork()
+    in: tools-host-ts-10p7d
+    context: "design: the one to fork (default: the only one, or the page's)."
+    tech: [method of Designs]
+    signature: "fork(design: string | undefined, name?: string | undefined): Promise<{ key: string; url: string; stackedOn?: string | undefined; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:103
+  host-ts-designs-list-1pevt:
+    kind: function
+    name: Designs.list()
+    in: tools-host-ts-10p7d
+    tech: [method of Designs]
+    signature: "list(): DesignInfo[] | Promise<DesignInfo[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:90
+  host-ts-designs-propose-wersw:
+    kind: function
+    name: Designs.propose()
+    in: tools-host-ts-10p7d
+    tech: [method of Designs]
+    signature: "propose(design: string | undefined): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:107
+  host-ts-fail-15k5p:
+    kind: function
+    name: fail()
+    in: tools-host-ts-10p7d
+    signature: "fail: (text: string) => Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:175
+  host-ts-host-applyrules-f2do4:
+    kind: function
+    name: Host.applyRules()
+    in: tools-host-ts-10p7d
+    context: Views that follow rules pick up what changed.
+    tech: [method of Host]
+    signature: "applyRules(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:138
+  host-ts-host-base-3uc76:
+    kind: function
+    name: Host.base()
+    in: tools-host-ts-10p7d
+    context: "A fork's main where the fork started (for read {diff}: what the fork changed); absent on main."
+    tech: [method of Host]
+    signature: "base(): Promise<ModelState | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:147
+  host-ts-host-basename-1gmjq:
+    kind: function
+    name: Host.baseName()
+    in: tools-host-ts-10p7d
+    context: A stacked fork's parent fork (what base() is), or null when base() is main.
+    tech: [method of Host]
+    signature: "baseName(): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:149
+  host-ts-host-commit-j2yh7:
+    kind: function
+    name: Host.commit()
+    in: tools-host-ts-10p7d
+    context: "One step, in the actor's name: one undo, one history line; join: part of the step before; undo: false: not in the actor's undo (notes). (A page on a design that follows git sends it to a fork, so it may be async.)"
+    tech: [method of Host]
+    signature: "commit(ops: Op[], label: string, opts?: CommitOpts | undefined): void | Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:136
+  host-ts-host-config-12dpi:
+    kind: function
+    name: Host.config()
+    in: tools-host-ts-10p7d
+    tech: [method of Host]
+    signature: "config(): FConfig"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:134
+  host-ts-host-index-23rxl:
+    kind: function
+    name: Host.index()
+    in: tools-host-ts-10p7d
+    tech: [method of Host]
+    signature: "index(): ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:133
+  host-ts-host-recent-40oaa:
+    kind: function
+    name: Host.recent()
+    in: tools-host-ts-10p7d
+    tech: [method of Host]
+    signature: "recent(n: number): LogEntry[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:143
+  host-ts-host-render-1c1pn:
+    kind: function
+    name: Host.render()
+    in: tools-host-ts-10p7d
+    context: A view as a picture (server).
+    tech: [method of Host]
+    signature: "render(diagramId: string, o: { flow?: string | undefined; step?: number | undefined; }): Promise<{ png: string; url: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:159
+  host-ts-host-repos-1e9su:
+    kind: function
+    name: Host.repos()
+    in: tools-host-ts-10p7d
+    context: The repos index start brought in for this design (by name), so a path's repo can be checked.
+    tech: [method of Host]
+    signature: "repos(): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:145
+  host-ts-host-settled-1fv3t:
+    kind: function
+    name: Host.settled()
+    in: tools-host-ts-10p7d
+    context: "Where the rules are applied a moment later by something else (a page): resolves once they have been."
+    tech: [method of Host]
+    signature: "settled(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:140
+  host-ts-host-state-150dr:
+    kind: function
+    name: Host.state()
+    in: tools-host-ts-10p7d
+    tech: [method of Host]
+    signature: "state(): ModelState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:132
+  host-ts-host-undo-1ur4s:
+    kind: function
+    name: Host.undo()
+    in: tools-host-ts-10p7d
+    context: "The actor's own last step undone (dry: only named): what it was, or null when there's nothing of theirs to undo."
+    tech: [method of Host]
+    signature: "undo(dry?: boolean | undefined): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:142
+  host-ts-host-url-6ll81:
+    kind: function
+    name: Host.url()
+    in: tools-host-ts-10p7d
+    context: A link that opens a view (and a box on it) for a person.
+    tech: [method of Host]
+    signature: "url(diagramId?: string | undefined, objectId?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:151
+  host-ts-host-wrote-1e2xa:
+    kind: function
+    name: Host.wrote()
+    in: tools-host-ts-10p7d
+    context: 'Said after a write that went somewhere else than this design (the page: "it went to your fork").'
+    tech: [method of Host]
+    signature: "wrote(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:164
+  host-ts-indexer-importplan-xkprb:
+    kind: function
+    name: Indexer.importPlan()
+    in: tools-host-ts-10p7d
+    context: Plans the import; commit is done by the tool through the host.
+    tech: [method of Indexer]
+    signature: 'importPlan(ticket: string, under: string, calls?: "none" | "all" | "exact" | undefined): { ops: Op[]; summary: string; label: string; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:116
+  host-ts-indexer-progress-1qj6g:
+    kind: function
+    name: Indexer.progress()
+    in: tools-host-ts-10p7d
+    tech: [method of Indexer]
+    signature: "progress(p: { text: string; step?: number | undefined; of?: number | undefined; done?: boolean | undefined; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:121
+  host-ts-indexer-scan-v5rjy:
+    kind: function
+    name: Indexer.scan()
+    in: tools-host-ts-10p7d
+    tech: [method of Indexer]
+    signature: "scan(ticket: string, system?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:114
+  host-ts-indexer-start-t3q0c:
+    kind: function
+    name: Indexer.start()
+    in: tools-host-ts-10p7d
+    tech: [method of Indexer]
+    signature: "start(path?: string | undefined): string | Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:113
+  host-ts-more-1giyo:
+    kind: function
+    name: more()
+    in: tools-host-ts-10p7d
+    context: '"N more, showing M": the tail every capped list ends with, and the call that gets the rest.'
+    signature: "more(total: number, shown: number, next: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:178
+  host-ts-ok-1qtxz:
+    kind: function
+    name: ok()
+    in: tools-host-ts-10p7d
+    signature: "ok: (text: string, data?: Record<string, unknown> | undefined) => Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:171
+  host-ts-plural-n7ls8:
+    kind: function
+    name: plural()
+    in: tools-host-ts-10p7d
+    signature: "plural: (n: number, one: string, many?: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:182
+  host-ts-purpose-qepde:
+    kind: function
+    name: purpose()
+    in: tools-host-ts-10p7d
+    context: "The first sentence of a box's context: its purpose, in a line."
+    signature: "purpose(text?: string | undefined, n?: number): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:190
+  host-ts-typeliteral26-get-178xz:
+    kind: function
+    name: typeLiteral26:get()
+    in: tools-host-ts-10p7d
+    signature: "get(): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:153
+  host-ts-typeliteral26-set-awpei:
+    kind: function
+    name: typeLiteral26:set()
+    in: tools-host-ts-10p7d
+    signature: "set(at: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/host.ts:153
+connections:
+  - {from: host-ts-purpose-qepde, to: host-ts-clip-wy39m}

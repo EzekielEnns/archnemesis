@@ -1,0 +1,440 @@
+# archnemesis:src/canvas/Scene.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-scene-ts-ddoqc:
+    kind: module
+    name: Scene.ts
+    in: web-canvas
+    context: "The diagram canvas: PixiJS on WebGL, driven by its own code rather than React, so a drag or a zoom never re-renders a component."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/Scene.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts
+  scene-ts-noicon-1h48f:
+    kind: function
+    name: noIcon()
+    in: canvas-scene-ts-ddoqc
+    context: "Without a loader from the caller there are no technology logos: the canvas makes no requests itself."
+    signature: "noIcon: () => Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:263
+  scene-ts-scene-center-1flrk:
+    kind: function
+    name: Scene.center()
+    in: canvas-scene-ts-ddoqc
+    context: Pan so the selection (or, with nothing selected, the whole diagram) is in the middle, keeping the zoom.
+    tech: [method of Scene]
+    signature: "center(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:200
+  scene-ts-scene-centerat-11u77:
+    kind: function
+    name: Scene.centerAt()
+    in: canvas-scene-ts-ddoqc
+    context: Bring a diagram point to the middle of the view.
+    tech: [method of Scene]
+    signature: "centerAt(p: Point, smooth?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:152
+  scene-ts-scene-centeron-12ft8:
+    kind: function
+    name: Scene.centerOn()
+    in: canvas-scene-ts-ddoqc
+    context: Pan (not zoom) so a box is in the middle of the view; `smooth` glides there.
+    tech: [method of Scene]
+    signature: "centerOn(id: string, smooth?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:122
+  scene-ts-scene-clientrectof-106i8:
+    kind: function
+    name: Scene.clientRectOf()
+    in: canvas-scene-ts-ddoqc
+    context: A box's rect in page coordinates, for editing its name in place.
+    tech: [method of Scene]
+    signature: "clientRectOf(id: string): { x: number; y: number; w: number; h: number; scale: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:257
+  scene-ts-scene-clientrectofgroup-w3mcb:
+    kind: function
+    name: Scene.clientRectOfGroup()
+    in: canvas-scene-ts-ddoqc
+    context: A frame's rectangle on the page (a boundary is "boundary:<id>").
+    tech: [method of Scene]
+    signature: "clientRectOfGroup(id: string): { x: number; y: number; w: number; h: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:252
+  scene-ts-scene-clienttoworld-wve5e:
+    kind: function
+    name: Scene.clientToWorld()
+    in: canvas-scene-ts-ddoqc
+    context: Where a page point (a drop, say) lands in the diagram.
+    tech: [method of Scene]
+    signature: "clientToWorld(clientX: number, clientY: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:157
+  scene-ts-scene-connectionanchor-tgimu:
+    kind: function
+    name: Scene.connectionAnchor()
+    in: canvas-scene-ts-ddoqc
+    context: The middle of the arrow a connection is drawn on here (where its label sits), live.
+    tech: [method of Scene]
+    signature: "connectionAnchor(connectionId: string): Point | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:219
+  scene-ts-scene-constructor-8e3bx:
+    kind: function
+    name: Scene.<constructor>()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "constructor(callbacks?: SceneCallbacks): Scene"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:70
+  scene-ts-scene-destroy-qhmor:
+    kind: function
+    name: Scene.destroy()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "destroy(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:83
+  scene-ts-scene-edgeat-omiqw:
+    kind: function
+    name: Scene.edgeAt()
+    in: canvas-scene-ts-ddoqc
+    context: "The arrow at a diagram point, if any: its connections."
+    tech: [method of Scene]
+    signature: "edgeAt(world: Point): { id: string; connectionIds: string[]; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:214
+  scene-ts-scene-edgelabelat-eivj5:
+    kind: function
+    name: Scene.edgeLabelAt()
+    in: canvas-scene-ts-ddoqc
+    context: Where an arrow's label sits on the diagram (its middle, when it has no label), and its size.
+    tech: [method of Scene]
+    signature: "edgeLabelAt(id: string): { x: number; y: number; w: number; h: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:209
+  scene-ts-scene-edgelabelclient-xl3sb:
+    kind: function
+    name: Scene.edgeLabelClient()
+    in: canvas-scene-ts-ddoqc
+    context: Where an arrow's label sits on the page.
+    tech: [method of Scene]
+    signature: "edgeLabelClient(id: string): Point | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:224
+  scene-ts-scene-exportpng-1no4y:
+    kind: function
+    name: Scene.exportPng()
+    in: canvas-scene-ts-ddoqc
+    context: The whole diagram as a PNG, at 2x, on the canvas background.
+    tech: [method of Scene]
+    signature: "exportPng(): Promise<Blob | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:242
+    references:
+      - dependency: lib-types-react-1i7zx
+  scene-ts-scene-fit-klilw:
+    kind: function
+    name: Scene.fit()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "fit(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:87
+  scene-ts-scene-forwardwheel-sina5:
+    kind: function
+    name: Scene.forwardWheel()
+    in: canvas-scene-ts-ddoqc
+    context: Scroll or zoom from something laid over the canvas (a note), as if it were the canvas.
+    tech: [method of Scene]
+    signature: "forwardWheel(e: WheelEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:147
+    references:
+      - dependency: lib-types-react-1i7zx
+  scene-ts-scene-frameboxes-1ps2g:
+    kind: function
+    name: Scene.frameBoxes()
+    in: canvas-scene-ts-ddoqc
+    context: Glide to boxes so they all fit (a guided tour's step), zooming no closer than 100%.
+    tech: [method of Scene]
+    signature: "frameBoxes(ids: string[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:127
+  scene-ts-scene-getcamera-171ga:
+    kind: function
+    name: Scene.getCamera()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "getCamera(): Camera"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:105
+  scene-ts-scene-glide-1y0te:
+    kind: function
+    name: Scene.glide()
+    in: canvas-scene-ts-ddoqc
+    context: Ease the camera to `to` over ~half a second (a jump when the person prefers less motion).
+    tech: [method of Scene]
+    signature: "glide(to: Camera, ms?: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:132
+  scene-ts-scene-init-1sslj:
+    kind: function
+    name: Scene.init()
+    in: canvas-scene-ts-ddoqc
+    context: Resolves false if the scene was destroyed while Pixi was starting.
+    tech: [method of Scene]
+    signature: "init(host: HTMLElement): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:79
+    references:
+      - dependency: lib-types-react-1i7zx
+  scene-ts-scene-isempty-18rz2:
+    kind: function
+    name: Scene.isEmpty()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "isEmpty(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:228
+  scene-ts-scene-nodeat-vu5oy:
+    kind: function
+    name: Scene.nodeAt()
+    in: canvas-scene-ts-ddoqc
+    context: The box at a diagram point, if any.
+    tech: [method of Scene]
+    signature: "nodeAt(world: Point): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:142
+  scene-ts-scene-reveal-1i33n:
+    kind: function
+    name: Scene.reveal()
+    in: canvas-scene-ts-ddoqc
+    context: Pan (not zoom) just enough that these boxes are in view and clear of the panels (insets in screen px), if they aren't already.
+    tech: [method of Scene]
+    signature: "reveal(ids: string[], insets?: { left: number; right: number; top: number; bottom: number; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:117
+  scene-ts-scene-select-1g1o3:
+    kind: function
+    name: Scene.select()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "select(sel: Selection, notify?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:232
+  scene-ts-scene-setanimate-bey5q:
+    kind: function
+    name: Scene.setAnimate()
+    in: canvas-scene-ts-ddoqc
+    context: Dots on every arrow, not only on what's selected or lit (a per-person choice).
+    tech: [method of Scene]
+    signature: "setAnimate(on: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:166
+  scene-ts-scene-setarrowstyle-iv707:
+    kind: function
+    name: Scene.setArrowStyle()
+    in: canvas-scene-ts-ddoqc
+    context: Curved, elbow or straight. Elbow and straight load the router the first time (curves until then).
+    tech: [method of Scene]
+    signature: 'setArrowStyle(style: "curved" | "elbow" | "straight"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:92
+  scene-ts-scene-setgroupdraw-emvfq:
+    kind: function
+    name: Scene.setGroupDraw()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "setGroupDraw(on: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:181
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  scene-ts-scene-setinsetleft-lqubb:
+    kind: function
+    name: Scene.setInsetLeft()
+    in: canvas-scene-ts-ddoqc
+    context: The drawer covers this much of the canvas's left edge. The canvas itself never resizes.
+    tech: [method of Scene]
+    signature: "setInsetLeft(px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:97
+  scene-ts-scene-setpeers-khvot:
+    kind: function
+    name: Scene.setPeers()
+    in: canvas-scene-ts-ddoqc
+    context: "Show who else is here. Cheap: one Graphics and a label per person."
+    tech: [method of Scene]
+    signature: "setPeers(peers: Peer[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:247
+  scene-ts-scene-setsimple-9f4gl:
+    kind: function
+    name: Scene.setSimple()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "setSimple(on: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:177
+  scene-ts-scene-settool-zfxte:
+    kind: function
+    name: Scene.setTool()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "setTool(t: Tool): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:186
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  scene-ts-scene-setview-1jdxq:
+    kind: function
+    name: Scene.setView()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "setView(c: Camera): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:109
+  scene-ts-scene-spotlight-1tua0:
+    kind: function
+    name: Scene.spotlight()
+    in: canvas-scene-ts-ddoqc
+    context: "Light up a flow step (or a tag): overrides the selection's focus until cleared."
+    tech: [method of Scene]
+    signature: "spotlight(spec: Spotlight | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:173
+  scene-ts-scene-sync-4z0mq:
+    kind: function
+    name: Scene.sync()
+    in: canvas-scene-ts-ddoqc
+    context: "Bring the canvas in line with a new projection: only what changed is rebuilt."
+    tech: [method of Scene]
+    signature: "sync(graph: CanvasGraph): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:237
+  scene-ts-scene-toggleminimap-mk549:
+    kind: function
+    name: Scene.toggleMinimap()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "toggleMinimap(on?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:204
+  scene-ts-scene-viewcenter-105do:
+    kind: function
+    name: Scene.viewCenter()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "viewCenter(): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:161
+  scene-ts-scene-watch-v2a0b:
+    kind: function
+    name: Scene.watch()
+    in: canvas-scene-ts-ddoqc
+    context: Follow the camera and live drags (for notes drawn over the canvas). Returns an unwatch.
+    tech: [method of Scene]
+    signature: "watch(fn: (v: SceneView) => void): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:137
+  scene-ts-scene-zoomby-t4f6i:
+    kind: function
+    name: Scene.zoomBy()
+    in: canvas-scene-ts-ddoqc
+    tech: [method of Scene]
+    signature: "zoomBy(factor: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:101
+  scene-ts-scene-zoomto-1tsiw:
+    kind: function
+    name: Scene.zoomTo()
+    in: canvas-scene-ts-ddoqc
+    context: Zoom about the middle of the view to an exact scale.
+    tech: [method of Scene]
+    signature: "zoomTo(scale: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/Scene.ts:195
+connections:
+  - {from: scene-ts-scene-center-1flrk, to: view-ts-centerselection-9frlf}
+  - {from: scene-ts-scene-centerat-11u77, to: view-ts-centerat-1ilwb}
+  - {from: scene-ts-scene-centeron-12ft8, to: view-ts-centeron-50mj7}
+  - {from: scene-ts-scene-clientrectof-106i8, to: queries-ts-clientrectof-1p2do}
+  - {from: scene-ts-scene-clientrectofgroup-w3mcb, to: queries-ts-clientrectofgroup-8zfg6}
+  - {from: scene-ts-scene-clienttoworld-wve5e, to: queries-ts-clienttoworld-14hrz}
+  - {from: scene-ts-scene-connectionanchor-tgimu, to: queries-ts-connectionanchor-10yka}
+  - {from: scene-ts-scene-constructor-8e3bx, to: frame-ts-renderframe-1wc3w}
+  - {from: scene-ts-scene-constructor-8e3bx, to: nodes-ts-replaceview-d7txq}
+  - {from: scene-ts-scene-constructor-8e3bx, to: scene-ts-noicon-1h48f}
+  - {from: scene-ts-scene-constructor-8e3bx, to: state-ts-scenestate-constructor-4i8m5}
+  - {from: scene-ts-scene-constructor-8e3bx, to: state-ts-scenestate-fetchicon-116nm}
+  - {from: scene-ts-scene-destroy-qhmor, to: lifecycle-ts-destroy-ow6gu}
+  - {from: scene-ts-scene-edgeat-omiqw, to: queries-ts-edgeat-1uvm7}
+  - {from: scene-ts-scene-edgelabelat-eivj5, to: queries-ts-edgelabelat-5jk4x}
+  - {from: scene-ts-scene-edgelabelclient-xl3sb, to: queries-ts-edgelabelclient-cmsmn}
+  - {from: scene-ts-scene-exportpng-1no4y, to: exportpng-ts-exportpng-wi01g}
+  - {from: scene-ts-scene-fit-klilw, to: view-ts-fit-q84m1}
+  - {from: scene-ts-scene-forwardwheel-sina5, to: input-ts-forwardwheel-1026i}
+  - {from: scene-ts-scene-frameboxes-1ps2g, to: view-ts-frameboxes-1hwk6}
+  - {from: scene-ts-scene-glide-1y0te, to: view-ts-glide-ztvi2}
+  - {from: scene-ts-scene-init-1sslj, to: lifecycle-ts-init-38t9x}
+  - {from: scene-ts-scene-isempty-18rz2, to: queries-ts-isempty-i0cq7}
+  - {from: scene-ts-scene-nodeat-vu5oy, to: queries-ts-nodeat-1f9k0}
+  - {from: scene-ts-scene-reveal-1i33n, to: view-ts-reveal-axih4}
+  - {from: scene-ts-scene-select-1g1o3, to: selection-ts-select-848l7}
+  - {from: scene-ts-scene-setanimate-bey5q, to: frame-ts-requestrender-sstrq}
+  - {from: scene-ts-scene-setarrowstyle-iv707, to: arrows-ts-setarrowstyle-1odab}
+  - {from: scene-ts-scene-setinsetleft-lqubb, to: view-ts-setinsetleft-1yq18}
+  - {from: scene-ts-scene-setpeers-khvot, to: peers-ts-setpeers-1kw7b}
+  - {from: scene-ts-scene-settool-zfxte, to: frame-ts-requestrender-sstrq}
+  - {from: scene-ts-scene-settool-zfxte, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: scene-ts-scene-setview-1jdxq, to: view-ts-setview-1cdwu}
+  - {from: scene-ts-scene-spotlight-1tua0, to: spotlight-ts-spotlight-1gcaa}
+  - {from: scene-ts-scene-sync-4z0mq, to: sync-ts-sync-sbewp}
+  - {from: scene-ts-scene-toggleminimap-mk549, to: minimap-ts-toggleminimap-1xrpb}
+  - {from: scene-ts-scene-viewcenter-105do, to: queries-ts-viewcenter-1vo3o}
+  - {from: scene-ts-scene-watch-v2a0b, to: watch-ts-watch-thsik}
+  - {from: scene-ts-scene-zoomby-t4f6i, to: view-ts-zoomby-1ixww}
+  - {from: scene-ts-scene-zoomto-1tsiw, to: view-ts-zoomto-jz8ow}

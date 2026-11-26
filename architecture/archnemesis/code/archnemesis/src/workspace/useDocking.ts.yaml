@@ -1,0 +1,25 @@
+# archnemesis:src/workspace/useDocking.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usedocking-ts-1bwfp:
+    kind: module
+    name: useDocking.ts
+    in: web-workspace
+    context: "How the page is laid out around the canvas: the drawer and the left panel (open, pinned, which view), and whether the tools have to fold into a menu."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDocking.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDocking.ts
+  usedocking-ts-usedocking-a1h14:
+    kind: function
+    name: useDocking()
+    in: workspace-usedocking-ts-1bwfp
+    signature: "useDocking(simple: boolean): { sidebar: boolean; setSidebar: Dispatch<SetStateAction<boolean>>; panelPinned: boolean; setPanelPinned: Dispatch<SetStateAction<boolean>>; ... 7 more ...; toolsCompact: boolean; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDocking.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usedocking-ts-usedocking-a1h14, to: usestored-ts-usestoredflag-qzzk3}

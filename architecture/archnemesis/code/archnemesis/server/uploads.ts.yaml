@@ -1,0 +1,62 @@
+# archnemesis:server/uploads.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-uploads-ts-12hu0:
+    kind: module
+    name: uploads.ts
+    in: srv-edge
+    context: "Repos read on someone's own machine, sent straight to Archnemesis: the MCP tool index (start) mints a ticket (a link good for one upload, for a few minutes), the agent runs the script Archnemesis serves with it, and the script posts the repo's survey and code index to the link. The repo goes from disk to Archnemesis without passing through the model, and the person never handles a token: the…"
+    tech: [TypeScript]
+    path: archnemesis:server/uploads.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts
+  uploads-ts-uploads-get-1rwd0:
+    kind: function
+    name: Uploads.get()
+    in: server-uploads-ts-12hu0
+    tech: [method of Uploads]
+    signature: "get(id: string, owner: string): { ticket: Ticket; } | { error: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts:77
+  uploads-ts-uploads-mint-77q87:
+    kind: function
+    name: Uploads.mint()
+    in: server-uploads-ts-12hu0
+    tech: [method of Uploads]
+    signature: "mint(owner: string, design: string, path: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts:32
+  uploads-ts-uploads-put-1ovk5:
+    kind: function
+    name: Uploads.put()
+    in: server-uploads-ts-12hu0
+    context: "The script's upload: once per ticket, inside its window."
+    tech: [method of Uploads]
+    signature: 'put(id: string, data: Omit<Upload, "at">): { ok: true; repo: string; } | { ok: false; error: string; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts:44
+  uploads-ts-uploads-reposfor-oc807:
+    kind: function
+    name: Uploads.reposFor()
+    in: server-uploads-ts-12hu0
+    context: The repos uploaded for a design (or its forks), by name.
+    tech: [method of Uploads]
+    signature: "reposFor(design: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts:65
+  uploads-ts-uploads-sweep-1w48x:
+    kind: function
+    name: Uploads.sweep()
+    in: server-uploads-ts-12hu0
+    tech: [method of Uploads]
+    signature: "sweep(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/uploads.ts:91
+connections:
+  - {from: uploads-ts-uploads-mint-77q87, to: uploads-ts-uploads-sweep-1w48x}

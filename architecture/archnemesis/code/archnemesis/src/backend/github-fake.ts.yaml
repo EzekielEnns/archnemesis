@@ -1,0 +1,30 @@
+# archnemesis:src/backend/github-fake.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-github-fake-ts-117pl:
+    kind: module
+    name: github-fake.ts
+    in: web-backend
+    context: "A pretend public GitHub for tests: one repository and its branches, answering the reads the loader makes (the file list of a branch, and each file). Never a real network. The log shows every call and every Authorization header, so a test can check nothing about the visitor was sent."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/github-fake.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-fake.ts
+  github-fake-ts-fakerepo-p9e3j:
+    kind: function
+    name: fakeRepo()
+    in: backend-github-fake-ts-117pl
+    signature: "fakeRepo(branches: Record<string, Record<string, string>>, def?: string): FakeRepo"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-fake.ts:15
+  github-fake-ts-githubfetch-4pz3m:
+    kind: function
+    name: githubFetch()
+    in: backend-github-fake-ts-117pl
+    context: A fetch that answers as api.github.com and raw.githubusercontent.com for `owner/repo`.
+    signature: "githubFetch(repo: FakeRepo, where?: string): { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-fake.ts:25

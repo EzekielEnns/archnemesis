@@ -1,0 +1,22 @@
+# archnemesis:src/canvas/scene/theme.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-theme-ts-1h59i:
+    kind: module
+    name: theme.ts
+    in: canvas-scene-iaxtu
+    context: "The canvas's look and its numbers: colours, sizes, zoom thresholds and limits. Nothing here does anything."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/theme.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/theme.ts
+  theme-ts-mixcolor-ebi2x:
+    kind: function
+    name: mixColor()
+    in: scene-theme-ts-1h59i
+    context: a with t of b mixed in.
+    signature: "mixColor(a: number, b: number, t: number): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/theme.ts:84

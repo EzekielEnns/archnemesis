@@ -1,0 +1,71 @@
+# archnemesis:server/auth/providers/oidc.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  providers-oidc-ts-12qt2:
+    kind: module
+    name: oidc.ts
+    in: srv-auth
+    context: "oidc: sign in with any OpenID Connect provider (Keycloak, Authentik, Authelia, Okta, Auth0, Google, Entra ID, ...): the authorization-code flow with PKCE (S256), endpoints found through discovery (<issuer>/.well-known/openid-configuration)."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/providers/oidc.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts
+  oidc-ts-b64-6uykq:
+    kind: function
+    name: b64()
+    in: providers-oidc-ts-12qt2
+    signature: "b64: (n: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts:46
+  oidc-ts-cookieof-1rupq:
+    kind: function
+    name: cookieOf()
+    in: providers-oidc-ts-12qt2
+    signature: "cookieOf(req: IncomingMessage): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts:67
+  oidc-ts-oidcprovider-19d12:
+    kind: function
+    name: oidcProvider()
+    in: providers-oidc-ts-12qt2
+    signature: "oidcProvider(cfg: OidcConfig, ctx: ProviderContext): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts:75
+  oidc-ts-same-8254i:
+    kind: function
+    name: same()
+    in: providers-oidc-ts-12qt2
+    signature: "same: (a: string, b: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts:61
+  oidc-ts-urlok-1exm5:
+    kind: function
+    name: urlOk()
+    in: providers-oidc-ts-12qt2
+    context: https, or http on this machine (for a test issuer).
+    signature: "urlOk(u: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/oidc.ts:49
+connections:
+  - {from: oidc-ts-oidcprovider-19d12, to: jwt-ts-jwksloader-j3e9y}
+  - {from: oidc-ts-oidcprovider-19d12, to: jwt-ts-jwtverifier-constructor-1xxtg}
+  - {from: oidc-ts-oidcprovider-19d12, to: jwt-ts-jwtverifier-ready-16m7a}
+  - {from: oidc-ts-oidcprovider-19d12, to: jwt-ts-jwtverifier-verify-ko999}
+  - {from: oidc-ts-oidcprovider-19d12, to: names-ts-namefromemail-11dmo}
+  - {from: oidc-ts-oidcprovider-19d12, to: oidc-ts-b64-6uykq}
+  - {from: oidc-ts-oidcprovider-19d12, to: oidc-ts-cookieof-1rupq}
+  - {from: oidc-ts-oidcprovider-19d12, to: oidc-ts-same-8254i}
+  - {from: oidc-ts-oidcprovider-19d12, to: oidc-ts-urlok-1exm5}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-authprovider-describe-cepor}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-authprovider-identify-3u74p}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-authprovider-ready-9e0rm}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-authprovider-routes-4ikph}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-providercontext-failed-1gt4q}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-typeliteral3-signin-xakfv}
+  - {from: oidc-ts-oidcprovider-19d12, to: provider-ts-typeliteral5-warn-4ybl7}

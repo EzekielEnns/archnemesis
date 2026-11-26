@@ -1,0 +1,54 @@
+# archnemesis:shared/trail.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-trail-ts-k3oyt:
+    kind: module
+    name: trail.ts
+    in: shared-support
+    context: 'Where someone went in a design, and how: the record behind "I get lost drilling in". The page records moves (opt-in, per browser) and sends them to the server; `trail` reads them back, names the views, and points at the moves that look like being lost.'
+    tech: [TypeScript]
+    path: archnemesis:shared/trail.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/trail.ts
+  trail-ts-secs-kh0v5:
+    kind: function
+    name: secs()
+    in: shared-trail-ts-k3oyt
+    signature: "secs: (a: string, b: string) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/trail.ts:53
+  trail-ts-trailfindings-10q30:
+    kind: function
+    name: trailFindings()
+    in: shared-trail-ts-k3oyt
+    context: "Findings: patterns that look like someone lost."
+    signature: "trailFindings(rows: TrailRow[], idx: ModelIndex): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/trail.ts:71
+  trail-ts-trailtext-11m11:
+    kind: function
+    name: trailText()
+    in: shared-trail-ts-k3oyt
+    context: The trail as text, one line per move, for a person or an agent.
+    signature: "trailText(rows: TrailRow[], idx: ModelIndex): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/trail.ts:174
+  trail-ts-viewlabel-fgayc:
+    kind: function
+    name: viewLabel()
+    in: shared-trail-ts-k3oyt
+    context: The view's name and how deep it is (0 = the landscape).
+    signature: "viewLabel(idx: ModelIndex, id: string | null | undefined): { name: string; depth: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/trail.ts:56
+connections:
+  - {from: trail-ts-trailfindings-10q30, to: trail-ts-secs-kh0v5}
+  - {from: trail-ts-trailfindings-10q30, to: trail-ts-viewlabel-fgayc}
+  - {from: trail-ts-trailtext-11m11, to: trail-ts-secs-kh0v5}
+  - {from: trail-ts-trailtext-11m11, to: trail-ts-trailfindings-10q30}
+  - {from: trail-ts-trailtext-11m11, to: trail-ts-viewlabel-fgayc}

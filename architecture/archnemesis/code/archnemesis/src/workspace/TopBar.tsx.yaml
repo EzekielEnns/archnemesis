@@ -1,0 +1,47 @@
+# archnemesis:src/workspace/TopBar.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-topbar-tsx-1v5f6:
+    kind: module
+    name: TopBar.tsx
+    in: web-workspace
+    context: "The top of the page: the tools, the old top-left bar, and an agent's guide bar."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/TopBar.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/TopBar.tsx
+  topbar-tsx-guidebar-vgl8l:
+    kind: function
+    name: GuideBar()
+    in: workspace-topbar-tsx-1v5f6
+    context: The bar an agent talks through while it shows you around.
+    signature: "GuideBar({ following, setFollowing, guide, followed, asking, setAsking, closedGuide, setClosedGuide, answer, store, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (a…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/TopBar.tsx:91
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  topbar-tsx-shortname-7fva9:
+    kind: function
+    name: shortName()
+    in: workspace-topbar-tsx-1v5f6
+    context: A first name for a sentence ("Sam is on it"); "Your agent" stays whole.
+    signature: "shortName: (name: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/TopBar.tsx:10
+  topbar-tsx-topbar-1genq:
+    kind: function
+    name: TopBar()
+    in: workspace-topbar-tsx-1v5f6
+    signature: "TopBar({ up, canUp, jump, jumpBack, navigate, tool, lastKind, toolHint, pickTool, sidebar, setSidebar, toolsCompact, setPalette, toast, store, idx, simple, run, diagramId, }: Omit<Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; view…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/TopBar.tsx:12
+connections:
+  - {from: topbar-tsx-guidebar-vgl8l, to: files-ts-sourcelink-e4dna}
+  - {from: topbar-tsx-guidebar-vgl8l, to: topbar-tsx-shortname-7fva9}
+  - {from: topbar-tsx-topbar-1genq, to: chrome-tsx-tools-nikbq}
+  - {from: topbar-tsx-topbar-1genq, to: chrome-tsx-topleft-1ltqs}

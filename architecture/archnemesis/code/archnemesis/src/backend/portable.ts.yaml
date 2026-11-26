@@ -1,0 +1,120 @@
+# archnemesis:src/backend/portable.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-portable-ts-1el9g:
+    kind: module
+    name: portable.ts
+    in: web-backend
+    context: "Designs that travel, for the backend with no server: in a link (`#~d=...`), as a .zip or a folder, or read from a public GitHub repository (`#~gh=...`, see portable-remote.ts). A link, a zip or a repository only ever gives you a copy: it becomes a new design in this browser, and what you change there is yours alone. What arrives is untrusted: it goes through readFiles, and nothing in it is run…"
+    tech: [TypeScript]
+    path: archnemesis:src/backend/portable.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts
+  portable-ts-createportable-13255:
+    kind: function
+    name: createPortable()
+    in: backend-portable-ts-1el9g
+    signature: "createPortable(host: PortableHost, deps: PortableDeps): PortableCapability & { info(key: string): DesignDoc | null; openRemote(info: DesignDoc, ydoc: Doc, handlers: DocHandlers): DocConnection; state(key: string): StateJson | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:54
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-ts-here-1l47j:
+    kind: function
+    name: here()
+    in: backend-portable-ts-1el9g
+    signature: "here: () => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:51
+  portable-ts-portablehost-add-rwh2e:
+    kind: function
+    name: PortableHost.add()
+    in: backend-portable-ts-1el9g
+    context: Add a design to the list (a free key made from its name).
+    tech: [method of PortableHost]
+    signature: "add(name: string, extra?: Partial<DesignRecord> | undefined): DesignRecord"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:38
+  portable-ts-portablehost-adopt-s2twd:
+    kind: function
+    name: PortableHost.adopt()
+    in: backend-portable-ts-1el9g
+    context: A design copied from GitHub remembers where it came from (so it can pull and propose).
+    tech: [method of PortableHost]
+    signature: "adopt(key: string, spec: GhSpec, folder: string, subject: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:42
+  portable-ts-portablehost-withdoc-3bpm9:
+    kind: function
+    name: PortableHost.withDoc()
+    in: backend-portable-ts-1el9g
+    context: "The design's document: the open one, or one loaded from storage for a moment."
+    tech: [method of PortableHost]
+    signature: "withDoc<T>(rec: DesignRecord, fn: (ydoc: Doc) => T): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:40
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-ts-typeliteral0-all-1dv4l:
+    kind: function
+    name: typeLiteral0:all()
+    in: backend-portable-ts-1el9g
+    signature: "all(): DesignRecord[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:32
+  portable-ts-typeliteral0-find-ldrxg:
+    kind: function
+    name: typeLiteral0:find()
+    in: backend-portable-ts-1el9g
+    signature: "find(key: string): DesignRecord | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:34
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-ts-typeliteral0-save-1rebg:
+    kind: function
+    name: typeLiteral0:save()
+    in: backend-portable-ts-1el9g
+    signature: "save(next: DesignRecord[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable.ts:33
+connections:
+  - {from: portable-ts-createportable-13255, to: doc-ts-tables-14dtu}
+  - {from: portable-ts-createportable-13255, to: files-open-ts-pickfolder-1t8lt}
+  - {from: portable-ts-createportable-13255, to: files-open-ts-pickzip-cq106}
+  - {from: portable-ts-createportable-13255, to: files-open-ts-savebytes-1ao7s}
+  - {from: portable-ts-createportable-13255, to: model-ts-slug-1nu4f}
+  - {from: portable-ts-createportable-13255, to: portable-files-ts-cleanname-ul6qc}
+  - {from: portable-ts-createportable-13255, to: portable-files-ts-filesofdoc-lk8af}
+  - {from: portable-ts-createportable-13255, to: portable-files-ts-loadmodel-1tf3r}
+  - {from: portable-ts-createportable-13255, to: portable-files-ts-readwithproblems-1j7zz}
+  - {from: portable-ts-createportable-13255, to: portable-remote-ts-createremotes-14ur2}
+  - {from: portable-ts-createportable-13255, to: portable-ts-here-1l47j}
+  - {from: portable-ts-createportable-13255, to: portable-ts-portablehost-add-rwh2e}
+  - {from: portable-ts-createportable-13255, to: portable-ts-portablehost-adopt-s2twd}
+  - {from: portable-ts-createportable-13255, to: portable-ts-portablehost-withdoc-3bpm9}
+  - {from: portable-ts-createportable-13255, to: portable-ts-typeliteral0-all-1dv4l}
+  - {from: portable-ts-createportable-13255, to: portable-ts-typeliteral0-find-ldrxg}
+  - {from: portable-ts-createportable-13255, to: portable-ts-typeliteral0-save-1rebg}
+  - {from: portable-ts-createportable-13255, to: sharelink-ts-decodedesign-1n4h3}
+  - {from: portable-ts-createportable-13255, to: sharelink-ts-encodedesign-z148r}
+  - {from: portable-ts-createportable-13255, to: sharelink-ts-fingerprint-1eq0b}
+  - {from: portable-ts-createportable-13255, to: types-ts-backenderror-constructor-trfnp}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-copy-11d1v}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-download-1ffb6}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-fragmentof-1g3lj}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-link-lm0cr}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-openfiles-c4fl5}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-openshared-102rc}
+  - {from: portable-ts-createportable-13255, to: types-ts-portablecapability-whatsnew-lg7sk}
+  - {from: portable-ts-createportable-13255, to: zip-ts-unzipdesign-1f564}
+  - {from: portable-ts-createportable-13255, to: zip-ts-zipfiles-1wj3f}

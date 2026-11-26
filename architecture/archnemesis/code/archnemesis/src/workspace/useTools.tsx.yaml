@@ -1,0 +1,32 @@
+# archnemesis:src/workspace/useTools.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usetools-tsx-efdba:
+    kind: module
+    name: useTools.tsx
+    in: web-workspace
+    context: The tool in hand (select, view, connect, note, group, or a kind of box to place), what the tool decides on the canvas, the hint under the toolbar, and picking a kind in the toolbar.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/useTools.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTools.tsx
+  usetools-tsx-usetools-rf1hc:
+    kind: function
+    name: useTools()
+    in: workspace-usetools-tsx-efdba
+    signature: "useTools({ simple, sel, idx, diagramId, run, openFresh, setFresh, scene, ready, }: { simple: boolean; sel: Selection; idx: ModelIndex; diagramId: string | null; run: (ops: Op[], label: string) => Promise<void>; openFresh: (id: string) => void; setFresh: Dispatch<...>; scene: SceneRef; ready: bool…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTools.tsx:16
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usetools-tsx-usetools-rf1hc, to: actions-ts-updateobject-b8yrs}
+  - {from: usetools-tsx-usetools-rf1hc, to: model-ts-boxsize-1fd2o}
+  - {from: usetools-tsx-usetools-rf1hc, to: names-ts-defaultname-1ulo4}
+  - {from: usetools-tsx-usetools-rf1hc, to: names-ts-isblank-1qbq0}
+  - {from: usetools-tsx-usetools-rf1hc, to: names-ts-isdefaultname-o82vb}
+  - {from: usetools-tsx-usetools-rf1hc, to: scene-ts-scene-setgroupdraw-emvfq}
+  - {from: usetools-tsx-usetools-rf1hc, to: scene-ts-scene-setsimple-9f4gl}
+  - {from: usetools-tsx-usetools-rf1hc, to: scene-ts-scene-settool-zfxte}

@@ -1,0 +1,13 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Web app
+scope: web
+arrows: elbow
+tidy: down
+hide_lines:
+  - between: neighbours
+include:
+  - children: web
+  - neighbours: web
+exclude:
+  - ids: [build]
+  - kind: library

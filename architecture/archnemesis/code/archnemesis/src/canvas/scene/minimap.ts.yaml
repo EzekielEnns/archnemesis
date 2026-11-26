@@ -1,0 +1,69 @@
+# archnemesis:src/canvas/scene/minimap.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-minimap-ts-bpbs8:
+    kind: module
+    name: minimap.ts
+    in: canvas-scene-iaxtu
+    context: "The minimap in the bottom-left corner: its layout, its boxes, the view rectangle, and whether a point is on it."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/minimap.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts
+  minimap-ts-drawminimap-6jl4a:
+    kind: function
+    name: drawMinimap()
+    in: scene-minimap-ts-bpbs8
+    context: Lay the minimap out for the current boxes and draw all of it.
+    signature: "drawMinimap(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts:17
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  minimap-ts-drawmininodes-12y88:
+    kind: function
+    name: drawMiniNodes()
+    in: scene-minimap-ts-bpbs8
+    signature: "drawMiniNodes(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts:43
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  minimap-ts-drawminiview-670s0:
+    kind: function
+    name: drawMiniView()
+    in: scene-minimap-ts-bpbs8
+    signature: "drawMiniView(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts:66
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  minimap-ts-inminimap-xjkzu:
+    kind: function
+    name: inMinimap()
+    in: scene-minimap-ts-bpbs8
+    signature: "inMinimap(state: SceneState, p: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts:80
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  minimap-ts-toggleminimap-1xrpb:
+    kind: function
+    name: toggleMinimap()
+    in: scene-minimap-ts-bpbs8
+    signature: "toggleMinimap(state: SceneState, on?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/minimap.ts:10
+connections:
+  - {from: minimap-ts-drawminimap-6jl4a, to: geometry-ts-boundsof-1fvuk}
+  - {from: minimap-ts-drawminimap-6jl4a, to: minimap-ts-drawmininodes-12y88}
+  - {from: minimap-ts-drawminimap-6jl4a, to: minimap-ts-drawminiview-670s0}
+  - {from: minimap-ts-drawminiview-670s0, to: camera-ts-visibleworld-1745x}
+  - {from: minimap-ts-toggleminimap-1xrpb, to: frame-ts-requestrender-sstrq}
+  - {from: minimap-ts-toggleminimap-1xrpb, to: minimap-ts-drawminimap-6jl4a}

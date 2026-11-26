@@ -1,0 +1,13 @@
+# archnemesis:vite.channel.config.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  vite-channel-config-ts-kh2se:
+    kind: module
+    name: vite.channel.config.ts
+    in: build
+    context: The channel (cli/channel-main.ts) as one self-contained file for node, served by Archnemesis.
+    tech: [TypeScript]
+    path: archnemesis:vite.channel.config.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:vite.channel.config.ts

@@ -1,0 +1,121 @@
+# archnemesis:shared/router.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-router-ts-3t3bu:
+    kind: module
+    name: router.ts
+    in: shared-layout
+    context: "Arrows routed around boxes by libavoid (Adaptagrams, LGPL-2.1, loaded unmodified as WebAssembly): elbow (right angles) and straight (bends only to get around a box). One router per diagram, kept between frames: a drag moves a few shapes and libavoid re-routes only what that touches, in well under a millisecond. Shared: the canvas loads libavoid in the browser (src/canvas/avoid.ts), the server in…"
+    tech: [TypeScript]
+    path: archnemesis:shared/router.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts
+  router-ts-edgerouter-constructor-10edv:
+    kind: function
+    name: EdgeRouter.<constructor>()
+    in: shared-router-ts-3t3bu
+    tech: [method of EdgeRouter]
+    signature: "constructor(A: Avoid): EdgeRouter"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:107
+    references:
+      - dependency: lib-libavoid-js-114oj
+  router-ts-edgerouter-destroy-k0vux:
+    kind: function
+    name: EdgeRouter.destroy()
+    in: shared-router-ts-3t3bu
+    tech: [method of EdgeRouter]
+    signature: "destroy(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:204
+  router-ts-edgerouter-path-1rnnq:
+    kind: function
+    name: EdgeRouter.path()
+    in: shared-router-ts-3t3bu
+    context: An arrow's path, box centre to box centre; null if it has none (yet).
+    tech: [method of EdgeRouter]
+    signature: "path(id: string): Point[] | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:200
+  router-ts-edgerouter-point-10pt8:
+    kind: function
+    name: EdgeRouter.point()
+    in: shared-router-ts-3t3bu
+    context: "A free end on a frame's border (the binding takes no direction: the side picked it)."
+    tech: [method of EdgeRouter]
+    signature: "point(p: FramePoint): any"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:216
+    references:
+      - dependency: lib-libavoid-js-114oj
+  router-ts-edgerouter-rectangle-10e0g:
+    kind: function
+    name: EdgeRouter.rectangle()
+    in: shared-router-ts-3t3bu
+    tech: [method of EdgeRouter]
+    signature: "rectangle(r: Rect): any"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:220
+    references:
+      - dependency: lib-libavoid-js-114oj
+  router-ts-edgerouter-sync-m5k0t:
+    kind: function
+    name: EdgeRouter.sync()
+    in: shared-router-ts-3t3bu
+    context: Bring the router up to date with the diagram and re-route. Only what changed is told to libavoid; it re-routes only the arrows that touches.
+    tech: [method of EdgeRouter]
+    signature: 'sync(boxes: Map<string, Rect>, edges: RouterEdge[], style: "elbow" | "straight"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:126
+    references:
+      - dependency: lib-libavoid-js-114oj
+  router-ts-framepoint-zb2j4:
+    kind: function
+    name: framePoint()
+    in: shared-router-ts-3t3bu
+    context: "Where a line meets a frame: the middle of its side facing the other end (or the side pinned by hand)."
+    signature: "framePoint(frame: Rect, other: Rect, pinned?: Side | undefined): FramePoint"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:94
+  router-ts-pinof-ahngw:
+    kind: function
+    name: pinOf()
+    in: shared-router-ts-3t3bu
+    signature: "pinOf: (side?: Side | undefined) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:23
+  router-ts-pinsof-wfuav:
+    kind: function
+    name: pinsOf()
+    in: shared-router-ts-3t3bu
+    signature: "pinsOf: (e: RouterEdge) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:37
+  router-ts-routeredges-8dt0a:
+    kind: function
+    name: routerEdges()
+    in: shared-router-ts-3t3bu
+    context: "The arrows to route, from a diagram's edges: an end on a frame (in `ends`, not in `boxes`) becomes a point on its border; arrows bent by hand are drawn through their bends instead."
+    signature: 'routerEdges(edges: { id: string; from: string; to: string; shape?: { bends?: Point[] | undefined; fromSide?: "right" | "top" | "bottom" | "left" | undefined; toSide?: "right" | "top" | "bottom" | "left" | undefined; } | undefined; }[], ends: Map<...>, boxes: Map<...>): RouterEdge[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/router.ts:61
+connections:
+  - {from: router-ts-edgerouter-sync-m5k0t, to: router-ts-edgerouter-point-10pt8}
+  - {from: router-ts-edgerouter-sync-m5k0t, to: router-ts-edgerouter-rectangle-10e0g}
+  - {from: router-ts-edgerouter-sync-m5k0t, to: router-ts-pinof-ahngw}
+  - {from: router-ts-edgerouter-sync-m5k0t, to: router-ts-pinsof-wfuav}
+  - {from: router-ts-framepoint-zb2j4, to: geometry-ts-anchor-6n060}
+  - {from: router-ts-framepoint-zb2j4, to: geometry-ts-sides-1t0b8}
+  - {from: router-ts-pinsof-wfuav, to: router-ts-pinof-ahngw}
+  - {from: router-ts-routeredges-8dt0a, to: router-ts-framepoint-zb2j4}

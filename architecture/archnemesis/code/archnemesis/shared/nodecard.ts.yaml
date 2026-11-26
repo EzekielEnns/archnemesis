@@ -1,0 +1,79 @@
+# archnemesis:shared/nodecard.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-nodecard-ts-1qnv7:
+    kind: module
+    name: nodecard.ts
+    in: shared-support
+    context: "The node card's plain helpers (src/ui/NodeCard.tsx): what a pasted reference is, a node's notes as a list (they're stored as one markdown doc), a link's name, a typed package."
+    tech: [TypeScript]
+    path: archnemesis:shared/nodecard.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts
+  nodecard-ts-addnote-cd18v:
+    kind: function
+    name: addNote()
+    in: shared-nodecard-ts-1qnv7
+    context: The doc with a note added on top, as a bullet.
+    signature: "addNote(md: string, text: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:28
+  nodecard-ts-detectref-1ffts:
+    kind: function
+    name: detectRef()
+    in: shared-nodecard-ts-1qnv7
+    context: "What an address or a path looks like, before Enter: so a wrong guess shows."
+    signature: 'detectRef(raw: string): "image" | "doc" | "code" | "dependency" | "entity" | "link" | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:8
+  nodecard-ts-linkname-1awqh:
+    kind: function
+    name: linkName()
+    in: shared-nodecard-ts-1qnv7
+    context: "A link's name, guessed from its address: docs.rs/sqlx → \"sqlx docs\", else its title from the URL."
+    signature: "linkName(url: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:40
+  nodecard-ts-noteitems-rzk4o:
+    kind: function
+    name: noteItems()
+    in: shared-nodecard-ts-1qnv7
+    context: A node's notes are one markdown doc; each top-level "- " bullet (or paragraph) is a note.
+    signature: "noteItems(md: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:19
+  nodecard-ts-parsepackage-py0w6:
+    kind: function
+    name: parsePackage()
+    in: shared-nodecard-ts-1qnv7
+    context: A package typed as "axum", "react@18", "cargo:sqlx@0.8".
+    signature: 'parsePackage(raw: string): { ecosystem?: "cargo" | "npm" | "pypi" | "go" | "maven" | "nuget" | "rubygems" | "other" | undefined; name: string; version?: string | undefined; } | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:48
+  nodecard-ts-parsesignature-18if3:
+    kind: function
+    name: parseSignature()
+    in: shared-nodecard-ts-1qnv7
+    context: '"create_order(Cart, UserId) -> Order": its name, and the rest as its signature.'
+    signature: "parseSignature(raw: string): { name: string; signature?: string | undefined; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:104
+  nodecard-ts-removenote-17xr4:
+    kind: function
+    name: removeNote()
+    in: shared-nodecard-ts-1qnv7
+    signature: "removeNote(md: string, at: number): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/nodecard.ts:32
+connections:
+  - {from: nodecard-ts-addnote-cd18v, to: nodecard-ts-noteitems-rzk4o}
+  - {from: nodecard-ts-linkname-1awqh, to: notes-ts-titlefromurl-1wamb}
+  - {from: nodecard-ts-removenote-17xr4, to: nodecard-ts-noteitems-rzk4o}

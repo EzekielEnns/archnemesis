@@ -1,0 +1,32 @@
+# archnemesis:src/workspace/useDiagram.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usediagram-ts-14cr4:
+    kind: module
+    name: useDiagram.ts
+    in: web-workspace
+    context: "The diagram as drawn: the model projected onto the open diagram (coloured by a tag group, with boxes opened in place), the room made for rows under boxes, and the frames grown to hold references."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDiagram.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagram.ts
+  usediagram-ts-usediagram-umfqa:
+    kind: function
+    name: useDiagram()
+    in: workspace-usediagram-ts-14cr4
+    signature: "useDiagram({ store, idx, diffIdx, diagramId, simple, made, opened, layers, }: { store: Store; idx: ModelIndex; diffIdx: ModelIndex | null; diagramId: string | null; simple: boolean; made: ReadonlySet<string>; opened: Record<...>; layers: LayerState; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagram.ts:21
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usediagram-ts-usediagram-umfqa, to: explode-ts-explode-1jzag}
+  - {from: usediagram-ts-usediagram-umfqa, to: layers-tsx-growframes-zjgtf}
+  - {from: usediagram-ts-usediagram-umfqa, to: layers-tsx-hasrow-1xiyo}
+  - {from: usediagram-ts-usediagram-umfqa, to: layers-tsx-layoutparts-c71m1}
+  - {from: usediagram-ts-usediagram-umfqa, to: project-ts-colorgraph-1yczs}
+  - {from: usediagram-ts-usediagram-umfqa, to: project-ts-projectdiagram-1p3dd}
+  - {from: usediagram-ts-usediagram-umfqa, to: spread-ts-makespread-10247}
+  - {from: usediagram-ts-usediagram-umfqa, to: spread-ts-spreadgraph-18ztw}

@@ -1,0 +1,228 @@
+# archnemesis:server/files.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-files-ts-9envn:
+    kind: module
+    name: files.ts
+    in: srv-files
+    context: Keeps a folder of architecture files (shared/files.ts) and the live document in step.
+    tech: [TypeScript]
+    path: archnemesis:server/files.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts
+  files-ts-behind-1y4yp:
+    kind: function
+    name: behind()
+    in: server-files-ts-9envn
+    context: "The folder is only behind Archnemesis, not edited: every file there is what Archnemesis would write now, and some are missing (files Archnemesis wasn't allowed to write yet, as code/ before it was one of its own). Then writing catches it up; reading would delete what's missing."
+    signature: "behind(onDisk: Map<string, string>, expected: Map<string, string>): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:136
+  files-ts-filesync-apply-p4i0y:
+    kind: function
+    name: FileSync.apply()
+    in: server-files-ts-9envn
+    context: Check the folder and apply it to the document; on errors, say so and change nothing.
+    tech: [method of FileSync]
+    signature: "apply(files: Map<string, string>, raw?: Map<string, string>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:347
+    references:
+      - dependency: lib-yjs-1y6wn
+  files-ts-filesync-broken-gop0t:
+    kind: function
+    name: FileSync.broken()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "broken(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:328
+  files-ts-filesync-close-1n85e:
+    kind: function
+    name: FileSync.close()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:210
+  files-ts-filesync-constructor-wdle3:
+    kind: function
+    name: FileSync.<constructor>()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "constructor(live: Live, dir: string, opts?: { mirror?: boolean | undefined; }): FileSync"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:167
+  files-ts-filesync-flush-vhbub:
+    kind: function
+    name: FileSync.flush()
+    in: server-files-ts-9envn
+    context: "Write the document out: only files whose contents changed, and remove ones no longer needed. Not while the folder has errors: that would overwrite someone's half-finished edit. Writing resumes once the folder reads cleanly again."
+    tech: [method of FileSync]
+    signature: "flush(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:245
+    references:
+      - dependency: lib-yjs-1y6wn
+  files-ts-filesync-guard-1588w:
+    kind: function
+    name: FileSync.guard()
+    in: server-files-ts-9envn
+    context: Run timer work so a failure (a full disk, a bad entry) is logged, never fatal.
+    tech: [method of FileSync]
+    signature: "guard(what: string, fn: () => void): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:229
+  files-ts-filesync-keepcopy-12p94:
+    kind: function
+    name: FileSync.keepCopy()
+    in: server-files-ts-9envn
+    context: "Before fixed files replace edits made while they were broken: Archnemesis's version, as files, in recovered/ next to the database, and a line in the history saying where."
+    tech: [method of FileSync]
+    signature: "keepCopy(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:293
+    references:
+      - dependency: lib-yjs-1y6wn
+  files-ts-filesync-onfileschanged-baef2:
+    kind: function
+    name: FileSync.onFilesChanged()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "onFilesChanged(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:332
+  files-ts-filesync-readdir-bpk6z:
+    kind: function
+    name: FileSync.readDir()
+    in: server-files-ts-9envn
+    context: The folder's Archnemesis files.
+    tech: [method of FileSync]
+    signature: "readDir(): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:174
+  files-ts-filesync-schedulewrite-1scdj:
+    kind: function
+    name: FileSync.scheduleWrite()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "scheduleWrite(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:220
+  files-ts-filesync-start-rcai2:
+    kind: function
+    name: FileSync.start()
+    in: server-files-ts-9envn
+    tech: [method of FileSync]
+    signature: "start(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:178
+    references:
+      - dependency: lib-yjs-1y6wn
+  files-ts-hasdesignfolder-abc2j:
+    kind: function
+    name: hasDesignFolder()
+    in: server-files-ts-9envn
+    context: Does this folder hold a design file (archnm.yaml, or atlas.yaml from before the rename)?
+    signature: "hasDesignFolder: (dir: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:51
+  files-ts-hash-9xyzy:
+    kind: function
+    name: hash()
+    in: server-files-ts-9envn
+    signature: "hash: (files: Map<string, string>) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:144
+  files-ts-pruneempty-1vdle:
+    kind: function
+    name: pruneEmpty()
+    in: server-files-ts-9envn
+    context: After a code file goes, the folders it leaves empty under code/ go too.
+    signature: "pruneEmpty(dir: string, rel: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:117
+  files-ts-readfolder-1jdfc:
+    kind: function
+    name: readFolder()
+    in: server-files-ts-9envn
+    context: "The design's files in a folder. Symlinks are skipped: a repo could otherwise point model/x.yaml at any file on the server (or a folder at itself). A file that vanishes mid-read (a checkout in progress) is skipped; the watcher reads again once it settles."
+    signature: "readFolder(dir: string): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:87
+  files-ts-writable-n458p:
+    kind: function
+    name: writable()
+    in: server-files-ts-9envn
+    context: "May archnm write this path in a design's folder? Only its own files (`isOurs`: one level deep, no \"..\", no slashes in names), and never through a symlinked folder, so nothing in the model can make it write anywhere else on the server."
+    signature: "writable(dir: string, rel: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/files.ts:61
+connections:
+  - {from: files-ts-filesync-apply-p4i0y, to: doc-ts-appendlog-17rlo}
+  - {from: files-ts-filesync-apply-p4i0y, to: doc-ts-applyops-7k6hw}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-check-toyfi}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-filesync-keepcopy-12p94}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-filesync-schedulewrite-1scdj}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-hasdesignfile-2ild3}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-readfiles-1ttso}
+  - {from: files-ts-filesync-apply-p4i0y, to: files-ts-toops-1d908}
+  - {from: files-ts-filesync-apply-p4i0y, to: live-ts-live-applyrules-mzbpr}
+  - {from: files-ts-filesync-apply-p4i0y, to: live-ts-live-setconfig-12139}
+  - {from: files-ts-filesync-apply-p4i0y, to: live-ts-live-setname-cpudu}
+  - {from: files-ts-filesync-close-1n85e, to: files-ts-filesync-flush-vhbub}
+  - {from: files-ts-filesync-flush-vhbub, to: agentsmd-ts-isgeneratedagents-h0c04}
+  - {from: files-ts-filesync-flush-vhbub, to: doc-ts-applyops-7k6hw}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-filesync-broken-gop0t}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-hash-9xyzy}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-keyops-hk86o}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-pruneempty-1vdle}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-readfolder-1jdfc}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-writable-n458p}
+  - {from: files-ts-filesync-flush-vhbub, to: files-ts-writefiles-dumd7}
+  - {from: files-ts-filesync-flush-vhbub, to: live-ts-live-config-1ps60}
+  - {from: files-ts-filesync-keepcopy-12p94, to: doc-ts-appendlog-17rlo}
+  - {from: files-ts-filesync-keepcopy-12p94, to: files-ts-writefiles-dumd7}
+  - {from: files-ts-filesync-keepcopy-12p94, to: live-ts-live-config-1ps60}
+  - {from: files-ts-filesync-keepcopy-12p94, to: live-ts-live-get-statedir-1x4tc}
+  - {from: files-ts-filesync-keepcopy-12p94, to: ours-ts-isours-8rj10}
+  - {from: files-ts-filesync-onfileschanged-baef2, to: files-ts-filesync-apply-p4i0y}
+  - {from: files-ts-filesync-onfileschanged-baef2, to: files-ts-filesync-guard-1588w}
+  - {from: files-ts-filesync-onfileschanged-baef2, to: files-ts-filesync-readdir-bpk6z}
+  - {from: files-ts-filesync-onfileschanged-baef2, to: files-ts-hash-9xyzy}
+  - {from: files-ts-filesync-readdir-bpk6z, to: files-ts-readfolder-1jdfc}
+  - {from: files-ts-filesync-schedulewrite-1scdj, to: files-ts-filesync-flush-vhbub}
+  - {from: files-ts-filesync-schedulewrite-1scdj, to: files-ts-filesync-guard-1588w}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-behind-1y4yp}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-apply-p4i0y}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-flush-vhbub}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-guard-1588w}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-onfileschanged-baef2}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-readdir-bpk6z}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-filesync-schedulewrite-1scdj}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-hash-9xyzy}
+  - {from: files-ts-filesync-start-rcai2, to: files-ts-writefiles-dumd7}
+  - {from: files-ts-filesync-start-rcai2, to: live-ts-live-config-1ps60}
+  - {from: files-ts-filesync-start-rcai2, to: live-ts-live-onchange-71ioh}
+  - {from: files-ts-filesync-start-rcai2, to: ours-ts-isours-8rj10}
+  - {from: files-ts-hasdesignfolder-abc2j, to: files-ts-hasdesignfile-2ild3}
+  - {from: files-ts-readfolder-1jdfc, to: ours-ts-isours-8rj10}
+  - {from: files-ts-writable-n458p, to: ours-ts-isours-8rj10}

@@ -1,0 +1,41 @@
+# archnemesis:src/workspace/names.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-names-ts-mybk2:
+    kind: module
+    name: names.ts
+    in: web-workspace
+    context: What a new box is called, and whether a box is still as it was made.
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/names.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/names.ts
+  names-ts-defaultname-1ulo4:
+    kind: function
+    name: defaultName()
+    in: workspace-names-ts-mybk2
+    context: 'The name a new box gets: "New app", "new_table", "new_function()".'
+    signature: 'defaultName(kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table"): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/names.ts:6
+  names-ts-isblank-1qbq0:
+    kind: function
+    name: isBlank()
+    in: workspace-names-ts-mybk2
+    context: "Nothing on it yet: its name is still the one it was made with, no description, no lines."
+    signature: "isBlank(idx: ModelIndex, o: ModelObject): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/names.ts:16
+  names-ts-isdefaultname-o82vb:
+    kind: function
+    name: isDefaultName()
+    in: workspace-names-ts-mybk2
+    signature: "isDefaultName: (name: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/names.ts:9
+connections:
+  - {from: names-ts-isblank-1qbq0, to: names-ts-isdefaultname-o82vb}

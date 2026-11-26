@@ -1,0 +1,514 @@
+# archnemesis:shared/geometry.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-geometry-ts-1x2sa:
+    kind: module
+    name: geometry.ts
+    in: shared-layout
+    context: "Plain 2D geometry for the canvas: no Pixi, so it's unit-tested on its own."
+    tech: [TypeScript]
+    path: archnemesis:shared/geometry.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts
+  geometry-ts-alongline-5xto3:
+    kind: function
+    name: alongLine()
+    in: shared-geometry-ts-1x2sa
+    context: The point a fraction `t` of the way along a line, by length.
+    signature: "alongLine(pts: Point[], t: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:458
+  geometry-ts-anchor-6n060:
+    kind: function
+    name: anchor()
+    in: shared-geometry-ts-1x2sa
+    context: The point on a side, `offset` px from its middle (along x for top/bottom, y for left/right).
+    signature: "anchor(r: Rect, side: Side, offset?: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:222
+  geometry-ts-arrowhead-hmfce:
+    kind: function
+    name: arrowHead()
+    in: shared-geometry-ts-1x2sa
+    context: The two back corners of an arrowhead whose tip is at `tip`, pointing away from `from`.
+    signature: "arrowHead(tip: Point, from: Point, size: number): [Point, Point]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:69
+  geometry-ts-backwards-1h269:
+    kind: function
+    name: backwards()
+    in: shared-geometry-ts-1x2sa
+    context: Side `s` of `r` faces away from `other`, clearly (its outward direction points back).
+    signature: "backwards(r: Rect, s: Side, other: Rect): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:608
+  geometry-ts-bendindex-1xyut:
+    kind: function
+    name: bendIndex()
+    in: shared-geometry-ts-1x2sa
+    context: "Where a new bend at `p` goes in the list: on the stretch of [start, ...bends, end] nearest it."
+    signature: "bendIndex(start: Point, bends: Point[], end: Point, p: Point): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:771
+  geometry-ts-bentroute-ojpwi:
+    kind: function
+    name: bentRoute()
+    in: shared-geometry-ts-1x2sa
+    context: "An arrow through hand-placed bend points. It leaves `a` by `via.from` (or wherever the line to the first bend crosses its border) and arrives at `b` the same way. Elbow: right angles, carrying on in the same direction before each turn; curved: big round corners; straight: sharp corners."
+    signature: 'bentRoute(a: Rect, b: Rect, bends: Point[], style: "curved" | "elbow" | "straight", via?: { from?: Side | undefined; to?: Side | undefined; }, off?: { a?: number | undefined; b?: number | undefined; }): Route'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:684
+  geometry-ts-borderpoint-1nxt9:
+    kind: function
+    name: borderPoint()
+    in: shared-geometry-ts-1x2sa
+    context: "Where the line from the rect's center toward `target` leaves the rect: the point an edge should start or end at so it meets the box's border, not its middle."
+    signature: "borderPoint(r: Rect, target: Point): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:57
+  geometry-ts-boundsof-1fvuk:
+    kind: function
+    name: boundsOf()
+    in: shared-geometry-ts-1x2sa
+    context: The smallest rect holding every rect given; null for none.
+    signature: "boundsOf(rects: Iterable<Rect>): Rect | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:28
+  geometry-ts-boxgrid-add-vcn8d:
+    kind: function
+    name: BoxGrid.add()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of BoxGrid]
+    signature: "add(id: string, r: Rect): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:524
+  geometry-ts-boxgrid-constructor-1uxkw:
+    kind: function
+    name: BoxGrid.<constructor>()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of BoxGrid]
+    signature: "constructor(cell?: number, pad?: number): BoxGrid"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:519
+  geometry-ts-boxgrid-hit-108rc:
+    kind: function
+    name: BoxGrid.hit()
+    in: shared-geometry-ts-1x2sa
+    context: The box a point is inside (with padding), other than the ones to skip.
+    tech: [method of BoxGrid]
+    signature: "hit(p: Point, skipA: string, skipB: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:555
+  geometry-ts-boxgrid-overlaps-5wzl3:
+    kind: function
+    name: BoxGrid.overlaps()
+    in: shared-geometry-ts-1x2sa
+    context: Does this rect overlap any box (without padding)?
+    tech: [method of BoxGrid]
+    signature: "overlaps(q: Rect): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:541
+  geometry-ts-cellkey-10tk9:
+    kind: function
+    name: cellKey()
+    in: shared-geometry-ts-1x2sa
+    context: Boxes bucketed on a coarse grid, for "what's under this point" without scanning them all.
+    signature: "cellKey: (x: number, y: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:499
+  geometry-ts-center-vbw2y:
+    kind: function
+    name: center()
+    in: shared-geometry-ts-1x2sa
+    signature: "center(r: Rect): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:15
+  geometry-ts-choosesides-1ue4u:
+    kind: function
+    name: chooseSides()
+    in: shared-geometry-ts-1x2sa
+    signature: "chooseSides(edges: PortEdge[], rect: (id: string) => Rect | undefined, grid: BoxGrid): Map<string, { from: Side; to: Side; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:616
+  geometry-ts-cliptoboxes-109zs:
+    kind: function
+    name: clipToBoxes()
+    in: shared-geometry-ts-1x2sa
+    context: "A router's path runs from box centre to box centre: cut it where it leaves the first box and where it enters the last, so it meets their borders."
+    signature: "clipToBoxes(pts: Point[], a: Rect, b: Rect): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:175
+  geometry-ts-contains-1k1sy:
+    kind: function
+    name: contains()
+    in: shared-geometry-ts-1x2sa
+    signature: "contains(r: Rect, p: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:19
+  geometry-ts-cost-4g6ur:
+    kind: function
+    name: cost()
+    in: shared-geometry-ts-1x2sa
+    signature: "cost(r: Route, a: Rect, b: Rect, aId: string, bId: string, grid: BoxGrid): RouteCost"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:579
+  geometry-ts-curvearound-104cj:
+    kind: function
+    name: curveAround()
+    in: shared-geometry-ts-1x2sa
+    context: "A curve that runs through boxes other than its ends (and what holds them), bent around them: for each box it crosses, a pass along whichever side of it covers least, kept smooth (bentRoute, curved). The canvas and the render both draw curved arrows this way, so a line never reads as going into a box it doesn't touch. A curve that crosses nothing is returned as it is; one that can't be cleared k…"
+    signature: "curveAround(r: Route, a: Rect, b: Rect, via: { from: Side; to: Side; }, boxes: Iterable<Rect>, off?: { a?: number | undefined; b?: number | undefined; }, margin?: number): Route"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:858
+  geometry-ts-dedupe-2em8h:
+    kind: function
+    name: dedupe()
+    in: shared-geometry-ts-1x2sa
+    signature: "dedupe(pts: Point[]): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:738
+  geometry-ts-exitpoint-1k0nn:
+    kind: function
+    name: exitPoint()
+    in: shared-geometry-ts-1x2sa
+    context: Where the segment from `inside` toward `outside` crosses the rect's border.
+    signature: "exitPoint(r: Rect, inside: Point, outside: Point): Point | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:188
+  geometry-ts-horizontalside-1l7bz:
+    kind: function
+    name: horizontalSide()
+    in: shared-geometry-ts-1x2sa
+    signature: 'horizontalSide: (s: Side) => s is "l" | "r"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:676
+  geometry-ts-intersects-1xejh:
+    kind: function
+    name: intersects()
+    in: shared-geometry-ts-1x2sa
+    signature: "intersects(a: Rect, b: Rect): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:23
+  geometry-ts-labelspots-djc7e:
+    kind: function
+    name: labelSpots()
+    in: shared-geometry-ts-1x2sa
+    context: "Where a label could sit on a line route, best first: the middle of each straight stretch (longest first), then its thirds. Curves have one spot, their middle."
+    signature: "labelSpots(r: Route, w?: number): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:312
+  geometry-ts-lengthinside-1c876:
+    kind: function
+    name: lengthInside()
+    in: shared-geometry-ts-1x2sa
+    context: How much of the segment a→b lies inside the rect (clipped, Liang–Barsky).
+    signature: "lengthInside(a: Point, b: Point, r: Rect): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:435
+  geometry-ts-lineroute-1f1dz:
+    kind: function
+    name: lineRoute()
+    in: shared-geometry-ts-1x2sa
+    context: A route along points (at least two).
+    signature: "lineRoute(pts: Point[], round?: number): Route"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:94
+  geometry-ts-nearestside-z9vsm:
+    kind: function
+    name: nearestSide()
+    in: shared-geometry-ts-1x2sa
+    context: The side of `r` nearest to `p`.
+    signature: "nearestSide(r: Rect, p: Point): Side"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:660
+  geometry-ts-nearestt-1lwwa:
+    kind: function
+    name: nearestT()
+    in: shared-geometry-ts-1x2sa
+    context: How far along the route (0 at the start, 1 at the end) the point nearest `p` is.
+    signature: "nearestT(r: Route, p: Point): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:749
+  geometry-ts-overlaparea-hnnci:
+    kind: function
+    name: overlapArea()
+    in: shared-geometry-ts-1x2sa
+    context: How much two rects overlap, as an area (0 when they don't).
+    signature: "overlapArea(a: Rect, b: Rect): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:333
+  geometry-ts-pathsink-beziercurveto-1sefd:
+    kind: function
+    name: PathSink.bezierCurveTo()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of PathSink]
+    signature: "bezierCurveTo(x1: number, y1: number, x2: number, y2: number, x: number, y: number): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:103
+  geometry-ts-pathsink-lineto-lvhqs:
+    kind: function
+    name: PathSink.lineTo()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of PathSink]
+    signature: "lineTo(x: number, y: number): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:102
+  geometry-ts-pathsink-moveto-vmgz0:
+    kind: function
+    name: PathSink.moveTo()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of PathSink]
+    signature: "moveTo(x: number, y: number): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:101
+  geometry-ts-pathsink-quadraticcurveto-cr6ci:
+    kind: function
+    name: PathSink.quadraticCurveTo()
+    in: shared-geometry-ts-1x2sa
+    tech: [method of PathSink]
+    signature: "quadraticCurveTo(cx: number, cy: number, x: number, y: number): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:104
+  geometry-ts-placelabel-zxld1:
+    kind: function
+    name: placeLabel()
+    in: shared-geometry-ts-1x2sa
+    context: "Where a w×h label goes on a route: the first spot clear of `boxes` and of labels already `taken` (it's added to them), trying the good spots first (labelSpots), then every few pixels along the whole line. A short hop between two boxes has no clear spot of its own, so the label slides to where the line runs in the open. With none clear anywhere, the spot that covers least."
+    signature: "placeLabel(r: Route, w: number, h: number, boxes: Rect[], taken: Rect[], others?: Route[]): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:346
+  geometry-ts-placelabelon-5ntzp:
+    kind: function
+    name: placeLabelOn()
+    in: shared-geometry-ts-1x2sa
+    context: "placeLabel, saying how much box it still covers (0: none), so a caller can shorten it and try again."
+    signature: "placeLabelOn(r: Route, w: number, h: number, boxes: Rect[], taken: Rect[], keep?: boolean, others?: Route[]): { at: Point; covers: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:358
+  geometry-ts-ports-1dg9c:
+    kind: function
+    name: ports()
+    in: shared-geometry-ts-1x2sa
+    context: Spread the ends of edges that share a box side along it, ordered by where the other end is, so they don't pile onto one point or cross each other at the box.
+    signature: "ports(edges: PortEdge[], rect: (id: string) => Rect | undefined, chosen?: Map<string, { from: Side; to: Side; }> | undefined): Map<string, { a: number; b: number; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:255
+  geometry-ts-rectfromcorners-kqq47:
+    kind: function
+    name: rectFromCorners()
+    in: shared-geometry-ts-1x2sa
+    context: The rect spanned by two corners, in any order (a marquee drag).
+    signature: "rectFromCorners(a: Point, b: Point): Rect"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:44
+  geometry-ts-route-26rwn:
+    kind: function
+    name: route()
+    in: shared-geometry-ts-1x2sa
+    context: A curve from a facing side of `a` to one of `b`; offsets move the ends along their sides.
+    signature: "route(a: Rect, b: Rect, offA?: number, offB?: number, via?: { from: Side; to: Side; } | undefined): Route"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:229
+  geometry-ts-routebox-1yj8t:
+    kind: function
+    name: routeBox()
+    in: shared-geometry-ts-1x2sa
+    context: "The area a curve can reach: the box around its end and control points."
+    signature: "routeBox(r: Route): Rect"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:502
+  geometry-ts-routedistance-9qm74:
+    kind: function
+    name: routeDistance()
+    in: shared-geometry-ts-1x2sa
+    context: How far a point is from the curve (sampled; plenty for clicking on it).
+    signature: "routeDistance(r: Route, p: Point, samples?: number): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:482
+  geometry-ts-routepoint-vghoc:
+    kind: function
+    name: routePoint()
+    in: shared-geometry-ts-1x2sa
+    signature: "routePoint(r: Route, t: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:295
+  geometry-ts-routepts-yvrpe:
+    kind: function
+    name: routePts()
+    in: shared-geometry-ts-1x2sa
+    context: "Points along a route: its line, or the curve sampled."
+    signature: "routePts(r: Route, n?: number): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:841
+  geometry-ts-segmentdistance-1vamt:
+    kind: function
+    name: segmentDistance()
+    in: shared-geometry-ts-1x2sa
+    signature: "segmentDistance(p: Point, a: Point, b: Point): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:473
+  geometry-ts-sideofborder-58mg8:
+    kind: function
+    name: sideOfBorder()
+    in: shared-geometry-ts-1x2sa
+    signature: "sideOfBorder(r: Rect, p: Point): Side"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:734
+  geometry-ts-sides-1t0b8:
+    kind: function
+    name: sides()
+    in: shared-geometry-ts-1x2sa
+    context: "Which sides a curve leaves `a` and enters `b` from: sideways when the boxes are further apart horizontally than vertically."
+    signature: "sides(a: Rect, b: Rect): { from: Side; to: Side; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:203
+  geometry-ts-smooththrough-js8aj:
+    kind: function
+    name: smoothThrough()
+    in: shared-geometry-ts-1x2sa
+    context: "Points along a centripetal Catmull-Rom spline through `pts`: smooth, goes through every point, and (unlike rounding each corner) never loops back on itself at a sharp bend."
+    signature: "smoothThrough(pts: Point[], perLeg?: number): Point[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:804
+  geometry-ts-toward-pxoze:
+    kind: function
+    name: toward()
+    in: shared-geometry-ts-1x2sa
+    context: The point `d` along the way from `a` toward `b`.
+    signature: "toward(a: Point, b: Point, d: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:166
+  geometry-ts-tracedashed-15631:
+    kind: function
+    name: traceDashed()
+    in: shared-geometry-ts-1x2sa
+    context: "Draw a route as dashes (not stroked): `on` long, `off` apart, following its curve."
+    signature: "traceDashed(g: PathSink, r: Route, on?: number, off?: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:108
+  geometry-ts-traceroute-1obmx:
+    kind: function
+    name: traceRoute()
+    in: shared-geometry-ts-1x2sa
+    context: Draw a route's path (not stroked). Elbow corners are rounded, never past half a leg.
+    signature: "traceRoute(g: PathSink, r: Route): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:137
+  geometry-ts-within-1vmcf:
+    kind: function
+    name: within()
+    in: shared-geometry-ts-1x2sa
+    signature: "within: (inner: Rect, outer: Rect) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/geometry.ts:845
+connections:
+  - {from: geometry-ts-alongline-5xto3, to: geometry-ts-toward-pxoze}
+  - {from: geometry-ts-anchor-6n060, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-backwards-1h269, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-anchor-6n060}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-dedupe-2em8h}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-exitpoint-1k0nn}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-horizontalside-1l7bz}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-lineroute-1f1dz}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-sideofborder-58mg8}
+  - {from: geometry-ts-bentroute-ojpwi, to: geometry-ts-smooththrough-js8aj}
+  - {from: geometry-ts-borderpoint-1nxt9, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-boxgrid-add-vcn8d, to: geometry-ts-cellkey-10tk9}
+  - {from: geometry-ts-boxgrid-hit-108rc, to: geometry-ts-cellkey-10tk9}
+  - {from: geometry-ts-boxgrid-overlaps-5wzl3, to: geometry-ts-cellkey-10tk9}
+  - {from: geometry-ts-boxgrid-overlaps-5wzl3, to: geometry-ts-intersects-1xejh}
+  - {from: geometry-ts-choosesides-1ue4u, to: geometry-ts-backwards-1h269}
+  - {from: geometry-ts-choosesides-1ue4u, to: geometry-ts-cost-4g6ur}
+  - {from: geometry-ts-choosesides-1ue4u, to: geometry-ts-route-26rwn}
+  - {from: geometry-ts-choosesides-1ue4u, to: geometry-ts-sides-1t0b8}
+  - {from: geometry-ts-cliptoboxes-109zs, to: geometry-ts-contains-1k1sy}
+  - {from: geometry-ts-cliptoboxes-109zs, to: geometry-ts-exitpoint-1k0nn}
+  - {from: geometry-ts-cost-4g6ur, to: geometry-ts-boxgrid-hit-108rc}
+  - {from: geometry-ts-cost-4g6ur, to: geometry-ts-contains-1k1sy}
+  - {from: geometry-ts-cost-4g6ur, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-anchor-6n060}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-bentroute-ojpwi}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-intersects-1xejh}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-lengthinside-1c876}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-routebox-1yj8t}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-routepts-yvrpe}
+  - {from: geometry-ts-curvearound-104cj, to: geometry-ts-within-1vmcf}
+  - {from: geometry-ts-labelspots-djc7e, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-nearestside-z9vsm, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-nearestt-1lwwa, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-placelabel-zxld1, to: geometry-ts-placelabelon-5ntzp}
+  - {from: geometry-ts-placelabelon-5ntzp, to: geometry-ts-labelspots-djc7e}
+  - {from: geometry-ts-placelabelon-5ntzp, to: geometry-ts-lengthinside-1c876}
+  - {from: geometry-ts-placelabelon-5ntzp, to: geometry-ts-overlaparea-hnnci}
+  - {from: geometry-ts-placelabelon-5ntzp, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-ports-1dg9c, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-ports-1dg9c, to: geometry-ts-sides-1t0b8}
+  - {from: geometry-ts-route-26rwn, to: geometry-ts-anchor-6n060}
+  - {from: geometry-ts-route-26rwn, to: geometry-ts-sides-1t0b8}
+  - {from: geometry-ts-routebox-1yj8t, to: geometry-ts-boundsof-1fvuk}
+  - {from: geometry-ts-routedistance-9qm74, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-routedistance-9qm74, to: geometry-ts-segmentdistance-1vamt}
+  - {from: geometry-ts-routepoint-vghoc, to: geometry-ts-alongline-5xto3}
+  - {from: geometry-ts-routepts-yvrpe, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-sideofborder-58mg8, to: geometry-ts-nearestside-z9vsm}
+  - {from: geometry-ts-sides-1t0b8, to: geometry-ts-center-vbw2y}
+  - {from: geometry-ts-tracedashed-15631, to: geometry-ts-pathsink-lineto-lvhqs}
+  - {from: geometry-ts-tracedashed-15631, to: geometry-ts-pathsink-moveto-vmgz0}
+  - {from: geometry-ts-tracedashed-15631, to: geometry-ts-routepoint-vghoc}
+  - {from: geometry-ts-traceroute-1obmx, to: geometry-ts-pathsink-beziercurveto-1sefd}
+  - {from: geometry-ts-traceroute-1obmx, to: geometry-ts-pathsink-lineto-lvhqs}
+  - {from: geometry-ts-traceroute-1obmx, to: geometry-ts-pathsink-moveto-vmgz0}
+  - {from: geometry-ts-traceroute-1obmx, to: geometry-ts-pathsink-quadraticcurveto-cr6ci}
+  - {from: geometry-ts-traceroute-1obmx, to: geometry-ts-toward-pxoze}

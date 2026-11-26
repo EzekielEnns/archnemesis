@@ -1,0 +1,71 @@
+# archnemesis:src/canvas/scene/arrows.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-arrows-ts-3box2:
+    kind: module
+    name: arrows.ts
+    in: canvas-scene-iaxtu
+    context: "Shaping arrows by hand: the style (curved, elbow, straight), dragging an arrow's end, bend or label, and saving the shape."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/arrows.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/arrows.ts
+  arrows-ts-commitshape-1frj4:
+    kind: function
+    name: commitShape()
+    in: scene-arrows-ts-3box2
+    context: Save an arrow's shape (the draft stays on screen until the model has it).
+    signature: "commitShape(state: SceneState, edge: string, shape: ArrowShape | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/arrows.ts:39
+  arrows-ts-dragarrow-9lfr4:
+    kind: function
+    name: dragArrow()
+    in: scene-arrows-ts-3box2
+    signature: 'dragArrow(state: SceneState, d: { kind: "arrow"; edge: string; part: "from" | "to" | "label" | "bend" | "line"; index: number; start: Point; moved: boolean; }, world: Point, free: boolean): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/arrows.ts:71
+  arrows-ts-restyleedges-zrch1:
+    kind: function
+    name: restyleEdges()
+    in: scene-arrows-ts-3box2
+    signature: "restyleEdges(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/arrows.ts:30
+  arrows-ts-setarrowstyle-1odab:
+    kind: function
+    name: setArrowStyle()
+    in: scene-arrows-ts-3box2
+    context: Curved, elbow or straight. Elbow and straight load the router the first time (curves until then).
+    signature: 'setArrowStyle(state: SceneState, style: "curved" | "elbow" | "straight"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/arrows.ts:16
+    references:
+      - dependency: lib-vite-122n3
+connections:
+  - {from: arrows-ts-commitshape-1frj4, to: edges-ts-drawstaticedges-1a491}
+  - {from: arrows-ts-commitshape-1frj4, to: lookup-ts-shapeof-18bgx}
+  - {from: arrows-ts-commitshape-1frj4, to: routing-ts-syncavoid-xlxxg}
+  - {from: arrows-ts-dragarrow-9lfr4, to: edges-ts-drawstaticedges-1a491}
+  - {from: arrows-ts-dragarrow-9lfr4, to: frame-ts-requestrender-sstrq}
+  - {from: arrows-ts-dragarrow-9lfr4, to: geometry-ts-bendindex-1xyut}
+  - {from: arrows-ts-dragarrow-9lfr4, to: geometry-ts-nearestside-z9vsm}
+  - {from: arrows-ts-dragarrow-9lfr4, to: geometry-ts-nearestt-1lwwa}
+  - {from: arrows-ts-dragarrow-9lfr4, to: lookup-ts-endrect-10url}
+  - {from: arrows-ts-dragarrow-9lfr4, to: lookup-ts-shapeof-18bgx}
+  - {from: arrows-ts-dragarrow-9lfr4, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: arrows-ts-dragarrow-9lfr4, to: routing-ts-syncavoid-xlxxg}
+  - {from: arrows-ts-restyleedges-zrch1, to: edges-ts-drawstaticedges-1a491}
+  - {from: arrows-ts-restyleedges-zrch1, to: frame-ts-requestrender-sstrq}
+  - {from: arrows-ts-restyleedges-zrch1, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: arrows-ts-restyleedges-zrch1, to: routing-ts-syncavoid-xlxxg}
+  - {from: arrows-ts-setarrowstyle-1odab, to: arrows-ts-restyleedges-zrch1}
+  - {from: arrows-ts-setarrowstyle-1odab, to: avoid-ts-asyncrouter-constructor-1iy7w}
+  - {from: arrows-ts-setarrowstyle-1odab, to: edges-ts-drawstaticedges-1a491}
+  - {from: arrows-ts-setarrowstyle-1odab, to: frame-ts-requestrender-sstrq}
+  - {from: arrows-ts-setarrowstyle-1odab, to: overlay-ts-drawoverlay-1dyr1}

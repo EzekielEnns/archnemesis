@@ -1,0 +1,77 @@
+# archnemesis:shared/tools/tools.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-tools-ts-qbogh:
+    kind: module
+    name: tools.ts
+    in: shared-tools-1cbb9
+    context: "The eight tools, described once: their schemas, what they teach, their annotations, and how each runs over a Host. The server's MCP (server/mcp.ts) and the page's WebMCP (src/webmcp.ts) both register these."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/tools.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts
+  tools-ts-host-1mc7t:
+    kind: function
+    name: host()
+    in: tools-tools-ts-qbogh
+    signature: "host: (c: Call) => Host"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts:83
+  tools-ts-list-7qip2:
+    kind: function
+    name: list()
+    in: tools-tools-ts-qbogh
+    context: 'A list parameter that also takes one value (follow: "calls").'
+    signature: "list: <T extends z.ZodType>(t: T) => ZodUnion<readonly [T, ZodArray<T>]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts:81
+    references:
+      - dependency: lib-zod-vhnf6
+  tools-ts-runtool-w0fvl:
+    kind: function
+    name: runTool()
+    in: tools-tools-ts-qbogh
+    context: Run a tool, turning the caller's mistakes into an answer they can act on.
+    signature: "runTool(def: ToolDef, c: Call, args: Record<string, unknown>): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts:404
+  tools-ts-tool-u0ihp:
+    kind: function
+    name: tool()
+    in: tools-tools-ts-qbogh
+    signature: "tool: (name: ToolName) => ToolDef"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts:414
+  tools-ts-tooldef-run-cfyl2:
+    kind: function
+    name: ToolDef.run()
+    in: tools-tools-ts-qbogh
+    tech: [method of ToolDef]
+    signature: "run(c: Call, args: Record<string, unknown>): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/tools.ts:55
+    references:
+      - dependency: lib-zod-vhnf6
+connections:
+  - {from: tools-tools-ts-qbogh, to: design-ts-design-1yn2o}
+  - {from: tools-tools-ts-qbogh, to: diff-ts-diff-1587g}
+  - {from: tools-tools-ts-qbogh, to: diff-ts-forkfocus-19vh1}
+  - {from: tools-tools-ts-qbogh, to: guide-ts-guide-1szq5}
+  - {from: tools-tools-ts-qbogh, to: host-ts-arr-d4mci}
+  - {from: tools-tools-ts-qbogh, to: host-ts-fail-15k5p}
+  - {from: tools-tools-ts-qbogh, to: host-ts-host-config-12dpi}
+  - {from: tools-tools-ts-qbogh, to: indexing-ts-indextool-79onf}
+  - {from: tools-tools-ts-qbogh, to: note-ts-note-1md33}
+  - {from: tools-tools-ts-qbogh, to: read-ts-read-1wgd6}
+  - {from: tools-tools-ts-qbogh, to: show-ts-show-n5mcc}
+  - {from: tools-tools-ts-qbogh, to: tools-ts-host-1mc7t}
+  - {from: tools-tools-ts-qbogh, to: tools-ts-list-7qip2}
+  - {from: tools-tools-ts-qbogh, to: write-ts-write-w0rb3}
+  - {from: tools-ts-runtool-w0fvl, to: host-ts-fail-15k5p}
+  - {from: tools-ts-runtool-w0fvl, to: tools-ts-tooldef-run-cfyl2}

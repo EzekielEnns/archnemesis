@@ -1,0 +1,60 @@
+# archnemesis:src/ui/OpenShared.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-openshared-tsx-11mtn:
+    kind: module
+    name: OpenShared.tsx
+    in: web-ui
+    context: What a link that carries a design (`#~d=`) or names one on GitHub (`#~gh=`) shows while it opens, and the one plain sentence when it can't, with a way back to your own designs.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/OpenShared.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/OpenShared.tsx
+  openshared-tsx-openshared-1w9qp:
+    kind: function
+    name: OpenShared()
+    in: ui-openshared-tsx-11mtn
+    context: Open what the link says, then go to the design (or, for a design that has to be fetched again on a reload, show it through `children`).
+    signature: "OpenShared({ fragment, children }: { fragment: string; children?: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/OpenShared.tsx:28
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  openshared-tsx-remotefragment-1i0td:
+    kind: function
+    name: remoteFragment()
+    in: ui-openshared-tsx-11mtn
+    context: "Read-only GitHub designs come back by their own key: they open through the same page."
+    signature: "remoteFragment(design: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/OpenShared.tsx:16
+  openshared-tsx-sharedfragment-1kdks:
+    kind: function
+    name: sharedFragment()
+    in: ui-openshared-tsx-11mtn
+    context: "The fragment (without #) of a link this page opens, or null."
+    signature: "sharedFragment(hash?: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/OpenShared.tsx:11
+  openshared-tsx-wait-exsm3:
+    kind: function
+    name: Wait()
+    in: ui-openshared-tsx-11mtn
+    signature: "Wait({ children }: { children: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/OpenShared.tsx:20
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: openshared-tsx-openshared-1w9qp, to: openshared-tsx-wait-exsm3}
+  - {from: openshared-tsx-openshared-1w9qp, to: route-ts-hashfor-km4zf}
+  - {from: openshared-tsx-openshared-1w9qp, to: sharednotice-ts-setsharednotice-yaa45}
+  - {from: openshared-tsx-openshared-1w9qp, to: types-ts-portablecapability-openshared-102rc}
+  - {from: openshared-tsx-openshared-1w9qp, to: welcomestate-ts-markopenedfromlink-1p2nc}
+  - {from: openshared-tsx-remotefragment-1i0td, to: types-ts-portablecapability-fragmentof-1g3lj}

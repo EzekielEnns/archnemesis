@@ -1,0 +1,54 @@
+# archnemesis:cli/index-main.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-index-main-ts-foite:
+    kind: module
+    name: index-main.ts
+    in: cli
+    context: "The script Archnemesis serves at /archnm-index.cjs, for an agent to run with one command: curl -fsS <archnm>/archnm-index.cjs | node - <repo folder> --to <archnm>/upload/<ticket> It reads the repo (never writes, never builds), surveys it, indexes its code with the best indexer on the machine (a SCIP indexer, Universal Ctags, or Archnemesis's own reader), and posts both to the link. Nothing else…"
+    tech: [TypeScript]
+    path: archnemesis:cli/index-main.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/index-main.ts
+  index-main-ts-flag-1ai8p:
+    kind: function
+    name: flag()
+    in: cli-index-main-ts-foite
+    signature: "flag: (n: string) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/index-main.ts:15
+  index-main-ts-listfiles-188q2:
+    kind: function
+    name: listFiles()
+    in: cli-index-main-ts-foite
+    signature: "listFiles(): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/index-main.ts:41
+  index-main-ts-log-1b3na:
+    kind: function
+    name: log()
+    in: cli-index-main-ts-foite
+    signature: "log: (s: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/index-main.ts:25
+  index-main-ts-main-13qlr:
+    kind: function
+    name: main()
+    in: cli-index-main-ts-foite
+    signature: "main(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/index-main.ts:69
+connections:
+  - {from: cli-index-main-ts-foite, to: index-main-ts-flag-1ai8p}
+  - {from: cli-index-main-ts-foite, to: index-main-ts-main-13qlr}
+  - {from: index-main-ts-main-13qlr, to: importer-ts-indexrepo-1euzi}
+  - {from: index-main-ts-main-13qlr, to: importer-ts-sciphint-1o8jw}
+  - {from: index-main-ts-main-13qlr, to: index-main-ts-flag-1ai8p}
+  - {from: index-main-ts-main-13qlr, to: index-main-ts-listfiles-188q2}
+  - {from: index-main-ts-main-13qlr, to: index-main-ts-log-1b3na}
+  - {from: index-main-ts-main-13qlr, to: survey-ts-surveyrepo-xt55p}

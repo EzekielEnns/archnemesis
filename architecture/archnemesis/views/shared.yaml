@@ -1,0 +1,12 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Shared model and tools
+scope: shared
+arrows: elbow
+tidy: down
+hide_lines:
+  - between: neighbours
+include:
+  - children: shared
+  - neighbours: shared
+exclude:
+  - kind: library

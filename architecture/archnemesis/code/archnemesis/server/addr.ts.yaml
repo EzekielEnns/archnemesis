@@ -1,0 +1,21 @@
+# archnemesis:server/addr.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-addr-ts-g5ybe:
+    kind: module
+    name: addr.ts
+    in: srv-edge
+    context: Where a request really comes from, for the per-address limit on wrong share links.
+    tech: [TypeScript]
+    path: archnemesis:server/addr.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/addr.ts
+  addr-ts-clientaddr-6w728:
+    kind: function
+    name: clientAddr()
+    in: server-addr-ts-g5ybe
+    signature: "clientAddr(req: From, proxies: number): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/addr.ts:15

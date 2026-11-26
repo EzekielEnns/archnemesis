@@ -1,0 +1,318 @@
+# archnemesis:shared/tools/read.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-read-ts-5nmz8:
+    kind: module
+    name: read.ts
+    in: shared-tools-1cbb9
+    context: "read: one tool for looking, by what's asked (docs/mcp-v2.md). Search first; one thing in full; a bounded walk; impact and routes computed here, not walked by the model; a scope's slice under a budget; views, lenses, history, files, and what the person is looking at. Every answer is capped and says what's left and the call that gets it."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/read.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts
+  read-ts-box-179xp:
+    kind: function
+    name: box()
+    in: tools-read-ts-5nmz8
+    signature: "box(host: Host, idx: ModelIndex, o: ModelObject, opt: { limit: number; full: boolean; guesses?: boolean | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:435
+  read-ts-conn-1ar1p:
+    kind: function
+    name: conn()
+    in: tools-read-ts-5nmz8
+    signature: "conn(idx: ModelIndex, c: Connection): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:661
+  read-ts-definition-hrjjq:
+    kind: function
+    name: definition()
+    in: tools-read-ts-5nmz8
+    context: A view as it's written (scope, rules or boxes), in the grammar, so an agent sees what it would overwrite.
+    signature: "definition(host: Host, d: Diagram): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:862
+    references:
+      - dependency: lib-yaml-1wm54
+  read-ts-elide-1rm66:
+    kind: function
+    name: elide()
+    in: tools-read-ts-5nmz8
+    context: "At most n lines: the first n (or, middle: the first and last halves) and how many were left out."
+    signature: "elide(text: string, n: number, what: string, next?: string, middle?: boolean): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:997
+  read-ts-entity-1kp1c:
+    kind: function
+    name: entity()
+    in: tools-read-ts-5nmz8
+    signature: "entity(idx: ModelIndex, e: Entity, limit: number): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:611
+  read-ts-file-xy21k:
+    kind: function
+    name: file()
+    in: tools-read-ts-5nmz8
+    signature: "file(host: Host, path: string, limit: number, from?: number): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:1014
+  read-ts-grouped-vfi7g:
+    kind: function
+    name: grouped()
+    in: tools-read-ts-5nmz8
+    context: "Search lines, where three or more share a parent: the parent once, then each under it (forty functions of one file each said its file, its id and its parent: 11k)."
+    signature: "grouped(idx: ModelIndex, shown: Hit[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:369
+  read-ts-here-1aqg6:
+    kind: function
+    name: here()
+    in: tools-read-ts-5nmz8
+    signature: "here(host: Host, idx: ModelIndex): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:1063
+  read-ts-history-xky2t:
+    kind: function
+    name: history()
+    in: tools-read-ts-5nmz8
+    signature: "history(host: Host, idx: ModelIndex, ref: string | undefined, limit: number, by?: string | undefined): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:952
+  read-ts-impactof-17qps:
+    kind: function
+    name: impactOf()
+    in: tools-read-ts-5nmz8
+    signature: 'impactOf(idx: ModelIndex, o: ModelObject, way: "upstream" | "downstream", limit: number): Out'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:819
+  read-ts-one-m1ya6:
+    kind: function
+    name: one()
+    in: tools-read-ts-5nmz8
+    signature: "one(host: Host, idx: ModelIndex, ref: string, o: { limit: number; full: boolean; guesses?: boolean | undefined; }): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:393
+  read-ts-oneof-1la3h:
+    kind: function
+    name: oneOf()
+    in: tools-read-ts-5nmz8
+    signature: "oneOf(host: Host, idx: ModelIndex, r: Resolved, o: { limit: number; full: boolean; guesses?: boolean | undefined; }): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:405
+  read-ts-overview-17uxj:
+    kind: function
+    name: overview()
+    in: tools-read-ts-5nmz8
+    context: "No question: what the design is, its top level, and where to go next."
+    signature: "overview(host: Host, idx: ModelIndex, limit: number): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:1098
+  read-ts-read-1wgd6:
+    kind: function
+    name: read()
+    in: tools-read-ts-5nmz8
+    signature: "read(host: Host, a: ReadArgs): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:78
+  read-ts-search-6c8ye:
+    kind: function
+    name: search()
+    in: tools-read-ts-5nmz8
+    context: Ranked over ids, names, tech, tags, paths, context, entities and views; fuzzy on words.
+    signature: 'search(idx: ModelIndex, q: string, o: { kind?: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table" | undefined; in?: string | undefined; limit: number; depth?: number | undefined; }): Out'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:159
+  read-ts-shortline-1dhod:
+    kind: function
+    name: shortLine()
+    in: tools-read-ts-5nmz8
+    context: "A box's line under its parent's heading: its ref after the parent's (\"#start\" in a file), no id, no parent; the kind only where the signature doesn't say it."
+    signature: "shortLine(idx: ModelIndex, o: ModelObject): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:354
+  read-ts-thread-15ds6:
+    kind: function
+    name: thread()
+    in: tools-read-ts-5nmz8
+    signature: "thread(idx: ModelIndex, n: Note): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:697
+  read-ts-view-1hhnj:
+    kind: function
+    name: view()
+    in: tools-read-ts-5nmz8
+    signature: "view(host: Host, idx: ModelIndex, ref: string, limit: number): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:881
+  read-ts-walk-1c7gn:
+    kind: function
+    name: walk()
+    in: tools-read-ts-5nmz8
+    context: A bounded walk from one thing, as an indented tree.
+    signature: 'walk(idx: ModelIndex, ref: string, o: { depth: number; follow: ("uses" | "carries" | "in" | "calls" | "callers")[]; limit: number; }): Out'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:714
+  read-ts-words-1e3m3:
+    kind: function
+    name: words()
+    in: tools-read-ts-5nmz8
+    signature: "words: (s: string) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/read.ts:143
+connections:
+  - {from: read-ts-box-179xp, to: context-ts-contexttext-hcjaz}
+  - {from: read-ts-box-179xp, to: context-ts-runsin-frixa}
+  - {from: read-ts-box-179xp, to: entities-ts-entitysummary-i5oax}
+  - {from: read-ts-box-179xp, to: host-ts-host-url-6ll81}
+  - {from: read-ts-box-179xp, to: host-ts-more-1giyo}
+  - {from: read-ts-box-179xp, to: host-ts-plural-n7ls8}
+  - {from: read-ts-box-179xp, to: model-ts-mergedcontext-d55w6}
+  - {from: read-ts-box-179xp, to: project-ts-descendants-121jc}
+  - {from: read-ts-box-179xp, to: references-ts-referencelines-xmoax}
+  - {from: read-ts-box-179xp, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-box-179xp, to: refs-ts-edgeline-1ini3}
+  - {from: read-ts-box-179xp, to: refs-ts-idof-1erbh}
+  - {from: read-ts-box-179xp, to: refs-ts-noteline-12bhq}
+  - {from: read-ts-box-179xp, to: refs-ts-refof-yj811}
+  - {from: read-ts-box-179xp, to: refs-ts-usesof-inv0m}
+  - {from: read-ts-box-179xp, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-conn-1ar1p, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-conn-1ar1p, to: refs-ts-carriesof-p0gen}
+  - {from: read-ts-conn-1ar1p, to: refs-ts-connref-1hum7}
+  - {from: read-ts-conn-1ar1p, to: refs-ts-idof-1erbh}
+  - {from: read-ts-conn-1ar1p, to: refs-ts-noteline-12bhq}
+  - {from: read-ts-definition-hrjjq, to: files-ts-writefiles-dumd7}
+  - {from: read-ts-definition-hrjjq, to: host-ts-host-config-12dpi}
+  - {from: read-ts-definition-hrjjq, to: host-ts-host-state-150dr}
+  - {from: read-ts-definition-hrjjq, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-entity-1kp1c, to: host-ts-more-1giyo}
+  - {from: read-ts-entity-1kp1c, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-entity-1kp1c, to: refs-ts-carriesof-p0gen}
+  - {from: read-ts-entity-1kp1c, to: refs-ts-connref-1hum7}
+  - {from: read-ts-entity-1kp1c, to: refs-ts-entityline-6mka2}
+  - {from: read-ts-entity-1kp1c, to: refs-ts-usesof-inv0m}
+  - {from: read-ts-file-xy21k, to: files-ts-writefiles-dumd7}
+  - {from: read-ts-file-xy21k, to: host-ts-host-config-12dpi}
+  - {from: read-ts-file-xy21k, to: host-ts-host-state-150dr}
+  - {from: read-ts-file-xy21k, to: host-ts-more-1giyo}
+  - {from: read-ts-file-xy21k, to: host-ts-ok-1qtxz}
+  - {from: read-ts-grouped-vfi7g, to: refs-ts-refof-yj811}
+  - {from: read-ts-here-1aqg6, to: host-ts-canvas-here-ow69f}
+  - {from: read-ts-here-1aqg6, to: host-ts-host-url-6ll81}
+  - {from: read-ts-here-1aqg6, to: host-ts-ok-1qtxz}
+  - {from: read-ts-here-1aqg6, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-here-1aqg6, to: refs-ts-refof-yj811}
+  - {from: read-ts-here-1aqg6, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-history-xky2t, to: host-ts-host-recent-40oaa}
+  - {from: read-ts-history-xky2t, to: host-ts-more-1giyo}
+  - {from: read-ts-history-xky2t, to: host-ts-ok-1qtxz}
+  - {from: read-ts-history-xky2t, to: refs-ts-matchesby-7vagz}
+  - {from: read-ts-history-xky2t, to: refs-ts-object-1mo87}
+  - {from: read-ts-impactof-17qps, to: host-ts-more-1giyo}
+  - {from: read-ts-impactof-17qps, to: host-ts-ok-1qtxz}
+  - {from: read-ts-impactof-17qps, to: host-ts-plural-n7ls8}
+  - {from: read-ts-impactof-17qps, to: impact-ts-impact-7mpl1}
+  - {from: read-ts-impactof-17qps, to: refs-ts-refof-yj811}
+  - {from: read-ts-one-m1ya6, to: read-ts-oneof-1la3h}
+  - {from: read-ts-one-m1ya6, to: refs-ts-ambiguity-h5jnn}
+  - {from: read-ts-one-m1ya6, to: refs-ts-resolve-1kqf4}
+  - {from: read-ts-oneof-1la3h, to: host-ts-ok-1qtxz}
+  - {from: read-ts-oneof-1la3h, to: read-ts-box-179xp}
+  - {from: read-ts-oneof-1la3h, to: read-ts-conn-1ar1p}
+  - {from: read-ts-oneof-1la3h, to: read-ts-entity-1kp1c}
+  - {from: read-ts-oneof-1la3h, to: read-ts-thread-15ds6}
+  - {from: read-ts-oneof-1la3h, to: read-ts-view-1hhnj}
+  - {from: read-ts-oneof-1la3h, to: refs-ts-connref-1hum7}
+  - {from: read-ts-oneof-1la3h, to: refs-ts-refof-yj811}
+  - {from: read-ts-oneof-1la3h, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-overview-17uxj, to: agent-ts-outlineboundaries-1oe8v}
+  - {from: read-ts-overview-17uxj, to: host-ts-more-1giyo}
+  - {from: read-ts-overview-17uxj, to: host-ts-ok-1qtxz}
+  - {from: read-ts-overview-17uxj, to: host-ts-plural-n7ls8}
+  - {from: read-ts-overview-17uxj, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-overview-17uxj, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-read-1wgd6, to: agent-ts-path-1frdp}
+  - {from: read-ts-read-1wgd6, to: host-ts-host-index-23rxl}
+  - {from: read-ts-read-1wgd6, to: host-ts-ok-1qtxz}
+  - {from: read-ts-read-1wgd6, to: host-ts-plural-n7ls8}
+  - {from: read-ts-read-1wgd6, to: lens-ts-lens-6syq7}
+  - {from: read-ts-read-1wgd6, to: read-ts-elide-1rm66}
+  - {from: read-ts-read-1wgd6, to: read-ts-file-xy21k}
+  - {from: read-ts-read-1wgd6, to: read-ts-here-1aqg6}
+  - {from: read-ts-read-1wgd6, to: read-ts-history-xky2t}
+  - {from: read-ts-read-1wgd6, to: read-ts-impactof-17qps}
+  - {from: read-ts-read-1wgd6, to: read-ts-one-m1ya6}
+  - {from: read-ts-read-1wgd6, to: read-ts-overview-17uxj}
+  - {from: read-ts-read-1wgd6, to: read-ts-search-6c8ye}
+  - {from: read-ts-read-1wgd6, to: read-ts-view-1hhnj}
+  - {from: read-ts-read-1wgd6, to: read-ts-walk-1c7gn}
+  - {from: read-ts-read-1wgd6, to: refs-ts-object-1mo87}
+  - {from: read-ts-read-1wgd6, to: refs-ts-refof-yj811}
+  - {from: read-ts-read-1wgd6, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-read-1wgd6, to: score-ts-scoreview-ldvks}
+  - {from: read-ts-read-1wgd6, to: slice-ts-scopeslice-os5qj}
+  - {from: read-ts-search-6c8ye, to: context-ts-coderef-1vzch}
+  - {from: read-ts-search-6c8ye, to: context-ts-resolveref-a6jyg}
+  - {from: read-ts-search-6c8ye, to: files-ts-editdistance-1w5l8}
+  - {from: read-ts-search-6c8ye, to: host-ts-more-1giyo}
+  - {from: read-ts-search-6c8ye, to: host-ts-ok-1qtxz}
+  - {from: read-ts-search-6c8ye, to: host-ts-plural-n7ls8}
+  - {from: read-ts-search-6c8ye, to: project-ts-descendants-121jc}
+  - {from: read-ts-search-6c8ye, to: read-ts-grouped-vfi7g}
+  - {from: read-ts-search-6c8ye, to: read-ts-shortline-1dhod}
+  - {from: read-ts-search-6c8ye, to: read-ts-words-1e3m3}
+  - {from: read-ts-search-6c8ye, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-search-6c8ye, to: refs-ts-entityline-6mka2}
+  - {from: read-ts-search-6c8ye, to: refs-ts-idof-1erbh}
+  - {from: read-ts-search-6c8ye, to: refs-ts-object-1mo87}
+  - {from: read-ts-search-6c8ye, to: refs-ts-refof-yj811}
+  - {from: read-ts-search-6c8ye, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-shortline-1dhod, to: host-ts-clip-wy39m}
+  - {from: read-ts-shortline-1dhod, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-shortline-1dhod, to: refs-ts-refof-yj811}
+  - {from: read-ts-thread-15ds6, to: refs-ts-noteline-12bhq}
+  - {from: read-ts-view-1hhnj, to: agent-ts-explain-12dm9}
+  - {from: read-ts-view-1hhnj, to: agent-ts-findview-bfne5}
+  - {from: read-ts-view-1hhnj, to: agent-ts-outlineview-4oevk}
+  - {from: read-ts-view-1hhnj, to: host-ts-host-url-6ll81}
+  - {from: read-ts-view-1hhnj, to: host-ts-more-1giyo}
+  - {from: read-ts-view-1hhnj, to: host-ts-ok-1qtxz}
+  - {from: read-ts-view-1hhnj, to: host-ts-plural-n7ls8}
+  - {from: read-ts-view-1hhnj, to: project-ts-flowsof-26p5a}
+  - {from: read-ts-view-1hhnj, to: read-ts-definition-hrjjq}
+  - {from: read-ts-view-1hhnj, to: read-ts-elide-1rm66}
+  - {from: read-ts-view-1hhnj, to: refs-ts-idof-1erbh}
+  - {from: read-ts-view-1hhnj, to: refs-ts-resolve-1kqf4}
+  - {from: read-ts-view-1hhnj, to: refs-ts-viewid-jf4mm}
+  - {from: read-ts-view-1hhnj, to: score-ts-scoreview-ldvks}
+  - {from: read-ts-walk-1c7gn, to: host-ts-ok-1qtxz}
+  - {from: read-ts-walk-1c7gn, to: read-ts-shortline-1dhod}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-boxline-r7nbi}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-carriesof-p0gen}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-connref-1hum7}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-edgeline-1ini3}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-entityline-6mka2}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-refof-yj811}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-resolve-1kqf4}
+  - {from: read-ts-walk-1c7gn, to: refs-ts-usesof-inv0m}

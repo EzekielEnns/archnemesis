@@ -1,0 +1,458 @@
+# Third-party packages the code uses.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  lib-elkjs-e2a27:
+    kind: library
+    name: elkjs
+    package:
+      ecosystem: npm
+      name: elkjs
+      version: 0.12.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/elkjs
+        title: elkjs on npm
+      - link: https://deps.dev/npm/elkjs
+        title: elkjs on deps.dev
+  lib-eslint-14fdb:
+    kind: library
+    name: eslint
+    package:
+      ecosystem: npm
+      name: eslint
+      version: 10.15.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/eslint
+        title: eslint on npm
+      - link: https://deps.dev/npm/eslint
+        title: eslint on deps.dev
+  lib-eslint-js-fbsd8:
+    kind: library
+    name: "@eslint/js"
+    package:
+      ecosystem: npm
+      name: "@eslint/js"
+      version: 10.0.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40eslint/js
+        title: "@eslint/js on npm"
+      - link: https://deps.dev/npm/%40eslint%2Fjs
+        title: "@eslint/js on deps.dev"
+  lib-eslint-plugin-react-hooks-irf2e:
+    kind: library
+    name: eslint-plugin-react-hooks
+    package:
+      ecosystem: npm
+      name: eslint-plugin-react-hooks
+      version: 7.1.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/eslint-plugin-react-hooks
+        title: eslint-plugin-react-hooks on npm
+      - link: https://deps.dev/npm/eslint-plugin-react-hooks
+        title: eslint-plugin-react-hooks on deps.dev
+  lib-expo-google-fonts-inter-1mjld:
+    kind: library
+    name: "@expo-google-fonts/inter"
+    package:
+      ecosystem: npm
+      name: "@expo-google-fonts/inter"
+      version: 0.4.2
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40expo-google-fonts/inter
+        title: "@expo-google-fonts/inter on npm"
+      - link: https://deps.dev/npm/%40expo-google-fonts%2Finter
+        title: "@expo-google-fonts/inter on deps.dev"
+  lib-fake-indexeddb-vdba1:
+    kind: library
+    name: fake-indexeddb
+    package:
+      ecosystem: npm
+      name: fake-indexeddb
+      version: 6.2.8
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/fake-indexeddb
+        title: fake-indexeddb on npm
+      - link: https://deps.dev/npm/fake-indexeddb
+        title: fake-indexeddb on deps.dev
+  lib-globals-1euc1:
+    kind: library
+    name: globals
+    package:
+      ecosystem: npm
+      name: globals
+      version: 17.14.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/globals
+        title: globals on npm
+      - link: https://deps.dev/npm/globals
+        title: globals on deps.dev
+  lib-hocuspocus-provider-1w7uf:
+    kind: library
+    name: "@hocuspocus/provider"
+    package:
+      ecosystem: npm
+      name: "@hocuspocus/provider"
+      version: 4.9.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40hocuspocus/provider
+        title: "@hocuspocus/provider on npm"
+      - link: https://deps.dev/npm/%40hocuspocus%2Fprovider
+        title: "@hocuspocus/provider on deps.dev"
+  lib-hocuspocus-server-h2kpr:
+    kind: library
+    name: "@hocuspocus/server"
+    package:
+      ecosystem: npm
+      name: "@hocuspocus/server"
+      version: 4.9.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40hocuspocus/server
+        title: "@hocuspocus/server on npm"
+      - link: https://deps.dev/npm/%40hocuspocus%2Fserver
+        title: "@hocuspocus/server on deps.dev"
+  lib-knip-1wz3w:
+    kind: library
+    name: knip
+    package:
+      ecosystem: npm
+      name: knip
+      version: 6.48.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/knip
+        title: knip on npm
+      - link: https://deps.dev/npm/knip
+        title: knip on deps.dev
+  lib-lefthook-7uroz:
+    kind: library
+    name: lefthook
+    package:
+      ecosystem: npm
+      name: lefthook
+      version: 2.2.4
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/lefthook
+        title: lefthook on npm
+      - link: https://deps.dev/npm/lefthook
+        title: lefthook on deps.dev
+  lib-libavoid-js-114oj:
+    kind: library
+    name: libavoid-js
+    package:
+      ecosystem: npm
+      name: libavoid-js
+      version: 0.5.0-beta.5
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/libavoid-js
+        title: libavoid-js on npm
+      - link: https://deps.dev/npm/libavoid-js
+        title: libavoid-js on deps.dev
+  lib-lucide-react-1fcqz:
+    kind: library
+    name: lucide-react
+    package:
+      ecosystem: npm
+      name: lucide-react
+      version: 1.77.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/lucide-react
+        title: lucide-react on npm
+      - link: https://deps.dev/npm/lucide-react
+        title: lucide-react on deps.dev
+  lib-modelcontextprotocol-sdk-pwf6s:
+    kind: library
+    name: "@modelcontextprotocol/sdk"
+    package:
+      ecosystem: npm
+      name: "@modelcontextprotocol/sdk"
+      version: 1.32.2
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40modelcontextprotocol/sdk
+        title: "@modelcontextprotocol/sdk on npm"
+      - link: https://deps.dev/npm/%40modelcontextprotocol%2Fsdk
+        title: "@modelcontextprotocol/sdk on deps.dev"
+  lib-pixi-js-ng0nj:
+    kind: library
+    name: pixi.js
+    package:
+      ecosystem: npm
+      name: pixi.js
+      version: 8.23.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/pixi.js
+        title: pixi.js on npm
+      - link: https://deps.dev/npm/pixi.js
+        title: pixi.js on deps.dev
+  lib-prettier-jfrba:
+    kind: library
+    name: prettier
+    package:
+      ecosystem: npm
+      name: prettier
+      version: 3.10.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/prettier
+        title: prettier on npm
+      - link: https://deps.dev/npm/prettier
+        title: prettier on deps.dev
+  lib-react-1iyhg:
+    kind: library
+    name: react
+    package:
+      ecosystem: npm
+      name: react
+      version: 19.3.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/react
+        title: react on npm
+      - link: https://deps.dev/npm/react
+        title: react on deps.dev
+  lib-react-dom-1wmau:
+    kind: library
+    name: react-dom
+    package:
+      ecosystem: npm
+      name: react-dom
+      version: 19.3.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/react-dom
+        title: react-dom on npm
+      - link: https://deps.dev/npm/react-dom
+        title: react-dom on deps.dev
+  lib-resvg-resvg-wasm-qis4x:
+    kind: library
+    name: "@resvg/resvg-wasm"
+    package:
+      ecosystem: npm
+      name: "@resvg/resvg-wasm"
+      version: 2.6.2
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40resvg/resvg-wasm
+        title: "@resvg/resvg-wasm on npm"
+      - link: https://deps.dev/npm/%40resvg%2Fresvg-wasm
+        title: "@resvg/resvg-wasm on deps.dev"
+  lib-simple-icons-1xnto:
+    kind: library
+    name: simple-icons
+    package:
+      ecosystem: npm
+      name: simple-icons
+      version: 16.38.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/simple-icons
+        title: simple-icons on npm
+      - link: https://deps.dev/npm/simple-icons
+        title: simple-icons on deps.dev
+  lib-types-node-fei0j:
+    kind: library
+    name: "@types/node"
+    package:
+      ecosystem: npm
+      name: "@types/node"
+      version: 24.19.2
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40types/node
+        title: "@types/node on npm"
+      - link: https://deps.dev/npm/%40types%2Fnode
+        title: "@types/node on deps.dev"
+  lib-types-react-1i7zx:
+    kind: library
+    name: "@types/react"
+    package:
+      ecosystem: npm
+      name: "@types/react"
+      version: 19.3.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40types/react
+        title: "@types/react on npm"
+      - link: https://deps.dev/npm/%40types%2Freact
+        title: "@types/react on deps.dev"
+  lib-types-react-dom-1pvn2:
+    kind: library
+    name: "@types/react-dom"
+    package:
+      ecosystem: npm
+      name: "@types/react-dom"
+      version: 19.3.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40types/react-dom
+        title: "@types/react-dom on npm"
+      - link: https://deps.dev/npm/%40types%2Freact-dom
+        title: "@types/react-dom on deps.dev"
+  lib-types-ws-1ex0u:
+    kind: library
+    name: "@types/ws"
+    package:
+      ecosystem: npm
+      name: "@types/ws"
+      version: 8.18.2
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40types/ws
+        title: "@types/ws on npm"
+      - link: https://deps.dev/npm/%40types%2Fws
+        title: "@types/ws on deps.dev"
+  lib-typescript-164xo:
+    kind: library
+    name: typescript
+    package:
+      ecosystem: npm
+      name: typescript
+      version: 6.0.3
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/typescript
+        title: typescript on npm
+      - link: https://deps.dev/npm/typescript
+        title: typescript on deps.dev
+  lib-typescript-eslint-1sp3m:
+    kind: library
+    name: typescript-eslint
+    package:
+      ecosystem: npm
+      name: typescript-eslint
+      version: 8.74.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/typescript-eslint
+        title: typescript-eslint on npm
+      - link: https://deps.dev/npm/typescript-eslint
+        title: typescript-eslint on deps.dev
+  lib-vite-122n3:
+    kind: library
+    name: vite
+    package:
+      ecosystem: npm
+      name: vite
+      version: 8.3.8
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/vite
+        title: vite on npm
+      - link: https://deps.dev/npm/vite
+        title: vite on deps.dev
+  lib-vitejs-plugin-react-1y2jd:
+    kind: library
+    name: "@vitejs/plugin-react"
+    package:
+      ecosystem: npm
+      name: "@vitejs/plugin-react"
+      version: 6.3.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/%40vitejs/plugin-react
+        title: "@vitejs/plugin-react on npm"
+      - link: https://deps.dev/npm/%40vitejs%2Fplugin-react
+        title: "@vitejs/plugin-react on deps.dev"
+  lib-vitest-17yez:
+    kind: library
+    name: vitest
+    package:
+      ecosystem: npm
+      name: vitest
+      version: 5.1.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/vitest
+        title: vitest on npm
+      - link: https://deps.dev/npm/vitest
+        title: vitest on deps.dev
+  lib-ws-qnf4d:
+    kind: library
+    name: ws
+    package:
+      ecosystem: npm
+      name: ws
+      version: 8.23.0
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/ws
+        title: ws on npm
+      - link: https://deps.dev/npm/ws
+        title: ws on deps.dev
+  lib-y-indexeddb-1afq8:
+    kind: library
+    name: y-indexeddb
+    package:
+      ecosystem: npm
+      name: y-indexeddb
+      version: 9.0.12
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/y-indexeddb
+        title: y-indexeddb on npm
+      - link: https://deps.dev/npm/y-indexeddb
+        title: y-indexeddb on deps.dev
+  lib-y-protocols-pwcjh:
+    kind: library
+    name: y-protocols
+    package:
+      ecosystem: npm
+      name: y-protocols
+      version: 1.0.7
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/y-protocols
+        title: y-protocols on npm
+      - link: https://deps.dev/npm/y-protocols
+        title: y-protocols on deps.dev
+  lib-yaml-1wm54:
+    kind: library
+    name: yaml
+    package:
+      ecosystem: npm
+      name: yaml
+      version: 2.9.1
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/yaml
+        title: yaml on npm
+      - link: https://deps.dev/npm/yaml
+        title: yaml on deps.dev
+  lib-yjs-1y6wn:
+    kind: library
+    name: yjs
+    package:
+      ecosystem: npm
+      name: yjs
+      version: 13.6.33
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/yjs
+        title: yjs on npm
+      - link: https://deps.dev/npm/yjs
+        title: yjs on deps.dev
+  lib-zod-vhnf6:
+    kind: library
+    name: zod
+    package:
+      ecosystem: npm
+      name: zod
+      version: 4.6.7
+    tags: [generated]
+    references:
+      - link: https://www.npmjs.com/package/zod
+        title: zod on npm
+      - link: https://deps.dev/npm/zod
+        title: zod on deps.dev

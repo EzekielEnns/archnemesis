@@ -1,0 +1,13 @@
+# archnemesis:src/workspace/constants.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-constants-ts-5kkyg:
+    kind: module
+    name: constants.ts
+    in: web-workspace
+    context: 'Names and sizes the workspace shares: the drag type for dragging a box in from the tree, what "nothing selected" is, and how much room the panels take.'
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/constants.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/constants.ts

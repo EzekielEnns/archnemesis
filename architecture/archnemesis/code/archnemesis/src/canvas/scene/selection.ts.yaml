@@ -1,0 +1,57 @@
+# archnemesis:src/canvas/scene/selection.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-selection-ts-np3i5:
+    kind: module
+    name: selection.ts
+    in: canvas-scene-iaxtu
+    context: "Selecting: the picked boxes, arrow, frame or diagram, what's reported when it changes, the hovered box, and bringing a grabbed box to the top."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/selection.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/selection.ts
+  selection-ts-emitselect-1yos5:
+    kind: function
+    name: emitSelect()
+    in: scene-selection-ts-np3i5
+    signature: "emitSelect(state: SceneState, byCode?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/selection.ts:24
+  selection-ts-raise-16cq0:
+    kind: function
+    name: raise()
+    in: scene-selection-ts-np3i5
+    context: Bring a box to the top, so the one you grab is the one drawn over its neighbours.
+    signature: "raise(state: SceneState, v: NodeView): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/selection.ts:45
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  selection-ts-select-848l7:
+    kind: function
+    name: select()
+    in: scene-selection-ts-np3i5
+    signature: "select(state: SceneState, sel: Selection, notify?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/selection.ts:10
+  selection-ts-sethovered-1aimh:
+    kind: function
+    name: setHovered()
+    in: scene-selection-ts-np3i5
+    signature: "setHovered(state: SceneState, id: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/selection.ts:37
+connections:
+  - {from: selection-ts-emitselect-1yos5, to: spotlight-ts-refocus-19wys}
+  - {from: selection-ts-select-848l7, to: frame-ts-requestrender-sstrq}
+  - {from: selection-ts-select-848l7, to: lookup-ts-pickable-820r6}
+  - {from: selection-ts-select-848l7, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: selection-ts-select-848l7, to: selection-ts-emitselect-1yos5}
+  - {from: selection-ts-select-848l7, to: spotlight-ts-refocus-19wys}
+  - {from: selection-ts-sethovered-1aimh, to: frame-ts-requestrender-sstrq}
+  - {from: selection-ts-sethovered-1aimh, to: overlay-ts-drawoverlay-1dyr1}

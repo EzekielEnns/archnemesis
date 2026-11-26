@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/useUp.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useup-tsx-z1b39:
+    kind: module
+    name: useUp.tsx
+    in: web-workspace
+    context: "Going up: back the way you came, else up the tree of boxes, else to the landscape."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/useUp.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useUp.tsx
+  useup-tsx-useup-15a7v:
+    kind: function
+    name: useUp()
+    in: workspace-useup-tsx-z1b39
+    signature: "useUp({ diagramId, idx, navigate, }: { diagramId: string | null; idx: ModelIndex; navigate: Navigate; }): { backTo: { diagramId: string; focus: string | null; } | undefined; up: () => void; canUp: boolean; upName: string; upItem: MenuItem[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useUp.tsx:9
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: useup-tsx-useup-15a7v, to: project-ts-diagramforscope-1ff5x}

@@ -1,0 +1,61 @@
+# archnemesis:src/storage.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-storage-ts-wwu84:
+    kind: module
+    name: storage.ts
+    in: web-shell
+    context: "What this browser remembers (localStorage, never the document): the token, the name you chose, the last design you had open. Reads and writes never throw (a private window just doesn't remember)."
+    tech: [TypeScript]
+    path: archnemesis:src/storage.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts
+  storage-ts-backfromgithub-1pm08:
+    kind: function
+    name: backFromGitHub()
+    in: src-storage-ts-wwu84
+    context: "True once, on the page load after connecting GitHub: the address is put back where you were."
+    signature: "backFromGitHub(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts:35
+  storage-ts-leavingforgithub-1uki4:
+    kind: function
+    name: leavingForGitHub()
+    in: src-storage-ts-wwu84
+    signature: "leavingForGitHub: () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts:32
+  storage-ts-oldkey-1vlzh:
+    kind: function
+    name: oldKey()
+    in: src-storage-ts-wwu84
+    context: The key this browser used before the rename ("atlas.token" for "archnm.token"), still read.
+    signature: "oldKey: (key: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts:9
+  storage-ts-setstored-9bk3c:
+    kind: function
+    name: setStored()
+    in: src-storage-ts-wwu84
+    signature: "setStored(key: string, value: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts:19
+  storage-ts-stored-3h0kp:
+    kind: function
+    name: stored()
+    in: src-storage-ts-wwu84
+    signature: "stored(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/storage.ts:11
+connections:
+  - {from: storage-ts-backfromgithub-1pm08, to: storage-ts-setstored-9bk3c}
+  - {from: storage-ts-backfromgithub-1pm08, to: storage-ts-stored-3h0kp}
+  - {from: storage-ts-leavingforgithub-1uki4, to: storage-ts-setstored-9bk3c}
+  - {from: storage-ts-setstored-9bk3c, to: storage-ts-oldkey-1vlzh}
+  - {from: storage-ts-stored-3h0kp, to: storage-ts-oldkey-1vlzh}

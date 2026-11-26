@@ -1,0 +1,29 @@
+# archnemesis:src/ui/FlowPanel.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-flowpanel-tsx-1d2lp:
+    kind: module
+    name: FlowPanel.tsx
+    in: web-ui
+    context: 'A flow: a story told step by step over a diagram ("a customer places an order"). Each step is one thing going from one box to another; stepping through lights it up.'
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/FlowPanel.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/FlowPanel.tsx
+  flowpanel-tsx-flowpanel-r7va3:
+    kind: function
+    name: FlowPanel()
+    in: ui-flowpanel-tsx-1d2lp
+    signature: "FlowPanel({ idx, flow, step, pick, onStep, onClose, run, onCollapse }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/FlowPanel.tsx:33
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: flowpanel-tsx-flowpanel-r7va3, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: flowpanel-tsx-flowpanel-r7va3, to: model-ts-makestep-16ytd}
+  - {from: flowpanel-tsx-flowpanel-r7va3, to: model-ts-now-1lkd5}
+  - {from: flowpanel-tsx-flowpanel-r7va3, to: textfield-tsx-textfield-1hdfe}

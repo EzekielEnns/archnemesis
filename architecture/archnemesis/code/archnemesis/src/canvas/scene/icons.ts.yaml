@@ -1,0 +1,51 @@
+# archnemesis:src/canvas/scene/icons.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-icons-ts-1mzjn:
+    kind: module
+    name: icons.ts
+    in: canvas-scene-iaxtu
+    context: "Icons for boxes: a kind's icon (drawn white, tinted per use) and a technology's logo in its brand colour, loaded once and kept."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/icons.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/icons.ts
+  icons-ts-icontexture-1gacf:
+    kind: function
+    name: iconTexture()
+    in: scene-icons-ts-1mzjn
+    context: "The logo for a technology: null until it has loaded (the card is redrawn then), or if there's none."
+    signature: "iconTexture(state: SceneState, technology: string): { tex: Texture<TextureSource<any>>; color: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/icons.ts:30
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  icons-ts-kindtexture-ejpz6:
+    kind: function
+    name: kindTexture()
+    in: scene-icons-ts-1mzjn
+    context: A kind's icon, drawn white to be tinted; null until it has loaded (the cards are redrawn then).
+    signature: 'kindTexture(state: SceneState, kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table"): Texture<TextureSource<any>> | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/icons.ts:11
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  icons-ts-loadicon-1blzs:
+    kind: function
+    name: loadIcon()
+    in: scene-icons-ts-1mzjn
+    signature: "loadIcon(state: SceneState, key: string, technology: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/icons.ts:45
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: icons-ts-icontexture-1gacf, to: icons-ts-loadicon-1blzs}
+  - {from: icons-ts-kindtexture-ejpz6, to: frame-ts-requestrender-sstrq}
+  - {from: icons-ts-kindtexture-ejpz6, to: kindicons-ts-kindsvg-1kytf}
+  - {from: icons-ts-loadicon-1blzs, to: frame-ts-requestrender-sstrq}
+  - {from: icons-ts-loadicon-1blzs, to: state-ts-scenestate-fetchicon-116nm}

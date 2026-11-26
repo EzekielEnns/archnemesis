@@ -1,0 +1,72 @@
+# archnemesis:server/routes/git.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-git-ts-1dsrg:
+    kind: module
+    name: git.ts
+    in: srv-edge
+    context: "A design and git (server/gitsync.ts): whether it follows a repo, following one, fetching, and the forks: making one, editing on one, merging or throwing it away, and proposing it. <doc> is a design's key or a fork's \"<design>@<fork>\"."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/git.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/git.ts
+  git-ts-follow-rq87x:
+    kind: function
+    name: follow()
+    in: routes-git-ts-1dsrg
+    context: "Follow a repo: its own on this server ({local: true}), or one at a URL."
+    signature: "follow(ctx: Ctx, d: DesignCall, b: Record<string, unknown>): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/git.ts:15
+  git-ts-forkend-1f8gb:
+    kind: function
+    name: forkEnd()
+    in: routes-git-ts-1dsrg
+    context: "Merge a fork, throw it away, or propose it: whoever started it, or an admin."
+    signature: "forkEnd(ctx: Ctx, d: DesignCall, git: GitSync): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/git.ts:48
+  git-ts-gitroutes-8z1ds:
+    kind: function
+    name: gitRoutes()
+    in: routes-git-ts-1dsrg
+    signature: "gitRoutes(ctx: Ctx, d: DesignCall): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/git.ts:94
+  git-ts-onrepo-1wvyz:
+    kind: function
+    name: onRepo()
+    in: routes-git-ts-1dsrg
+    context: The git actions that need the design to follow a repo.
+    signature: "onRepo(ctx: Ctx, d: DesignCall, git: GitSync, b: Record<string, unknown>): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/git.ts:60
+connections:
+  - {from: git-ts-follow-rq87x, to: auth-ts-auth-authorize-hqj8x}
+  - {from: git-ts-follow-rq87x, to: gitsync-ts-binddesign-1a3fl}
+  - {from: git-ts-follow-rq87x, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: git-ts-follow-rq87x, to: gitsync-ts-remoteallowed-mm87q}
+  - {from: git-ts-follow-rq87x, to: http-ts-json-3ycbr}
+  - {from: git-ts-follow-rq87x, to: perms-ts-perms-can-kqb2y}
+  - {from: git-ts-forkend-1f8gb, to: gitsync-ts-gitsync-discard-qg41j}
+  - {from: git-ts-forkend-1f8gb, to: gitsync-ts-gitsync-merge-1gmig}
+  - {from: git-ts-forkend-1f8gb, to: http-ts-json-3ycbr}
+  - {from: git-ts-forkend-1f8gb, to: perms-ts-perms-can-kqb2y}
+  - {from: git-ts-gitroutes-8z1ds, to: git-ts-follow-rq87x}
+  - {from: git-ts-gitroutes-8z1ds, to: git-ts-onrepo-1wvyz}
+  - {from: git-ts-gitroutes-8z1ds, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: git-ts-gitroutes-8z1ds, to: http-ts-body-14i98}
+  - {from: git-ts-gitroutes-8z1ds, to: http-ts-json-3ycbr}
+  - {from: git-ts-gitroutes-8z1ds, to: perms-ts-perms-can-kqb2y}
+  - {from: git-ts-onrepo-1wvyz, to: git-ts-forkend-1f8gb}
+  - {from: git-ts-onrepo-1wvyz, to: gitsync-ts-gitsync-editonfork-ya7yd}
+  - {from: git-ts-onrepo-1wvyz, to: gitsync-ts-gitsync-fork-14wew}
+  - {from: git-ts-onrepo-1wvyz, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: git-ts-onrepo-1wvyz, to: gitsync-ts-gitsync-propose-1a83z}
+  - {from: git-ts-onrepo-1wvyz, to: gitsync-ts-gitsync-sync-1m791}
+  - {from: git-ts-onrepo-1wvyz, to: http-ts-json-3ycbr}

@@ -1,0 +1,23 @@
+# archnemesis:src/workspace/sceneSelect.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-sceneselect-ts-19cw6:
+    kind: module
+    name: sceneSelect.ts
+    in: web-workspace
+    context: "A click on the canvas that changes what's selected: connect mode takes the clicked box as the other end, and the card opens or closes by the tool and by whether you or the app selected."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/sceneSelect.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneSelect.ts
+  sceneselect-ts-selecthandler-19a8i:
+    kind: function
+    name: selectHandler()
+    in: workspace-sceneselect-ts-19cw6
+    signature: "selectHandler(deps: SceneDeps, getScene: () => Scene): ((sel: Selection, byCode?: boolean | undefined) => void) | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/sceneSelect.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx

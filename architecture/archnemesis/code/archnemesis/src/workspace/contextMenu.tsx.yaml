@@ -1,0 +1,72 @@
+# archnemesis:src/workspace/contextMenu.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-contextmenu-tsx-d1rkc:
+    kind: module
+    name: contextMenu.tsx
+    in: web-workspace
+    context: "The right-click menu: on a box (or several), on an arrow, on empty canvas."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/contextMenu.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/contextMenu.tsx
+  contextmenu-tsx-canvasmenu-1n05m:
+    kind: function
+    name: canvasMenu()
+    in: workspace-contextmenu-tsx-d1rkc
+    context: The right-click menu on empty canvas.
+    signature: 'canvasMenu(t: ContextTarget, c: MenuCtx, diagramId: string): ("sep" | MenuItem)[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/contextMenu.tsx:252
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  contextmenu-tsx-edgemenu-1mp7f:
+    kind: function
+    name: edgeMenu()
+    in: workspace-contextmenu-tsx-d1rkc
+    context: The right-click menu on an arrow.
+    signature: 'edgeMenu(t: ContextTarget & { id: string; }, c: MenuCtx, diagramId: string): ("sep" | MenuItem)[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/contextMenu.tsx:196
+    references:
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-1i7zx
+  contextmenu-tsx-menuitems-r5br7:
+    kind: function
+    name: menuItems()
+    in: workspace-contextmenu-tsx-d1rkc
+    signature: 'menuItems(t: ContextTarget, c: MenuCtx): ("sep" | MenuItem)[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/contextMenu.tsx:305
+  contextmenu-tsx-nodemenu-on8ix:
+    kind: function
+    name: nodeMenu()
+    in: workspace-contextmenu-tsx-d1rkc
+    context: The right-click menu on a box (or on several picked boxes).
+    signature: 'nodeMenu(t: ContextTarget & { id: string; }, c: MenuCtx, diagramId: string): ("sep" | MenuItem)[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/contextMenu.tsx:64
+    references:
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: contextmenu-tsx-canvasmenu-1n05m, to: actions-ts-addobject-ny43p}
+  - {from: contextmenu-tsx-canvasmenu-1n05m, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: contextmenu-tsx-canvasmenu-1n05m, to: scene-ts-scene-fit-klilw}
+  - {from: contextmenu-tsx-canvasmenu-1n05m, to: scene-ts-scene-select-1g1o3}
+  - {from: contextmenu-tsx-canvasmenu-1n05m, to: spread-ts-spread-up-1n409}
+  - {from: contextmenu-tsx-edgemenu-1mp7f, to: actions-ts-updateconnection-msz2q}
+  - {from: contextmenu-tsx-edgemenu-1mp7f, to: scene-ts-scene-edgelabelclient-xl3sb}
+  - {from: contextmenu-tsx-menuitems-r5br7, to: contextmenu-tsx-canvasmenu-1n05m}
+  - {from: contextmenu-tsx-menuitems-r5br7, to: contextmenu-tsx-edgemenu-1mp7f}
+  - {from: contextmenu-tsx-menuitems-r5br7, to: contextmenu-tsx-nodemenu-on8ix}
+  - {from: contextmenu-tsx-nodemenu-on8ix, to: actions-ts-insideaction-pw824}
+  - {from: contextmenu-tsx-nodemenu-on8ix, to: project-ts-descendants-121jc}
+  - {from: contextmenu-tsx-nodemenu-on8ix, to: route-ts-copylink-qbc5s}
+  - {from: contextmenu-tsx-nodemenu-on8ix, to: scene-ts-scene-clientrectof-106i8}

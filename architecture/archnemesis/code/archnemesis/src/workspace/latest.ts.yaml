@@ -1,0 +1,24 @@
+# archnemesis:src/workspace/latest.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-latest-ts-3cydu:
+    kind: module
+    name: latest.ts
+    in: web-workspace
+    context: The latest model, diagram and tool, held in a ref for the canvas callbacks that are bound once (they'd otherwise see the values from the render they were made in).
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/latest.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/latest.ts
+  latest-ts-uselatestref-ypq8c:
+    kind: function
+    name: useLatestRef()
+    in: workspace-latest-ts-3cydu
+    context: The ref itself; Workspace fills it in on every render, once everything it holds exists.
+    signature: "useLatestRef(): LatestRef"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/latest.ts:37
+    references:
+      - dependency: lib-types-react-1i7zx

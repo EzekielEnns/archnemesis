@@ -1,0 +1,93 @@
+# archnemesis:src/ui/Welcome.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-welcome-tsx-mlc7a:
+    kind: module
+    name: Welcome.tsx
+    in: web-ui
+    context: "The first-run welcome: a centred panel with four ways in, the hint on an empty design, and the tip over a shared one. State and rules are in welcomeState.ts; src/workspace/WelcomeHost.tsx decides which is on the page."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Welcome.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx
+  welcome-tsx-emptyhint-1k8ew:
+    kind: function
+    name: EmptyHint()
+    in: ui-welcome-tsx-mlc7a
+    context: "A returning person's empty design: where to start, quietly."
+    signature: "EmptyHint({ onOpen }: { onOpen: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:242
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcome-tsx-kbd-mapj1:
+    kind: function
+    name: Kbd()
+    in: ui-welcome-tsx-mlc7a
+    signature: "Kbd: ({ k }: { k: string; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:217
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcome-tsx-sharedtip-1ebqd:
+    kind: function
+    name: SharedTip()
+    in: ui-welcome-tsx-mlc7a
+    context: "Over a shared design: the one thing a first-timer needs."
+    signature: "SharedTip({ left, onClose }: { left: number; onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:257
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcome-tsx-statusline-1u1tm:
+    kind: function
+    name: statusLine()
+    in: ui-welcome-tsx-mlc7a
+    signature: "statusLine(w: Where): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:23
+  welcome-tsx-waysfor-17i4o:
+    kind: function
+    name: waysFor()
+    in: ui-welcome-tsx-mlc7a
+    signature: "waysFor(w: Where): Way[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:43
+    references:
+      - dependency: lib-lucide-react-1fcqz
+  welcome-tsx-welcomecoach-1h7o4:
+    kind: function
+    name: WelcomeCoach()
+    in: ui-welcome-tsx-mlc7a
+    context: "After Start blank: which keys place a box, then what to do with one."
+    signature: "WelcomeCoach({ left, boxes }: { left: number; boxes: number; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:220
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcome-tsx-welcomepanel-ytf7a:
+    kind: function
+    name: WelcomePanel()
+    in: ui-welcome-tsx-mlc7a
+    context: "The panel: what this is, and four ways in; or the steps for one of them."
+    signature: "WelcomePanel(p: PanelProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Welcome.tsx:125
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: welcome-tsx-emptyhint-1k8ew, to: welcome-tsx-kbd-mapj1}
+  - {from: welcome-tsx-welcomecoach-1h7o4, to: welcome-tsx-kbd-mapj1}
+  - {from: welcome-tsx-welcomepanel-ytf7a, to: welcome-tsx-statusline-1u1tm}
+  - {from: welcome-tsx-welcomepanel-ytf7a, to: welcome-tsx-waysfor-17i4o}
+  - {from: welcome-tsx-welcomepanel-ytf7a, to: welcomestate-ts-showdetail-9rs6o}
+  - {from: welcome-tsx-welcomepanel-ytf7a, to: welcomesteps-tsx-stepsfor-1qm4s}

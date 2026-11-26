@@ -1,0 +1,101 @@
+# archnemesis:server/tags.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-tags-ts-1j7w9:
+    kind: module
+    name: tags.ts
+    in: srv-live
+    context: "The fallback adapter, for a language with no SCIP indexer to hand: definitions from Universal Ctags (ctags --output-format=json, 100+ languages), and calls guessed by name: inside a function's lines, a name followed by \"(\" that is exactly one function in the repo (or one in the same file). Those calls carry confidence \"name\" and are drawn fainter, so nobody mistakes a guess for a fact."
+    tech: [TypeScript]
+    path: archnemesis:server/tags.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts
+  tags-ts-builtintags-44mpv:
+    kind: function
+    name: builtinTags()
+    in: server-tags-ts-1j7w9
+    signature: "builtinTags(root: string, files: string[]): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:341
+  tags-ts-hasuniversalctags-lct5h:
+    kind: function
+    name: hasUniversalCtags()
+    in: server-tags-ts-1j7w9
+    context: Is Universal Ctags on the path (not the old BSD ctags macOS ships)?
+    signature: "hasUniversalCtags(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:47
+  tags-ts-importsof-l20zg:
+    kind: function
+    name: importsOf()
+    in: server-tags-ts-1j7w9
+    context: The repo files a file can see by its imports (TypeScript/JavaScript, Python, Go), or null for a language whose imports aren't read here. A call guessed by name only links to a function in the file itself or in one of these.
+    signature: "importsOf(path: string, text: string, files: Set<string>): Set<string> | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:255
+  tags-ts-languageof-l0ljc:
+    kind: function
+    name: languageOf()
+    in: server-tags-ts-1j7w9
+    context: The language of a source file, by its extension (undefined for anything that isn't code).
+    signature: "languageOf(path: string): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:73
+  tags-ts-namespacesof-8fpms:
+    kind: function
+    name: namespacesOf()
+    in: server-tags-ts-1j7w9
+    context: 'TS/JS namespace imports (import * as live from "./live.ts"): the name, and the file it stands for.'
+    signature: "namespacesOf(path: string, text: string, files: Set<string>): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:239
+  tags-ts-readfrom-i5at7:
+    kind: function
+    name: readFrom()
+    in: server-tags-ts-1j7w9
+    signature: "readFrom: (root: string) => (path: string) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:324
+  tags-ts-runctags-13yyg:
+    kind: function
+    name: runCtags()
+    in: server-tags-ts-1j7w9
+    context: "Run ctags over a repo: one JSON tag per line."
+    signature: "runCtags(root: string, files: string[]): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:59
+  tags-ts-tagstoindex-17vjx:
+    kind: function
+    name: tagsToIndex()
+    in: server-tags-ts-1j7w9
+    context: "ctags JSON lines plus the source text to the neutral index, calls guessed by name. `files`: every file read, so a file with no functions is a module too."
+    signature: "tagsToIndex(json: string, opts: { repo: string; sha?: string | undefined; read: (path: string) => string | null; files?: string[] | undefined; }): CodeIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:108
+  tags-ts-tstarget-1rp2z:
+    kind: function
+    name: tsTarget()
+    in: server-tags-ts-1j7w9
+    context: The repo file a relative TS/JS import names ("./x.js" → x.ts, "./dir" → dir/index.ts).
+    signature: "tsTarget(path: string, spec: string, files: Set<string>): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/tags.ts:223
+connections:
+  - {from: tags-ts-builtintags-44mpv, to: tags-ts-languageof-l0ljc}
+  - {from: tags-ts-builtintags-44mpv, to: tags-ts-readfrom-i5at7}
+  - {from: tags-ts-importsof-l20zg, to: tags-ts-languageof-l0ljc}
+  - {from: tags-ts-importsof-l20zg, to: tags-ts-tstarget-1rp2z}
+  - {from: tags-ts-namespacesof-8fpms, to: tags-ts-tstarget-1rp2z}
+  - {from: tags-ts-tagstoindex-17vjx, to: tags-ts-importsof-l20zg}
+  - {from: tags-ts-tagstoindex-17vjx, to: tags-ts-languageof-l0ljc}
+  - {from: tags-ts-tagstoindex-17vjx, to: tags-ts-namespacesof-8fpms}

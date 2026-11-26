@@ -1,0 +1,13 @@
+# archnemesis:eslint.config.js: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  eslint-config-js-1izjt:
+    kind: module
+    name: eslint.config.js
+    in: build
+    context: Lint rules. Existing debt is recorded in eslint-suppressions.json (pnpm lint:bank); the pre-push hook (lefthook.yml) refuses a push whose changed files still carry any.
+    tech: [typescript]
+    path: archnemesis:eslint.config.js
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:eslint.config.js

@@ -1,0 +1,86 @@
+# archnemesis:src/ui/LeftPanel.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-leftpanel-tsx-1tf9q:
+    kind: module
+    name: LeftPanel.tsx
+    in: web-ui
+    context: "The left panel in simple mode: for finding your way around the design, not for editing."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/LeftPanel.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx
+  leftpanel-tsx-panelhead-c6jpl:
+    kind: function
+    name: PanelHead()
+    in: ui-leftpanel-tsx-1tf9q
+    signature: "PanelHead(p: HeadProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx:54
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  leftpanel-tsx-repopane-5zir7:
+    kind: function
+    name: RepoPane()
+    in: ui-leftpanel-tsx-1tf9q
+    context: Where the design is saved, connecting a repo (or moving to a real one), and GitHub.
+    signature: 'RepoPane({ store, toast, }: { store: Store; toast: (text: string, tone?: "error" | "info" | undefined) => void; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx:407
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  leftpanel-tsx-row-m8bee:
+    kind: function
+    name: Row()
+    in: ui-leftpanel-tsx-1tf9q
+    signature: "Row: ({ title, hint, children, }: { title: string; hint?: ReactNode; children?: ReactNode; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx:208
+    references:
+      - dependency: lib-types-react-1i7zx
+  leftpanel-tsx-settingsdialog-dhg8e:
+    kind: function
+    name: SettingsDialog()
+    in: ui-leftpanel-tsx-1tf9q
+    context: "Settings off the cog: sections down the left, like an app's preferences."
+    signature: "SettingsDialog(p: SettingsProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx:227
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  leftpanel-tsx-switch-loxjk:
+    kind: function
+    name: Switch()
+    in: ui-leftpanel-tsx-1tf9q
+    signature: "Switch: ({ on, flip, label }: { on: boolean; flip: () => void; label: string; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/LeftPanel.tsx:199
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: leftpanel-tsx-panelhead-c6jpl, to: branches-tsx-panelbranchhead-1m302}
+  - {from: leftpanel-tsx-panelhead-c6jpl, to: store-ts-store-backtonow-15y6o}
+  - {from: leftpanel-tsx-repopane-5zir7, to: branchmenu-tsx-followform-1qh53}
+  - {from: leftpanel-tsx-repopane-5zir7, to: branchmenu-tsx-github-1tlqc}
+  - {from: leftpanel-tsx-repopane-5zir7, to: branchmenu-tsx-gitstatus-18sj9}
+  - {from: leftpanel-tsx-repopane-5zir7, to: branchmenu-tsx-reponame-1recg}
+  - {from: leftpanel-tsx-repopane-5zir7, to: dialog-tsx-dialog-39zlh}
+  - {from: leftpanel-tsx-repopane-5zir7, to: leftpanel-tsx-row-m8bee}
+  - {from: leftpanel-tsx-repopane-5zir7, to: store-ts-store-refreshgithub-1a985}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: browserrepo-tsx-browserrepopane-v1h6x}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: designmenu-tsx-designmenu-tfqy1}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: dialog-tsx-dialog-39zlh}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: leftpanel-tsx-repopane-5zir7}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: leftpanel-tsx-row-m8bee}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: leftpanel-tsx-switch-loxjk}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: peers-tsx-accountfields-m7jzq}
+  - {from: leftpanel-tsx-settingsdialog-dhg8e, to: sharedialog-tsx-sharedialog-18nl6}

@@ -1,0 +1,52 @@
+# archnemesis:shared/tools/slice.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-slice-ts-1qj2f:
+    kind: module
+    name: slice.ts
+    in: shared-tools-1cbb9
+    context: "The scope slice: a brief for working inside one box, under a token budget. The scope in full; its direct neighbours as contracts (what they are, what they expose, what they take, return and carry, how the lines are labelled); everything else as names, nearest and busiest first. What doesn't fit is said, with the call that gets it."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/slice.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/slice.ts
+  slice-ts-plural-165q8:
+    kind: function
+    name: plural()
+    in: tools-slice-ts-1qj2f
+    signature: "plural: (n: number, one: string, many: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/slice.ts:251
+  slice-ts-scopeslice-os5qj:
+    kind: function
+    name: scopeSlice()
+    in: tools-slice-ts-1qj2f
+    signature: "scopeSlice(idx: ModelIndex, scope: ModelObject, o: { budget: number; design: string; guesses?: boolean | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/slice.ts:14
+  slice-ts-tokens-8x1cf:
+    kind: function
+    name: tokens()
+    in: tools-slice-ts-1qj2f
+    context: "About four characters a token: close enough to budget by."
+    signature: "tokens: (s: string) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/slice.ts:12
+connections:
+  - {from: slice-ts-scopeslice-os5qj, to: entities-ts-entitysummary-i5oax}
+  - {from: slice-ts-scopeslice-os5qj, to: entities-ts-signaturetypes-698iu}
+  - {from: slice-ts-scopeslice-os5qj, to: host-ts-purpose-qepde}
+  - {from: slice-ts-scopeslice-os5qj, to: project-ts-descendants-121jc}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-boxline-r7nbi}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-carriesof-p0gen}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-edgeline-1ini3}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-entitybyname-13a8g}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-idof-1erbh}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-refof-yj811}
+  - {from: slice-ts-scopeslice-os5qj, to: refs-ts-usesof-inv0m}
+  - {from: slice-ts-scopeslice-os5qj, to: slice-ts-plural-165q8}
+  - {from: slice-ts-scopeslice-os5qj, to: slice-ts-tokens-8x1cf}

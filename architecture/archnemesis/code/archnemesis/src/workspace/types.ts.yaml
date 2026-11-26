@@ -1,0 +1,13 @@
+# archnemesis:src/workspace/types.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-types-ts-1tzx7:
+    kind: module
+    name: types.ts
+    in: web-workspace
+    context: Small shared types for the workspace's hooks.
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/types.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/types.ts

@@ -151,6 +151,76 @@ const hash = (files: Map<string, string>) =>
     )
     .digest("hex");
 
+/** Make a folder hold exactly these files: write the ones that changed, remove ours that are gone. */
+function writeFolder(dir: string, files: Map<string, string>, design: string): void {
+  const onDisk = readFolder(dir);
+  for (const [path, text] of files) {
+    if (onDisk.get(path) === text) continue;
+    if (path === "AGENTS.md" && !isGeneratedAgents(onDisk.get(path))) continue;
+    if (!writable(dir, path)) {
+      console.error(
+        `archnm: ${design}: refused to write ${JSON.stringify(path)}: not one of Archnemesis's files in the design's folder`,
+      );
+      continue;
+    }
+    const full = join(dir, path);
+    mkdirSync(dirname(full), { recursive: true });
+    const tmp = join(dirname(full), `.${path.split("/").pop()}.${process.pid}.tmp`);
+    writeFileSync(tmp, text);
+    renameSync(tmp, full);
+  }
+  for (const path of onDisk.keys())
+    if (!files.has(path) && path !== "AGENTS.md" && writable(dir, path)) {
+      rmSync(join(dir, path));
+      pruneEmpty(dir, path);
+    }
+}
+
+/**
+ * A copy of a design's files, kept up to date in a folder and never read back. For a design
+ * whose main lives in a repo Archnemesis keeps itself: the repo is out of sight in the state
+ * folder, and this is the copy in the designs folder that people commit with their own code.
+ */
+export class FolderCopy {
+  private timer: NodeJS.Timeout | null = null;
+  private unlisten: (() => void) | null = null;
+  private live: Live;
+  readonly dir: string;
+
+  constructor(live: Live, dir: string) {
+    this.live = live;
+    this.dir = dir;
+  }
+
+  start(): void {
+    this.write();
+    this.unlisten = this.live.onChange(() => {
+      if (this.timer) clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.timer = null;
+        this.write();
+      }, 1000);
+    });
+  }
+
+  close(): void {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.write();
+    }
+    this.unlisten?.();
+  }
+
+  private write(): void {
+    try {
+      mkdirSync(this.dir, { recursive: true });
+      writeFolder(this.dir, writeFiles(this.live.state, this.live.config()), this.live.design);
+    } catch (e) {
+      console.error(`archnm: copy to ${this.dir}:`, e instanceof Error ? e.message : e);
+    }
+  }
+}
+
 export class FileSync {
   private written = new Map<string, string>();
   private writeTimer: NodeJS.Timeout | null = null;
@@ -256,27 +326,7 @@ export class FileSync {
         pin: false,
       });
     const files = writeFiles(this.live.state, this.live.config());
-    const onDisk = readFolder(this.dir);
-    for (const [path, text] of files) {
-      if (onDisk.get(path) === text) continue;
-      if (path === "AGENTS.md" && !isGeneratedAgents(onDisk.get(path))) continue;
-      if (!writable(this.dir, path)) {
-        console.error(
-          `archnm: ${this.live.design}: refused to write ${JSON.stringify(path)}: not one of Archnemesis's files in the design's folder`,
-        );
-        continue;
-      }
-      const full = join(this.dir, path);
-      mkdirSync(dirname(full), { recursive: true });
-      const tmp = join(dirname(full), `.${path.split("/").pop()}.${process.pid}.tmp`);
-      writeFileSync(tmp, text);
-      renameSync(tmp, full);
-    }
-    for (const path of onDisk.keys())
-      if (!files.has(path) && path !== "AGENTS.md" && writable(this.dir, path)) {
-        rmSync(join(this.dir, path));
-        pruneEmpty(this.dir, path);
-      }
+    writeFolder(this.dir, files, this.live.design);
     this.written = files;
     const meta = this.live.doc.getMap<string>("meta");
     const h = hash(files);

@@ -1,0 +1,73 @@
+# archnemesis:shared/sharelink.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-sharelink-ts-1afm5:
+    kind: module
+    name: sharelink.ts
+    in: shared-support
+    context: "A design that travels inside a link. The design's files (exactly what writeFiles gives, layout included) become one JSON object, compressed with deflate-raw, written as base64url and given a version prefix (\"a1.\") so the format can change later. It goes in the fragment of a URL (`#~d=...`), which a browser never sends anywhere. Everything that comes back out of a link is untrusted: it is capped,…"
+    tech: [TypeScript]
+    path: archnemesis:shared/sharelink.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts
+  sharelink-ts-decodedesign-1n4h3:
+    kind: function
+    name: decodeDesign()
+    in: shared-sharelink-ts-1afm5
+    context: The files in link text; throws ShareLinkError with a plain sentence when it isn't one.
+    signature: "decodeDesign(text: string): Promise<Map<string, string>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:53
+  sharelink-ts-encodedesign-z148r:
+    kind: function
+    name: encodeDesign()
+    in: shared-sharelink-ts-1afm5
+    context: The design's files as link text (without the `#~d=`).
+    signature: "encodeDesign(files: Map<string, string>): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:41
+  sharelink-ts-fingerprint-1eq0b:
+    kind: function
+    name: fingerprint()
+    in: shared-sharelink-ts-1afm5
+    context: A short fingerprint of link text, to tell a link already opened from a new one.
+    signature: "fingerprint(text: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:95
+  sharelink-ts-frombase64url-1d87c:
+    kind: function
+    name: fromBase64Url()
+    in: shared-sharelink-ts-1afm5
+    signature: "fromBase64Url(text: string): Uint8Array<ArrayBufferLike>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:33
+  sharelink-ts-sharelinkerror-constructor-1k4y9:
+    kind: function
+    name: ShareLinkError.<constructor>()
+    in: shared-sharelink-ts-1afm5
+    tech: [method of ShareLinkError]
+    signature: "constructor(message: string): ShareLinkError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:18
+  sharelink-ts-tobase64url-1ftjp:
+    kind: function
+    name: toBase64Url()
+    in: shared-sharelink-ts-1afm5
+    signature: "toBase64Url(bytes: Uint8Array<ArrayBufferLike>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/sharelink.ts:26
+connections:
+  - {from: sharelink-ts-decodedesign-1n4h3, to: deflate-ts-inflateraw-6v1qz}
+  - {from: sharelink-ts-decodedesign-1n4h3, to: ours-ts-isours-8rj10}
+  - {from: sharelink-ts-decodedesign-1n4h3, to: sharelink-ts-frombase64url-1d87c}
+  - {from: sharelink-ts-decodedesign-1n4h3, to: sharelink-ts-sharelinkerror-constructor-1k4y9}
+  - {from: sharelink-ts-encodedesign-z148r, to: deflate-ts-deflateraw-p0pw5}
+  - {from: sharelink-ts-encodedesign-z148r, to: sharelink-ts-sharelinkerror-constructor-1k4y9}
+  - {from: sharelink-ts-encodedesign-z148r, to: sharelink-ts-tobase64url-1ftjp}

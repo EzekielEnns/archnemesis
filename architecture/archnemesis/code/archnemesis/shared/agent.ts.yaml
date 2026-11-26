@@ -1,0 +1,234 @@
+# archnemesis:shared/agent.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-agent-ts-xrdgm:
+    kind: module
+    name: agent.ts
+    in: shared-support
+    context: "What agents work with: references by name, a batch of plain changes, and answers as compact text. The MCP is a thin layer over this, so it's tested without a server."
+    tech: [TypeScript]
+    path: archnemesis:shared/agent.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts
+  agent-ts-changelabel-1hctl:
+    kind: function
+    name: changeLabel()
+    in: shared-agent-ts-xrdgm
+    context: A change in a few words, for an error about it.
+    signature: "changeLabel(ch: Change): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:567
+  agent-ts-cleancolumn-1lull:
+    kind: function
+    name: cleanColumn()
+    in: shared-agent-ts-xrdgm
+    context: A column as given, with only the fields it has (no empty strings, no false flags).
+    signature: "cleanColumn(c: Column): Column"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:1234
+  agent-ts-describe-bifp6:
+    kind: function
+    name: describe()
+    in: shared-agent-ts-xrdgm
+    context: "One object: what it is, what's inside, what it talks to, which views show it."
+    signature: "describe(idx: ModelIndex, o: ModelObject): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:149
+  agent-ts-doclinks-ux66r:
+    kind: function
+    name: docLinks()
+    in: shared-agent-ts-xrdgm
+    context: "Links as given: http(s) only, one per address, a title read from the address if none."
+    signature: "docLinks(list: { title?: string | undefined; url: string; }[]): DocLink[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:1222
+  agent-ts-explain-12dm9:
+    kind: function
+    name: explain()
+    in: shared-agent-ts-xrdgm
+    context: Why each box is on a view.
+    signature: "explain(idx: ModelIndex, d: Diagram): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:360
+  agent-ts-findboundary-1aj9m:
+    kind: function
+    name: findBoundary()
+    in: shared-agent-ts-xrdgm
+    context: A boundary by key, id or name (null only when `missingOk` and there's none).
+    signature: "findBoundary(idx: ModelIndex, ref: string, extra?: Map<string, Boundary>, missingOk?: boolean): Boundary | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:104
+  agent-ts-findobject-wv2n5:
+    kind: function
+    name: findObject()
+    in: shared-agent-ts-xrdgm
+    signature: "findObject(idx: ModelIndex, ref: string): ModelObject"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:75
+  agent-ts-findview-bfne5:
+    kind: function
+    name: findView()
+    in: shared-agent-ts-xrdgm
+    signature: "findView(idx: ModelIndex, ref: string): Diagram"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:119
+  agent-ts-fromlink-i8e9r:
+    kind: function
+    name: fromLink()
+    in: shared-agent-ts-xrdgm
+    context: 'A link copied from the app (".../#/<design>/d/<diagram>/o/<object>"): the id in it.'
+    signature: 'fromLink(ref: string, part: "o" | "d"): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:70
+  agent-ts-label-1d7e7:
+    kind: function
+    name: label()
+    in: shared-agent-ts-xrdgm
+    signature: "label: (o: ModelObject) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:130
+  agent-ts-norm-qwnr1:
+    kind: function
+    name: norm()
+    in: shared-agent-ts-xrdgm
+    signature: "norm: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:67
+  agent-ts-objectline-fdigh:
+    kind: function
+    name: objectLine()
+    in: shared-agent-ts-xrdgm
+    signature: "objectLine(idx: ModelIndex, o: ModelObject): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:134
+  agent-ts-orderchanges-t2xbq:
+    kind: function
+    name: orderChanges()
+    in: shared-agent-ts-xrdgm
+    context: "The order changes are made in, whatever order they came in: what exists first, then what refers to it, removals last. Adds go parents first. So a batch never fails because a view named something added further down, or a removal came before what still used it."
+    signature: "orderChanges(changes: Change[]): { ch: Change; i: number; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:581
+  agent-ts-outlineboundaries-1oe8v:
+    kind: function
+    name: outlineBoundaries()
+    in: shared-agent-ts-xrdgm
+    context: "Boundaries as a tree: kind, rules, how many objects they pick."
+    signature: "outlineBoundaries(idx: ModelIndex): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:301
+  agent-ts-outlinemodel-pamzg:
+    kind: function
+    name: outlineModel()
+    in: shared-agent-ts-xrdgm
+    context: The whole model as an indented tree, with each object's outgoing connections.
+    signature: "outlineModel(idx: ModelIndex): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:326
+  agent-ts-outlineview-4oevk:
+    kind: function
+    name: outlineView()
+    in: shared-agent-ts-xrdgm
+    context: "A view as drawn: its boxes and the arrows between them (connections rolled up)."
+    signature: "outlineView(idx: ModelIndex, d: Diagram): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:213
+  agent-ts-path-1frdp:
+    kind: function
+    name: path()
+    in: shared-agent-ts-xrdgm
+    context: How `from` reaches `to` through connections, shortest first. Each end can be a box or anything inside it, so "storefront to payments" finds storefront → checkout → payments.
+    signature: "path(idx: ModelIndex, from: ModelObject, to: ModelObject, directed?: boolean): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:391
+  agent-ts-planchanges-i14x4:
+    kind: function
+    name: planChanges()
+    in: shared-agent-ts-xrdgm
+    context: Turn an agent's changes into checked ops, in orderChanges' order (so any change can refer to anything added in the batch). Throws RefError listing every change that can't be made, having changed nothing; with onError "skip", leaves those out and says so.
+    signature: 'planChanges(state: ModelState, idx0: ModelIndex, changes: Change[], rules?: PlanRules, opts?: { onError?: "stop" | "skip" | undefined; }): Planned'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agent.ts:629
+connections:
+  - {from: agent-ts-describe-bifp6, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-describe-bifp6, to: agent-ts-objectline-fdigh}
+  - {from: agent-ts-describe-bifp6, to: boundaries-ts-boundarychain-11jhx}
+  - {from: agent-ts-describe-bifp6, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: agent-ts-describe-bifp6, to: boundaries-ts-crossesregions-13w8p}
+  - {from: agent-ts-describe-bifp6, to: project-ts-descendants-121jc}
+  - {from: agent-ts-describe-bifp6, to: references-ts-referencelines-xmoax}
+  - {from: agent-ts-doclinks-ux66r, to: model-ts-safeurl-f4wjp}
+  - {from: agent-ts-doclinks-ux66r, to: notes-ts-titlefromurl-1wamb}
+  - {from: agent-ts-explain-12dm9, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-explain-12dm9, to: views-ts-describeselector-aqh3b}
+  - {from: agent-ts-explain-12dm9, to: views-ts-resolve-17a3a}
+  - {from: agent-ts-findboundary-1aj9m, to: agent-ts-norm-qwnr1}
+  - {from: agent-ts-findobject-wv2n5, to: agent-ts-fromlink-i8e9r}
+  - {from: agent-ts-findobject-wv2n5, to: agent-ts-norm-qwnr1}
+  - {from: agent-ts-findobject-wv2n5, to: context-ts-resolveref-a6jyg}
+  - {from: agent-ts-findobject-wv2n5, to: model-ts-slug-1nu4f}
+  - {from: agent-ts-findview-bfne5, to: agent-ts-fromlink-i8e9r}
+  - {from: agent-ts-findview-bfne5, to: agent-ts-norm-qwnr1}
+  - {from: agent-ts-objectline-fdigh, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-orderchanges-t2xbq, to: agent-ts-norm-qwnr1}
+  - {from: agent-ts-outlineboundaries-1oe8v, to: boundaries-ts-boundaryclashes-1k33v}
+  - {from: agent-ts-outlineboundaries-1oe8v, to: boundaries-ts-boundarymembers-ikghy}
+  - {from: agent-ts-outlineboundaries-1oe8v, to: views-ts-describeselector-aqh3b}
+  - {from: agent-ts-outlinemodel-pamzg, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-outlinemodel-pamzg, to: agent-ts-objectline-fdigh}
+  - {from: agent-ts-outlinemodel-pamzg, to: agent-ts-outlineboundaries-1oe8v}
+  - {from: agent-ts-outlineview-4oevk, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-outlineview-4oevk, to: agent-ts-objectline-fdigh}
+  - {from: agent-ts-outlineview-4oevk, to: project-ts-crossinghelp-1luhe}
+  - {from: agent-ts-outlineview-4oevk, to: project-ts-isinside-xwe16}
+  - {from: agent-ts-outlineview-4oevk, to: project-ts-lineends-1d5fx}
+  - {from: agent-ts-outlineview-4oevk, to: project-ts-projectdiagram-1p3dd}
+  - {from: agent-ts-outlineview-4oevk, to: score-ts-scoregraph-1yj7p}
+  - {from: agent-ts-outlineview-4oevk, to: score-ts-scoreline-1jqjz}
+  - {from: agent-ts-outlineview-4oevk, to: views-ts-describeselector-aqh3b}
+  - {from: agent-ts-path-1frdp, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-path-1frdp, to: project-ts-descendants-121jc}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-changelabel-1hctl}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-cleancolumn-1lull}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-doclinks-ux66r}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-findboundary-1aj9m}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-findobject-wv2n5}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-findview-bfne5}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-label-1d7e7}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-norm-qwnr1}
+  - {from: agent-ts-planchanges-i14x4, to: agent-ts-orderchanges-t2xbq}
+  - {from: agent-ts-planchanges-i14x4, to: context-ts-packagelinks-1s1vy}
+  - {from: agent-ts-planchanges-i14x4, to: doc-ts-checker-constructor-805nt}
+  - {from: agent-ts-planchanges-i14x4, to: doc-ts-checker-step-k56gl}
+  - {from: agent-ts-planchanges-i14x4, to: doc-ts-pkey-1l7v4}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-cleantags-oavfv}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-makeboundary-1q81r}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-makediagram-8ks8b}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-makeflow-huuj3}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-makestep-16ytd}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-mergedcontext-d55w6}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-nextdecisionid-9m0vr}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-now-1lkd5}
+  - {from: agent-ts-planchanges-i14x4, to: model-ts-slug-1nu4f}
+  - {from: agent-ts-planchanges-i14x4, to: project-ts-descendants-121jc}
+  - {from: agent-ts-planchanges-i14x4, to: views-ts-frameops-1iszc}
+  - {from: agent-ts-planchanges-i14x4, to: views-ts-pinedits-tr8o8}

@@ -1,0 +1,31 @@
+# archnemesis:src/workspace/useWebMcp.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usewebmcp-ts-lbbyp:
+    kind: module
+    name: useWebMcp.ts
+    in: web-workspace
+    context: 'WebMCP (src/webmcp.ts): the agent tools, for an agent in this page when the browser has it. Its canvas is this one: "show" steers it through the local guide (useTour), "here" reads it.'
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useWebMcp.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useWebMcp.ts
+  usewebmcp-ts-usewebmcp-1u1up:
+    kind: function
+    name: useWebMcp()
+    in: workspace-usewebmcp-ts-lbbyp
+    signature: "useWebMcp({ store, scene, diagramId, sel, localReply, setFollowing, setClosedGuide, setLocalGuide, }: { store: Store; scene: { current: { fit(): void; } | null; }; diagramId: string | null; sel: Selection; localReply: RefObject<((r: StopReply | null) => void) | null>; setFollowing: Dispatch<...>;…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useWebMcp.ts:11
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: host-ts-canvas-end-v0f0s}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: host-ts-canvas-fit-6q4u9}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: host-ts-canvas-here-ow69f}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: host-ts-canvas-show-gmybw}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: host-ts-canvas-watching-uzme0}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: usetour-ts-usetour-1d3fu}
+  - {from: usewebmcp-ts-usewebmcp-1u1up, to: webmcp-ts-registerwebmcp-1kiyy}

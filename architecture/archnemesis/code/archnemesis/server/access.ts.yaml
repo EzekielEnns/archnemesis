@@ -1,0 +1,176 @@
+# archnemesis:server/access.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-access-ts-y9x17:
+    kind: module
+    name: access.ts
+    in: srv-auth
+    context: "Who may do what to one design: the one place that decides."
+    tech: [TypeScript]
+    path: archnemesis:server/access.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts
+  access-ts-accesssources-designof-13byn:
+    kind: function
+    name: AccessSources.designOf()
+    in: server-access-ts-y9x17
+    context: The design a document belongs to, or null when there's no such document.
+    tech: [method of AccessSources]
+    signature: "designOf(doc: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:155
+  access-ts-accesssources-githubrepo-tnmg0:
+    kind: function
+    name: AccessSources.githubRepo()
+    in: server-access-ts-y9x17
+    context: The GitHub repo the design follows, or null (no git, or a repo elsewhere).
+    tech: [method of AccessSources]
+    signature: "githubRepo(design: string): RepoRef | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:160
+  access-ts-accesssources-isprivate-1pxsb:
+    kind: function
+    name: AccessSources.isPrivate()
+    in: server-access-ts-y9x17
+    tech: [method of AccessSources]
+    signature: "isPrivate(design: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:158
+  access-ts-accesssources-ispublic-iipll:
+    kind: function
+    name: AccessSources.isPublic()
+    in: server-access-ts-y9x17
+    context: "Whether the repo is public, as last asked: false when unknown."
+    tech: [method of AccessSources]
+    signature: "isPublic(repo: RepoRef): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:166
+  access-ts-accesssources-linkbytoken-1v5f4:
+    kind: function
+    name: AccessSources.linkByToken()
+    in: server-access-ts-y9x17
+    context: The link a token names (same cost whether or not it exists), or null.
+    tech: [method of AccessSources]
+    signature: "linkByToken(token: string): LinkRow | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:168
+  access-ts-accesssources-now-1jy2i:
+    kind: function
+    name: AccessSources.now()
+    in: server-access-ts-y9x17
+    tech: [method of AccessSources]
+    signature: "now(): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:169
+  access-ts-accesssources-ownerof-7cevs:
+    kind: function
+    name: AccessSources.ownerOf()
+    in: server-access-ts-y9x17
+    context: "Who made it (a fork: who started it)."
+    tech: [method of AccessSources]
+    signature: "ownerOf(doc: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:157
+  access-ts-accesssources-rights-vayyy:
+    kind: function
+    name: AccessSources.rights()
+    in: server-access-ts-y9x17
+    context: "What `person` may do on the repo, as last asked of GitHub: none when unknown."
+    tech: [method of AccessSources]
+    signature: "rights(person: string, repo: RepoRef): RepoRights"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:164
+  access-ts-can-ozrqr:
+    kind: function
+    name: can()
+    in: server-access-ts-y9x17
+    context: Whether a person may do `action` on a document. Default deny.
+    signature: "can(who: Who, d: DesignAccess, action: DesignAction): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:87
+  access-ts-cancreate-r0ix9:
+    kind: function
+    name: canCreate()
+    in: server-access-ts-y9x17
+    context: Whether a person may make new designs at all (an instance-wide question, not about one design).
+    signature: "canCreate(who: Who): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:122
+  access-ts-canshare-18yi1:
+    kind: function
+    name: canShare()
+    in: server-access-ts-y9x17
+    context: "May they make or revoke links for it: those who manage it, and only a person (never an agent)."
+    signature: "canShare(who: Who, d: DesignAccess): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:117
+  access-ts-designaccess-15nrv:
+    kind: function
+    name: designAccess()
+    in: server-access-ts-y9x17
+    context: Everything `can` needs for one person on one document; null when there's no such document.
+    signature: "designAccess(src: AccessSources, who: Who, doc: string, token?: string | null | undefined): DesignAccess | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:173
+  access-ts-guestmay-1miqy:
+    kind: function
+    name: guestMay()
+    in: server-access-ts-y9x17
+    signature: "guestMay(d: DesignAccess, action: DesignAction): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:82
+  access-ts-linkrelation-190ha:
+    kind: function
+    name: linkRelation()
+    in: server-access-ts-y9x17
+    context: "What a link grants on `doc` (of `design`): itself, a base read for a fork's link, or nothing."
+    signature: 'linkRelation(row: LinkRow | null, doc: string, design: string, now: number): "doc" | "base" | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:138
+  access-ts-owns-phc81:
+    kind: function
+    name: owns()
+    in: server-access-ts-y9x17
+    context: Whether `who` made the design (or is the agent of whoever did).
+    signature: "owns(who: Who, owner: string | null): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:62
+  access-ts-personof-8hbiy:
+    kind: function
+    name: personOf()
+    in: server-access-ts-y9x17
+    context: The person whose GitHub sign-in speaks for `who` (an agent acts for its person; "anyone local" has none).
+    signature: "personOf(who: Who): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/access.ts:76
+connections:
+  - {from: access-ts-can-ozrqr, to: access-ts-guestmay-1miqy}
+  - {from: access-ts-can-ozrqr, to: access-ts-owns-phc81}
+  - {from: access-ts-canshare-18yi1, to: access-ts-can-ozrqr}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-designof-13byn}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-githubrepo-tnmg0}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-isprivate-1pxsb}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-ispublic-iipll}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-linkbytoken-1v5f4}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-now-1jy2i}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-ownerof-7cevs}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-accesssources-rights-vayyy}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-linkrelation-190ha}
+  - {from: access-ts-designaccess-15nrv, to: access-ts-personof-8hbiy}

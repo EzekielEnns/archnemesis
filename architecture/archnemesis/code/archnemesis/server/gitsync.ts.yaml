@@ -1,0 +1,638 @@
+# archnemesis:server/gitsync.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-gitsync-ts-1uhjn:
+    kind: module
+    name: gitsync.ts
+    in: srv-git
+    context: "A design that follows a git repo: main mirrors the repo, edits happen on forks, forks are committed to their own branch, and merging a fork brings everyone back to main."
+    tech: [TypeScript]
+    path: archnemesis:server/gitsync.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts
+  gitsync-ts-binddesign-1a3fl:
+    kind: function
+    name: bindDesign()
+    in: server-gitsync-ts-1uhjn
+    context: Make a design follow a repo. `local` makes a bare repo next to the database for it.
+    signature: "bindDesign(hub: Hub, main: Live, b: { remote?: string | undefined; path?: string | undefined; branch?: string | undefined; local?: boolean | undefined; addHere?: boolean | undefined; }): Promise<...>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:1065
+    references:
+      - dependency: lib-yjs-1y6wn
+  gitsync-ts-checkremote-130vq:
+    kind: function
+    name: checkRemote()
+    in: server-gitsync-ts-1uhjn
+    context: "A remote Archnemesis may clone: an https or ssh URL (git@host:path too). Never something git would read as an option, another transport (ext::, file://), or a path on this machine, unless ARCHNM_GIT_LOCAL_REMOTES=1 (tests, or a repo mounted into the container on purpose)."
+    signature: "checkRemote(remote: string, localRemotes: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:1011
+  gitsync-ts-droplocalrepo-1l66m:
+    kind: function
+    name: dropLocalRepo()
+    in: server-gitsync-ts-1uhjn
+    context: "Before a design is deleted: let go of its repo on this server, which is only Archnemesis's own bookkeeping (forks and history). A real repo, or one with open forks, stays and says why."
+    signature: "dropLocalRepo(hub: Hub, design: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:1049
+  gitsync-ts-gitsync-announce-m1wu1:
+    kind: function
+    name: GitSync.announce()
+    in: server-gitsync-ts-1uhjn
+    context: Tell every tab on main and on the forks that the git status changed (they refetch).
+    tech: [method of GitSync]
+    signature: "announce(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:999
+  gitsync-ts-gitsync-announcesoon-1i3sb:
+    kind: function
+    name: GitSync.announceSoon()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "announceSoon(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:991
+  gitsync-ts-gitsync-basestate-1sb7j:
+    kind: function
+    name: GitSync.baseState()
+    in: server-gitsync-ts-1uhjn
+    context: "What a fork is compared with: its parent fork as it is now (a stacked fork), else main at its base commit, read from the files. Null for no fork or no base."
+    tech: [method of GitSync]
+    signature: "baseState(doc: string): Promise<ModelState | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:714
+  gitsync-ts-gitsync-boot-1vot3:
+    kind: function
+    name: GitSync.boot()
+    in: server-gitsync-ts-1uhjn
+    context: Start after a restart. If the repo can't be reached (no network, say), keep the design read-only and try again on every poll and on Sync now, instead of staying half-started.
+    tech: [method of GitSync]
+    signature: "boot(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:215
+  gitsync-ts-gitsync-branchof-13zjm:
+    kind: function
+    name: GitSync.branchOf()
+    in: server-gitsync-ts-1uhjn
+    context: "A fork's git branch: the one stored for it (forks made before the rename keep `atlas/...`)."
+    tech: [method of GitSync]
+    signature: "branchOf(row: ForkRow): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:134
+  gitsync-ts-gitsync-catchuncommitted-bcywt:
+    kind: function
+    name: GitSync.catchUncommitted()
+    in: server-gitsync-ts-1uhjn
+    context: After a restart, a fork's change count starts again, so "nothing new since the last commit" can't be told from it. Compare its files with its last commit instead, and commit the difference (edits made just before a crash, say).
+    tech: [method of GitSync]
+    signature: "catchUncommitted(run: ForkRun): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:681
+  gitsync-ts-gitsync-cleartimers-1c4vc:
+    kind: function
+    name: GitSync.clearTimers()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "clearTimers(run: ForkRun): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:575
+  gitsync-ts-gitsync-close-a1yhp:
+    kind: function
+    name: GitSync.close()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "close(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:262
+  gitsync-ts-gitsync-closefork-1ateg:
+    kind: function
+    name: GitSync.closeFork()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: 'closeFork(run: ForkRun, status: "merged" | "closed" | "discarded", why: string): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:935
+    references:
+      - dependency: lib-yjs-1y6wn
+  gitsync-ts-gitsync-commit-1b0kg:
+    kind: function
+    name: GitSync.commit()
+    in: server-gitsync-ts-1uhjn
+    context: "Commit a fork's files to its branch (if anything changed) and push it. One at a time per fork: the idle timer, propose, merge and shutdown can all ask at once, and two commits on the same parent would make the second push fail. A failed commit tries again later, so edits are never left waiting for the next edit."
+    tech: [method of GitSync]
+    signature: "commit(run: ForkRun): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:537
+  gitsync-ts-gitsync-commitfiles-mo5ls:
+    kind: function
+    name: GitSync.commitFiles()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "commitFiles(run: ForkRun): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:581
+  gitsync-ts-gitsync-commitnow-tnejw:
+    kind: function
+    name: GitSync.commitNow()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "commitNow(run: ForkRun): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:560
+  gitsync-ts-gitsync-connectapp-1dqfh:
+    kind: function
+    name: GitSync.connectApp()
+    in: server-gitsync-ts-1uhjn
+    context: "On GitHub, use Archnemesis's GitHub App when it's installed on the repo: git over https with the app's token. Otherwise git as configured on this machine (ssh keys, say). Checked again every few minutes, so installing the app later just starts working."
+    tech: [method of GitSync]
+    signature: "connectApp(now?: boolean): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:230
+  gitsync-ts-gitsync-constructor-1b1ie:
+    kind: function
+    name: GitSync.<constructor>()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "constructor(hub: Hub, main: Live, binding: Binding): GitSync"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:96
+  gitsync-ts-gitsync-discard-qg41j:
+    kind: function
+    name: GitSync.discard()
+    in: server-gitsync-ts-1uhjn
+    context: "Throw a fork away: its branch is deleted and its tabs move to main."
+    tech: [method of GitSync]
+    signature: "discard(doc: string, by: Principal): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:928
+  gitsync-ts-gitsync-editonfork-ya7yd:
+    kind: function
+    name: GitSync.editOnFork()
+    in: server-gitsync-ts-1uhjn
+    context: Apply batches made against main to `by`'s fork instead.
+    tech: [method of GitSync]
+    signature: "editOnFork(by: Principal, batches: { ops: Op[]; label: string; }[]): Promise<{ live: Live; created: boolean; errors: string[]; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:451
+  gitsync-ts-gitsync-fail-4xog4:
+    kind: function
+    name: GitSync.fail()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "fail(e: unknown): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:515
+  gitsync-ts-gitsync-filesof-1ne07:
+    kind: function
+    name: GitSync.filesOf()
+    in: server-gitsync-ts-1uhjn
+    context: The design's files as Archnemesis writes them (giving new things their keys first).
+    tech: [method of GitSync]
+    signature: "filesOf(live: Live): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:522
+  gitsync-ts-gitsync-fork-14wew:
+    kind: function
+    name: GitSync.fork()
+    in: server-gitsync-ts-1uhjn
+    context: "A new fork of main, as `by`. `name` defaults to their name and the date. `from`: an open fork to stack this one on (a plan on an unmerged map): it starts from that fork's head, its branch from that fork's branch, and its diff and pull request are against it."
+    tech: [method of GitSync]
+    signature: "fork(by: Principal, name?: string | undefined, from?: string | undefined): Promise<Live>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:392
+  gitsync-ts-gitsync-forkfor-8jate:
+    kind: function
+    name: GitSync.forkFor()
+    in: server-gitsync-ts-1uhjn
+    context: "Where an edit made on main goes: the fork `by` is already working on (people share the most recent one; agents get their own), or a new one."
+    tech: [method of GitSync]
+    signature: "forkFor(by: Principal): Promise<{ live: Live; created: boolean; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:436
+  gitsync-ts-gitsync-get-fileprefix-ld9md:
+    kind: function
+    name: GitSync.<get>filePrefix()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "get filePrefix: string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:129
+  gitsync-ts-gitsync-get-folder-hr7om:
+    kind: function
+    name: GitSync.<get>folder()
+    in: server-gitsync-ts-1uhjn
+    context: The design's folder inside the clone.
+    tech: [method of GitSync]
+    signature: "get folder: string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:125
+  gitsync-ts-gitsync-githubrepo-ject4:
+    kind: function
+    name: GitSync.githubRepo()
+    in: server-gitsync-ts-1uhjn
+    context: The GitHub repo this design follows, or null (another host, or a repo on this server).
+    tech: [method of GitSync]
+    signature: "githubRepo(): { owner: string; repo: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:701
+  gitsync-ts-gitsync-info-1s6v7:
+    kind: function
+    name: GitSync.info()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "info(): GitInfo"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:950
+  gitsync-ts-gitsync-islocal-rsrhe:
+    kind: function
+    name: GitSync.isLocal()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "isLocal(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:696
+  gitsync-ts-gitsync-merge-1gmig:
+    kind: function
+    name: GitSync.merge()
+    in: server-gitsync-ts-1uhjn
+    context: "Merge a fork into main, inside Archnemesis: commit what's pending, merge its branch with main (refusing on a conflict), push main, and sync, which closes the fork."
+    tech: [method of GitSync]
+    signature: "merge(doc: string, by: Principal): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:738
+  gitsync-ts-gitsync-openfork-w2iwj:
+    kind: function
+    name: GitSync.openFork()
+    in: server-gitsync-ts-1uhjn
+    context: The fork `by` is working on, if one is open (nothing is made).
+    tech: [method of GitSync]
+    signature: "openFork(by: Principal): Live | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:443
+  gitsync-ts-gitsync-ownerof-1g8g8:
+    kind: function
+    name: GitSync.ownerOf()
+    in: server-gitsync-ts-1uhjn
+    context: Who started a fork (its owner may merge or discard it, besides an admin).
+    tech: [method of GitSync]
+    signature: "ownerOf(doc: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:706
+  gitsync-ts-gitsync-parentof-1507x:
+    kind: function
+    name: GitSync.parentOf()
+    in: server-gitsync-ts-1uhjn
+    context: The open fork a stacked fork was made from, if it's still open.
+    tech: [method of GitSync]
+    signature: "parentOf(doc: string): { doc: string; branch: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:722
+  gitsync-ts-gitsync-propose-1a83z:
+    kind: function
+    name: GitSync.propose()
+    in: server-gitsync-ts-1uhjn
+    context: "Get a fork ready for review: commit what's pending, and give the forge's page for opening a pull request from its branch, filled in with what changed and a link back to the fork in Archnemesis. Null when the repo isn't on a forge (merge inside Archnemesis instead)."
+    tech: [method of GitSync]
+    signature: "propose(doc: string, link: string, by?: Principal | undefined): Promise<{ url: string | null; branch: string; base: string; stacked: string | null; changes: string[]; headline: string; pr: PullState | null; signIn: boolean; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:777
+  gitsync-ts-gitsync-refreshpull-y0vqt:
+    kind: function
+    name: GitSync.refreshPull()
+    in: server-gitsync-ts-1uhjn
+    context: Read where a fork's pull request stands (its review, whether it merged).
+    tech: [method of GitSync]
+    signature: "refreshPull(run: ForkRun): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:363
+  gitsync-ts-gitsync-runof-1ogb1:
+    kind: function
+    name: GitSync.runOf()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "runOf(doc: string): ForkRun"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:728
+  gitsync-ts-gitsync-schedule-4j4fe:
+    kind: function
+    name: GitSync.schedule()
+    in: server-gitsync-ts-1uhjn
+    context: Commit after edits settle, and at least every ARCHNM_GIT_MAX_MS while they don't.
+    tech: [method of GitSync]
+    signature: "schedule(run: ForkRun): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:508
+  gitsync-ts-gitsync-start-1hdbl:
+    kind: function
+    name: GitSync.start()
+    in: server-gitsync-ts-1uhjn
+    context: "Clone (or reuse the clone), make sure main has the design, mirror it, and reopen the forks. A repo that doesn't have the design yet gets it from Archnemesis: one commit on main. `first`: the design is being connected now (not reopened after a restart)."
+    tech: [method of GitSync]
+    signature: "start(first?: boolean, addHere?: boolean): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:143
+  gitsync-ts-gitsync-stateat-1gkgh:
+    kind: function
+    name: GitSync.stateAt()
+    in: server-gitsync-ts-1uhjn
+    context: "The design as it was at a commit: its files, read back into a model."
+    tech: [method of GitSync]
+    signature: "stateAt(sha: string): Promise<ModelState>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:669
+  gitsync-ts-gitsync-stoprun-17nll:
+    kind: function
+    name: GitSync.stopRun()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "stopRun(run: ForkRun): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:501
+  gitsync-ts-gitsync-sync-1m791:
+    kind: function
+    name: GitSync.sync()
+    in: server-gitsync-ts-1uhjn
+    context: "Fetch, move main to origin's main (the mirror reads the new files), then see where each fork stands: behind main, merged into it (and so closed), and its pull request. `now`: someone asked (Sync now), so also look for the GitHub App straight away."
+    tech: [method of GitSync]
+    signature: "sync(now?: boolean): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:278
+  gitsync-ts-gitsync-track-eoato:
+    kind: function
+    name: GitSync.track()
+    in: server-gitsync-ts-1uhjn
+    tech: [method of GitSync]
+    signature: "track(row: ForkRow, live: Live): ForkRun"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:467
+  gitsync-ts-gitsync-versions-4p9n4:
+    kind: function
+    name: GitSync.versions()
+    in: server-gitsync-ts-1uhjn
+    context: "Main's history: the commits that changed the design's files, newest first."
+    tech: [method of GitSync]
+    signature: "versions(n?: number): Promise<{ sha: string; date: string; author: string; subject: string; }[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:660
+  gitsync-ts-gitsync-where-1hq4c:
+    kind: function
+    name: GitSync.where()
+    in: server-gitsync-ts-1uhjn
+    context: 'Where the design lives, in words for people: "Acme/architecture, branch archnm-poc, folder archnm/".'
+    tech: [method of GitSync]
+    signature: "where(): { repo: string; branch: string; folder: string; forks: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:108
+  gitsync-ts-remoteallowed-mm87q:
+    kind: function
+    name: remoteAllowed()
+    in: server-gitsync-ts-1uhjn
+    context: "Who may point a design at this remote: admins anywhere, editors only where ARCHNM_GIT_REMOTES allows (\"github.com/acme/*, git.example.com/*\"). Binding is what puts Archnemesis's credentials (its GitHub App, the machine's ssh keys) to work on a repo, so it isn't something every editor gets to aim."
+    signature: "remoteAllowed(remote: string, admin: boolean, allowed: string[]): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:1029
+  gitsync-ts-saferemote-13qf1:
+    kind: function
+    name: safeRemote()
+    in: server-gitsync-ts-1uhjn
+    context: A remote shown without anything secret in it (a token in an https URL).
+    signature: "safeRemote: (r: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/gitsync.ts:71
+connections:
+  - {from: gitsync-ts-binddesign-1a3fl, to: doc-ts-appendlog-17rlo}
+  - {from: gitsync-ts-binddesign-1a3fl, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-binddesign-1a3fl, to: git-ts-repo-initbare-16hyi}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-checkremote-130vq}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-gitsync-close-a1yhp}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-gitsync-constructor-1b1ie}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-gitsync-start-1hdbl}
+  - {from: gitsync-ts-binddesign-1a3fl, to: gitsync-ts-saferemote-13qf1}
+  - {from: gitsync-ts-binddesign-1a3fl, to: live-ts-hub-freeze-1f762}
+  - {from: gitsync-ts-binddesign-1a3fl, to: live-ts-live-unfollow-6y5ro}
+  - {from: gitsync-ts-binddesign-1a3fl, to: store-ts-docstore-setbinding-s640z}
+  - {from: gitsync-ts-checkremote-130vq, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-checkremote-130vq, to: gitsync-ts-saferemote-13qf1}
+  - {from: gitsync-ts-droplocalrepo-1l66m, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-droplocalrepo-1l66m, to: gitsync-ts-gitsync-close-a1yhp}
+  - {from: gitsync-ts-droplocalrepo-1l66m, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: gitsync-ts-droplocalrepo-1l66m, to: live-ts-live-unfollow-6y5ro}
+  - {from: gitsync-ts-droplocalrepo-1l66m, to: store-ts-docstore-dropbinding-12781}
+  - {from: gitsync-ts-gitsync-announce-m1wu1, to: live-ts-hub-broadcast-kvtl2}
+  - {from: gitsync-ts-gitsync-announcesoon-1i3sb, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-basestate-1sb7j, to: diff-ts-statefromfiles-oqdnu}
+  - {from: gitsync-ts-gitsync-basestate-1sb7j, to: gitsync-ts-gitsync-filesof-1ne07}
+  - {from: gitsync-ts-gitsync-basestate-1sb7j, to: gitsync-ts-gitsync-stateat-1gkgh}
+  - {from: gitsync-ts-gitsync-boot-1vot3, to: gitsync-ts-gitsync-start-1hdbl}
+  - {from: gitsync-ts-gitsync-boot-1vot3, to: gitsync-ts-gitsync-sync-1m791}
+  - {from: gitsync-ts-gitsync-catchuncommitted-bcywt, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-catchuncommitted-bcywt, to: git-ts-repo-filesat-epvfq}
+  - {from: gitsync-ts-gitsync-catchuncommitted-bcywt, to: gitsync-ts-gitsync-filesof-1ne07}
+  - {from: gitsync-ts-gitsync-catchuncommitted-bcywt, to: gitsync-ts-gitsync-schedule-4j4fe}
+  - {from: gitsync-ts-gitsync-catchuncommitted-bcywt, to: ours-ts-isours-8rj10}
+  - {from: gitsync-ts-gitsync-close-a1yhp, to: gitsync-ts-gitsync-commit-1b0kg}
+  - {from: gitsync-ts-gitsync-close-a1yhp, to: gitsync-ts-gitsync-stoprun-17nll}
+  - {from: gitsync-ts-gitsync-close-a1yhp, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-closefork-1ateg, to: doc-ts-appendlog-17rlo}
+  - {from: gitsync-ts-gitsync-closefork-1ateg, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-closefork-1ateg, to: gitsync-ts-gitsync-stoprun-17nll}
+  - {from: gitsync-ts-gitsync-closefork-1ateg, to: live-ts-hub-dropfork-tf249}
+  - {from: gitsync-ts-gitsync-closefork-1ateg, to: store-ts-docstore-updatefork-aw0rl}
+  - {from: gitsync-ts-gitsync-commit-1b0kg, to: gitsync-ts-gitsync-commitnow-tnejw}
+  - {from: gitsync-ts-gitsync-commit-1b0kg, to: gitsync-ts-gitsync-fail-4xog4}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: git-ts-personfor-rsfxb}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: git-ts-repo-commitfiles-1j9uc}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: git-ts-repo-push-16nko}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: git-ts-repo-remotehead-ze2yo}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: gitsync-ts-gitsync-cleartimers-1c4vc}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: gitsync-ts-gitsync-filesof-1ne07}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: ours-ts-isours-8rj10}
+  - {from: gitsync-ts-gitsync-commitfiles-mo5ls, to: store-ts-docstore-updatefork-aw0rl}
+  - {from: gitsync-ts-gitsync-commitnow-tnejw, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-commitnow-tnejw, to: gitsync-ts-gitsync-cleartimers-1c4vc}
+  - {from: gitsync-ts-gitsync-commitnow-tnejw, to: gitsync-ts-gitsync-commitfiles-mo5ls}
+  - {from: gitsync-ts-gitsync-commitnow-tnejw, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: git-ts-repo-git-1nyc3}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: github-ts-github-get-configured-139vx}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: github-ts-github-gitenv-9jhq6}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: github-ts-github-httpsremote-lcsrh}
+  - {from: gitsync-ts-gitsync-connectapp-1dqfh, to: github-ts-github-repotoken-qrd5j}
+  - {from: gitsync-ts-gitsync-constructor-1b1ie, to: forge-ts-forgeof-17ig4}
+  - {from: gitsync-ts-gitsync-constructor-1b1ie, to: git-ts-repo-constructor-r5wvd}
+  - {from: gitsync-ts-gitsync-constructor-1b1ie, to: github-ts-repoof-nwdzi}
+  - {from: gitsync-ts-gitsync-discard-qg41j, to: git-ts-repo-deleteremote-156er}
+  - {from: gitsync-ts-gitsync-discard-qg41j, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-discard-qg41j, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-discard-qg41j, to: gitsync-ts-gitsync-closefork-1ateg}
+  - {from: gitsync-ts-gitsync-discard-qg41j, to: gitsync-ts-gitsync-runof-1ogb1}
+  - {from: gitsync-ts-gitsync-editonfork-ya7yd, to: gitsync-ts-gitsync-forkfor-8jate}
+  - {from: gitsync-ts-gitsync-editonfork-ya7yd, to: live-ts-live-commit-1ohvh}
+  - {from: gitsync-ts-gitsync-fail-4xog4, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-filesof-1ne07, to: doc-ts-applyops-7k6hw}
+  - {from: gitsync-ts-gitsync-filesof-1ne07, to: files-ts-keyops-hk86o}
+  - {from: gitsync-ts-gitsync-filesof-1ne07, to: files-ts-writefiles-dumd7}
+  - {from: gitsync-ts-gitsync-filesof-1ne07, to: live-ts-live-config-1ps60}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: gitsync-ts-gitsync-commit-1b0kg}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: gitsync-ts-gitsync-runof-1ogb1}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: gitsync-ts-gitsync-schedule-4j4fe}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: gitsync-ts-gitsync-track-eoato}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: live-ts-hub-openfork-mby3y}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: model-ts-slug-1nu4f}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: store-ts-docstore-addfork-14kva}
+  - {from: gitsync-ts-gitsync-fork-14wew, to: store-ts-docstore-forknametaken-kw493}
+  - {from: gitsync-ts-gitsync-forkfor-8jate, to: gitsync-ts-gitsync-fork-14wew}
+  - {from: gitsync-ts-gitsync-forkfor-8jate, to: gitsync-ts-gitsync-openfork-w2iwj}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: forge-ts-forgename-1509t}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: github-ts-github-get-configured-139vx}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: github-ts-github-installurl-17nhc}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: gitsync-ts-gitsync-islocal-rsrhe}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: gitsync-ts-saferemote-13qf1}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: live-ts-hub-present-iwb2c}
+  - {from: gitsync-ts-gitsync-info-1s6v7, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: forge-ts-forgename-1509t}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-personfor-rsfxb}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-committree-8fwlk}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-fetch-p35nm}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-isancestor-rzdlm}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-mergetree-4xexo}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-push-16nko}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: git-ts-repo-remotehead-ze2yo}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: gitsync-ts-gitsync-closefork-1ateg}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: gitsync-ts-gitsync-commit-1b0kg}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: gitsync-ts-gitsync-runof-1ogb1}
+  - {from: gitsync-ts-gitsync-merge-1gmig, to: gitsync-ts-gitsync-sync-1m791}
+  - {from: gitsync-ts-gitsync-parentof-1507x, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: diff-ts-changeheadline-1yf8c}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: diff-ts-changelist-1olke}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: diff-ts-statefromfiles-oqdnu}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: doc-ts-emptystate-1a3cm}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: files-ts-normalizedesignfile-wlcla}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: files-ts-readfiles-1ttso}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: forge-ts-proposeurl-l5o6u}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: git-ts-repo-bodies-zjl60}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: git-ts-repo-filesat-epvfq}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: github-ts-github-openpull-1aprv}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: gitsync-ts-gitsync-commit-1b0kg}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: gitsync-ts-gitsync-runof-1ogb1}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: live-ts-live-name-w0cjk}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: ours-ts-isours-8rj10}
+  - {from: gitsync-ts-gitsync-propose-1a83z, to: store-ts-docstore-updatefork-aw0rl}
+  - {from: gitsync-ts-gitsync-refreshpull-y0vqt, to: github-ts-github-pullstate-1mukj}
+  - {from: gitsync-ts-gitsync-refreshpull-y0vqt, to: gitsync-ts-gitsync-announcesoon-1i3sb}
+  - {from: gitsync-ts-gitsync-refreshpull-y0vqt, to: store-ts-docstore-updatefork-aw0rl}
+  - {from: gitsync-ts-gitsync-runof-1ogb1, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-gitsync-schedule-4j4fe, to: gitsync-ts-gitsync-announcesoon-1i3sb}
+  - {from: gitsync-ts-gitsync-schedule-4j4fe, to: gitsync-ts-gitsync-commit-1b0kg}
+  - {from: gitsync-ts-gitsync-schedule-4j4fe, to: gitsync-ts-gitsync-fail-4xog4}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-giterror-constructor-1k98c}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-checkout-104mz}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-commitfiles-1j9uc}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-ensure-1jcgy}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-fetch-p35nm}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-has-1mqkd}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-push-16nko}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: git-ts-repo-remotehead-ze2yo}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-catchuncommitted-bcywt}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-connectapp-1dqfh}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-filesof-1ne07}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-fork-14wew}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-get-fileprefix-ld9md}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-get-folder-hr7om}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-sync-1m791}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-gitsync-track-eoato}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: gitsync-ts-saferemote-13qf1}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: live-ts-hub-openfork-mby3y}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: live-ts-live-follow-2bh27}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: live-ts-live-name-w0cjk}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: ours-ts-isours-8rj10}
+  - {from: gitsync-ts-gitsync-start-1hdbl, to: store-ts-docstore-forks-b3wdv}
+  - {from: gitsync-ts-gitsync-stateat-1gkgh, to: diff-ts-statefromfiles-oqdnu}
+  - {from: gitsync-ts-gitsync-stateat-1gkgh, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-stateat-1gkgh, to: git-ts-repo-filesat-epvfq}
+  - {from: gitsync-ts-gitsync-stateat-1gkgh, to: ours-ts-isours-8rj10}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-checkout-104mz}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-count-11ty7}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-fetch-p35nm}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-isancestor-rzdlm}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-remotehead-ze2yo}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: git-ts-repo-subtree-ytwqe}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-announce-m1wu1}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-branchof-13zjm}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-closefork-1ateg}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-connectapp-1dqfh}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-refreshpull-y0vqt}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: gitsync-ts-gitsync-start-1hdbl}
+  - {from: gitsync-ts-gitsync-sync-1m791, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-track-eoato, to: gitsync-ts-gitsync-schedule-4j4fe}
+  - {from: gitsync-ts-gitsync-track-eoato, to: live-ts-live-get-changes-hgnx8}
+  - {from: gitsync-ts-gitsync-track-eoato, to: live-ts-live-onchange-71ioh}
+  - {from: gitsync-ts-gitsync-track-eoato, to: live-ts-live-onlog-x3svo}
+  - {from: gitsync-ts-gitsync-versions-4p9n4, to: git-ts-repo-exclusive-1wxj0}
+  - {from: gitsync-ts-gitsync-versions-4p9n4, to: git-ts-repo-log-76gps}
+  - {from: gitsync-ts-gitsync-where-1hq4c, to: gitsync-ts-gitsync-get-fileprefix-ld9md}

@@ -1,0 +1,36 @@
+# archnemesis:src/workspace/useCard.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usecard-ts-sr242:
+    kind: module
+    name: useCard.ts
+    in: web-workspace
+    context: "The card for what's selected (simple mode): whether it's open, what was just made (it opens with the keyboard in it), and the boxes made in this sitting."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useCard.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useCard.ts
+  usecard-ts-usecardfollow-113l3:
+    kind: function
+    name: useCardFollow()
+    in: workspace-usecard-ts-sr242
+    signature: "useCardFollow({ simple, panel, sel, graph, scene, }: { simple: boolean; panel: boolean; sel: Selection; graph: CanvasGraph | null; scene: SceneRef; }): RefObject<HTMLDivElement | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useCard.ts:26
+    references:
+      - dependency: lib-types-react-1i7zx
+  usecard-ts-usecardstate-1fmnj:
+    kind: function
+    name: useCardState()
+    in: workspace-usecard-ts-sr242
+    signature: "useCardState(): { panel: boolean; setPanel: Dispatch<SetStateAction<boolean>>; fresh: string | null; setFresh: Dispatch<SetStateAction<string | null>>; made: ReadonlySet<...>; openFresh: (id: string) => void; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useCard.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usecard-ts-usecardfollow-113l3, to: scene-ts-scene-clientrectof-106i8}
+  - {from: usecard-ts-usecardfollow-113l3, to: scene-ts-scene-clientrectofgroup-w3mcb}

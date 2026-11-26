@@ -1,0 +1,49 @@
+# archnemesis:src/workspace/Dialogs.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-dialogs-tsx-e02e6:
+    kind: module
+    name: Dialogs.tsx
+    in: web-workspace
+    context: The right-click menu, the "what were you trying to do" dialog, and the command palette.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/Dialogs.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Dialogs.tsx
+  dialogs-tsx-contextmenuhost-cntsn:
+    kind: function
+    name: ContextMenuHost()
+    in: workspace-dialogs-tsx-e02e6
+    context: The right-click menu.
+    signature: 'ContextMenuHost({ menuCtx, menu, setMenu, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "menu" | ... 1 more ... | "menuCtx">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Dialogs.tsx:11
+  dialogs-tsx-markingdialog-dkhj0:
+    kind: function
+    name: MarkingDialog()
+    in: workspace-dialogs-tsx-e02e6
+    context: '"What were you trying to do?", kept in the trail.'
+    signature: 'MarkingDialog({ marking, setMarking, toast, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "toast" | ... 1 more ... | "marking">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Dialogs.tsx:31
+    references:
+      - dependency: lib-types-react-1i7zx
+  dialogs-tsx-palettehost-1q09u:
+    kind: function
+    name: PaletteHost()
+    in: workspace-dialogs-tsx-e02e6
+    context: "⌘K: commands, diagrams and boxes."
+    signature: 'PaletteHost({ commands, navigate, palette, setPalette, toast, idx, diagramId, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "diagramId" |…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Dialogs.tsx:70
+connections:
+  - {from: dialogs-tsx-contextmenuhost-cntsn, to: contextmenu-tsx-contextmenu-bx501}
+  - {from: dialogs-tsx-contextmenuhost-cntsn, to: contextmenu-tsx-menuitems-r5br7}
+  - {from: dialogs-tsx-markingdialog-dkhj0, to: dialog-tsx-dialog-39zlh}
+  - {from: dialogs-tsx-markingdialog-dkhj0, to: trail-ts-mark-wbtsh}
+  - {from: dialogs-tsx-markingdialog-dkhj0, to: trail-ts-recording-10bnq}
+  - {from: dialogs-tsx-palettehost-1q09u, to: palette-tsx-palette-r2j38}

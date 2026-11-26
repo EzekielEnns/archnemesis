@@ -1,0 +1,149 @@
+# archnemesis:src/ui/WelcomeSteps.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-welcomesteps-tsx-1vext:
+    kind: module
+    name: WelcomeSteps.tsx
+    in: web-ui
+    context: "What the welcome shows after one of its agent ways is chosen: a few steps, each one sentence and the exact thing to type or paste. The words differ by where this page runs."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/WelcomeSteps.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx
+  welcomesteps-tsx-connect-2atfs:
+    kind: function
+    name: Connect()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "Connect({ place, mcp, agent }: { place: Place; mcp: McpSetup | null; agent: boolean; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:173
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-inpage-1efuz:
+    kind: function
+    name: InPage()
+    in: ui-welcomesteps-tsx-1vext
+    context: "Option A: the agent uses this page's own tools, through Chrome (WebMCP). Works anywhere."
+    signature: "InPage({ on }: { on: boolean; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:131
+  welcomesteps-tsx-local-82j1x:
+    kind: function
+    name: Local()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "Local(): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:106
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-mapinpage-1ayxo:
+    kind: function
+    name: MapInPage()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "MapInPage({ onDetail }: { onDetail: (d: Detail) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:81
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-maponserver-r372w:
+    kind: function
+    name: MapOnServer()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "MapOnServer({ onDetail }: { onDetail: (d: Detail) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:55
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-note-145iw:
+    kind: function
+    name: Note()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "Note: ({ children }: { children: ReactNode; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:26
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-ready-k1ioo:
+    kind: function
+    name: Ready()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "Ready: ({ on, children }: { on: boolean; children: ReactNode; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:28
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-runlocal-1prmt:
+    kind: function
+    name: RunLocal()
+    in: ui-welcomesteps-tsx-1vext
+    context: "Self-hosting at its simplest: the README's run-from-source commands."
+    signature: "RunLocal(): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:36
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-step-106w6:
+    kind: function
+    name: Step()
+    in: ui-welcomesteps-tsx-1vext
+    signature: "Step: ({ n, children }: { n: number; children: ReactNode; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:19
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-stepsfor-1qm4s:
+    kind: function
+    name: stepsFor()
+    in: ui-welcomesteps-tsx-1vext
+    context: The title and body of one of the agent ways, for where this page runs.
+    signature: 'stepsFor(detail: "map" | "local" | "connect", p: { place: Place; mcp: McpSetup | null; agent: boolean; onDetail: (d: Detail) => void; }): { title: string; body: ReactNode; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:208
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomesteps-tsx-throughserver-ji0j0:
+    kind: function
+    name: ThroughServer()
+    in: ui-welcomesteps-tsx-1vext
+    context: "Option B: the agent connects to an Archnemesis server (MCP), and can read code on your machine."
+    signature: "ThroughServer({ mcp, agent }: { mcp: McpSetup | null; agent: boolean; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/WelcomeSteps.tsx:153
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: welcomesteps-tsx-connect-2atfs, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-connect-2atfs, to: welcomesteps-tsx-inpage-1efuz}
+  - {from: welcomesteps-tsx-connect-2atfs, to: welcomesteps-tsx-throughserver-ji0j0}
+  - {from: welcomesteps-tsx-inpage-1efuz, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-inpage-1efuz, to: welcomesteps-tsx-note-145iw}
+  - {from: welcomesteps-tsx-inpage-1efuz, to: welcomesteps-tsx-ready-k1ioo}
+  - {from: welcomesteps-tsx-inpage-1efuz, to: welcomesteps-tsx-step-106w6}
+  - {from: welcomesteps-tsx-local-82j1x, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-local-82j1x, to: welcomesteps-tsx-runlocal-1prmt}
+  - {from: welcomesteps-tsx-local-82j1x, to: welcomesteps-tsx-step-106w6}
+  - {from: welcomesteps-tsx-mapinpage-1ayxo, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-mapinpage-1ayxo, to: welcomesteps-tsx-note-145iw}
+  - {from: welcomesteps-tsx-mapinpage-1ayxo, to: welcomesteps-tsx-step-106w6}
+  - {from: welcomesteps-tsx-maponserver-r372w, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-maponserver-r372w, to: welcomesteps-tsx-step-106w6}
+  - {from: welcomesteps-tsx-runlocal-1prmt, to: connectagent-tsx-cmd-1j9pe}
+  - {from: welcomesteps-tsx-stepsfor-1qm4s, to: welcomesteps-tsx-connect-2atfs}
+  - {from: welcomesteps-tsx-stepsfor-1qm4s, to: welcomesteps-tsx-local-82j1x}
+  - {from: welcomesteps-tsx-stepsfor-1qm4s, to: welcomesteps-tsx-mapinpage-1ayxo}
+  - {from: welcomesteps-tsx-stepsfor-1qm4s, to: welcomesteps-tsx-maponserver-r372w}
+  - {from: welcomesteps-tsx-throughserver-ji0j0, to: connectagent-tsx-agentcommand-28iwl}
+  - {from: welcomesteps-tsx-throughserver-ji0j0, to: welcomesteps-tsx-ready-k1ioo}
+  - {from: welcomesteps-tsx-throughserver-ji0j0, to: welcomesteps-tsx-runlocal-1prmt}

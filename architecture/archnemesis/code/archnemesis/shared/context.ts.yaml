@@ -1,0 +1,141 @@
+# archnemesis:shared/context.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-context-ts-287sv:
+    kind: module
+    name: context.ts
+    in: shared-model
+    context: "What an agent needs to know about one thing, in one call: what it is, where it runs, the file it's in, what it calls and what calls it (with the hops between processes), the libraries it uses, and the notes and decisions about it. The MCP `context` tool returns it; \"Copy link\" (a link to the box) points an agent at it: MCP open and context read the link."
+    tech: [TypeScript]
+    path: archnemesis:shared/context.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts
+  context-ts-bare-1pbjp:
+    kind: function
+    name: bare()
+    in: shared-context-ts-287sv
+    context: "A function's name as code writes it: no parentheses, no arguments."
+    signature: "bare: (name: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:19
+  context-ts-bypath-rbg9s:
+    kind: function
+    name: byPath()
+    in: shared-context-ts-287sv
+    signature: "byPath(idx: ModelIndex): Map<string, ModelObject>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:60
+  context-ts-callsof-19rzg:
+    kind: function
+    name: callsOf()
+    in: shared-context-ts-287sv
+    context: Its calls each way, its insides' included when asked, libraries kept apart.
+    signature: "callsOf(idx: ModelIndex, id: string, withInside?: boolean): { calls: Call[]; calledBy: Call[]; libraries: Call[]; usedBy: Call[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:160
+  context-ts-codehome-v1gfs:
+    kind: function
+    name: codeHome()
+    in: shared-context-ts-287sv
+    context: "The module it's in (or is), when that module has a path. A module without one (a file planned by name only) has no code ref: its functions aren't in the folder above it, so they fall back to their keys rather than borrow the folder's path (server/signin#dropDoc)."
+    signature: "codeHome(idx: ModelIndex, id: string): ModelObject | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:26
+  context-ts-coderef-1vzch:
+    kind: function
+    name: codeRef()
+    in: shared-context-ts-287sv
+    context: "How to point at it: repo:path for a module, repo:path#name for a function, the key for anything else. resolveRef reads every one of these back."
+    signature: "codeRef(idx: ModelIndex, id: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:38
+  context-ts-contexttext-hcjaz:
+    kind: function
+    name: contextText()
+    in: shared-context-ts-287sv
+    context: The bundle, as text an agent reads.
+    signature: "contextText(idx: ModelIndex, id: string, opts?: { design: string; url?: ((objectId: string) => string) | undefined; stats?: ((p: Package) => LibStats | null) | undefined; limit?: number | undefined; guesses?: boolean | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:224
+  context-ts-ispackagelink-4k2lb:
+    kind: function
+    name: isPackageLink()
+    in: shared-context-ts-287sv
+    context: Is this one of the links Archnemesis fills in from a library's package (not one a person or agent added)?
+    signature: "isPackageLink(p: Package | undefined, url: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:426
+  context-ts-notesabout-eywe1:
+    kind: function
+    name: notesAbout()
+    in: shared-context-ts-287sv
+    context: Open notes about it or anything inside it, flags for agents first.
+    signature: "notesAbout(idx: ModelIndex, id: string, opts?: { forAgent?: boolean | undefined; resolved?: boolean | undefined; }): Note[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:195
+  context-ts-packagelinks-1s1vy:
+    kind: function
+    name: packageLinks()
+    in: shared-context-ts-287sv
+    context: "Where to read about a package: its registry, deps.dev, and its docs where there's a usual place. Unversioned unless asked: these become a library's links, which outlive a version."
+    signature: "packageLinks(p: Package, opts?: { versioned?: boolean | undefined; }): { title: string; url: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:104
+  context-ts-resolveref-a6jyg:
+    kind: function
+    name: resolveRef()
+    in: shared-context-ts-287sv
+    context: The object a code reference names, or null (then look it up by key or name).
+    signature: "resolveRef(idx: ModelIndex, ref: string): ModelObject | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:79
+  context-ts-runsin-frixa:
+    kind: function
+    name: runsIn()
+    in: shared-context-ts-287sv
+    context: "Where it runs: the boundaries it's drawn in, innermost first."
+    signature: "runsIn(idx: ModelIndex, id: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/context.ts:216
+connections:
+  - {from: context-ts-callsof-19rzg, to: boundaries-ts-crossesregions-13w8p}
+  - {from: context-ts-callsof-19rzg, to: project-ts-descendants-121jc}
+  - {from: context-ts-callsof-19rzg, to: project-ts-processof-19730}
+  - {from: context-ts-codehome-v1gfs, to: project-ts-ancestors-lfs25}
+  - {from: context-ts-coderef-1vzch, to: context-ts-bare-1pbjp}
+  - {from: context-ts-coderef-1vzch, to: context-ts-codehome-v1gfs}
+  - {from: context-ts-coderef-1vzch, to: context-ts-resolveref-a6jyg}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-callsof-19rzg}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-codehome-v1gfs}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-coderef-1vzch}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-ispackagelink-4k2lb}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-notesabout-eywe1}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-packagelinks-1s1vy}
+  - {from: context-ts-contexttext-hcjaz, to: context-ts-runsin-frixa}
+  - {from: context-ts-contexttext-hcjaz, to: libstats-ts-statsline-1oe8l}
+  - {from: context-ts-contexttext-hcjaz, to: model-ts-mergedcontext-d55w6}
+  - {from: context-ts-contexttext-hcjaz, to: project-ts-ancestors-lfs25}
+  - {from: context-ts-contexttext-hcjaz, to: project-ts-descendants-121jc}
+  - {from: context-ts-contexttext-hcjaz, to: references-ts-referencedby-1e30l}
+  - {from: context-ts-contexttext-hcjaz, to: references-ts-referencelines-xmoax}
+  - {from: context-ts-contexttext-hcjaz, to: tables-ts-columnstext-duau1}
+  - {from: context-ts-contexttext-hcjaz, to: tables-ts-targetcolumn-e2kzc}
+  - {from: context-ts-ispackagelink-4k2lb, to: context-ts-packagelinks-1s1vy}
+  - {from: context-ts-notesabout-eywe1, to: project-ts-descendants-121jc}
+  - {from: context-ts-resolveref-a6jyg, to: context-ts-bare-1pbjp}
+  - {from: context-ts-resolveref-a6jyg, to: context-ts-bypath-rbg9s}
+  - {from: context-ts-resolveref-a6jyg, to: project-ts-descendants-121jc}
+  - {from: context-ts-runsin-frixa, to: boundaries-ts-boundarychain-11jhx}
+  - {from: context-ts-runsin-frixa, to: boundaries-ts-boundaryof-ujb2s}

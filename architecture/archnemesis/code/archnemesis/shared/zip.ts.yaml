@@ -1,0 +1,94 @@
+# archnemesis:shared/zip.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-zip-ts-1fi7y:
+    kind: module
+    name: zip.ts
+    in: shared-support
+    context: "A minimal zip, both ways, with no dependency. Writing stores every file uncompressed (the files are small text, and a git client or `unzip` reads them all the same). Reading takes stored and deflated entries, the two kinds every zip tool makes, and is cautious: it only unpacks a design's own files, caps what it reads, and ignores any path that goes upward."
+    tech: [TypeScript]
+    path: archnemesis:shared/zip.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts
+  zip-ts-cleanpath-h4p14:
+    kind: function
+    name: cleanPath()
+    in: shared-zip-ts-1fi7y
+    context: A path as a plain relative one (backslashes to slashes), or null when it goes upward or is absolute.
+    signature: "cleanPath(name: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:157
+  zip-ts-crc-table-g78xc:
+    kind: function
+    name: CRC_TABLE()
+    in: shared-zip-ts-1fi7y
+    signature: "CRC_TABLE: Uint32Array<ArrayBuffer>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:11
+  zip-ts-crc32-1727m:
+    kind: function
+    name: crc32()
+    in: shared-zip-ts-1fi7y
+    signature: "crc32(bytes: Uint8Array<ArrayBufferLike>): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:21
+  zip-ts-entriesof-11i4g:
+    kind: function
+    name: entriesOf()
+    in: shared-zip-ts-1fi7y
+    signature: "entriesOf(bytes: Uint8Array<ArrayBufferLike>): Entry[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:104
+  zip-ts-extract-1mzjc:
+    kind: function
+    name: extract()
+    in: shared-zip-ts-1fi7y
+    signature: "extract(bytes: Uint8Array<ArrayBufferLike>, e: Entry, budget: number): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:135
+  zip-ts-unzipdesign-1f564:
+    kind: function
+    name: unzipDesign()
+    in: shared-zip-ts-1fi7y
+    context: "The design inside a zip: the files of the first folder (the top first) that holds an archnm.yaml, with that folder taken off their paths. GitHub's \"Download ZIP\" puts everything under one folder, so that works too."
+    signature: "unzipDesign(bytes: Uint8Array<ArrayBufferLike>): Promise<Map<string, string>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:169
+  zip-ts-ziperror-constructor-1qvs7:
+    kind: function
+    name: ZipError.<constructor>()
+    in: shared-zip-ts-1fi7y
+    tech: [method of ZipError]
+    signature: "constructor(message: string): ZipError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:85
+  zip-ts-zipfiles-1wj3f:
+    kind: function
+    name: zipFiles()
+    in: shared-zip-ts-1fi7y
+    context: The files as a .zip (uncompressed, names in UTF-8).
+    signature: "zipFiles(files: Map<string, string>): Uint8Array<ArrayBufferLike>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/zip.ts:32
+connections:
+  - {from: zip-ts-crc32-1727m, to: zip-ts-crc-table-g78xc}
+  - {from: zip-ts-entriesof-11i4g, to: zip-ts-ziperror-constructor-1qvs7}
+  - {from: zip-ts-extract-1mzjc, to: deflate-ts-inflateraw-6v1qz}
+  - {from: zip-ts-extract-1mzjc, to: zip-ts-ziperror-constructor-1qvs7}
+  - {from: zip-ts-unzipdesign-1f564, to: ours-ts-designfolders-mfne6}
+  - {from: zip-ts-unzipdesign-1f564, to: ours-ts-filesunder-1kr9b}
+  - {from: zip-ts-unzipdesign-1f564, to: ours-ts-isours-8rj10}
+  - {from: zip-ts-unzipdesign-1f564, to: zip-ts-cleanpath-h4p14}
+  - {from: zip-ts-unzipdesign-1f564, to: zip-ts-entriesof-11i4g}
+  - {from: zip-ts-unzipdesign-1f564, to: zip-ts-extract-1mzjc}
+  - {from: zip-ts-unzipdesign-1f564, to: zip-ts-ziperror-constructor-1qvs7}
+  - {from: zip-ts-zipfiles-1wj3f, to: zip-ts-crc32-1727m}

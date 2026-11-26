@@ -1,0 +1,25 @@
+# archnemesis:scripts/github-app.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scripts-github-app-ts-1wpb0:
+    kind: module
+    name: github-app.ts
+    in: build
+    context: Create Archnemesis's GitHub App once, ahead of time, for a deployment that gets it from its environment (ARCHNM_GITHUB_*) instead of storing it in its database. The App's secrets go straight into Google Secret Manager; nothing secret is printed or written to disk.
+    tech: [TypeScript]
+    path: archnemesis:scripts/github-app.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/github-app.ts
+  github-app-ts-secret-i8nr6:
+    kind: function
+    name: secret()
+    in: scripts-github-app-ts-1wpb0
+    signature: "secret: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/github-app.ts:34
+connections:
+  - {from: scripts-github-app-ts-1wpb0, to: config-ts-loadconfig-69nnh}
+  - {from: scripts-github-app-ts-1wpb0, to: github-app-ts-secret-i8nr6}
+  - {from: scripts-github-app-ts-1wpb0, to: github-ts-appmanifest-1xd4h}

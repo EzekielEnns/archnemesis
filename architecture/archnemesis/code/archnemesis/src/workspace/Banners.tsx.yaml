@@ -1,0 +1,30 @@
+# archnemesis:src/workspace/Banners.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-banners-tsx-13w2b:
+    kind: module
+    name: Banners.tsx
+    in: web-workspace
+    context: "The banners at the top: viewing a past version, and a tag being shown."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/Banners.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Banners.tsx
+  banners-tsx-banners-ox0ss:
+    kind: function
+    name: Banners()
+    in: workspace-banners-tsx-13w2b
+    context: A past version (read-only), and a tag being shown.
+    signature: 'Banners({ following, guide, tag, setTag, store, toast, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store" | ... 4 more ... | "followin…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Banners.tsx:9
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: banners-tsx-banners-ox0ss, to: portable-tsx-sharedbanner-v7ch2}
+  - {from: banners-tsx-banners-ox0ss, to: store-ts-store-asksignin-18xkf}
+  - {from: banners-tsx-banners-ox0ss, to: store-ts-store-backtonow-15y6o}
+  - {from: banners-tsx-banners-ox0ss, to: types-ts-typeliteral40-copy-1lzwr}

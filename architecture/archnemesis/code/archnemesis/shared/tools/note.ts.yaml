@@ -1,0 +1,86 @@
+# archnemesis:shared/tools/note.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-note-ts-jq4bi:
+    kind: module
+    name: note.ts
+    in: shared-tools-1cbb9
+    context: "note: threads on anything, for people and for other agents. A flag says something's wrong or missing; a claim is what an agent learned about a box it doesn't own (a field, the value it believes, the evidence), left for that box's owner to accept or reject."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/note.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts
+  note-ts-body-1fvgh:
+    kind: function
+    name: body()
+    in: tools-note-ts-jq4bi
+    signature: "body(text?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts:113
+  note-ts-byid-1fjwl:
+    kind: function
+    name: byId()
+    in: tools-note-ts-jq4bi
+    signature: "byId(idx: ModelIndex, id?: string | undefined): Note"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts:123
+  note-ts-list-eadrc:
+    kind: function
+    name: list()
+    in: tools-note-ts-jq4bi
+    signature: "list(host: Host, idx: ModelIndex, a: NoteArgs): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts:174
+  note-ts-note-1md33:
+    kind: function
+    name: note()
+    in: tools-note-ts-jq4bi
+    signature: "note(host: Host, a: NoteArgs): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts:33
+  note-ts-where-k483u:
+    kind: function
+    name: where()
+    in: tools-note-ts-jq4bi
+    context: The view a note goes on and the box it's pinned to, from what it's about.
+    signature: "where(idx: ModelIndex, about?: string | undefined, view?: string | undefined): { diagramId: string; objectId: string | null; about: string | null; connectionId?: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/note.ts:131
+connections:
+  - {from: note-ts-list-eadrc, to: agent-ts-findview-bfne5}
+  - {from: note-ts-list-eadrc, to: host-ts-clip-wy39m}
+  - {from: note-ts-list-eadrc, to: host-ts-more-1giyo}
+  - {from: note-ts-list-eadrc, to: host-ts-ok-1qtxz}
+  - {from: note-ts-list-eadrc, to: host-ts-plural-n7ls8}
+  - {from: note-ts-list-eadrc, to: host-ts-typeliteral26-get-178xz}
+  - {from: note-ts-list-eadrc, to: host-ts-typeliteral26-set-awpei}
+  - {from: note-ts-list-eadrc, to: notes-ts-lastactivity-1e5da}
+  - {from: note-ts-list-eadrc, to: project-ts-descendants-121jc}
+  - {from: note-ts-list-eadrc, to: refs-ts-noteline-12bhq}
+  - {from: note-ts-list-eadrc, to: refs-ts-resolve-1kqf4}
+  - {from: note-ts-list-eadrc, to: refs-ts-viewid-jf4mm}
+  - {from: note-ts-note-1md33, to: host-ts-clip-wy39m}
+  - {from: note-ts-note-1md33, to: host-ts-fail-15k5p}
+  - {from: note-ts-note-1md33, to: host-ts-host-commit-j2yh7}
+  - {from: note-ts-note-1md33, to: host-ts-host-index-23rxl}
+  - {from: note-ts-note-1md33, to: host-ts-host-url-6ll81}
+  - {from: note-ts-note-1md33, to: host-ts-ok-1qtxz}
+  - {from: note-ts-note-1md33, to: model-ts-makenote-1kpn6}
+  - {from: note-ts-note-1md33, to: model-ts-makereply-1jfpi}
+  - {from: note-ts-note-1md33, to: model-ts-now-1lkd5}
+  - {from: note-ts-note-1md33, to: note-ts-body-1fvgh}
+  - {from: note-ts-note-1md33, to: note-ts-byid-1fjwl}
+  - {from: note-ts-note-1md33, to: note-ts-list-eadrc}
+  - {from: note-ts-note-1md33, to: note-ts-where-k483u}
+  - {from: note-ts-note-1md33, to: notes-ts-spotfor-h80i6}
+  - {from: note-ts-note-1md33, to: refs-ts-refof-yj811}
+  - {from: note-ts-where-k483u, to: agent-ts-findview-bfne5}
+  - {from: note-ts-where-k483u, to: refs-ts-refof-yj811}
+  - {from: note-ts-where-k483u, to: refs-ts-resolve-1kqf4}
+  - {from: note-ts-where-k483u, to: refs-ts-viewfor-mdkcu}

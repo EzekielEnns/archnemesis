@@ -1,0 +1,98 @@
+# archnemesis:src/backend/files-open.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-files-open-ts-ucnjm:
+    kind: module
+    name: files-open.ts
+    in: web-backend
+    context: "The browser side of files: save a .zip, and pick a .zip or a folder of a design's files. A folder comes through the File System Access API where the browser has it, and through a folder-picking <input> where it doesn't. Nothing is read until the person has picked, and only a design's own files are ever read (the rest of a folder is never opened)."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/files-open.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts
+  files-open-ts-dirhandle-values-ukr0g:
+    kind: function
+    name: DirHandle.values()
+    in: backend-files-open-ts-ucnjm
+    tech: [method of DirHandle]
+    signature: "values(): AsyncIterable<DirHandle | FileEntry>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:48
+  files-open-ts-fileentry-getfile-1ibsy:
+    kind: function
+    name: FileEntry.getFile()
+    in: backend-files-open-ts-ucnjm
+    tech: [method of FileEntry]
+    signature: "getFile(): Promise<File>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:53
+  files-open-ts-pickfolder-1t8lt:
+    kind: function
+    name: pickFolder()
+    in: backend-files-open-ts-ucnjm
+    context: A folder the person picks, as the design's files in it (the design is the shallowest folder with an archnm.yaml); null when nothing was picked.
+    signature: "pickFolder(): Promise<Map<string, string> | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:80
+  files-open-ts-pickwith-cwve0:
+    kind: function
+    name: pickWith()
+    in: backend-files-open-ts-ucnjm
+    context: Show a file picker through an <input>; null when it's closed without a choice.
+    signature: "pickWith(configure: (input: HTMLInputElement) => void): Promise<File[] | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:26
+    references:
+      - dependency: lib-types-react-1i7zx
+  files-open-ts-pickzip-cq106:
+    kind: function
+    name: pickZip()
+    in: backend-files-open-ts-ucnjm
+    context: A .zip the person picks (its bytes), or null.
+    signature: "pickZip(): Promise<Uint8Array<ArrayBufferLike> | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:40
+  files-open-ts-readof-1noo3:
+    kind: function
+    name: readOf()
+    in: backend-files-open-ts-ucnjm
+    signature: "readOf(f: File | FileEntry): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:72
+  files-open-ts-savebytes-1ao7s:
+    kind: function
+    name: saveBytes()
+    in: backend-files-open-ts-ucnjm
+    context: Hand the person a file (a download).
+    signature: "saveBytes(name: string, bytes: Uint8Array<ArrayBufferLike>, type: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:13
+    references:
+      - dependency: lib-types-react-1i7zx
+  files-open-ts-walk-1ojzb:
+    kind: function
+    name: walk()
+    in: backend-files-open-ts-ucnjm
+    signature: "walk(dir: DirHandle, prefix: string, depth: number, into: Map<string, File | FileEntry>): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/files-open.ts:57
+connections:
+  - {from: files-open-ts-pickfolder-1t8lt, to: files-open-ts-pickwith-cwve0}
+  - {from: files-open-ts-pickfolder-1t8lt, to: files-open-ts-readof-1noo3}
+  - {from: files-open-ts-pickfolder-1t8lt, to: files-open-ts-walk-1ojzb}
+  - {from: files-open-ts-pickfolder-1t8lt, to: ours-ts-designfolders-mfne6}
+  - {from: files-open-ts-pickfolder-1t8lt, to: ours-ts-filesunder-1kr9b}
+  - {from: files-open-ts-pickfolder-1t8lt, to: ours-ts-isours-8rj10}
+  - {from: files-open-ts-pickfolder-1t8lt, to: types-ts-backenderror-constructor-trfnp}
+  - {from: files-open-ts-pickzip-cq106, to: files-open-ts-pickwith-cwve0}
+  - {from: files-open-ts-readof-1noo3, to: files-open-ts-fileentry-getfile-1ibsy}
+  - {from: files-open-ts-walk-1ojzb, to: files-open-ts-dirhandle-values-ukr0g}

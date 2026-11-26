@@ -1,0 +1,517 @@
+# archnemesis:shared/tools/write.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-write-ts-1ajbw:
+    kind: module
+    name: write.ts
+    in: shared-tools-1cbb9
+    context: "write: a fragment in the file grammar, merged by id into the design (docs/mcp-v2.md)."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/write.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts
+  write-ts-autolabel-1qe69:
+    kind: function
+    name: autoLabel()
+    in: tools-write-ts-1ajbw
+    signature: "autoLabel(ops: Op[], tbd?: Set<string>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1971
+  write-ts-between-1onux:
+    kind: function
+    name: between()
+    in: tools-write-ts-1ajbw
+    context: Every connection from → to in the folder, with the list it sits in.
+    signature: "between(folder: Folder, from: string, to: string): { map: YAMLMap<unknown, unknown>; seq: YAMLSeq<unknown>; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1694
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-clone-cvm7s:
+    kind: function
+    name: clone()
+    in: tools-write-ts-1ajbw
+    signature: "clone: <T>(n: T) => T"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:344
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-codeish-2w8xl:
+    kind: function
+    name: codeish()
+    in: tools-write-ts-1ajbw
+    context: Is this a code ref (repo:path, repo:path#fn) rather than an id?
+    signature: "codeish: (s: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1541
+  write-ts-colonin-b7qvj:
+    kind: function
+    name: colonIn()
+    in: tools-write-ts-1ajbw
+    context: "A text with a colon in it, unquoted (name: Server: the HTTP edge), which YAML reads as a map inside a value: say which field and how to quote it, from the line itself."
+    signature: "colonIn(line: string, code: string, col: number): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:189
+  write-ts-dropconnection-zkuhx:
+    kind: function
+    name: dropConnection()
+    in: tools-write-ts-1ajbw
+    context: Take one connection out. "none", a message when the ends have several and no label says which, or null when done.
+    signature: "dropConnection(folder: Folder, from: string, to: string, label?: string | undefined): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1740
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-findconnection-1j5pn:
+    kind: function
+    name: findConnection()
+    in: tools-write-ts-1ajbw
+    context: "The connection a fragment line means: same ends and label; or the only one between those ends when it has no label or the line doesn't say one. Several and no label to tell them apart: their refs (an error for the caller). None: null (a new one)."
+    signature: "findConnection(folder: Folder, from: string, to: string, label: string | undefined): string[] | YAMLMap<unknown, unknown> | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1721
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-fingerprint-1qhr2:
+    kind: function
+    name: fingerprint()
+    in: tools-write-ts-1ajbw
+    signature: "fingerprint(files: Map<string, string>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:60
+  write-ts-folder-constructor-1tavv:
+    kind: function
+    name: Folder.<constructor>()
+    in: tools-write-ts-1ajbw
+    context: The design's files as documents to merge into, made once each and only when touched.
+    tech: [method of Folder]
+    signature: "constructor(files: Map<string, string>, origin?: Map<string, string> | undefined): Folder"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:375
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-folder-doc-1qntd:
+    kind: function
+    name: Folder.doc()
+    in: tools-write-ts-1ajbw
+    tech: [method of Folder]
+    signature: "doc(path: string, empty?: () => unknown): Document<Node, true>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:397
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-folder-docswith-1ynz6:
+    kind: function
+    name: Folder.docsWith()
+    in: tools-write-ts-1ajbw
+    tech: [method of Folder]
+    signature: "docsWith(key: string): [string, Document<Node, true>][]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:421
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-folder-files-l970f:
+    kind: function
+    name: Folder.files()
+    in: tools-write-ts-1ajbw
+    tech: [method of Folder]
+    signature: "files(): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:429
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-folder-section-1twyw:
+    kind: function
+    name: Folder.section()
+    in: tools-write-ts-1ajbw
+    context: A map under the document's top key, made when missing.
+    tech: [method of Folder]
+    signature: "section(path: string, key: string, seq?: boolean): YAMLMap<unknown, unknown> | YAMLSeq<unknown>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:412
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-fresh-dp2p5:
+    kind: function
+    name: fresh()
+    in: tools-write-ts-1ajbw
+    context: "A new thing's fields: null means \"not set\" (as on an existing one it takes the field off), so it's left out."
+    signature: "fresh: <T>(n: T) => T"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:346
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-holds-x7jn1:
+    kind: function
+    name: holds()
+    in: tools-write-ts-1ajbw
+    context: "Files that hold objects, entities and connections: everything but archnm.yaml, the views, the decisions and boundaries.yaml (model/, code/, libraries.yaml…)."
+    signature: "holds: (p: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:353
+  write-ts-isnull-j0g5i:
+    kind: function
+    name: isNull()
+    in: tools-write-ts-1ajbw
+    signature: "isNull: (n: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:334
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-keepdraft-1r0jt:
+    kind: function
+    name: keepDraft()
+    in: tools-write-ts-1ajbw
+    signature: "keepDraft(design: string, args: WriteArgs): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:80
+  write-ts-keepdryrun-1fgc8:
+    kind: function
+    name: keepDryRun()
+    in: tools-write-ts-1ajbw
+    signature: "keepDryRun(design: string, args: WriteArgs, print: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:68
+  write-ts-knownrepos-1pxyq:
+    kind: function
+    name: knownRepos()
+    in: tools-write-ts-1ajbw
+    context: "The repos a design's paths can name: the ones index start brought in for it, and those its paths and sources already use."
+    signature: "knownRepos(model: FileModel, registered: string[]): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:506
+  write-ts-liftednote-4njci:
+    kind: function
+    name: liftedNote()
+    in: tools-write-ts-1ajbw
+    signature: "liftedNote: (lifted: string[], ignored: string[]) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:493
+  write-ts-liftparams-1a4fg:
+    kind: function
+    name: liftParams()
+    in: tools-write-ts-1ajbw
+    context: "Parameters written inside the yaml (tidy: true, label: …, as: …), lifted out and used as the parameters: a parameter given beside the yaml wins (remove: both, merged). Never throws: a fragment that doesn't parse is left for write to report."
+    signature: "liftParams<T extends WriteArgs & { as?: string; }>(a: T): { args: T; lifted: string[]; ignored: string[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:526
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-mainof-1kyxg:
+    kind: function
+    name: mainOf()
+    in: tools-write-ts-1ajbw
+    signature: "mainOf: (key: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:59
+  write-ts-merge-1oncv:
+    kind: function
+    name: merge()
+    in: tools-write-ts-1ajbw
+    context: One top-level section of the fragment into the folder.
+    signature: "merge(folder: Folder, key: string, value: unknown, problems: Problem[], gone: Removals): number | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1366
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-mergefragment-p82dw:
+    kind: function
+    name: mergeFragment()
+    in: tools-write-ts-1ajbw
+    context: "A fragment with corrections merged in: a map section's entry (an object, entity, view…) is merged with the correction's, field by field (null drops it); a connection replaces the one with the same ends (and label, when both have one), else it's added. Undefined when either doesn't parse."
+    signature: "mergeFragment(base: string, fix: string): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:95
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-mergeinto-1s77n:
+    kind: function
+    name: mergeInto()
+    in: tools-write-ts-1ajbw
+    context: "Fields onto a map node: each written field replaces its own, null takes it off, the rest stay."
+    signature: "mergeInto(target: YAMLMap<unknown, unknown>, fields: YAMLMap<unknown, unknown>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:441
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-nearconn-1r01h:
+    kind: function
+    name: nearConn()
+    in: tools-write-ts-1ajbw
+    signature: "nearConn(m: FileModel, from: string, to: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1752
+  write-ts-outside-2eizi:
+    kind: function
+    name: outside()
+    in: tools-write-ts-1ajbw
+    signature: "outside(idx: ModelIndex, scope: ModelObject, ops: Op[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:2046
+  write-ts-reflist-19fap:
+    kind: function
+    name: refList()
+    in: tools-write-ts-1ajbw
+    context: 'remove, read loosely: a list, one ref, a string that is a list ("[view:a, view:b]", as JSON or YAML), or refs split by commas when no part has a space (a label with a comma stays whole).'
+    signature: "refList(v: unknown): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:457
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-refsof-aryt3:
+    kind: function
+    name: refsOf()
+    in: tools-write-ts-1ajbw
+    signature: "refsOf: (from: string, to: string, xs: { map: YAMLMap<unknown, unknown>; }[]) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1710
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-refstoids-1w67c:
+    kind: function
+    name: refsToIds()
+    in: tools-write-ts-1ajbw
+    context: Code refs where a box's id goes (an object's key, in:, a connection's ends, a view's scope, boxes and rules, a flow step's ends, a link's on, a boundary's rules), turned into the ids the files use. Every ref works in every tool; one that names nothing says so, and how to add it.
+    signature: "refsToIds(frag: Document<Node, true>, idx: ModelIndex, problems: Problem[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1548
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-removereftoids-a578y:
+    kind: function
+    name: removeRefToIds()
+    in: tools-write-ts-1ajbw
+    context: "A remove entry with code refs, as ids: a box (repo:path#fn) or a connection (ref>ref[:label])."
+    signature: "removeRefToIds(idx: ModelIndex, raw: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1667
+  write-ts-scoped-17l5z:
+    kind: function
+    name: scoped()
+    in: tools-write-ts-1ajbw
+    context: "The scope's subtree, with the new boxes this batch puts inside it (only new ones: a box moved in from outside isn't the scope's to take)."
+    signature: "scoped(idx: ModelIndex, scope: ModelObject, ops: Op[]): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:2004
+  write-ts-site-1n4i9:
+    kind: function
+    name: site()
+    in: tools-write-ts-1ajbw
+    context: "Where problems come from: the fragment, or what it broke elsewhere."
+    signature: "site: (p: Problem) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:451
+  write-ts-slugof-1comq:
+    kind: function
+    name: slugOf()
+    in: tools-write-ts-1ajbw
+    signature: "slugOf: (ref: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1687
+  write-ts-str-15gf4:
+    kind: function
+    name: str()
+    in: tools-write-ts-1ajbw
+    signature: "str: (n: unknown) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:338
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-strict-1lj95:
+    kind: function
+    name: strict()
+    in: tools-write-ts-1ajbw
+    context: "Strict YAML, as the reader takes it: no anchors, aliases, tags, directives or duplicate keys; one message per line, in our words."
+    signature: "strict(text: string, file: string): { doc: Document<Node, true>; problems: Problem[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:206
+    references:
+      - dependency: lib-yaml-1wm54
+  write-ts-summary-y33ff:
+    kind: function
+    name: summary()
+    in: tools-write-ts-1ajbw
+    context: "What a batch would change, a line each: + new, ~ changed (which fields), - gone."
+    signature: "summary(idx: ModelIndex, ops: Op[], tbd?: Set<string>, cap?: number, tagsBefore?: Set<string>): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1819
+  write-ts-viewchanges-f3f29:
+    kind: function
+    name: viewChanges()
+    in: tools-write-ts-1ajbw
+    context: "A view's settings a change touches: \"arrows curved → elbow\" for a plain one, the field for the rest."
+    signature: "viewChanges(was: Diagram, now: Diagram): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1763
+  write-ts-without-1t1kb:
+    kind: function
+    name: without()
+    in: tools-write-ts-1ajbw
+    context: "The model without what was removed, each kind by its own ids: a box's removal takes what's inside it and its connections, never a view, boundary or decision of the same id."
+    signature: "without(model: FileModel, gone: Removals): FileModel"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:1322
+  write-ts-write-w0rb3:
+    kind: function
+    name: write()
+    in: tools-write-ts-1ajbw
+    signature: "write(host: Host, given: WriteArgs): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/write.ts:556
+    references:
+      - dependency: lib-yaml-1wm54
+connections:
+  - {from: write-ts-autolabel-1qe69, to: host-ts-plural-n7ls8}
+  - {from: write-ts-between-1onux, to: write-ts-folder-docswith-1ynz6}
+  - {from: write-ts-between-1onux, to: write-ts-str-15gf4}
+  - {from: write-ts-colonin-b7qvj, to: host-ts-clip-wy39m}
+  - {from: write-ts-dropconnection-zkuhx, to: write-ts-between-1onux}
+  - {from: write-ts-dropconnection-zkuhx, to: write-ts-refsof-aryt3}
+  - {from: write-ts-dropconnection-zkuhx, to: write-ts-str-15gf4}
+  - {from: write-ts-findconnection-1j5pn, to: write-ts-between-1onux}
+  - {from: write-ts-findconnection-1j5pn, to: write-ts-refsof-aryt3}
+  - {from: write-ts-findconnection-1j5pn, to: write-ts-str-15gf4}
+  - {from: write-ts-folder-constructor-1tavv, to: write-ts-holds-x7jn1}
+  - {from: write-ts-folder-docswith-1ynz6, to: write-ts-folder-doc-1qntd}
+  - {from: write-ts-folder-docswith-1ynz6, to: write-ts-holds-x7jn1}
+  - {from: write-ts-folder-section-1twyw, to: write-ts-folder-doc-1qntd}
+  - {from: write-ts-fresh-dp2p5, to: write-ts-clone-cvm7s}
+  - {from: write-ts-fresh-dp2p5, to: write-ts-isnull-j0g5i}
+  - {from: write-ts-liftparams-1a4fg, to: write-ts-reflist-19fap}
+  - {from: write-ts-merge-1oncv, to: write-ts-clone-cvm7s}
+  - {from: write-ts-merge-1oncv, to: write-ts-findconnection-1j5pn}
+  - {from: write-ts-merge-1oncv, to: write-ts-folder-doc-1qntd}
+  - {from: write-ts-merge-1oncv, to: write-ts-folder-section-1twyw}
+  - {from: write-ts-merge-1oncv, to: write-ts-fresh-dp2p5}
+  - {from: write-ts-merge-1oncv, to: write-ts-isnull-j0g5i}
+  - {from: write-ts-merge-1oncv, to: write-ts-mergeinto-1s77n}
+  - {from: write-ts-merge-1oncv, to: write-ts-str-15gf4}
+  - {from: write-ts-mergeinto-1s77n, to: write-ts-clone-cvm7s}
+  - {from: write-ts-mergeinto-1s77n, to: write-ts-isnull-j0g5i}
+  - {from: write-ts-mergeinto-1s77n, to: write-ts-str-15gf4}
+  - {from: write-ts-outside-2eizi, to: refs-ts-connref-1hum7}
+  - {from: write-ts-outside-2eizi, to: refs-ts-idof-1erbh}
+  - {from: write-ts-outside-2eizi, to: refs-ts-refof-yj811}
+  - {from: write-ts-outside-2eizi, to: refs-ts-viewid-jf4mm}
+  - {from: write-ts-outside-2eizi, to: write-ts-scoped-17l5z}
+  - {from: write-ts-reflist-19fap, to: host-ts-arr-d4mci}
+  - {from: write-ts-refsof-aryt3, to: write-ts-str-15gf4}
+  - {from: write-ts-refstoids-1w67c, to: context-ts-resolveref-a6jyg}
+  - {from: write-ts-refstoids-1w67c, to: refs-ts-idof-1erbh}
+  - {from: write-ts-refstoids-1w67c, to: write-ts-codeish-2w8xl}
+  - {from: write-ts-refstoids-1w67c, to: write-ts-slugof-1comq}
+  - {from: write-ts-refstoids-1w67c, to: write-ts-str-15gf4}
+  - {from: write-ts-removereftoids-a578y, to: context-ts-resolveref-a6jyg}
+  - {from: write-ts-removereftoids-a578y, to: refs-ts-idof-1erbh}
+  - {from: write-ts-removereftoids-a578y, to: write-ts-codeish-2w8xl}
+  - {from: write-ts-scoped-17l5z, to: project-ts-ancestors-lfs25}
+  - {from: write-ts-scoped-17l5z, to: project-ts-descendants-121jc}
+  - {from: write-ts-strict-1lj95, to: host-ts-clip-wy39m}
+  - {from: write-ts-strict-1lj95, to: write-ts-colonin-b7qvj}
+  - {from: write-ts-strict-1lj95, to: write-ts-isnull-j0g5i}
+  - {from: write-ts-summary-y33ff, to: refs-ts-connref-1hum7}
+  - {from: write-ts-summary-y33ff, to: refs-ts-refof-yj811}
+  - {from: write-ts-summary-y33ff, to: refs-ts-viewid-jf4mm}
+  - {from: write-ts-summary-y33ff, to: write-ts-viewchanges-f3f29}
+  - {from: write-ts-without-1t1kb, to: files-ts-overlay-dp4v5}
+  - {from: write-ts-without-1t1kb, to: files-ts-readfiles-1ttso}
+  - {from: write-ts-write-w0rb3, to: agent-ts-findview-bfne5}
+  - {from: write-ts-write-w0rb3, to: codeindex-ts-globre-ul43c}
+  - {from: write-ts-write-w0rb3, to: codeindex-ts-isglob-ovc26}
+  - {from: write-ts-write-w0rb3, to: files-ts-allentities-1qx0u}
+  - {from: write-ts-write-w0rb3, to: files-ts-check-toyfi}
+  - {from: write-ts-write-w0rb3, to: files-ts-overlay-dp4v5}
+  - {from: write-ts-write-w0rb3, to: files-ts-readfiles-1ttso}
+  - {from: write-ts-write-w0rb3, to: files-ts-toops-1d908}
+  - {from: write-ts-write-w0rb3, to: host-ts-arr-d4mci}
+  - {from: write-ts-write-w0rb3, to: host-ts-clip-wy39m}
+  - {from: write-ts-write-w0rb3, to: host-ts-fail-15k5p}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-applyrules-f2do4}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-commit-j2yh7}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-config-12dpi}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-index-23rxl}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-repos-1e9su}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-settled-1fv3t}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-state-150dr}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-undo-1ur4s}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-url-6ll81}
+  - {from: write-ts-write-w0rb3, to: host-ts-host-wrote-1e2xa}
+  - {from: write-ts-write-w0rb3, to: host-ts-ok-1qtxz}
+  - {from: write-ts-write-w0rb3, to: host-ts-plural-n7ls8}
+  - {from: write-ts-write-w0rb3, to: problems-ts-filesof-1ncq9}
+  - {from: write-ts-write-w0rb3, to: project-ts-projectdiagram-1p3dd}
+  - {from: write-ts-write-w0rb3, to: refs-ts-idof-1erbh}
+  - {from: write-ts-write-w0rb3, to: refs-ts-object-1mo87}
+  - {from: write-ts-write-w0rb3, to: refs-ts-viewid-jf4mm}
+  - {from: write-ts-write-w0rb3, to: score-ts-scoreview-ldvks}
+  - {from: write-ts-write-w0rb3, to: tidy-ts-tidyview-bfl8t}
+  - {from: write-ts-write-w0rb3, to: write-ts-autolabel-1qe69}
+  - {from: write-ts-write-w0rb3, to: write-ts-clone-cvm7s}
+  - {from: write-ts-write-w0rb3, to: write-ts-dropconnection-zkuhx}
+  - {from: write-ts-write-w0rb3, to: write-ts-fingerprint-1qhr2}
+  - {from: write-ts-write-w0rb3, to: write-ts-folder-constructor-1tavv}
+  - {from: write-ts-write-w0rb3, to: write-ts-folder-doc-1qntd}
+  - {from: write-ts-write-w0rb3, to: write-ts-folder-files-l970f}
+  - {from: write-ts-write-w0rb3, to: write-ts-folder-section-1twyw}
+  - {from: write-ts-write-w0rb3, to: write-ts-isnull-j0g5i}
+  - {from: write-ts-write-w0rb3, to: write-ts-keepdraft-1r0jt}
+  - {from: write-ts-write-w0rb3, to: write-ts-keepdryrun-1fgc8}
+  - {from: write-ts-write-w0rb3, to: write-ts-knownrepos-1pxyq}
+  - {from: write-ts-write-w0rb3, to: write-ts-liftednote-4njci}
+  - {from: write-ts-write-w0rb3, to: write-ts-liftparams-1a4fg}
+  - {from: write-ts-write-w0rb3, to: write-ts-mainof-1kyxg}
+  - {from: write-ts-write-w0rb3, to: write-ts-merge-1oncv}
+  - {from: write-ts-write-w0rb3, to: write-ts-mergefragment-p82dw}
+  - {from: write-ts-write-w0rb3, to: write-ts-nearconn-1r01h}
+  - {from: write-ts-write-w0rb3, to: write-ts-outside-2eizi}
+  - {from: write-ts-write-w0rb3, to: write-ts-reflist-19fap}
+  - {from: write-ts-write-w0rb3, to: write-ts-refstoids-1w67c}
+  - {from: write-ts-write-w0rb3, to: write-ts-removereftoids-a578y}
+  - {from: write-ts-write-w0rb3, to: write-ts-scoped-17l5z}
+  - {from: write-ts-write-w0rb3, to: write-ts-site-1n4i9}
+  - {from: write-ts-write-w0rb3, to: write-ts-str-15gf4}
+  - {from: write-ts-write-w0rb3, to: write-ts-strict-1lj95}
+  - {from: write-ts-write-w0rb3, to: write-ts-summary-y33ff}
+  - {from: write-ts-write-w0rb3, to: write-ts-viewchanges-f3f29}
+  - {from: write-ts-write-w0rb3, to: write-ts-without-1t1kb}

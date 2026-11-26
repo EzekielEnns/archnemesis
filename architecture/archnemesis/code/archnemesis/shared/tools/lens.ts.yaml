@@ -1,0 +1,61 @@
+# archnemesis:shared/tools/lens.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-lens-ts-1rixd:
+    kind: module
+    name: lens.ts
+    in: shared-tools-1cbb9
+    context: "Lenses: what check, curate and review found, and what a staff engineer looks for (single points of failure, hotspots, cycles, contracts that disagree), as findings with refs."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/lens.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/lens.ts
+  lens-ts-lens-6syq7:
+    kind: function
+    name: lens()
+    in: tools-lens-ts-1rixd
+    signature: 'lens(host: Host, idx: ModelIndex, which: "problems" | "review" | "drift" | "guesses" | "flags" | "hotspots" | "cycles" | "spof" | "mismatches", o: { limit: number; ref?: string | undefined; view?: string | undefined; focus?: ForkFocus | ... 1 more ... | undefined; }): Out'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/lens.ts:35
+  lens-ts-live-1y8qj:
+    kind: function
+    name: live()
+    in: tools-lens-ts-1rixd
+    signature: "live: (idx: ModelIndex) => Connection[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/lens.ts:27
+  lens-ts-sccs-1x2jk:
+    kind: function
+    name: sccs()
+    in: tools-lens-ts-1rixd
+    context: "Strongly connected sets of 2 or more: the loops. Tarjan's, iteratively."
+    signature: "sccs(idx: ModelIndex): string[][]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/lens.ts:331
+connections:
+  - {from: lens-ts-lens-6syq7, to: agent-ts-findview-bfne5}
+  - {from: lens-ts-lens-6syq7, to: curate-ts-worklist-99wef}
+  - {from: lens-ts-lens-6syq7, to: handover-ts-review-1f4an}
+  - {from: lens-ts-lens-6syq7, to: host-ts-host-config-12dpi}
+  - {from: lens-ts-lens-6syq7, to: host-ts-host-index-23rxl}
+  - {from: lens-ts-lens-6syq7, to: host-ts-host-state-150dr}
+  - {from: lens-ts-lens-6syq7, to: host-ts-more-1giyo}
+  - {from: lens-ts-lens-6syq7, to: host-ts-ok-1qtxz}
+  - {from: lens-ts-lens-6syq7, to: host-ts-plural-n7ls8}
+  - {from: lens-ts-lens-6syq7, to: impact-ts-impact-7mpl1}
+  - {from: lens-ts-lens-6syq7, to: lens-ts-live-1y8qj}
+  - {from: lens-ts-lens-6syq7, to: lens-ts-sccs-1x2jk}
+  - {from: lens-ts-lens-6syq7, to: problems-ts-problemsof-1w2qm}
+  - {from: lens-ts-lens-6syq7, to: project-ts-descendants-121jc}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-carriesof-p0gen}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-connref-1hum7}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-entitybyname-13a8g}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-idof-1erbh}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-object-1mo87}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-refof-yj811}
+  - {from: lens-ts-lens-6syq7, to: refs-ts-usesof-inv0m}
+  - {from: lens-ts-sccs-1x2jk, to: lens-ts-live-1y8qj}

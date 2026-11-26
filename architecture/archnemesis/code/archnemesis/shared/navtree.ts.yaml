@@ -1,0 +1,64 @@
+# archnemesis:shared/navtree.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-navtree-ts-13ky9:
+    kind: module
+    name: navtree.ts
+    in: shared-model
+    context: "The left pane's model tree, like `lsd --tree`: every object under what it's in, folded until opened. One tree for every kind, so a code layer is just deeper rows."
+    tech: [TypeScript]
+    path: archnemesis:shared/navtree.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts
+  navtree-ts-hascode-m69x0:
+    kind: function
+    name: hasCode()
+    in: shared-navtree-ts-13ky9
+    context: Whether a tree of this design has a code layer at all (for the hint under it).
+    signature: "hasCode: (idx: ModelIndex) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts:120
+  navtree-ts-iconof-c6vjj:
+    kind: function
+    name: iconOf()
+    in: shared-navtree-ts-13ky9
+    context: A module with a path to a file (its last part has an extension) is a file; any other module a folder.
+    signature: 'iconOf(o: ModelObject): "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table" | "folder" | "file"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts:49
+  navtree-ts-navorder-13eow:
+    kind: function
+    name: navOrder()
+    in: shared-navtree-ts-13ky9
+    context: "Folders first, then by kind, then by name: the order a file tree reads in."
+    signature: "navOrder(a: ModelObject, b: ModelObject): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts:42
+  navtree-ts-navrows-p5q6e:
+    kind: function
+    name: navRows()
+    in: shared-navtree-ts-13ky9
+    context: "The rows to show: roots, and the insides of whatever is open. `only`, when given, keeps just those objects and what they're in. A filter that finds things (what's new, a search) opens the way to them; one that only narrows the tree (just the code) folds like the tree, so pass `unfold: false` for that."
+    signature: "navRows(idx: ModelIndex, open: Set<string>, only?: Set<string> | undefined, opts?: { unfold?: boolean | undefined; }): NavRow[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts:64
+  navtree-ts-rowlabel-1alx2:
+    kind: function
+    name: rowLabel()
+    in: shared-navtree-ts-13ky9
+    context: "What a row says: its name, or a compacted chain's joined with slashes."
+    signature: "rowLabel: (r: NavRow) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/navtree.ts:26
+connections:
+  - {from: navtree-ts-hascode-m69x0, to: model-ts-iscodekind-1jl6v}
+  - {from: navtree-ts-navorder-13eow, to: navtree-ts-iconof-c6vjj}
+  - {from: navtree-ts-navrows-p5q6e, to: navtree-ts-iconof-c6vjj}
+  - {from: navtree-ts-navrows-p5q6e, to: navtree-ts-navorder-13eow}
+  - {from: navtree-ts-navrows-p5q6e, to: project-ts-ancestors-lfs25}

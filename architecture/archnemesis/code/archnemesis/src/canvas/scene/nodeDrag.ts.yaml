@@ -1,0 +1,97 @@
+# archnemesis:src/canvas/scene/nodeDrag.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-nodedrag-ts-1qrtl:
+    kind: module
+    name: nodeDrag.ts
+    in: canvas-scene-iaxtu
+    context: "Dragging boxes (or a frame with everything in it): the grid, alignment with neighbours, what they'd be dropped into, and the live positions."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/nodeDrag.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts
+  nodedrag-ts-begindrag-qq5zv:
+    kind: function
+    name: beginDrag()
+    in: scene-nodedrag-ts-1qrtl
+    context: "The press has moved far enough to be a drag: what's dragged goes to the live layer."
+    signature: 'beginDrag(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }, screen: Point): boolean'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:74
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  nodedrag-ts-carryframe-y7srw:
+    kind: function
+    name: carryFrame()
+    in: scene-nodedrag-ts-1qrtl
+    context: The frame comes along with the boxes it holds, and every frame inside it.
+    signature: 'carryFrame(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:155
+  nodedrag-ts-dragframe-1mqxw:
+    kind: function
+    name: dragFrame()
+    in: scene-nodedrag-ts-1qrtl
+    context: "Start dragging a frame (a file's, a boundary's, the opened box's): the boxes inside it move together and the frame, drawn around them, follows. False when it holds no box, or the tool isn't select (the view tool only pans)."
+    signature: "dragFrame(state: SceneState, id: string, world: Point, screen: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:24
+  nodedrag-ts-dragnodes-g2yxw:
+    kind: function
+    name: dragNodes()
+    in: scene-nodedrag-ts-1qrtl
+    context: "The pointer moved with boxes held: move them (snapped), and redraw what follows."
+    signature: 'dragNodes(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }, screen: Point, world: Point, e: PointerEvent): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:178
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  nodedrag-ts-framestartedin-c6y74:
+    kind: function
+    name: frameStartedIn()
+    in: scene-nodedrag-ts-1qrtl
+    context: "Simple mode: the frame the dragged boxes started in (leaving it takes them out)."
+    signature: 'frameStartedIn(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }): CanvasGroup | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:56
+  nodedrag-ts-showdrophint-jgl79:
+    kind: function
+    name: showDropHint()
+    in: scene-nodedrag-ts-1qrtl
+    context: "Simple mode: what they'd go into, by where the pointer is (a frame dragged whole: nothing)."
+    signature: 'showDropHint(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }, world: Point, e: PointerEvent): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:128
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodedrag-ts-snappedmove-9v46i:
+    kind: function
+    name: snappedMove()
+    in: scene-nodedrag-ts-1qrtl
+    context: "How far the boxes move: on the grid, then lined up with neighbours (hold ⌥ for neither)."
+    signature: 'snappedMove(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }, world: Point, free: boolean): { ...; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/nodeDrag.ts:94
+connections:
+  - {from: nodedrag-ts-begindrag-qq5zv, to: live-ts-beginliveedges-1njqd}
+  - {from: nodedrag-ts-begindrag-qq5zv, to: nodedrag-ts-framestartedin-c6y74}
+  - {from: nodedrag-ts-carryframe-y7srw, to: groups-ts-drawgroups-1o8a4}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: live-ts-redrawlive-1tyb8}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: nodedrag-ts-begindrag-qq5zv}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: nodedrag-ts-carryframe-y7srw}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: nodedrag-ts-showdrophint-jgl79}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: nodedrag-ts-snappedmove-9v46i}
+  - {from: nodedrag-ts-dragnodes-g2yxw, to: watch-ts-tellwatchers-ft9o3}
+  - {from: nodedrag-ts-showdrophint-jgl79, to: hit-ts-droptargetat-3t6wg}
+  - {from: nodedrag-ts-snappedmove-9v46i, to: geometry-ts-boundsof-1fvuk}
+  - {from: nodedrag-ts-snappedmove-9v46i, to: snap-ts-gridsnap-18na5}
+  - {from: nodedrag-ts-snappedmove-9v46i, to: snap-ts-neighboursnap-1nmjc}

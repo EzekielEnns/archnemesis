@@ -1,0 +1,13 @@
+# archnemesis:src/canvas/scene/types.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-types-ts-1sslx:
+    kind: module
+    name: types.ts
+    in: canvas-scene-iaxtu
+    context: "The shapes the canvas passes around: what it reports (SceneCallbacks, Selection…) and what it keeps for each box, arrow and drag. Scene.ts re-exports the public ones."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/types.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/types.ts

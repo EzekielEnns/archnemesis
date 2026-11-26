@@ -1,0 +1,104 @@
+# archnemesis:src/App.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-app-tsx-1pu49:
+    kind: module
+    name: App.tsx
+    in: web-shell
+    context: "Which design is open: the one in the URL, else the last one you had open, else the first."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/App.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx
+  app-tsx-app-1m65y:
+    kind: function
+    name: App()
+    in: src-app-tsx-1pu49
+    signature: "App(): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:55
+    references:
+      - dependency: lib-types-react-1i7zx
+  app-tsx-designapp-ekx5u:
+    kind: function
+    name: DesignApp()
+    in: src-app-tsx-1pu49
+    signature: "DesignApp({ design }: { design: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:83
+    references:
+      - dependency: lib-types-react-1i7zx
+  app-tsx-elsewhere-1njii:
+    kind: function
+    name: Elsewhere()
+    in: src-app-tsx-1pu49
+    context: "The design in the link isn't here (renamed, never on this Archnemesis, or remembered from another one): open the one you had last, or the first, instead of a dead end."
+    signature: "Elsewhere({ design }: { design: string; }): null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:96
+    references:
+      - dependency: lib-types-react-1i7zx
+  app-tsx-main-14tbl:
+    kind: function
+    name: Main()
+    in: src-app-tsx-1pu49
+    signature: "Main(): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:66
+    references:
+      - dependency: lib-types-react-1i7zx
+  app-tsx-usedesign-48lz1:
+    kind: function
+    name: useDesign()
+    in: src-app-tsx-1pu49
+    context: "Which design is open: the one in the URL, else the last one you had open, else the first."
+    signature: "useDesign(): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:14
+    references:
+      - dependency: lib-types-react-1i7zx
+  app-tsx-usehash-1r3fo:
+    kind: function
+    name: useHash()
+    in: src-app-tsx-1pu49
+    context: "The page's hash, kept up to date: a link pasted into this tab changes it."
+    signature: "useHash(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/App.tsx:45
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: app-tsx-app-1m65y, to: app-tsx-main-14tbl}
+  - {from: app-tsx-app-1m65y, to: app-tsx-usehash-1r3fo}
+  - {from: app-tsx-app-1m65y, to: authorize-tsx-authorize-cnume}
+  - {from: app-tsx-app-1m65y, to: openshared-tsx-openshared-1w9qp}
+  - {from: app-tsx-app-1m65y, to: openshared-tsx-sharedfragment-1kdks}
+  - {from: app-tsx-designapp-ekx5u, to: app-tsx-elsewhere-1njii}
+  - {from: app-tsx-designapp-ekx5u, to: peers-tsx-signin-1eenz}
+  - {from: app-tsx-designapp-ekx5u, to: store-ts-store-constructor-1oljb}
+  - {from: app-tsx-designapp-ekx5u, to: store-ts-store-getversion-1jscx}
+  - {from: app-tsx-designapp-ekx5u, to: store-ts-store-start-x9at3}
+  - {from: app-tsx-designapp-ekx5u, to: store-ts-store-subscribe-1px4z}
+  - {from: app-tsx-designapp-ekx5u, to: workspace-tsx-workspace-a9h1s}
+  - {from: app-tsx-elsewhere-1njii, to: route-ts-hashfor-km4zf}
+  - {from: app-tsx-elsewhere-1njii, to: route-ts-parsehash-1rghw}
+  - {from: app-tsx-elsewhere-1njii, to: storage-ts-stored-3h0kp}
+  - {from: app-tsx-elsewhere-1njii, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: app-tsx-main-14tbl, to: app-tsx-designapp-ekx5u}
+  - {from: app-tsx-main-14tbl, to: app-tsx-usedesign-48lz1}
+  - {from: app-tsx-main-14tbl, to: bench-tsx-bench-19s4j}
+  - {from: app-tsx-main-14tbl, to: bench-tsx-benchsize-zi59z}
+  - {from: app-tsx-main-14tbl, to: openshared-tsx-openshared-1w9qp}
+  - {from: app-tsx-main-14tbl, to: openshared-tsx-remotefragment-1i0td}
+  - {from: app-tsx-usedesign-48lz1, to: openshared-tsx-sharedfragment-1kdks}
+  - {from: app-tsx-usedesign-48lz1, to: route-ts-hashfor-km4zf}
+  - {from: app-tsx-usedesign-48lz1, to: route-ts-parsehash-1rghw}
+  - {from: app-tsx-usedesign-48lz1, to: storage-ts-stored-3h0kp}
+  - {from: app-tsx-usedesign-48lz1, to: types-ts-typeliteral34-list-1e2bc}

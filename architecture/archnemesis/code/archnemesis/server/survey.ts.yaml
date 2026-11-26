@@ -1,0 +1,96 @@
+# archnemesis:server/survey.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-survey-ts-7ttuu:
+    kind: module
+    name: survey.ts
+    in: srv-index
+    context: "A repo's survey: the evidence an agent needs to decide what the architecture is, without reading the whole repo. What runs (Dockerfiles, compose services, Procfiles, Kubernetes, Terraform Cloud Run / Lambda / functions, package bins, entry points), what holds state (datastore images, database URLs), what it serves (OpenAPI specs), and what it's written in. It decides nothing: what's a service…"
+    tech: [TypeScript]
+    path: archnemesis:server/survey.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts
+  survey-ts-composeservices-1xp0t:
+    kind: function
+    name: composeServices()
+    in: server-survey-ts-7ttuu
+    context: Compose services (indentation-based, enough for compose's shape; no YAML library needed in the script).
+    signature: "composeServices(text: string): { name: string; line: number; image?: string | undefined; build?: string | undefined; command?: string | undefined; ports?: string | undefined; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:138
+  survey-ts-draftyaml-1sbet:
+    kind: function
+    name: draftYaml()
+    in: server-survey-ts-7ttuu
+    context: "A first draft of the repo as Archnemesis YAML, for write: a system for the repo, an app for each thing that's deployed (a container, a compose service, a cloud deploy; else each entry point), and a store for each datastore. A draft: the agent renames, merges and drops."
+    signature: "draftYaml(s: Survey, opts?: { system?: string | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:651
+  survey-ts-languageof-1cknn:
+    kind: function
+    name: languageOf()
+    in: server-survey-ts-7ttuu
+    signature: "languageOf: (path: string) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:98
+  survey-ts-lineof-bksoq:
+    kind: function
+    name: lineOf()
+    in: server-survey-ts-7ttuu
+    signature: "lineOf: (text: string, index: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:135
+  survey-ts-read-1c6zs:
+    kind: function
+    name: read()
+    in: server-survey-ts-7ttuu
+    signature: "read: (root: string, path: string) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:126
+  survey-ts-slug-1c2sj:
+    kind: function
+    name: slug()
+    in: server-survey-ts-7ttuu
+    signature: "slug: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:639
+  survey-ts-storekind-42hj5:
+    kind: function
+    name: storeKind()
+    in: server-survey-ts-7ttuu
+    signature: "storeKind: (s: string) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:123
+  survey-ts-surveyrepo-xt55p:
+    kind: function
+    name: surveyRepo()
+    in: server-survey-ts-7ttuu
+    context: The survey of a repo's files (repo-relative paths, already filtered to the product).
+    signature: "surveyRepo(root: string, repo: string, files: string[], sha?: string | undefined): Survey"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:190
+  survey-ts-surveytext-18jhs:
+    kind: function
+    name: surveyText()
+    in: server-survey-ts-7ttuu
+    context: The survey as a few lines for an agent, with the detail an agent asks for when it needs it.
+    signature: "surveyText(s: Survey): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/survey.ts:591
+connections:
+  - {from: survey-ts-draftyaml-1sbet, to: survey-ts-slug-1c2sj}
+  - {from: survey-ts-surveyrepo-xt55p, to: survey-ts-composeservices-1xp0t}
+  - {from: survey-ts-surveyrepo-xt55p, to: survey-ts-languageof-1cknn}
+  - {from: survey-ts-surveyrepo-xt55p, to: survey-ts-lineof-bksoq}
+  - {from: survey-ts-surveyrepo-xt55p, to: survey-ts-read-1c6zs}
+  - {from: survey-ts-surveyrepo-xt55p, to: survey-ts-storekind-42hj5}

@@ -1,0 +1,57 @@
+# archnemesis:src/backend/rules.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-rules-ts-1v7vu:
+    kind: module
+    name: rules.ts
+    in: web-backend
+    context: "What the server does to a live document after people edit it, for a document with no server: views that follow rules are brought in line with the model, references left dangling are swept up, old-style links move onto their boxes, and diagrams that keep themselves tidy are laid out again. (server/live.ts does the same for the server's documents, with the same shared/ functions.)"
+    tech: [TypeScript]
+    path: archnemesis:src/backend/rules.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/rules.ts
+  rules-ts-configof-vy1v0:
+    kind: function
+    name: configOf()
+    in: backend-rules-ts-1v7vu
+    signature: "configOf(doc: Doc): FConfig"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/rules.ts:44
+    references:
+      - dependency: lib-yjs-1y6wn
+  rules-ts-followrules-vcfl3:
+    kind: function
+    name: followRules()
+    in: backend-rules-ts-1v7vu
+    context: "Keep `doc` tidy the way the server does: a moment after someone else's edit settles, sweep, move links, follow the rules, keep diagrams tidy. Start it once the document has loaded. Returns a function that stops it."
+    signature: "followRules(doc: Doc): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/rules.ts:57
+    references:
+      - dependency: lib-yjs-1y6wn
+  rules-ts-indexof-hx9gg:
+    kind: function
+    name: indexOf()
+    in: backend-rules-ts-1v7vu
+    signature: "indexOf(state: ModelState): ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/rules.ts:28
+connections:
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-applyops-7k6hw}
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-emptystate-1a3cm}
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-fill-dwqka}
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-mirror-1k3af}
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-readstate-1orda}
+  - {from: rules-ts-followrules-vcfl3, to: doc-ts-sweep-1nd2o}
+  - {from: rules-ts-followrules-vcfl3, to: layout-ts-layoutops-1r6pk}
+  - {from: rules-ts-followrules-vcfl3, to: layout-ts-structureof-1gub4}
+  - {from: rules-ts-followrules-vcfl3, to: notes-ts-linknoteops-1xfe6}
+  - {from: rules-ts-followrules-vcfl3, to: project-ts-projectdiagram-1p3dd}
+  - {from: rules-ts-followrules-vcfl3, to: rules-ts-configof-vy1v0}
+  - {from: rules-ts-followrules-vcfl3, to: rules-ts-indexof-hx9gg}
+  - {from: rules-ts-followrules-vcfl3, to: views-ts-viewops-1bd47}
+  - {from: rules-ts-indexof-hx9gg, to: project-ts-buildindex-dkcy4}

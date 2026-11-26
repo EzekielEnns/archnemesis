@@ -1,0 +1,53 @@
+# archnemesis:server/touched.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-touched-ts-qd6qx:
+    kind: module
+    name: touched.ts
+    in: srv-live
+    context: "Who's touched it: the people (and agents) behind a box, read from git rather than an owner field nobody keeps up to date. Each of the box's sources (repo@ref:path[:line]) names a path; its recent commits, grouped by author, say who changes that code and how recently. With coding agents in the loop, a commit an agent helped with is counted too, so \"Zeek, 14 commits, 9 with an agent\" reads for…"
+    tech: [TypeScript]
+    path: archnemesis:server/touched.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/touched.ts
+  touched-ts-commitsfor-afope:
+    kind: function
+    name: commitsFor()
+    in: server-touched-ts-qd6qx
+    context: "The recent commits on one source path: through GitHub when Archnemesis's app can read the repo, else a local clone under `localRoot/<repo>` (ARCHNM_SOURCE_ROOT), so it works on a laptop too. Follows the repo's default branch, not the ref the source was pinned at: the question is who changes it now."
+    signature: 'commitsFor(github: GitHub | undefined, owner: string | undefined, localRoot: string | undefined, repo: string, path: string, limit: number): Promise<{ commits: Commit[]; via: "github" | "local"; }>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/touched.ts:60
+  touched-ts-isbot-7glib:
+    kind: function
+    name: isBot()
+    in: server-touched-ts-qd6qx
+    signature: "isBot: (c: Commit) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/touched.ts:45
+  touched-ts-touched-1th1v:
+    kind: function
+    name: touched()
+    in: server-touched-ts-qd6qx
+    context: Who's touched what `sources` point at, most commits first.
+    signature: "touched(sources: string[], o: { github?: GitHub | undefined; owner?: string | undefined; localRoot?: string | undefined; limit?: number | undefined; }): Promise<Touched>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/touched.ts:108
+  touched-ts-touchedtext-1nbh7:
+    kind: function
+    name: touchedText()
+    in: server-touched-ts-qd6qx
+    context: "For an agent: one line per person."
+    signature: "touchedText(t: Touched): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/touched.ts:177
+connections:
+  - {from: touched-ts-commitsfor-afope, to: github-ts-github-commits-1omay}
+  - {from: touched-ts-commitsfor-afope, to: github-ts-github-repotoken-qrd5j}
+  - {from: touched-ts-touched-1th1v, to: touched-ts-commitsfor-afope}
+  - {from: touched-ts-touched-1th1v, to: touched-ts-isbot-7glib}

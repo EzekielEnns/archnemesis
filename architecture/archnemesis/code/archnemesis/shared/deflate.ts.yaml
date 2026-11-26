@@ -1,0 +1,51 @@
+# archnemesis:shared/deflate.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-deflate-ts-15w60:
+    kind: module
+    name: deflate.ts
+    in: shared-support
+    context: "Raw deflate over the platform's CompressionStream (browsers and Node 18+): no dependency. Reading is capped, so a small input can't be made to expand into memory."
+    tech: [TypeScript]
+    path: archnemesis:shared/deflate.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/deflate.ts
+  deflate-ts-collect-1w31z:
+    kind: function
+    name: collect()
+    in: shared-deflate-ts-15w60
+    signature: "collect(stream: ReadableStream<Uint8Array<ArrayBufferLike>>, max: number, tooBig: string): Promise<Uint8Array<ArrayBufferLike>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/deflate.ts:4
+  deflate-ts-deflateraw-p0pw5:
+    kind: function
+    name: deflateRaw()
+    in: shared-deflate-ts-15w60
+    signature: "deflateRaw(bytes: Uint8Array<ArrayBufferLike>): Promise<Uint8Array<ArrayBufferLike>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/deflate.ts:39
+  deflate-ts-inflateraw-6v1qz:
+    kind: function
+    name: inflateRaw()
+    in: shared-deflate-ts-15w60
+    context: Inflate, failing with `tooBig` as soon as the result passes `max` bytes.
+    signature: "inflateRaw(bytes: Uint8Array<ArrayBufferLike>, max: number, tooBig: string): Promise<Uint8Array<ArrayBufferLike>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/deflate.ts:48
+  deflate-ts-streamof-17n5r:
+    kind: function
+    name: streamOf()
+    in: shared-deflate-ts-15w60
+    signature: "streamOf: (bytes: Uint8Array<ArrayBufferLike>) => ReadableStream<Uint8Array<ArrayBuffer>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/deflate.ts:31
+connections:
+  - {from: deflate-ts-deflateraw-p0pw5, to: deflate-ts-collect-1w31z}
+  - {from: deflate-ts-deflateraw-p0pw5, to: deflate-ts-streamof-17n5r}
+  - {from: deflate-ts-inflateraw-6v1qz, to: deflate-ts-collect-1w31z}
+  - {from: deflate-ts-inflateraw-6v1qz, to: deflate-ts-streamof-17n5r}

@@ -1,0 +1,52 @@
+# archnemesis:server/signin/roles.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  signin-roles-ts-1fkef:
+    kind: module
+    name: roles.ts
+    in: srv-auth
+    context: Who may do what, the same for every way of signing in. Lists of people (ARCHNM_ADMINS, ARCHNM_EDITORS, ARCHNM_VIEWERS; see server/config.ts for the format and what each allows), from the environment (Nix, Terraform, compose).
+    tech: [TypeScript]
+    path: archnemesis:server/signin/roles.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/roles.ts
+  roles-ts-roles-constructor-1u9ut:
+    kind: function
+    name: Roles.<constructor>()
+    in: signin-roles-ts-1fkef
+    tech: [method of Roles]
+    signature: "constructor(lists: { admins: string[]; editors: string[]; viewers: string[]; }): Roles"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/roles.ts:11
+  roles-ts-roles-describe-nwtty:
+    kind: function
+    name: Roles.describe()
+    in: signin-roles-ts-1fkef
+    context: "For the startup line: how many of each."
+    tech: [method of Roles]
+    signature: "describe(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/roles.ts:41
+  roles-ts-roles-of-1mwqe:
+    kind: function
+    name: Roles.of()
+    in: signin-roles-ts-1fkef
+    context: "The roles for someone signed in as `who` (a login or email), or none: they don't get in."
+    tech: [method of Roles]
+    signature: "of(who: string): Role[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/roles.ts:18
+  roles-ts-roles-open-9zlka:
+    kind: function
+    name: Roles.open()
+    in: signin-roles-ts-1fkef
+    context: Whether anyone at all who signs in gets in (a list is empty where that means everyone, or has "*").
+    tech: [method of Roles]
+    signature: "open(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/roles.ts:29

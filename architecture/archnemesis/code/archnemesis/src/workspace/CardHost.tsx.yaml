@@ -1,0 +1,51 @@
+# archnemesis:src/workspace/CardHost.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-cardhost-tsx-17blc:
+    kind: module
+    name: CardHost.tsx
+    in: web-workspace
+    context: "The card for what's selected: floating beside it in simple mode, or the deleted thing's card while diffing."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/CardHost.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CardHost.tsx
+  cardhost-tsx-cardhost-8vp55:
+    kind: function
+    name: CardHost()
+    in: workspace-cardhost-tsx-17blc
+    context: The card beside what is selected.
+    signature: "CardHost(props: CardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CardHost.tsx:52
+    references:
+      - dependency: lib-types-react-1i7zx
+  cardhost-tsx-inspectorcard-1kmcs:
+    kind: function
+    name: InspectorCard()
+    in: workspace-cardhost-tsx-17blc
+    context: The card for a box, an arrow, a frame or the diagram itself.
+    signature: 'InspectorCard(props: Omit<CardProps, "diagramId"> & { diagramId: string; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/CardHost.tsx:99
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: cardhost-tsx-cardhost-8vp55, to: cardhost-tsx-inspectorcard-1kmcs}
+  - {from: cardhost-tsx-cardhost-8vp55, to: difflayer-tsx-deletedcard-1avsy}
+  - {from: cardhost-tsx-cardhost-8vp55, to: floatif-tsx-floatif-1w57r}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: inspector-tsx-docinsights-libstats-14s8w}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: inspector-tsx-docinsights-touched-1gl1c}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: inspector-tsx-inspector-xu8ve}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: model-ts-makenote-1kpn6}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: notes-ts-spotfor-h80i6}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: notes-tsx-connname-rjd3w}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: scene-ts-scene-connectionanchor-tgimu}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: scene-ts-scene-frameboxes-1ps2g}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: scene-ts-scene-select-1g1o3}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: store-ts-store-log-1p4iw}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: types-ts-typeliteral57-libstats-11aew}
+  - {from: cardhost-tsx-inspectorcard-1kmcs, to: types-ts-typeliteral57-touched-1mic9}

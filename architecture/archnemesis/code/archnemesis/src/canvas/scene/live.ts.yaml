@@ -1,0 +1,54 @@
+# archnemesis:src/canvas/scene/live.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-live-ts-1l3t6:
+    kind: module
+    name: live.ts
+    in: canvas-scene-iaxtu
+    context: "While boxes are dragged or resized: their arrows move to their own layer, and the ports along the sides are worked out again for them."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/live.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/live.ts
+  live-ts-beginliveedges-1njqd:
+    kind: function
+    name: beginLiveEdges()
+    in: scene-live-ts-1l3t6
+    context: Move the dragged boxes' edges, and their neighbours' (whose ports shift as the box moves), to their own layer for the drag.
+    signature: "beginLiveEdges(state: SceneState, ids: string[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/live.ts:16
+  live-ts-redrawlive-1tyb8:
+    kind: function
+    name: redrawLive()
+    in: scene-live-ts-1l3t6
+    context: "Redraw what a live drag changes: the ports, the arrows on the live layer, the overlay."
+    signature: "redrawLive(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/live.ts:51
+  live-ts-refreshliveports-d8nio:
+    kind: function
+    name: refreshLivePorts()
+    in: scene-live-ts-1l3t6
+    context: New ports for the live edges; an end on a box outside the live set keeps its old one.
+    signature: "refreshLivePorts(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/live.ts:28
+connections:
+  - {from: live-ts-beginliveedges-1njqd, to: edges-ts-drawstaticedges-1a491}
+  - {from: live-ts-redrawlive-1tyb8, to: edges-ts-drawedges-1ordb}
+  - {from: live-ts-redrawlive-1tyb8, to: edges-ts-drawstaticedges-1a491}
+  - {from: live-ts-redrawlive-1tyb8, to: frame-ts-requestrender-sstrq}
+  - {from: live-ts-redrawlive-1tyb8, to: live-ts-refreshliveports-d8nio}
+  - {from: live-ts-redrawlive-1tyb8, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: live-ts-redrawlive-1tyb8, to: routing-ts-routed-1cp8r}
+  - {from: live-ts-refreshliveports-d8nio, to: geometry-ts-boxgrid-add-vcn8d}
+  - {from: live-ts-refreshliveports-d8nio, to: geometry-ts-boxgrid-constructor-1uxkw}
+  - {from: live-ts-refreshliveports-d8nio, to: geometry-ts-choosesides-1ue4u}
+  - {from: live-ts-refreshliveports-d8nio, to: geometry-ts-ports-1dg9c}
+  - {from: live-ts-refreshliveports-d8nio, to: lookup-ts-endrect-10url}
+  - {from: live-ts-refreshliveports-d8nio, to: routing-ts-syncavoid-xlxxg}

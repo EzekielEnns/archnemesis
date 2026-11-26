@@ -1,0 +1,112 @@
+# archnemesis:src/canvas/scene/hit.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-hit-ts-12z5u:
+    kind: module
+    name: hit.ts
+    in: canvas-scene-iaxtu
+    context: "Hit testing: what is under a point. One test per pointer event against plain rects and curves (boxes, arrows, connection handles, the resize corner, frame title strips)."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/hit.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts
+  hit-ts-droptargetat-3t6wg:
+    kind: function
+    name: dropTargetAt()
+    in: scene-hit-ts-12z5u
+    context: "The frame or box (not one being dragged) whose area holds the point: innermost first."
+    signature: 'dropTargetAt(state: Pick<SceneState, "order" | "groupList">, p: Point, dragged: Set<string>): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:10
+  hit-ts-hitarrowpart-1z0x3:
+    kind: function
+    name: hitArrowPart()
+    in: scene-hit-ts-12z5u
+    context: "The part of the selected arrow under the pointer: an end or a bend."
+    signature: 'hitArrowPart(state: Pick<SceneState, "edges" | "shaping" | "selectedEdge" | "camera">, p: Point): { part: "from" | "to" | "bend"; index: number; } | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:38
+  hit-ts-hitboundary-12vlf:
+    kind: function
+    name: hitBoundary()
+    in: scene-hit-ts-12z5u
+    context: "A boundary whose frame's title strip is under the pointer: the innermost one."
+    signature: 'hitBoundary(state: Pick<SceneState, "groupList" | "camera">, p: Point): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:86
+  hit-ts-hitcontainer-17v53:
+    kind: function
+    name: hitContainer()
+    in: scene-hit-ts-12z5u
+    context: "A file or package frame whose title strip is under the pointer: the innermost one."
+    signature: 'hitContainer(state: Pick<SceneState, "groupList" | "camera">, p: Point): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:71
+  hit-ts-hitedge-zauf5:
+    kind: function
+    name: hitEdge()
+    in: scene-hit-ts-12z5u
+    signature: 'hitEdge(state: Pick<SceneState, "edges" | "camera" | "edgeLabels">, p: Point): EdgeView | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:106
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  hit-ts-hithandle-1pyg0:
+    kind: function
+    name: hitHandle()
+    in: scene-hit-ts-12z5u
+    context: "A connection can be dragged from anywhere along a box's edge: a band just inside and just outside its border. The middle of the box moves it."
+    signature: 'hitHandle(state: Pick<SceneState, "views" | "camera" | "hovered" | "tool">, p: Point): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:155
+  hit-ts-hitnode-1f6df:
+    kind: function
+    name: hitNode()
+    in: scene-hit-ts-12z5u
+    signature: 'hitNode(state: Pick<SceneState, "order">, p: Point): NodeView | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:98
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  hit-ts-hitoffdiagram-1bi0z:
+    kind: function
+    name: hitOffDiagram()
+    in: scene-hit-ts-12z5u
+    context: The box whose "⇄ N off diagram" is under this point, if any.
+    signature: 'hitOffDiagram(state: Pick<SceneState, "order">, p: Point): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:54
+  hit-ts-hitresize-3udgl:
+    kind: function
+    name: hitResize()
+    in: scene-hit-ts-12z5u
+    context: The resize corner of the one selected box, if the point is on it.
+    signature: 'hitResize(state: Pick<SceneState, "views" | "camera" | "tool" | "selected">, p: Point): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:172
+  hit-ts-hitscope-14xmq:
+    kind: function
+    name: hitScope()
+    in: scene-hit-ts-12z5u
+    context: The title strip of the diagram's own frame (the object it looks inside).
+    signature: 'hitScope(state: Pick<SceneState, "groupList" | "camera">, p: Point): boolean'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/hit.ts:64
+connections:
+  - {from: hit-ts-droptargetat-3t6wg, to: geometry-ts-contains-1k1sy}
+  - {from: hit-ts-hitarrowpart-1z0x3, to: lookup-ts-shapeof-18bgx}
+  - {from: hit-ts-hitedge-zauf5, to: geometry-ts-routedistance-9qm74}
+  - {from: hit-ts-hitedge-zauf5, to: geometry-ts-routepoint-vghoc}
+  - {from: hit-ts-hitnode-1f6df, to: geometry-ts-contains-1k1sy}
+  - {from: hit-ts-hitoffdiagram-1bi0z, to: geometry-ts-contains-1k1sy}

@@ -1,0 +1,25 @@
+# archnemesis:src/ui/Dialog.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-dialog-tsx-1mhq3:
+    kind: module
+    name: Dialog.tsx
+    in: web-ui
+    context: "A small modal for things worth a second look: naming a fork, discarding one, proposing it. Enter confirms (except in a destructive one, which starts on Cancel and needs a click), Escape or a click outside cancels. Never the browser's own confirm()."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Dialog.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Dialog.tsx
+  dialog-tsx-dialog-39zlh:
+    kind: function
+    name: Dialog()
+    in: ui-dialog-tsx-1mhq3
+    signature: "Dialog({ title, children, confirm, tone, busy, disabled, onConfirm, onCancel, wide, bare, }: Props): ReactPortal"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Dialog.tsx:24
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-types-react-dom-1pvn2
+      - dependency: lib-lucide-react-1fcqz

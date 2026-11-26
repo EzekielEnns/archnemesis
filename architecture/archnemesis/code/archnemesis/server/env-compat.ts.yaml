@@ -1,0 +1,13 @@
+# archnemesis:server/env-compat.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-env-compat-ts-1gnmd:
+    kind: module
+    name: env-compat.ts
+    in: srv-edge
+    context: "Reads the old name: installs from before the rename set ATLAS_* variables. Each one whose ARCHNM_* twin is unset is copied across, with one warning on stderr. Import this first in every entry point, before anything reads process.env."
+    tech: [TypeScript]
+    path: archnemesis:server/env-compat.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/env-compat.ts

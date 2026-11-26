@@ -1,0 +1,13 @@
+{
+  "agent": {"x": 64, "y": 0},
+  "build": {"x": 216, "y": 240},
+  "cli": {"x": 16, "y": 240},
+  "design-files": {"x": 0, "y": 768},
+  "github": {"x": 352, "y": 976},
+  "identity-provider": {"x": 608, "y": 976},
+  "object-storage": {"x": 96, "y": 976},
+  "person": {"x": 456, "y": 0},
+  "server": {"x": 240, "y": 520},
+  "shared": {"x": 376, "y": 768},
+  "web": {"x": 424, "y": 240}
+}

@@ -1,0 +1,17 @@
+# archnemesis:server/personal-main.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-personal-main-ts-1av6x:
+    kind: module
+    name: personal-main.ts
+    in: srv-files
+    context: "The `archnemesis` command (the published package's bin; `archnm` is the same file): with no arguments, or `start`, Archnemesis in personal mode for the folder it is run in; with an `archnm` subcommand (check, fmt, ...), that command. See server/personal.ts."
+    tech: [TypeScript]
+    path: archnemesis:server/personal-main.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal-main.ts
+connections:
+  - {from: server-personal-main-ts-1av6x, to: personal-ts-parselaunch-1m0ud}
+  - {from: server-personal-main-ts-1av6x, to: personal-ts-personalsettings-74p1t}
+  - {from: server-personal-main-ts-1av6x, to: personal-ts-startuptext-105dy}

@@ -1,0 +1,29 @@
+# archnemesis:src/workspace/useNotes.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usenotes-ts-37zta:
+    kind: module
+    name: useNotes.ts
+    in: web-workspace
+    context: "Notes and links on the diagram: which one is selected or being written, who can be @mentioned in them, going to one, and starting one on a box or an arrow."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useNotes.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useNotes.ts
+  usenotes-ts-usenotes-k5vgh:
+    kind: function
+    name: useNotes()
+    in: workspace-usenotes-ts-37zta
+    signature: "useNotes({ store, idx, diagramId, scene, ready, latest, navigate, route, peers, setSel, }: { store: Store; idx: ModelIndex; diagramId: string | null; scene: SceneRef; ready: boolean; latest: LatestRef; navigate: Navigate; route: Route; peers: PeerInfo[]; setSel: Dispatch<...>; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useNotes.ts:18
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usenotes-ts-usenotes-k5vgh, to: notes-ts-spotfor-h80i6}
+  - {from: usenotes-ts-usenotes-k5vgh, to: route-ts-parsehash-1rghw}
+  - {from: usenotes-ts-usenotes-k5vgh, to: scene-ts-scene-centerat-11u77}
+  - {from: usenotes-ts-usenotes-k5vgh, to: scene-ts-scene-connectionanchor-tgimu}
+  - {from: usenotes-ts-usenotes-k5vgh, to: scene-ts-scene-select-1g1o3}

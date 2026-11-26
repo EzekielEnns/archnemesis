@@ -1,0 +1,91 @@
+# archnemesis:src/ui/ConnectAgent.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-connectagent-tsx-18hsq:
+    kind: module
+    name: ConnectAgent.tsx
+    in: web-ui
+    context: "\"Connect your agent\": the MCP address any agent can use, and Claude Code's commands as the worked example. Used in the welcome (Welcome.tsx) and at the top of the ? sheet."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/ConnectAgent.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx
+  connectagent-tsx-agentcommand-28iwl:
+    kind: function
+    name: AgentCommand()
+    in: ui-connectagent-tsx-18hsq
+    context: "The setup: the MCP address, then Claude Code's commands (tools alone or with"
+    signature: "AgentCommand({ mcp }: { mcp: McpSetup; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:147
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  connectagent-tsx-channelsteps-yrrk6:
+    kind: function
+    name: ChannelSteps()
+    in: ui-connectagent-tsx-18hsq
+    context: The three commands that let a note's
+    signature: "ChannelSteps({ channel, ready, fill, }: { channel: { download: string; command: string; start: string; }; ready: boolean; fill: (c: string) => string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:117
+    references:
+      - dependency: lib-types-react-1i7zx
+  connectagent-tsx-cmd-1j9pe:
+    kind: function
+    name: Cmd()
+    in: ui-connectagent-tsx-18hsq
+    context: One command (or prompt), with its copy button.
+    signature: "Cmd({ text, n, label }: { text: string; n?: number | undefined; label?: string | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:19
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  connectagent-tsx-day-1xj79:
+    kind: function
+    name: day()
+    in: ui-connectagent-tsx-18hsq
+    signature: "day: (iso: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:45
+  connectagent-tsx-tokenlist-4meec:
+    kind: function
+    name: TokenList()
+    in: ui-connectagent-tsx-18hsq
+    context: The personal tokens made so far, each with a way to revoke it.
+    signature: "TokenList({ tokens, revoke, }: { tokens: TokenInfo[]; revoke: (id: string) => Promise<void>; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:49
+    references:
+      - dependency: lib-types-react-1i7zx
+  connectagent-tsx-waytabs-1j4lx:
+    kind: function
+    name: WayTabs()
+    in: ui-connectagent-tsx-18hsq
+    context: Tools alone, or the tools plus
+    signature: "WayTabs({ way, setWay }: { way: Way; setWay: (w: Way) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ConnectAgent.tsx:93
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: connectagent-tsx-agentcommand-28iwl, to: connectagent-tsx-channelsteps-yrrk6}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: connectagent-tsx-cmd-1j9pe}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: connectagent-tsx-tokenlist-4meec}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: connectagent-tsx-waytabs-1j4lx}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: storage-ts-setstored-9bk3c}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: storage-ts-stored-3h0kp}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: types-ts-typeliteral54-create-1hwks}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: types-ts-typeliteral54-list-133vr}
+  - {from: connectagent-tsx-agentcommand-28iwl, to: types-ts-typeliteral54-revoke-3izxr}
+  - {from: connectagent-tsx-channelsteps-yrrk6, to: connectagent-tsx-cmd-1j9pe}
+  - {from: connectagent-tsx-tokenlist-4meec, to: connectagent-tsx-day-1xj79}
+  - {from: connectagent-tsx-tokenlist-4meec, to: dialog-tsx-dialog-39zlh}

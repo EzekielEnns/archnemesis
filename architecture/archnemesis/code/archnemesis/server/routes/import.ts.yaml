@@ -1,0 +1,33 @@
+# archnemesis:server/routes/import.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-import-ts-mmtwf:
+    kind: module
+    name: import.ts
+    in: srv-edge
+    context: "An importer's code index (archnm import --server): planned against the design (or, when it follows git, against the importer's own fork of it) and committed as one edit."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/import.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/import.ts
+  import-ts-importroutes-6rfnj:
+    kind: function
+    name: importRoutes()
+    in: routes-import-ts-mmtwf
+    signature: "importRoutes(ctx: Ctx, d: DesignCall): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/import.ts:17
+connections:
+  - {from: import-ts-importroutes-6rfnj, to: agent-ts-planchanges-i14x4}
+  - {from: import-ts-importroutes-6rfnj, to: codeindex-ts-importchanges-1rj1i}
+  - {from: import-ts-importroutes-6rfnj, to: codeindex-ts-importsummary-164fo}
+  - {from: import-ts-importroutes-6rfnj, to: gitsync-ts-gitsync-fork-14wew}
+  - {from: import-ts-importroutes-6rfnj, to: http-ts-body-14i98}
+  - {from: import-ts-importroutes-6rfnj, to: http-ts-json-3ycbr}
+  - {from: import-ts-importroutes-6rfnj, to: live-ts-live-applyrules-mzbpr}
+  - {from: import-ts-importroutes-6rfnj, to: live-ts-live-commit-1ohvh}
+  - {from: import-ts-importroutes-6rfnj, to: live-ts-live-config-1ps60}
+  - {from: import-ts-importroutes-6rfnj, to: live-ts-live-index-8r94z}
+  - {from: import-ts-importroutes-6rfnj, to: perms-ts-perms-can-kqb2y}

@@ -1,0 +1,304 @@
+# archnemesis:src/backend/server.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-server-ts-1rtt8:
+    kind: module
+    name: server.ts
+    in: web-backend
+    context: "The backend that talks to the Node server: its HTTP API, and a live document over a WebSocket (Hocuspocus), cached in IndexedDB so a design opens at once and keeps working through a dropped connection."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/server.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts
+  server-ts-answer-1t5b0:
+    kind: function
+    name: answer()
+    in: backend-server-ts-1rtt8
+    context: The JSON answer, or the refusal thrown.
+    signature: "answer<T>(res: Response, fallback?: Fallback): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:85
+  server-ts-authheaders-1bhni:
+    kind: function
+    name: authHeaders()
+    in: backend-server-ts-1rtt8
+    context: "The headers a request carries: the token (when there is one) and the name you chose."
+    signature: "authHeaders(): Record<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:27
+  server-ts-createserverbackend-gr0x7:
+    kind: function
+    name: createServerBackend()
+    in: backend-server-ts-1rtt8
+    signature: "createServerBackend(): Backend"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:407
+  server-ts-designsapi-1dvx3:
+    kind: function
+    name: designsApi()
+    in: backend-server-ts-1rtt8
+    signature: "designsApi(): { list(): Promise<DesignInfo[]>; info(doc: string): Promise<DesignDoc>; create(name: string, opts?: { example?: boolean | undefined; } | undefined): Promise<...>; remove(key: string): Promise<...>; open(info: DesignDoc, ydoc: Doc, handlers: DocHandlers): DocConnection; state(doc: st…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:240
+  server-ts-docpath-t4vte:
+    kind: function
+    name: docPath()
+    in: backend-server-ts-1rtt8
+    signature: "docPath: (doc: string, sub?: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:93
+  server-ts-gitapi-1sl9c:
+    kind: function
+    name: gitApi()
+    in: backend-server-ts-1rtt8
+    signature: "gitApi(): { inBrowser?: boolean | undefined; info(key: string): Promise<GitInfo | null>; follow(key: string, o: FollowOptions): Promise<GitInfo>; ... 7 more ...; whatsNew(doc: string): Promise<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:168
+  server-ts-githubapi-1j7ck:
+    kind: function
+    name: githubApi()
+    in: backend-server-ts-1rtt8
+    signature: "githubApi(): { status(): Promise<GitHubStatus>; repos(): Promise<RepoChoice[]>; branches(repo: string): Promise<BranchChoice[]>; setup(org?: string | undefined): Promise<...>; login(): Promise<...>; logout(): Promise<...>; disconnect(): Promise<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:190
+  server-ts-iconsapi-165d3:
+    kind: function
+    name: iconsApi()
+    in: backend-server-ts-1rtt8
+    signature: 'iconsApi(): { search(q: string, signal?: AbortSignal | undefined): Promise<string[]>; svg(technology: string, color?: "brand" | undefined): Promise<string | null>; url?(technology: string): string; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:342
+  server-ts-linksapi-17mru:
+    kind: function
+    name: linksApi()
+    in: backend-server-ts-1rtt8
+    signature: "linksApi(): { list(doc: string): Promise<{ links: ShareLink[]; reach: ShareReach; }>; create(doc: string, days: number | null): Promise<{ url: string; link: ShareLink; }>; revoke(doc: string, id: string): Promise<...>; copy(doc: string): Promise<...>; holds(doc: string): boolean; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:291
+  server-ts-oauthapi-1rnr2:
+    kind: function
+    name: oauthApi()
+    in: backend-server-ts-1rtt8
+    signature: "oauthApi(getConfig: () => Promise<InstanceConfig>): { read(id: string): Promise<OauthAsk>; decide(id: string, allow: boolean): Promise<string>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:216
+  server-ts-opendocument-3cjif:
+    kind: function
+    name: openDocument()
+    in: backend-server-ts-1rtt8
+    context: "The live document: the cache, then the server, with presence linked to the connection."
+    signature: "openDocument(info: DesignDoc, ydoc: Doc, h: DocHandlers): DocConnection"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:96
+    references:
+      - dependency: lib-yjs-1y6wn
+      - dependency: lib-y-indexeddb-1afq8
+      - dependency: lib-hocuspocus-provider-1w7uf
+      - dependency: lib-y-protocols-pwcjh
+  server-ts-pageapis-1kjkn:
+    kind: function
+    name: pageApis()
+    in: backend-server-ts-1rtt8
+    context: "What goes back to the server about this page: reports, the call log, the trail, guided steps."
+    signature: 'pageApis(): Pick<Backend, "guide" | "report" | "telemetry" | "trail" | "insights">'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:359
+  server-ts-post-arspn:
+    kind: function
+    name: post()
+    in: backend-server-ts-1rtt8
+    signature: "post: <T = unknown>(path: string, body?: unknown, fallback?: Fallback | undefined) => Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:90
+  server-ts-postform-qexzt:
+    kind: function
+    name: postForm()
+    in: backend-server-ts-1rtt8
+    context: GitHub's manifest flow wants a form post from the browser.
+    signature: "postForm(action: string, manifest: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:155
+  server-ts-refusal-1502l:
+    kind: function
+    name: refusal()
+    in: backend-server-ts-1rtt8
+    context: "The refusal as an error: the server's own words, else `fallback`'s."
+    signature: "refusal(res: Response, fallback: Fallback): Promise<BackendError>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:78
+  server-ts-send-skibh:
+    kind: function
+    name: send()
+    in: backend-server-ts-1rtt8
+    context: Make a request; a network failure is a BackendError("offline"), never a bare TypeError.
+    signature: "send(path: string, o?: Req): Promise<Response>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:54
+  server-ts-shareheader-ic14d:
+    kind: function
+    name: shareHeader()
+    in: backend-server-ts-1rtt8
+    context: A share link held for the design a call is about, and for nothing else.
+    signature: "shareHeader(path: string): Record<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:36
+  server-ts-statustext-1yhdr:
+    kind: function
+    name: statusText()
+    in: backend-server-ts-1rtt8
+    signature: "statusText: Fallback"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:75
+  server-ts-tokensapi-emphx:
+    kind: function
+    name: tokensApi()
+    in: backend-server-ts-1rtt8
+    signature: "tokensApi(): { list(): Promise<TokenInfo[]>; create(label: string): Promise<string>; revoke(id: string): Promise<void>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:324
+  server-ts-versionsapi-1wutf:
+    kind: function
+    name: versionsApi()
+    in: backend-server-ts-1rtt8
+    signature: "versionsApi(): { list(key: string): Promise<VersionInfo[]>; at(key: string, sha: string): Promise<StateJson>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/server.ts:310
+connections:
+  - {from: server-ts-answer-1t5b0, to: server-ts-refusal-1502l}
+  - {from: server-ts-answer-1t5b0, to: server-ts-statustext-1yhdr}
+  - {from: server-ts-authheaders-1bhni, to: storage-ts-stored-3h0kp}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-answer-1t5b0}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-designsapi-1dvx3}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-gitapi-1sl9c}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-githubapi-1j7ck}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-iconsapi-165d3}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-linksapi-17mru}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-oauthapi-1rnr2}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-pageapis-1kjkn}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-send-skibh}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-tokensapi-emphx}
+  - {from: server-ts-createserverbackend-gr0x7, to: server-ts-versionsapi-1wutf}
+  - {from: server-ts-createserverbackend-gr0x7, to: storage-ts-setstored-9bk3c}
+  - {from: server-ts-createserverbackend-gr0x7, to: storage-ts-stored-3h0kp}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-backend-config-1rscx}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-backend-me-ci4a3}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-typeliteral55-signout-1pk62}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-typeliteral55-start-1s5uh}
+  - {from: server-ts-createserverbackend-gr0x7, to: types-ts-typeliteral55-withtoken-1ne7y}
+  - {from: server-ts-designsapi-1dvx3, to: server-ts-answer-1t5b0}
+  - {from: server-ts-designsapi-1dvx3, to: server-ts-docpath-t4vte}
+  - {from: server-ts-designsapi-1dvx3, to: server-ts-opendocument-3cjif}
+  - {from: server-ts-designsapi-1dvx3, to: server-ts-send-skibh}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-create-1sko1}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-info-7i2ig}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-open-9v861}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-remove-1pfvs}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-share-3rhm1}
+  - {from: server-ts-designsapi-1dvx3, to: types-ts-typeliteral34-state-z99us}
+  - {from: server-ts-gitapi-1sl9c, to: server-ts-docpath-t4vte}
+  - {from: server-ts-gitapi-1sl9c, to: server-ts-post-arspn}
+  - {from: server-ts-gitapi-1sl9c, to: server-ts-refusal-1502l}
+  - {from: server-ts-gitapi-1sl9c, to: server-ts-send-skibh}
+  - {from: server-ts-gitapi-1sl9c, to: server-ts-statustext-1yhdr}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-discard-a3n7v}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-edit-oyj74}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-follow-1jca0}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-fork-1lja4}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-info-pyl7c}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-merge-yjv00}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-propose-16vkm}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-savenotes-17phs}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-sync-1vfsv}
+  - {from: server-ts-gitapi-1sl9c, to: types-ts-typeliteral45-whatsnew-1hmgp}
+  - {from: server-ts-githubapi-1j7ck, to: server-ts-answer-1t5b0}
+  - {from: server-ts-githubapi-1j7ck, to: server-ts-post-arspn}
+  - {from: server-ts-githubapi-1j7ck, to: server-ts-postform-qexzt}
+  - {from: server-ts-githubapi-1j7ck, to: server-ts-send-skibh}
+  - {from: server-ts-githubapi-1j7ck, to: storage-ts-leavingforgithub-1uki4}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-branches-1fd21}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-disconnect-19vj3}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-login-9no4s}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-logout-9cf8n}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-repos-1ffdp}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-setup-1hosp}
+  - {from: server-ts-githubapi-1j7ck, to: types-ts-typeliteral53-status-1vqvo}
+  - {from: server-ts-iconsapi-165d3, to: server-ts-send-skibh}
+  - {from: server-ts-iconsapi-165d3, to: types-ts-typeliteral59-search-iz06g}
+  - {from: server-ts-iconsapi-165d3, to: types-ts-typeliteral59-svg-1t2qk}
+  - {from: server-ts-iconsapi-165d3, to: types-ts-typeliteral59-url-donuj}
+  - {from: server-ts-linksapi-17mru, to: server-ts-answer-1t5b0}
+  - {from: server-ts-linksapi-17mru, to: server-ts-docpath-t4vte}
+  - {from: server-ts-linksapi-17mru, to: server-ts-post-arspn}
+  - {from: server-ts-linksapi-17mru, to: server-ts-send-skibh}
+  - {from: server-ts-linksapi-17mru, to: share-ts-sharetokenfor-1jti7}
+  - {from: server-ts-linksapi-17mru, to: types-ts-typeliteral40-copy-1lzwr}
+  - {from: server-ts-linksapi-17mru, to: types-ts-typeliteral40-create-gtwp7}
+  - {from: server-ts-linksapi-17mru, to: types-ts-typeliteral40-holds-fvqb3}
+  - {from: server-ts-linksapi-17mru, to: types-ts-typeliteral40-list-1058d}
+  - {from: server-ts-linksapi-17mru, to: types-ts-typeliteral40-revoke-cs0io}
+  - {from: server-ts-oauthapi-1rnr2, to: server-ts-answer-1t5b0}
+  - {from: server-ts-oauthapi-1rnr2, to: server-ts-send-skibh}
+  - {from: server-ts-oauthapi-1rnr2, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-oauthapi-1rnr2, to: types-ts-typeliteral56-decide-1hlkv}
+  - {from: server-ts-oauthapi-1rnr2, to: types-ts-typeliteral56-read-7prwr}
+  - {from: server-ts-opendocument-3cjif, to: presence-link-ts-linkpresence-a7br1}
+  - {from: server-ts-opendocument-3cjif, to: share-ts-forgetshare-wthq2}
+  - {from: server-ts-opendocument-3cjif, to: share-ts-sharetokenfor-1jti7}
+  - {from: server-ts-opendocument-3cjif, to: storage-ts-setstored-9bk3c}
+  - {from: server-ts-opendocument-3cjif, to: storage-ts-stored-3h0kp}
+  - {from: server-ts-opendocument-3cjif, to: types-ts-docconnection-close-e5j69}
+  - {from: server-ts-opendocument-3cjif, to: types-ts-dochandlers-onevent-1my7r}
+  - {from: server-ts-opendocument-3cjif, to: types-ts-dochandlers-onstatus-1tui3}
+  - {from: server-ts-pageapis-1kjkn, to: server-ts-answer-1t5b0}
+  - {from: server-ts-pageapis-1kjkn, to: server-ts-docpath-t4vte}
+  - {from: server-ts-pageapis-1kjkn, to: server-ts-post-arspn}
+  - {from: server-ts-pageapis-1kjkn, to: server-ts-send-skibh}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral57-libstats-11aew}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral57-touched-1mic9}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral60-send-mv0n7}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral61-call-1gy49}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral61-feedback-1yn33}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral62-send-12gzc}
+  - {from: server-ts-pageapis-1kjkn, to: types-ts-typeliteral63-reply-fdj7i}
+  - {from: server-ts-post-arspn, to: server-ts-answer-1t5b0}
+  - {from: server-ts-post-arspn, to: server-ts-send-skibh}
+  - {from: server-ts-refusal-1502l, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-send-skibh, to: server-ts-authheaders-1bhni}
+  - {from: server-ts-send-skibh, to: server-ts-shareheader-ic14d}
+  - {from: server-ts-send-skibh, to: types-ts-backenderror-constructor-trfnp}
+  - {from: server-ts-shareheader-ic14d, to: share-ts-sharetokenfor-1jti7}
+  - {from: server-ts-tokensapi-emphx, to: server-ts-answer-1t5b0}
+  - {from: server-ts-tokensapi-emphx, to: server-ts-send-skibh}
+  - {from: server-ts-tokensapi-emphx, to: types-ts-typeliteral54-create-1hwks}
+  - {from: server-ts-tokensapi-emphx, to: types-ts-typeliteral54-list-133vr}
+  - {from: server-ts-tokensapi-emphx, to: types-ts-typeliteral54-revoke-3izxr}
+  - {from: server-ts-versionsapi-1wutf, to: server-ts-answer-1t5b0}
+  - {from: server-ts-versionsapi-1wutf, to: server-ts-docpath-t4vte}
+  - {from: server-ts-versionsapi-1wutf, to: server-ts-send-skibh}
+  - {from: server-ts-versionsapi-1wutf, to: types-ts-typeliteral44-at-ipdqg}
+  - {from: server-ts-versionsapi-1wutf, to: types-ts-typeliteral44-list-96u9m}

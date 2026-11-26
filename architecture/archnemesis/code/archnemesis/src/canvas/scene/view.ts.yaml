@@ -1,0 +1,168 @@
+# archnemesis:src/canvas/scene/view.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-view-ts-199nw:
+    kind: module
+    name: view.ts
+    in: canvas-scene-iaxtu
+    context: "The camera: where it is, moving it (zoom, fit, centre, reveal, glide) and what has to be redrawn when it moves."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/view.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts
+  view-ts-centerat-1ilwb:
+    kind: function
+    name: centerAt()
+    in: scene-view-ts-199nw
+    context: Bring a diagram point to the middle of the view.
+    signature: "centerAt(state: SceneState, p: Point, smooth?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:115
+  view-ts-centeron-50mj7:
+    kind: function
+    name: centerOn()
+    in: scene-view-ts-199nw
+    context: Pan (not zoom) so a box is in the middle of the view; `smooth` glides there.
+    signature: "centerOn(state: SceneState, id: string, smooth?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:66
+  view-ts-centerselection-9frlf:
+    kind: function
+    name: centerSelection()
+    in: scene-view-ts-199nw
+    context: Pan so the selection (or, with nothing selected, the whole diagram) is in the middle, keeping the zoom.
+    signature: "centerSelection(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:132
+  view-ts-fit-q84m1:
+    kind: function
+    name: fit()
+    in: scene-view-ts-199nw
+    signature: "fit(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:14
+  view-ts-frameboxes-1hwk6:
+    kind: function
+    name: frameBoxes()
+    in: scene-view-ts-199nw
+    context: Glide to boxes so they all fit (a guided tour's step), zooming no closer than 100%.
+    signature: "frameBoxes(state: SceneState, ids: string[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:81
+  view-ts-glide-ztvi2:
+    kind: function
+    name: glide()
+    in: scene-view-ts-199nw
+    context: Ease the camera to `to` over ~half a second (a jump when the person prefers less motion).
+    signature: "glide(state: SceneState, to: Camera, ms?: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:94
+  view-ts-pantominimap-199rj:
+    kind: function
+    name: panToMinimap()
+    in: scene-view-ts-199nw
+    context: Centre the view on the minimap point under the cursor.
+    signature: "panToMinimap(state: SceneState, p: Point): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:172
+  view-ts-reveal-axih4:
+    kind: function
+    name: reveal()
+    in: scene-view-ts-199nw
+    context: Pan (not zoom) just enough that these boxes are in view and clear of the panels (insets in screen px), if they aren't already.
+    signature: "reveal(state: SceneState, ids: string[], insets?: { left: number; right: number; top: number; bottom: number; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:41
+  view-ts-setcamera-re09j:
+    kind: function
+    name: setCamera()
+    in: scene-view-ts-199nw
+    signature: "setCamera(state: SceneState, c: Camera): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:145
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  view-ts-setinsetleft-1yq18:
+    kind: function
+    name: setInsetLeft()
+    in: scene-view-ts-199nw
+    context: The drawer covers this much of the canvas's left edge. The canvas itself never resizes.
+    signature: "setInsetLeft(state: SceneState, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:22
+  view-ts-setview-1cdwu:
+    kind: function
+    name: setView()
+    in: scene-view-ts-199nw
+    signature: "setView(state: SceneState, c: Camera): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:33
+  view-ts-zoomby-1ixww:
+    kind: function
+    name: zoomBy()
+    in: scene-view-ts-199nw
+    signature: "zoomBy(state: SceneState, factor: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:29
+  view-ts-zoomto-jz8ow:
+    kind: function
+    name: zoomTo()
+    in: scene-view-ts-199nw
+    context: Zoom about the middle of the view to an exact scale.
+    signature: "zoomTo(state: SceneState, scale: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/view.ts:127
+connections:
+  - {from: view-ts-centerat-1ilwb, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-centerat-1ilwb, to: view-ts-glide-ztvi2}
+  - {from: view-ts-centerat-1ilwb, to: view-ts-setcamera-re09j}
+  - {from: view-ts-centeron-50mj7, to: geometry-ts-center-vbw2y}
+  - {from: view-ts-centeron-50mj7, to: lookup-ts-frameof-175pu}
+  - {from: view-ts-centeron-50mj7, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-centeron-50mj7, to: view-ts-glide-ztvi2}
+  - {from: view-ts-centeron-50mj7, to: view-ts-setcamera-re09j}
+  - {from: view-ts-centerselection-9frlf, to: geometry-ts-boundsof-1fvuk}
+  - {from: view-ts-centerselection-9frlf, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-centerselection-9frlf, to: view-ts-setcamera-re09j}
+  - {from: view-ts-fit-q84m1, to: camera-ts-fitbounds-1env6}
+  - {from: view-ts-fit-q84m1, to: geometry-ts-boundsof-1fvuk}
+  - {from: view-ts-fit-q84m1, to: view-ts-setcamera-re09j}
+  - {from: view-ts-frameboxes-1hwk6, to: camera-ts-fitbounds-1env6}
+  - {from: view-ts-frameboxes-1hwk6, to: geometry-ts-boundsof-1fvuk}
+  - {from: view-ts-frameboxes-1hwk6, to: geometry-ts-center-vbw2y}
+  - {from: view-ts-frameboxes-1hwk6, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-frameboxes-1hwk6, to: view-ts-glide-ztvi2}
+  - {from: view-ts-glide-ztvi2, to: view-ts-setcamera-re09j}
+  - {from: view-ts-pantominimap-199rj, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-pantominimap-199rj, to: view-ts-setcamera-re09j}
+  - {from: view-ts-reveal-axih4, to: geometry-ts-boundsof-1fvuk}
+  - {from: view-ts-reveal-axih4, to: view-ts-setcamera-re09j}
+  - {from: view-ts-setcamera-re09j, to: edges-ts-drawstaticedges-1a491}
+  - {from: view-ts-setcamera-re09j, to: frame-ts-applylabelvisibility-1nods}
+  - {from: view-ts-setcamera-re09j, to: frame-ts-cull-v3bfc}
+  - {from: view-ts-setcamera-re09j, to: frame-ts-requestrender-sstrq}
+  - {from: view-ts-setcamera-re09j, to: minimap-ts-drawminiview-670s0}
+  - {from: view-ts-setcamera-re09j, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: view-ts-setcamera-re09j, to: peers-ts-drawpeers-80nqe}
+  - {from: view-ts-setcamera-re09j, to: watch-ts-tellwatchers-ft9o3}
+  - {from: view-ts-setinsetleft-1yq18, to: frame-ts-requestrender-sstrq}
+  - {from: view-ts-setinsetleft-1yq18, to: minimap-ts-drawminimap-6jl4a}
+  - {from: view-ts-setview-1cdwu, to: view-ts-setcamera-re09j}
+  - {from: view-ts-zoomby-1ixww, to: camera-ts-zoomat-9psxp}
+  - {from: view-ts-zoomby-1ixww, to: lookup-ts-viewmid-6obpa}
+  - {from: view-ts-zoomby-1ixww, to: view-ts-setcamera-re09j}
+  - {from: view-ts-zoomto-jz8ow, to: view-ts-zoomby-1ixww}

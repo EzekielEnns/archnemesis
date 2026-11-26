@@ -1,0 +1,27 @@
+# archnemesis:src/workspace/viewSettings.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-viewsettings-ts-119dn:
+    kind: module
+    name: viewSettings.ts
+    in: web-workspace
+    context: Settings → Layout and Arrows act on the open view, for everyone (one undo each).
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/viewSettings.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/viewSettings.ts
+  viewsettings-ts-viewsettingsof-5k39y:
+    kind: function
+    name: viewSettingsOf()
+    in: workspace-viewsettings-ts-119dn
+    signature: 'viewSettingsOf({ diagramId, idx, store, graph, toast, run, scene, diagramArrows, }: { diagramId: string | null; idx: ModelIndex; store: Store; graph: CanvasGraph | null; toast: (text: string, toneOrAction?: "error" | "info" | { label: string; run: () => void; } | undefined) => void; run: (ops: Op…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/viewSettings.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: viewsettings-ts-viewsettingsof-5k39y, to: layout-ts-layoutops-1r6pk}
+  - {from: viewsettings-ts-viewsettingsof-5k39y, to: model-ts-now-1lkd5}
+  - {from: viewsettings-ts-viewsettingsof-5k39y, to: scene-ts-scene-fit-klilw}

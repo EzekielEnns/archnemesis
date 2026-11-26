@@ -1,0 +1,31 @@
+# archnemesis:shared/agentsmd.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-agentsmd-ts-et170:
+    kind: module
+    name: agentsmd.ts
+    in: shared-support
+    context: "AGENTS.md: everything an agent needs to keep this architecture up to date from the files alone (no app, no MCP), written into every design's folder. Generated from the file format (spec.ts) and the design's own archnm.yaml, so it never disagrees with check. The MCP serves the same rules as guide {topic: \"grammar\"}."
+    tech: [TypeScript]
+    path: archnemesis:shared/agentsmd.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agentsmd.ts
+  agentsmd-ts-agentsguide-1xxl7:
+    kind: function
+    name: agentsGuide()
+    in: shared-agentsmd-ts-et170
+    signature: "agentsGuide(config?: FConfig): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agentsmd.ts:19
+  agentsmd-ts-isgeneratedagents-h0c04:
+    kind: function
+    name: isGeneratedAgents()
+    in: shared-agentsmd-ts-et170
+    signature: "isGeneratedAgents: (text: string | undefined) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/agentsmd.ts:16
+connections:
+  - {from: agentsmd-ts-agentsguide-1xxl7, to: spec-ts-fieldreference-qx5rv}

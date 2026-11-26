@@ -1,0 +1,208 @@
+# archnemesis:shared/actions.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-actions-ts-1kbz8:
+    kind: module
+    name: actions.ts
+    in: shared-support
+    context: "What the gestures mean, as ops: shared so the browser and the MCP make the same edits."
+    tech: [TypeScript]
+    path: archnemesis:shared/actions.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts
+  actions-ts-addobject-ny43p:
+    kind: function
+    name: addObject()
+    in: shared-actions-ts-1kbz8
+    signature: 'addObject(idx: ModelIndex, diagramId: string, kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table", at: { x: number; y: number; }, fields?: Partial<...>): { ...; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:71
+  actions-ts-codefor-16of1:
+    kind: function
+    name: codeFor()
+    in: shared-actions-ts-1kbz8
+    context: "The code a running box runs, when it has no inside of its own: the top-level modules that its process boundary also holds. A runtime tree (apps) and a code tree (modules) are usually modelled apart, tied by the process that runs them; opening the app follows that."
+    signature: "codeFor(idx: ModelIndex, objectId: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:285
+  actions-ts-codeholder-qidjz:
+    kind: function
+    name: codeHolder()
+    in: shared-actions-ts-1kbz8
+    context: What a new file or function dropped on a box goes inside, or null to leave it where it's dropped.
+    signature: 'codeHolder(idx: ModelIndex, kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table", overId: string): string | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:53
+  actions-ts-connect-andb0:
+    kind: function
+    name: connect()
+    in: shared-actions-ts-1kbz8
+    signature: "connect(fromId: string, toId: string, fields?: Partial<Connection>): { ops: Op[]; connection: Connection; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:148
+  actions-ts-deleteconnections-lo409:
+    kind: function
+    name: deleteConnections()
+    in: shared-actions-ts-1kbz8
+    signature: "deleteConnections(ids: string[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:173
+  actions-ts-deleteobjects-1cccc:
+    kind: function
+    name: deleteObjects()
+    in: shared-actions-ts-1kbz8
+    signature: "deleteObjects(ids: string[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:169
+  actions-ts-freespot-dpuji:
+    kind: function
+    name: freeSpot()
+    in: shared-actions-ts-1kbz8
+    context: The first free card-sized spot at or right of `at` on a diagram, so new boxes never land on old ones.
+    signature: "freeSpot(idx: ModelIndex, diagramId: string, at: { x: number; y: number; }, taken?: Box[]): { x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:28
+  actions-ts-insideaction-pw824:
+    kind: function
+    name: insideAction()
+    in: shared-actions-ts-1kbz8
+    signature: 'insideAction(idx: ModelIndex, objectId: string): "open" | "start" | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:327
+  actions-ts-isunder-16fl6:
+    kind: function
+    name: isUnder()
+    in: shared-actions-ts-1kbz8
+    context: "`id` is `top` or inside it."
+    signature: "isUnder(idx: ModelIndex, id: string, top: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:256
+  actions-ts-moveops-8dtw8:
+    kind: function
+    name: moveOps()
+    in: shared-actions-ts-1kbz8
+    signature: "moveOps(idx: ModelIndex, diagramId: string, moves: { id: string; x: number; y: number; }[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:137
+  actions-ts-newdiagram-fj5lx:
+    kind: function
+    name: newDiagram()
+    in: shared-actions-ts-1kbz8
+    signature: "newDiagram(name: string, scopeId?: string | null): { ops: Op[]; diagram: Diagram; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:265
+  actions-ts-opencode-x8xn4:
+    kind: function
+    name: openCode()
+    in: shared-actions-ts-1kbz8
+    context: "Open the code a running box runs (codeFor): a view of it, scoped to the box, following the model."
+    signature: "openCode(idx: ModelIndex, objectId: string, code: string[]): { diagramId: string; ops: Op[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:299
+  actions-ts-opengroup-vwfdb:
+    kind: function
+    name: openGroup()
+    in: shared-actions-ts-1kbz8
+    context: "A folded group's own view: the one about it (include tag: group:x), or a new one."
+    signature: "openGroup(idx: ModelIndex, group: string, name: string): { diagramId: string; ops: Op[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:182
+  actions-ts-openinside-vw1xh:
+    kind: function
+    name: openInside()
+    in: shared-actions-ts-1kbz8
+    signature: "openInside(idx: ModelIndex, objectId: string): { diagramId: string; ops: Op[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:207
+  actions-ts-place-q3fp0:
+    kind: function
+    name: place()
+    in: shared-actions-ts-1kbz8
+    signature: "place(idx: ModelIndex, diagramId: string, objectId: string, at: { x: number; y: number; }): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:99
+  actions-ts-placebeside-1oogd:
+    kind: function
+    name: placeBeside()
+    in: shared-actions-ts-1kbz8
+    context: "Put an object on a diagram without saying where: beside something it connects to that's already there, else to the right of everything."
+    signature: "placeBeside(idx: ModelIndex, diagramId: string, objectId: string): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:126
+  actions-ts-removefromdiagram-1pkpj:
+    kind: function
+    name: removeFromDiagram()
+    in: shared-actions-ts-1kbz8
+    signature: "removeFromDiagram(diagramId: string, objectIds: string[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:165
+  actions-ts-snap-7m11b:
+    kind: function
+    name: snap()
+    in: shared-actions-ts-1kbz8
+    signature: "snap: (v: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:25
+  actions-ts-updateconnection-msz2q:
+    kind: function
+    name: updateConnection()
+    in: shared-actions-ts-1kbz8
+    signature: "updateConnection(c: Connection, patch: Partial<Connection>): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:161
+  actions-ts-updateobject-b8yrs:
+    kind: function
+    name: updateObject()
+    in: shared-actions-ts-1kbz8
+    signature: "updateObject(o: ModelObject, patch: Partial<ModelObject>): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/actions.ts:157
+connections:
+  - {from: actions-ts-addobject-ny43p, to: actions-ts-freespot-dpuji}
+  - {from: actions-ts-addobject-ny43p, to: model-ts-boxsize-1fd2o}
+  - {from: actions-ts-addobject-ny43p, to: model-ts-makeobject-ojdfc}
+  - {from: actions-ts-codefor-16of1, to: project-ts-diagramforscope-1ff5x}
+  - {from: actions-ts-codefor-16of1, to: project-ts-processof-19730}
+  - {from: actions-ts-connect-andb0, to: model-ts-makeconnection-22l8u}
+  - {from: actions-ts-freespot-dpuji, to: actions-ts-snap-7m11b}
+  - {from: actions-ts-freespot-dpuji, to: rect-ts-intersectsrect-1303r}
+  - {from: actions-ts-insideaction-pw824, to: actions-ts-codefor-16of1}
+  - {from: actions-ts-insideaction-pw824, to: project-ts-diagramforscope-1ff5x}
+  - {from: actions-ts-newdiagram-fj5lx, to: model-ts-makediagram-8ks8b}
+  - {from: actions-ts-opencode-x8xn4, to: model-ts-boxsize-1fd2o}
+  - {from: actions-ts-opencode-x8xn4, to: model-ts-makediagram-8ks8b}
+  - {from: actions-ts-opengroup-vwfdb, to: model-ts-makediagram-8ks8b}
+  - {from: actions-ts-openinside-vw1xh, to: actions-ts-isunder-16fl6}
+  - {from: actions-ts-openinside-vw1xh, to: model-ts-boxsize-1fd2o}
+  - {from: actions-ts-openinside-vw1xh, to: model-ts-makediagram-8ks8b}
+  - {from: actions-ts-openinside-vw1xh, to: project-ts-descendants-121jc}
+  - {from: actions-ts-openinside-vw1xh, to: project-ts-diagramforscope-1ff5x}
+  - {from: actions-ts-openinside-vw1xh, to: views-ts-insiderules-16n1j}
+  - {from: actions-ts-openinside-vw1xh, to: views-ts-resolve-17a3a}
+  - {from: actions-ts-place-q3fp0, to: actions-ts-snap-7m11b}
+  - {from: actions-ts-place-q3fp0, to: model-ts-boxsize-1fd2o}
+  - {from: actions-ts-placebeside-1oogd, to: actions-ts-freespot-dpuji}
+  - {from: actions-ts-placebeside-1oogd, to: actions-ts-place-q3fp0}
+  - {from: actions-ts-placebeside-1oogd, to: views-ts-nearestplacedneighbour-5hh21}
+  - {from: actions-ts-updateobject-b8yrs, to: model-ts-now-1lkd5}

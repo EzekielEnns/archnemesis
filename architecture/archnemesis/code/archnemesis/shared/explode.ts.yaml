@@ -1,0 +1,63 @@
+# archnemesis:shared/explode.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-explode-ts-xhptz:
+    kind: module
+    name: explode.ts
+    in: shared-model
+    context: 'Open a box in place: its inside view drawn right here, in a frame where the box was, with everything to its right and below it moved over to make room. For looking only: nothing is written (the boxes it adds have no placement on this diagram, so dragging them does nothing, and the ones it moved are moved back before a drag is saved). See docs/nodes-plan.md, "unwrap".'
+    tech: [TypeScript]
+    path: archnemesis:shared/explode.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts
+  explode-ts-canexplode-1f2ro:
+    kind: function
+    name: canExplode()
+    in: shared-explode-ts-xhptz
+    context: "Can it open here: it has something inside."
+    signature: "canExplode(idx: ModelIndex, boxId: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts:84
+  explode-ts-explode-1jzag:
+    kind: function
+    name: explode()
+    in: shared-explode-ts-xhptz
+    signature: "explode(idx: ModelIndex, diagramId: string, open: string[], opts?: { gutter?: number | undefined; }): Exploded | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts:88
+  explode-ts-insideof-opi1k:
+    kind: function
+    name: insideOf()
+    in: shared-explode-ts-xhptz
+    context: What's inside a box, placed as its own view has them (or in rows, when it has no view).
+    signature: "insideOf(idx: ModelIndex, boxId: string): Placement[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts:63
+  explode-ts-inview-1lq8v:
+    kind: function
+    name: inView()
+    in: shared-explode-ts-xhptz
+    context: Where a spot drawn inside an opened box's panel is in that box's own view.
+    signature: "inView(ex: Exploded, frameId: string, p: { x: number; y: number; }): { viewId: string; x: number; y: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts:35
+  explode-ts-unexplode-1r6q4:
+    kind: function
+    name: unexplode()
+    in: shared-explode-ts-xhptz
+    context: Where a point drawn on the opened layout really is on the diagram (undoing the room made).
+    signature: "unexplode(ex: Exploded, p: { x: number; y: number; }): { x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/explode.ts:47
+connections:
+  - {from: explode-ts-canexplode-1f2ro, to: explode-ts-insideof-opi1k}
+  - {from: explode-ts-explode-1jzag, to: explode-ts-insideof-opi1k}
+  - {from: explode-ts-explode-1jzag, to: project-ts-diagramforscope-1ff5x}
+  - {from: explode-ts-insideof-opi1k, to: project-ts-diagramforscope-1ff5x}
+  - {from: explode-ts-insideof-opi1k, to: project-ts-isinside-xwe16}

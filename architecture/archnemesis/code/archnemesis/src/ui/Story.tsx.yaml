@@ -1,0 +1,27 @@
+# archnemesis:src/ui/Story.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-story-tsx-14u5b:
+    kind: module
+    name: Story.tsx
+    in: web-ui
+    context: "A diagram's story: a few lines on how to read it (\"follow a verification from the phone to the verdict\"). Shown in the inspector when you click the diagram's own frame by its title, so it's there when you want it and out of the way otherwise. It lives in the view's file (story:)."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Story.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Story.tsx
+  story-tsx-story-j4ajd:
+    kind: function
+    name: Story()
+    in: ui-story-tsx-14u5b
+    signature: "Story({ text, onSave, title, placeholder, empty, }: { text: string; onSave: (text: string) => void; title?: string | undefined; placeholder?: string | undefined; empty?: string | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Story.tsx:10
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: story-tsx-story-j4ajd, to: markdown-tsx-markdown-amm8z}
+  - {from: story-tsx-story-j4ajd, to: textfield-tsx-textfield-1hdfe}

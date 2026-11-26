@@ -1,0 +1,136 @@
+# archnemesis:src/ui/Portable.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-portable-tsx-xfhzh:
+    kind: module
+    name: Portable.tsx
+    in: web-ui
+    context: 'The ways a design travels, in the design menu: copy a link that carries it, download its files, open files or a folder, open one from a public GitHub repository. Shown only where the backend can do it (`backend.portable`). And the banner over a design that came from somewhere: read-only from GitHub with its one action, or "you already had this copy".'
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Portable.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx
+  portable-tsx-filesdialog-1763v:
+    kind: function
+    name: FilesDialog()
+    in: ui-portable-tsx-xfhzh
+    signature: "FilesDialog({ onClose }: { onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:80
+    references:
+      - dependency: lib-types-react-1i7zx
+  portable-tsx-githubdialog-1tfs4:
+    kind: function
+    name: GithubDialog()
+    in: ui-portable-tsx-xfhzh
+    signature: "GithubDialog({ onClose }: { onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:34
+    references:
+      - dependency: lib-types-react-1i7zx
+  portable-tsx-linkdialog-14d31:
+    kind: function
+    name: LinkDialog()
+    in: ui-portable-tsx-xfhzh
+    context: The link, shown to copy by hand when the browser wouldn't put it on the clipboard.
+    signature: "LinkDialog({ url, onClose }: { url: string; onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:121
+    references:
+      - dependency: lib-types-react-1i7zx
+  portable-tsx-message-1a74f:
+    kind: function
+    name: message()
+    in: ui-portable-tsx-xfhzh
+    signature: "message: (e: unknown, fallback: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:23
+  portable-tsx-repoof-fni5j:
+    kind: function
+    name: repoOf()
+    in: ui-portable-tsx-xfhzh
+    context: "`owner/repo`, from what a person pastes: a GitHub address works too."
+    signature: "repoOf(text: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:26
+  portable-tsx-say-close-1s2t4:
+    kind: function
+    name: Say.close()
+    in: ui-portable-tsx-xfhzh
+    context: Close the design list.
+    tech: [method of Say]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:20
+  portable-tsx-say-error-135jt:
+    kind: function
+    name: Say.error()
+    in: ui-portable-tsx-xfhzh
+    tech: [method of Say]
+    signature: "error(text: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:18
+  portable-tsx-say-note-gvoup:
+    kind: function
+    name: Say.note()
+    in: ui-portable-tsx-xfhzh
+    tech: [method of Say]
+    signature: "note(text: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:17
+  portable-tsx-sharedbanner-v7ch2:
+    kind: function
+    name: SharedBanner()
+    in: ui-portable-tsx-xfhzh
+    context: "Over a design that came from elsewhere: what it is, and the one thing to do about it."
+    signature: "SharedBanner({ store }: { store: Store; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:222
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  portable-tsx-useportable-1hckp:
+    kind: function
+    name: usePortable()
+    in: ui-portable-tsx-xfhzh
+    context: The design menu's entries for travelling designs, and the dialogs they open. The dialogs go outside the list (it closes when you click elsewhere), so this gives both.
+    signature: "usePortable(design: string, say: Say): { items: ReactNode; dialogs: ReactNode; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Portable.tsx:138
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: portable-tsx-filesdialog-1763v, to: dialog-tsx-dialog-39zlh}
+  - {from: portable-tsx-filesdialog-1763v, to: portable-tsx-message-1a74f}
+  - {from: portable-tsx-filesdialog-1763v, to: types-ts-portablecapability-openfiles-c4fl5}
+  - {from: portable-tsx-githubdialog-1tfs4, to: dialog-tsx-dialog-39zlh}
+  - {from: portable-tsx-githubdialog-1tfs4, to: ghlink-ts-ghtext-3legk}
+  - {from: portable-tsx-githubdialog-1tfs4, to: ghlink-ts-parseghspec-1h073}
+  - {from: portable-tsx-githubdialog-1tfs4, to: portable-tsx-repoof-fni5j}
+  - {from: portable-tsx-linkdialog-14d31, to: dialog-tsx-dialog-39zlh}
+  - {from: portable-tsx-sharedbanner-v7ch2, to: portable-tsx-message-1a74f}
+  - {from: portable-tsx-sharedbanner-v7ch2, to: sharednotice-ts-setsharednotice-yaa45}
+  - {from: portable-tsx-sharedbanner-v7ch2, to: sharednotice-ts-usesharednotice-zojv8}
+  - {from: portable-tsx-sharedbanner-v7ch2, to: types-ts-portablecapability-copy-11d1v}
+  - {from: portable-tsx-sharedbanner-v7ch2, to: types-ts-portablecapability-openshared-102rc}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-filesdialog-1763v}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-githubdialog-1tfs4}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-linkdialog-14d31}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-message-1a74f}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-say-close-1s2t4}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-say-error-135jt}
+  - {from: portable-tsx-useportable-1hckp, to: portable-tsx-say-note-gvoup}
+  - {from: portable-tsx-useportable-1hckp, to: types-ts-portablecapability-download-1ffb6}
+  - {from: portable-tsx-useportable-1hckp, to: types-ts-portablecapability-link-lm0cr}

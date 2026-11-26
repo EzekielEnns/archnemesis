@@ -197,6 +197,7 @@ export class GitSync {
     this.mainSha = sha;
     this.syncedAt = new Date().toISOString();
     if (!this.main.files?.mirror) this.main.follow(this.folder);
+    this.main.keepCopy(this.isLocal());
     for (const row of this.hub.store.forks(b.design)) {
       if (this.runs.has(row.doc)) continue;
       const live = await this.hub.openFork(row, this.main);

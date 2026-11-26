@@ -1,0 +1,25 @@
+# archnemesis:server/routes/icons.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-icons-ts-1m52h:
+    kind: module
+    name: icons.ts
+    in: srv-edge
+    context: "Technology logos for the app: search them, and fetch one as SVG."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/icons.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/icons.ts
+  icons-ts-iconroutes-1iiwi:
+    kind: function
+    name: iconRoutes()
+    in: routes-icons-ts-1m52h
+    signature: "iconRoutes(ctx: Ctx, { req, res, path }: Call): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/icons.ts:6
+connections:
+  - {from: icons-ts-iconroutes-1iiwi, to: http-ts-json-3ycbr}
+  - {from: icons-ts-iconroutes-1iiwi, to: icons-ts-iconsvg-1n5by}
+  - {from: icons-ts-iconroutes-1iiwi, to: icons-ts-searchicons-9c1mt}

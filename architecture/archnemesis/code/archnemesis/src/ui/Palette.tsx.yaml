@@ -1,0 +1,35 @@
+# archnemesis:src/ui/Palette.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-palette-tsx-1ntve:
+    kind: module
+    name: Palette.tsx
+    in: web-ui
+    context: "⌘K: jump to any object or diagram, or run a command, by typing part of its name."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Palette.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Palette.tsx
+  palette-tsx-palette-r2j38:
+    kind: function
+    name: Palette()
+    in: ui-palette-tsx-1ntve
+    signature: "Palette({ idx, commands, onClose, onPick, }: { idx: ModelIndex; commands: Command[]; onClose: () => void; onPick: (item: PaletteItem) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Palette.tsx:49
+    references:
+      - dependency: lib-types-react-1i7zx
+  palette-tsx-score-1uiw4:
+    kind: function
+    name: score()
+    in: ui-palette-tsx-1ntve
+    context: "Subsequence match, scored: earlier, tighter, word-start matches win."
+    signature: "score(query: string, text: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Palette.tsx:26
+connections:
+  - {from: palette-tsx-palette-r2j38, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: palette-tsx-palette-r2j38, to: palette-tsx-score-1uiw4}

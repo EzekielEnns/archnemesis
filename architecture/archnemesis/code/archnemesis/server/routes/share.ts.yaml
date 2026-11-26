@@ -1,0 +1,79 @@
+# archnemesis:server/routes/share.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-share-ts-1fjkq:
+    kind: module
+    name: share.ts
+    in: srv-edge
+    context: "Sharing one design by link, and making your own copy of what you were shown: GET /api/d/<doc>/links the links to it (who may manage it), and who a link reaches POST /api/d/<doc>/links {days?}: a new link; the token is in this answer only DELETE /api/d/<doc>/links/<id> revoke one (open connections on it close) POST /api/d/<doc>/copy {name?}: a private copy of it, owned by you <doc> is a design's…"
+    tech: [TypeScript]
+    path: archnemesis:server/routes/share.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts
+  share-ts-copy-l9srx:
+    kind: function
+    name: copy()
+    in: routes-share-ts-1fjkq
+    context: A new private design copied from this document as it is now (not a branch pushed to anyone's repo).
+    signature: "copy(ctx: Ctx, d: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts:46
+  share-ts-list-1dqzb:
+    kind: function
+    name: list()
+    in: routes-share-ts-1fjkq
+    signature: "list(ctx: Ctx, d: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts:15
+  share-ts-make-aj6qi:
+    kind: function
+    name: make()
+    in: routes-share-ts-1fjkq
+    signature: "make(ctx: Ctx, d: DesignCall): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts:21
+  share-ts-revoke-e9if3:
+    kind: function
+    name: revoke()
+    in: routes-share-ts-1fjkq
+    signature: "revoke(ctx: Ctx, d: DesignCall): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts:37
+  share-ts-shareroutes-18mrp:
+    kind: function
+    name: shareRoutes()
+    in: routes-share-ts-1fjkq
+    signature: "shareRoutes(ctx: Ctx, d: DesignCall): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/share.ts:61
+connections:
+  - {from: share-ts-copy-l9srx, to: http-ts-body-14i98}
+  - {from: share-ts-copy-l9srx, to: http-ts-json-3ycbr}
+  - {from: share-ts-copy-l9srx, to: live-ts-hub-create-1bqx6}
+  - {from: share-ts-copy-l9srx, to: live-ts-hub-get-171sh}
+  - {from: share-ts-copy-l9srx, to: live-ts-live-docid-1cxew}
+  - {from: share-ts-copy-l9srx, to: live-ts-live-name-w0cjk}
+  - {from: share-ts-copy-l9srx, to: model-ts-slug-1nu4f}
+  - {from: share-ts-list-1dqzb, to: http-ts-json-3ycbr}
+  - {from: share-ts-list-1dqzb, to: links-ts-links-list-1t9qb}
+  - {from: share-ts-list-1dqzb, to: perms-ts-perms-prepare-13vzz}
+  - {from: share-ts-list-1dqzb, to: perms-ts-perms-reach-okt5i}
+  - {from: share-ts-make-aj6qi, to: http-ts-body-14i98}
+  - {from: share-ts-make-aj6qi, to: http-ts-json-3ycbr}
+  - {from: share-ts-make-aj6qi, to: links-ts-links-make-1583j}
+  - {from: share-ts-revoke-e9if3, to: http-ts-json-3ycbr}
+  - {from: share-ts-revoke-e9if3, to: links-ts-links-revoke-dc7k7}
+  - {from: share-ts-revoke-e9if3, to: live-ts-hub-closelinks-d9j5x}
+  - {from: share-ts-shareroutes-18mrp, to: http-ts-json-3ycbr}
+  - {from: share-ts-shareroutes-18mrp, to: perms-ts-perms-can-kqb2y}
+  - {from: share-ts-shareroutes-18mrp, to: perms-ts-perms-canshare-mgl7c}
+  - {from: share-ts-shareroutes-18mrp, to: share-ts-copy-l9srx}
+  - {from: share-ts-shareroutes-18mrp, to: share-ts-list-1dqzb}
+  - {from: share-ts-shareroutes-18mrp, to: share-ts-make-aj6qi}
+  - {from: share-ts-shareroutes-18mrp, to: share-ts-revoke-e9if3}

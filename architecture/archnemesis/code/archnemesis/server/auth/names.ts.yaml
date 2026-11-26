@@ -1,0 +1,22 @@
+# archnemesis:server/auth/names.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-names-ts-1ssyo:
+    kind: module
+    name: names.ts
+    in: srv-auth
+    context: "A name from an email until there's a better one: \"jack.smith@…\" → \"Jack Smith\"."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/names.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/names.ts
+  names-ts-namefromemail-11dmo:
+    kind: function
+    name: nameFromEmail()
+    in: auth-names-ts-1ssyo
+    context: "A name from an email until there's a better one: \"jack.smith@…\" → \"Jack Smith\"."
+    signature: "nameFromEmail(email: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/names.ts:2

@@ -1,0 +1,67 @@
+# archnemesis:server/http.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-http-ts-dpgeg:
+    kind: module
+    name: http.ts
+    in: srv-edge
+    context: "The small HTTP helpers the routes share: reading a request body, answering JSON, and serving the built app's files."
+    tech: [TypeScript]
+    path: archnemesis:server/http.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts
+  http-ts-archnmheader-1v00w:
+    kind: function
+    name: archnmHeader()
+    in: server-http-ts-dpgeg
+    context: X-Archnm-<what>, or X-Atlas-<what>, the name it had before the rename.
+    signature: 'archnmHeader: (req: IncomingMessage, what: "name" | "token") => string | string[] | undefined'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:31
+  http-ts-body-14i98:
+    kind: function
+    name: body()
+    in: server-http-ts-dpgeg
+    context: Read a request's body as JSON ({} when empty), refusing one over `limit` bytes.
+    signature: "body(req: IncomingMessage, limit?: number): Promise<unknown>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:9
+  http-ts-json-3ycbr:
+    kind: function
+    name: json()
+    in: server-http-ts-dpgeg
+    signature: "json(res: ServerResponse<IncomingMessage>, status: number, value: unknown): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:25
+  http-ts-servebuilt-1y9kn:
+    kind: function
+    name: serveBuilt()
+    in: server-http-ts-dpgeg
+    context: "The built app (dist/): the file asked for, or index.html for any path that isn't one."
+    signature: "serveBuilt(res: ServerResponse<IncomingMessage>, root: string, path: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:46
+  http-ts-sharetoken-1dyhe:
+    kind: function
+    name: shareToken()
+    in: server-http-ts-dpgeg
+    context: "A share link's token, from X-Archnm-Share (never the URL: it stays out of logs and Referer)."
+    signature: "shareToken(req: IncomingMessage): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:66
+  http-ts-text-1xdic:
+    kind: function
+    name: text()
+    in: server-http-ts-dpgeg
+    signature: "text(req: IncomingMessage, limit: number): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/http.ts:14
+connections:
+  - {from: http-ts-body-14i98, to: http-ts-text-1xdic}

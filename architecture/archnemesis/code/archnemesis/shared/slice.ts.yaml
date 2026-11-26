@@ -1,0 +1,26 @@
+# archnemesis:shared/slice.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-slice-ts-19yjl:
+    kind: module
+    name: slice.ts
+    in: shared-model
+    context: "One view, cut out of a design with what it shows, so it can be moved: files of just that view and its boxes (and what's inside them), ready for write into another design."
+    tech: [TypeScript]
+    path: archnemesis:shared/slice.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/slice.ts
+  slice-ts-viewslice-3z8jy:
+    kind: function
+    name: viewSlice()
+    in: shared-slice-ts-19yjl
+    signature: "viewSlice(state: ModelState, idx: ModelIndex, diagramId: string, opts?: { deep?: boolean | undefined; }): ModelState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/slice.ts:7
+connections:
+  - {from: slice-ts-viewslice-3z8jy, to: doc-ts-emptystate-1a3cm}
+  - {from: slice-ts-viewslice-3z8jy, to: project-ts-ancestors-lfs25}
+  - {from: slice-ts-viewslice-3z8jy, to: project-ts-descendants-121jc}
+  - {from: slice-ts-viewslice-3z8jy, to: views-ts-resolve-17a3a}

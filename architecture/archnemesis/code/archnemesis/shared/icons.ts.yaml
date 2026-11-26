@@ -1,0 +1,72 @@
+# archnemesis:shared/icons.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-icons-ts-1cucm:
+    kind: module
+    name: icons.ts
+    in: shared-support
+    context: "Technology logos from Simple Icons (CC0), looked up by what's typed in \"technology\": \"Postgres\" → postgresql, \"Go, gRPC\" → go. Served as plain SVG, recoloured for the canvas."
+    tech: [TypeScript]
+    path: archnemesis:shared/icons.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts
+  icons-ts-brandcolor-nkhyz:
+    kind: function
+    name: brandColor()
+    in: shared-icons-ts-1cucm
+    context: "The brand colour, unless it's too dark to see on a dark box (GitHub, Next.js are near black): then a light grey."
+    signature: "brandColor(icon: Icon): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:230
+  icons-ts-iconfor-1sq34:
+    kind: function
+    name: iconFor()
+    in: shared-icons-ts-1cucm
+    context: The icon for a technology string, trying each part ("Go, gRPC" → Go first).
+    signature: "iconFor(technology: string): Icon | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:130
+  icons-ts-iconsvg-1n5by:
+    kind: function
+    name: iconSvg()
+    in: shared-icons-ts-1cucm
+    context: "The SVG for a technology, filled with one colour: `brand` for its own (or a fixed one)."
+    signature: "iconSvg(technology: string, fill?: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:241
+  icons-ts-lettermark-bd5t6:
+    kind: function
+    name: lettermark()
+    in: shared-icons-ts-1cucm
+    context: "A lettermark: the letters, centred, sized to fit the 24-unit box."
+    signature: "lettermark(mark: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:100
+  icons-ts-norm-17jl3:
+    kind: function
+    name: norm()
+    in: shared-icons-ts-1cucm
+    signature: "norm: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:106
+  icons-ts-searchicons-9c1mt:
+    kind: function
+    name: searchIcons()
+    in: shared-icons-ts-1cucm
+    signature: "searchIcons(q: string, limit?: number): { title: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/icons.ts:197
+connections:
+  - {from: icons-ts-iconfor-1sq34, to: icons-ts-norm-17jl3}
+  - {from: icons-ts-iconsvg-1n5by, to: icons-ts-brandcolor-nkhyz}
+  - {from: icons-ts-iconsvg-1n5by, to: icons-ts-iconfor-1sq34}
+  - {from: icons-ts-searchicons-9c1mt, to: icons-ts-norm-17jl3}
+  - {from: shared-icons-ts-1cucm, to: icons-ts-lettermark-bd5t6}
+  - {from: shared-icons-ts-1cucm, to: icons-ts-norm-17jl3}

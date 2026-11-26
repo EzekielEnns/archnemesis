@@ -1,0 +1,24 @@
+# archnemesis:src/workspace/FloatIf.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-floatif-tsx-10603:
+    kind: module
+    name: FloatIf.tsx
+    in: web-workspace
+    context: Simple mode's card floats (placed by the effect that follows its box); otherwise it's as is.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/FloatIf.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/FloatIf.tsx
+  floatif-tsx-floatif-1w57r:
+    kind: function
+    name: FloatIf()
+    in: workspace-floatif-tsx-10603
+    context: Simple mode's card floats (placed by the effect that follows its box); otherwise it's as is.
+    signature: "FloatIf: ForwardRefExoticComponent<{ on: boolean; children: ReactNode; } & RefAttributes<HTMLDivElement>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/FloatIf.tsx:6
+    references:
+      - dependency: lib-types-react-1i7zx

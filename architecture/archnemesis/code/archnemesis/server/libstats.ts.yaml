@@ -1,0 +1,117 @@
+# archnemesis:server/libstats.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-libstats-ts-48qxx:
+    kind: module
+    name: libstats.ts
+    in: srv-index
+    context: "Library stats: what a reviewer wants to know before a new dependency goes in. Is it maintained, by how many people, under what licence, with known advisories? From deps.dev (versions, licence, repo, OpenSSF scorecard, advisories) and GitHub (contributors)."
+    tech: [TypeScript]
+    path: archnemesis:server/libstats.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts
+  libstats-ts-fetchstats-1jq21:
+    kind: function
+    name: fetchStats()
+    in: server-libstats-ts-48qxx
+    context: "Fetch one package's stats. Never throws: what failed is in error."
+    signature: "fetchStats(p: Package, fetchImpl: Fetch, opts?: { githubToken?: string | undefined; now?: number | undefined; }): Promise<LibStats>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:37
+  libstats-ts-libstatsjob-constructor-jc6zx:
+    kind: function
+    name: LibStatsJob.<constructor>()
+    in: server-libstats-ts-48qxx
+    context: The cache and the daily job that fills it.
+    tech: [method of LibStatsJob]
+    signature: "constructor(store: Settings, packages: () => Package[], fetchImpl?: Fetch, opts?: { githubToken?: string | undefined; enabled?: boolean | undefined; }): LibStatsJob"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:127
+  libstats-ts-libstatsjob-get-1bsef:
+    kind: function
+    name: LibStatsJob.get()
+    in: server-libstats-ts-48qxx
+    tech: [method of LibStatsJob]
+    signature: "get(p: Package): LibStats | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:143
+  libstats-ts-libstatsjob-get-enabled-gmhbr:
+    kind: function
+    name: LibStatsJob.<get>enabled()
+    in: server-libstats-ts-48qxx
+    tech: [method of LibStatsJob]
+    signature: "get enabled: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:139
+  libstats-ts-libstatsjob-refresh-jmlao:
+    kind: function
+    name: LibStatsJob.refresh()
+    in: server-libstats-ts-48qxx
+    context: "Fetch what's missing or a day old, one at a time (gently: these are free APIs)."
+    tech: [method of LibStatsJob]
+    signature: "refresh(now?: number): Promise<number>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:149
+  libstats-ts-libstatsjob-start-1naiv:
+    kind: function
+    name: LibStatsJob.start()
+    in: server-libstats-ts-48qxx
+    context: A minute after start, then every six hours (each package at most daily).
+    tech: [method of LibStatsJob]
+    signature: "start(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:176
+  libstats-ts-libstatsjob-stop-p8thr:
+    kind: function
+    name: LibStatsJob.stop()
+    in: server-libstats-ts-48qxx
+    tech: [method of LibStatsJob]
+    signature: "stop(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:184
+  libstats-ts-settings-setsetting-frut9:
+    kind: function
+    name: Settings.setSetting()
+    in: server-libstats-ts-48qxx
+    tech: [method of Settings]
+    signature: "setSetting(key: string, value: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:115
+  libstats-ts-settings-setting-ete0w:
+    kind: function
+    name: Settings.setting()
+    in: server-libstats-ts-48qxx
+    tech: [method of Settings]
+    signature: "setting(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:114
+  libstats-ts-settings-settings-1sbqu:
+    kind: function
+    name: Settings.settings()
+    in: server-libstats-ts-48qxx
+    tech: [method of Settings]
+    signature: "settings(prefix: string): { key: string; value: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/libstats.ts:116
+connections:
+  - {from: libstats-ts-fetchstats-1jq21, to: libstats-ts-warningsof-1vx72}
+  - {from: libstats-ts-libstatsjob-get-1bsef, to: libstats-ts-settings-setting-ete0w}
+  - {from: libstats-ts-libstatsjob-get-1bsef, to: libstats-ts-statskey-wm4ub}
+  - {from: libstats-ts-libstatsjob-refresh-jmlao, to: libstats-ts-fetchstats-1jq21}
+  - {from: libstats-ts-libstatsjob-refresh-jmlao, to: libstats-ts-libstatsjob-get-1bsef}
+  - {from: libstats-ts-libstatsjob-refresh-jmlao, to: libstats-ts-libstatsjob-get-enabled-gmhbr}
+  - {from: libstats-ts-libstatsjob-refresh-jmlao, to: libstats-ts-settings-setsetting-frut9}
+  - {from: libstats-ts-libstatsjob-refresh-jmlao, to: libstats-ts-statskey-wm4ub}
+  - {from: libstats-ts-libstatsjob-start-1naiv, to: libstats-ts-libstatsjob-get-enabled-gmhbr}
+  - {from: libstats-ts-libstatsjob-start-1naiv, to: libstats-ts-libstatsjob-refresh-jmlao}

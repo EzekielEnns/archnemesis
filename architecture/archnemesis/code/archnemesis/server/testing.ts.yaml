@@ -1,0 +1,46 @@
+# archnemesis:server/testing.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-testing-ts-x5al4:
+    kind: module
+    name: testing.ts
+    in: srv-test
+    context: "Test support: a Config for a scratch folder, with nothing from the developer's own environment in it (only what git and node need to run)."
+    tech: [TypeScript]
+    path: archnemesis:server/testing.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/testing.ts
+  testing-ts-authconfig-9vtua:
+    kind: function
+    name: authConfig()
+    in: server-testing-ts-x5al4
+    context: The auth settings for one mode, with the settings that mode insists on filled in.
+    signature: 'authConfig(mode: string, env?: Record<string, string>): { mode: string; builtin: "github" | "local" | "header" | "tokens" | "tailscale" | "iap" | "cloudflare-access" | "oidc" | null; ... 14 more ...; tokenKey: string | undefined; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/testing.ts:21
+  testing-ts-startedauth-1gpyj:
+    kind: function
+    name: startedAuth()
+    in: server-testing-ts-x5al4
+    context: A started Auth for these settings (ARCHNM_AUTH among them), its providers' network calls answered by `fetchFn`.
+    signature: "startedAuth(env: Record<string, string>, fetchFn?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/testing.ts:32
+  testing-ts-testconfig-j1mfo:
+    kind: function
+    name: testConfig()
+    in: server-testing-ts-x5al4
+    context: A config whose database, designs and state live in `dir`; `env` adds to it.
+    signature: "testConfig(dir: string, env?: Record<string, string>): Config"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/testing.ts:9
+connections:
+  - {from: testing-ts-authconfig-9vtua, to: config-ts-loadconfig-69nnh}
+  - {from: testing-ts-startedauth-1gpyj, to: auth-ts-auth-ready-10qec}
+  - {from: testing-ts-startedauth-1gpyj, to: config-ts-loadconfig-69nnh}
+  - {from: testing-ts-startedauth-1gpyj, to: load-ts-createauth-12j0y}
+  - {from: testing-ts-testconfig-j1mfo, to: config-ts-loadconfig-69nnh}

@@ -1,0 +1,56 @@
+# archnemesis:server/scripts.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-scripts-ts-1m146:
+    kind: module
+    name: scripts.ts
+    in: srv-edge
+    context: "The one-file scripts Archnemesis hands out (curl … | node -): the repo reader (index start) and the channel. `npm run build` makes them into dist/; a server started straight from the source (node server/main.ts) builds the missing one on demand, once, so the command an agent was given never 404s. Where it can't (no vite: a production install without dist), it says exactly what's wrong."
+    tech: [TypeScript]
+    path: archnemesis:server/scripts.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scripts.ts
+  scripts-ts-scripts-constructor-1mhhm:
+    kind: function
+    name: Scripts.<constructor>()
+    in: server-scripts-ts-1m146
+    tech: [method of Scripts]
+    signature: "constructor(root: string, builder?: ((config: string) => Promise<void>) | undefined): Scripts"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scripts.ts:23
+    references:
+      - dependency: lib-vite-122n3
+      - dependency: lib-vitest-17yez
+  scripts-ts-scripts-ensure-w0uav:
+    kind: function
+    name: Scripts.ensure()
+    in: server-scripts-ts-1m146
+    context: The script, built if it's missing; never throws.
+    tech: [method of Scripts]
+    signature: 'ensure(name: "archnm-index.cjs" | "archnm-channel.mjs"): Promise<Ready>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scripts.ts:42
+  scripts-ts-scripts-path-29n7x:
+    kind: function
+    name: Scripts.path()
+    in: server-scripts-ts-1m146
+    tech: [method of Scripts]
+    signature: 'path(name: "archnm-index.cjs" | "archnm-channel.mjs"): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scripts.ts:37
+  scripts-ts-scripts-read-1ku6l:
+    kind: function
+    name: Scripts.read()
+    in: server-scripts-ts-1m146
+    tech: [method of Scripts]
+    signature: 'read(name: "archnm-index.cjs" | "archnm-channel.mjs"): Promise<{ ok: true; data: Buffer<ArrayBufferLike>; } | { ok: false; error: string; }>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scripts.ts:70
+connections:
+  - {from: scripts-ts-scripts-ensure-w0uav, to: scripts-ts-scripts-path-29n7x}
+  - {from: scripts-ts-scripts-read-1ku6l, to: scripts-ts-scripts-ensure-w0uav}

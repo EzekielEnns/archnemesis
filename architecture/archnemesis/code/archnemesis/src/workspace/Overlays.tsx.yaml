@@ -1,0 +1,76 @@
+# archnemesis:src/workspace/Overlays.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-overlays-tsx-5gl03:
+    kind: module
+    name: Overlays.tsx
+    in: web-workspace
+    context: "Everything else laid over the page: boxes opened in place (their tabs), the drop hint, the ☰ that opens the panel, the dialogs, and the toasts."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/Overlays.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx
+  overlays-tsx-dialogshost-qgps7:
+    kind: function
+    name: DialogsHost()
+    in: workspace-overlays-tsx-5gl03
+    context: The shortcuts sheet and settings.
+    signature: "DialogsHost({ viewSettings, minimap, setMinimap, animate, setAnimate, help, setHelp, settings, setSettings, toast, store, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLaye…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx:88
+  overlays-tsx-drophint-1ec3r:
+    kind: function
+    name: DropHint()
+    in: workspace-overlays-tsx-5gl03
+    context: '"Put inside X" / "Take out of X" by the pointer while dragging.'
+    signature: 'DropHint({ dropHint }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "dropHint">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx:51
+    references:
+      - dependency: lib-types-react-1i7zx
+  overlays-tsx-insettabshost-byw4w:
+    kind: function
+    name: InsetTabsHost()
+    in: workspace-overlays-tsx-5gl03
+    context: The tabs of boxes opened in place.
+    signature: 'InsetTabsHost({ open, exploded, openHere, setPanel, scene, sel, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "open" | ... 4 more ... | "…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx:13
+    references:
+      - dependency: lib-types-react-1i7zx
+  overlays-tsx-panelopenbutton-12zor:
+    kind: function
+    name: PanelOpenButton()
+    in: workspace-overlays-tsx-5gl03
+    context: The ☰ that opens the left panel when it is closed.
+    signature: 'PanelOpenButton({ panelOn, setPanelOn, store, simple, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store" | ... 2 more ... | "panelOn">…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx:64
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  overlays-tsx-toasts-1ae45:
+    kind: function
+    name: Toasts()
+    in: workspace-overlays-tsx-5gl03
+    context: The toasts at the bottom.
+    signature: 'Toasts({ toasts, setToasts }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "toasts" | "setToasts">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Overlays.tsx:154
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: overlays-tsx-dialogshost-qgps7, to: leftpanel-tsx-settingsdialog-dhg8e}
+  - {from: overlays-tsx-dialogshost-qgps7, to: shortcuts-tsx-shortcuts-12lr2}
+  - {from: overlays-tsx-dialogshost-qgps7, to: welcomestate-ts-isfromlink-zju81}
+  - {from: overlays-tsx-dialogshost-qgps7, to: welcomestate-ts-openwelcome-l3dug}
+  - {from: overlays-tsx-dialogshost-qgps7, to: welcomestate-ts-showtip-1d7v6}
+  - {from: overlays-tsx-insettabshost-byw4w, to: insettabs-tsx-insettabs-1lt34}
+  - {from: overlays-tsx-insettabshost-byw4w, to: scene-ts-scene-clientrectofgroup-w3mcb}
+  - {from: overlays-tsx-insettabshost-byw4w, to: scene-ts-scene-select-1g1o3}

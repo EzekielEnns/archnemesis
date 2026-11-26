@@ -1,0 +1,41 @@
+# archnemesis:src/ui/Links.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-links-tsx-1bb7c:
+    kind: module
+    name: Links.tsx
+    in: web-ui
+    context: "A box's or a diagram's docs (an RFC, a runbook, a dashboard): a list in its panel."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Links.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Links.tsx
+  links-tsx-linkform-zf0e4:
+    kind: function
+    name: LinkForm()
+    in: ui-links-tsx-1bb7c
+    signature: "LinkForm({ value, onSave, onCancel, }: { value?: DocLink | undefined; onSave: (l: DocLink) => string; onCancel: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Links.tsx:100
+    references:
+      - dependency: lib-types-react-1i7zx
+  links-tsx-linksfield-rvlf4:
+    kind: function
+    name: LinksField()
+    in: ui-links-tsx-1bb7c
+    signature: "LinksField({ links, canEdit, open, onChange, }: { links: DocLink[]; canEdit?: boolean | undefined; open?: number | undefined; onChange: (links: DocLink[], label: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Links.tsx:8
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: links-tsx-linkform-zf0e4, to: model-ts-safeurl-f4wjp}
+  - {from: links-tsx-linkform-zf0e4, to: notes-ts-titlefromurl-1wamb}
+  - {from: links-tsx-linksfield-rvlf4, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: links-tsx-linksfield-rvlf4, to: links-tsx-linkform-zf0e4}
+  - {from: links-tsx-linksfield-rvlf4, to: notes-ts-hostof-f2rw6}
+  - {from: links-tsx-linksfield-rvlf4, to: notes-tsx-linkicon-xuqj8}

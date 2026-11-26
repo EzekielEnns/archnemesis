@@ -1,0 +1,505 @@
+# archnemesis:src/ui/NodeCard.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-nodecard-tsx-yk4qh:
+    kind: module
+    name: NodeCard.tsx
+    in: web-ui
+    context: "A box's card (docs/prototypes/node-card.html, \"A · read, then drill in\"). It's for reading: what it is in a line, what it connects to, and a row per thing hung on it, each with a count. A row opens its list in place of the card, with an input made for it on top; the card never scrolls. Everything is written back to the model, so to the YAML (and notes as markdown)."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/NodeCard.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx
+  nodecard-tsx-addinput-19ir5:
+    kind: function
+    name: AddInput()
+    in: ui-nodecard-tsx-yk4qh
+    context: "The input on top of a row's list. Suggestions under it: arrows to move, Tab finishes the word with the highlighted one, Enter adds (it, or what's typed). Backspace on empty, or Esc, goes back."
+    signature: "AddInput({ placeholder, suggest, onAdd, back, mono, multiline, autoFocus, before, after, complete, }: { placeholder: string; suggest?: ((q: string) => Suggestion[]) | undefined; onAdd: (value: string, picked?: Suggestion | undefined) => string | false | void; ... 6 more ...; complete?: ((q: strin…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:725
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-alsoon-1f91a:
+    kind: function
+    name: AlsoOn()
+    in: ui-nodecard-tsx-yk4qh
+    context: "The diagrams it's on: where each lives, how many of its connections are drawn there."
+    signature: "AlsoOn(p: NodeCardProps & { close: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:618
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-calllist-40u7f:
+    kind: function
+    name: CallList()
+    in: ui-nodecard-tsx-yk4qh
+    context: "The calls into its start (Before) or out of its end (Next): each opens that connection's card."
+    signature: 'CallList({ calls, dir, onShowConnection, onHoverConnection, }: { calls: Call[]; dir: "←" | "→"; } & ConnectionCardProps): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:2266
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-columnsview-1i1wz:
+    kind: function
+    name: ColumnsView()
+    in: ui-nodecard-tsx-yk4qh
+    context: "A table's columns: the grid (name, type; `?` when it can be empty)."
+    signature: "ColumnsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1792
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-commentsof-1xkqz:
+    kind: function
+    name: commentsOf()
+    in: ui-nodecard-tsx-yk4qh
+    signature: 'commentsOf(idx: ModelIndex, id: string, on?: "connection" | undefined): Note[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1646
+  nodecard-tsx-commentsview-dnfx3:
+    kind: function
+    name: CommentsView()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "CommentsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1656
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-connectioncard-19x0b:
+    kind: function
+    name: ConnectionCard()
+    in: ui-nodecard-tsx-yk4qh
+    context: "A connection's card: the box card's shape (docs/prototypes/node-card.html). What it does on top, its ends where a box has its connections, then a row per thing hung on it."
+    signature: "ConnectionCard(p: ConnectionCardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:2013
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-connectsview-oxaz0:
+    kind: function
+    name: ConnectsView()
+    in: ui-nodecard-tsx-yk4qh
+    context: "Connections: every one, its label editable in place. New ones are drawn on the canvas (C)."
+    signature: "ConnectsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1715
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-contextview-1bmik:
+    kind: function
+    name: ContextView()
+    in: ui-nodecard-tsx-yk4qh
+    context: Its whole context, in markdown.
+    signature: "ContextView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1771
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-eco-guess-18o8n:
+    kind: function
+    name: ECO_GUESS()
+    in: ui-nodecard-tsx-yk4qh
+    signature: 'ECO_GUESS: (name: string) => "cargo" | "npm" | "pypi" | "go" | "maven" | "nuget" | "rubygems" | "other"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1219
+  nodecard-tsx-entitiesview-2s136:
+    kind: function
+    name: EntitiesView()
+    in: ui-nodecard-tsx-yk4qh
+    context: The shapes it uses, owns or implements. Typing a name links one (a new name makes it, with this box as where it's defined, and opens its fields); each opens to its fields, the table's grid. See docs/entities-plan.md.
+    signature: "EntitiesView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1236
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-entityeditor-1mcfz:
+    kind: function
+    name: EntityEditor()
+    in: ui-nodecard-tsx-yk4qh
+    context: "One entity: its name (\": Parent\" for what it extends), where it's defined, and its fields in the table's grid."
+    signature: 'EntityEditor(p: NodeCardProps & { save: (patch: Partial<ModelObject>, label: string) => void; links: Link[]; done: () => void; update?: ((patch: Partial<ModelObject>) => Op[]) | undefined; on?: "connection" | undefined; drawn?: boolean | undefined; } & { ...; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1356
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-fieldgrid-8cybi:
+    kind: function
+    name: FieldGrid()
+    in: ui-nodecard-tsx-yk4qh
+    context: "The grid a table's columns (and an entity's fields) are edited in. Enter: next; arrows move; Backspace on an empty type goes back to its name, on an empty row takes the row away (never the first, with keepFirst); Enter on an empty row: done. Saved as you go."
+    signature: "FieldGrid({ head, rows: initial, canEdit, keepFirst, onSave, onDone, }: { head: [string, string]; rows: [string, string][]; canEdit: boolean; keepFirst?: boolean | undefined; onSave: (rows: [string, string][]) => void; onDone: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1863
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-followup-151cq:
+    kind: function
+    name: FollowUp()
+    in: ui-nodecard-tsx-yk4qh
+    context: "One more quick field after adding something that needs it: a guess filled in and selected; Enter keeps it, Esc skips."
+    signature: "FollowUp({ label, guess, done, }: { label: string; guess: string; done: (v: string | null) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:835
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-foot-j9ijc:
+    kind: function
+    name: Foot()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "Foot(p: NodeCardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:585
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-head-bxf2b:
+    kind: function
+    name: Head()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "Head(p: NodeCardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:259
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-item-1fynt:
+    kind: function
+    name: Item()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "Item({ children, onRemove, onClick, tip, }: { children: ReactNode; onRemove?: (() => void) | undefined; onClick?: (() => void) | undefined; tip?: string | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:915
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-libsview-13ooz:
+    kind: function
+    name: LibsView()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "LibsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1477
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-linkrow-6n47i:
+    kind: function
+    name: LinkRow()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "LinkRow({ l, ...p }: { l: Link & { via: string[]; }; } & NodeCardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:495
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-linksof-usqdh:
+    kind: function
+    name: linksOf()
+    in: ui-nodecard-tsx-yk4qh
+    context: "What it's connected to: its own connections, and for a box with insides, the ones crossing in or out."
+    signature: "linksOf(idx: ModelIndex, id: string): Link[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:473
+  nodecard-tsx-middle-19jcv:
+    kind: function
+    name: Middle()
+    in: ui-nodecard-tsx-yk4qh
+    context: "What only its kind has, in a line or two: tech, a file's path, a function's file, a library's package."
+    signature: "Middle(p: NodeCardProps & { save: (patch: Partial<ModelObject>, label: string) => void; openRow: (r: Row) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:394
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-nodecard-196f0:
+    kind: function
+    name: NodeCard()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "NodeCard(p: NodeCardProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:153
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-none-12adx:
+    kind: function
+    name: None()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "None: ({ children }: { children?: ReactNode; }) => Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:945
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-notesview-1jri3:
+    kind: function
+    name: NotesView()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "NotesView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1611
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-partsof-1g8rr:
+    kind: function
+    name: partsOf()
+    in: ui-nodecard-tsx-yk4qh
+    context: "The rows a box has: each with a count and a peek at what's in it. Empty ones aren't rows."
+    signature: "partsOf(idx: ModelIndex, o: ModelObject): Parts"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:522
+  nodecard-tsx-refsview-g7w64:
+    kind: function
+    name: RefsView()
+    in: ui-nodecard-tsx-yk4qh
+    context: "References: paste anything; what it is shows before Enter. A link gets a name after (a guess, Enter keeps it)."
+    signature: "RefsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1124
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-rows-gtuxn:
+    kind: function
+    name: Rows()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "Rows({ parts, canEdit, open, }: { parts: Parts; canEdit: boolean; open: (r: Row) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:547
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-rowview-i8dp2:
+    kind: function
+    name: RowView()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "RowView(p: NodeCardProps & { row: Row; save: (patch: Partial<ModelObject>, label: string) => void; links: Link[]; done: () => void; }): Element | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:871
+  nodecard-tsx-sub-6jpz9:
+    kind: function
+    name: Sub()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "Sub({ row, name, back, children, }: { row: Row; name: string; back: () => void; children: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:689
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-summary-6uy06:
+    kind: function
+    name: Summary()
+    in: ui-nodecard-tsx-yk4qh
+    context: "One line: the context's first line. Click it to change that line; the pencil opens all of it."
+    signature: "Summary({ o, canEdit, fresh, onEdit, save, }: { o: ModelObject; canEdit: boolean; fresh?: boolean | undefined; onEdit: () => void; save: (p: Partial<ModelObject>, l: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:351
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  nodecard-tsx-tagsview-1veww:
+    kind: function
+    name: TagsView()
+    in: ui-nodecard-tsx-yk4qh
+    context: "Tags: like references, a shared list across the design. A tag is made by typing it."
+    signature: "TagsView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1050
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-techline-g3qs5:
+    kind: function
+    name: TechLine()
+    in: ui-nodecard-tsx-yk4qh
+    context: 'Its tech on the card: chips to read; a click opens them to change. Nothing yet: a "+ tech" chip.'
+    signature: "TechLine({ o, idx, open, canEdit, }: { o: ModelObject; idx: ModelIndex; open: (r: Row) => void; canEdit: boolean; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:950
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-techview-hctj5:
+    kind: function
+    name: TechView()
+    in: ui-nodecard-tsx-yk4qh
+    context: "Tech: the design's list first (so it joins up), then a new one."
+    signature: "TechView(p: ViewProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:990
+    references:
+      - dependency: lib-types-react-1i7zx
+  nodecard-tsx-viafield-1rmrs:
+    kind: function
+    name: ViaField()
+    in: ui-nodecard-tsx-yk4qh
+    signature: "ViaField({ c, run, canEdit }: { c: Connection; run: Run; canEdit: boolean; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/NodeCard.tsx:1748
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: nodecard-tsx-alsoon-1f91a, to: nodecard-tsx-linksof-usqdh}
+  - {from: nodecard-tsx-calllist-40u7f, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: nodecard-tsx-columnsview-1i1wz, to: nodecard-tsx-fieldgrid-8cybi}
+  - {from: nodecard-tsx-columnsview-1i1wz, to: project-ts-tableopenheight-vmhct}
+  - {from: nodecard-tsx-columnsview-1i1wz, to: project-ts-tableshowscolumns-v1kor}
+  - {from: nodecard-tsx-commentsof-1xkqz, to: context-ts-notesabout-eywe1}
+  - {from: nodecard-tsx-commentsview-dnfx3, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-commentsview-dnfx3, to: nodecard-tsx-commentsof-1xkqz}
+  - {from: nodecard-tsx-commentsview-dnfx3, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-commentsview-dnfx3, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: actions-ts-updateconnection-msz2q}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: context-ts-callsof-19rzg}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-ts-noteitems-rzk4o}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-calllist-40u7f}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-commentsof-1xkqz}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-commentsview-dnfx3}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-contextview-1bmik}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-entitiesview-2s136}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-notesview-1jri3}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-refsview-g7w64}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-rows-gtuxn}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-sub-6jpz9}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: nodecard-tsx-summary-6uy06}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: references-ts-referencesof-aox32}
+  - {from: nodecard-tsx-connectioncard-19x0b, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-connectsview-oxaz0, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: nodecard-tsx-connectsview-oxaz0, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-connectsview-oxaz0, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-connectsview-oxaz0, to: nodecard-tsx-viafield-1rmrs}
+  - {from: nodecard-tsx-contextview-1bmik, to: model-ts-mergedcontext-d55w6}
+  - {from: nodecard-tsx-contextview-1bmik, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-entitiesview-2s136, to: actions-ts-updateobject-b8yrs}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-entitiesof-ya3q2}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-entitynamed-1sxmn}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-entityshape-1fqs8}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-makeentity-146sj}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-parseentityname-gq8p9}
+  - {from: nodecard-tsx-entitiesview-2s136, to: entities-ts-usersof-9ihpt}
+  - {from: nodecard-tsx-entitiesview-2s136, to: model-ts-istbd-m1dzw}
+  - {from: nodecard-tsx-entitiesview-2s136, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-entitiesview-2s136, to: nodecard-tsx-entityeditor-1mcfz}
+  - {from: nodecard-tsx-entitiesview-2s136, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-entitiesview-2s136, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-entitynamed-1sxmn}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-entityshape-1fqs8}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-makeentity-146sj}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-parseentityname-gq8p9}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-signaturetypes-698iu}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: entities-ts-splitfield-1rel7}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: nodecard-tsx-fieldgrid-8cybi}
+  - {from: nodecard-tsx-entityeditor-1mcfz, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-foot-j9ijc, to: nodecard-tsx-alsoon-1f91a}
+  - {from: nodecard-tsx-head-bxf2b, to: actions-ts-updateobject-b8yrs}
+  - {from: nodecard-tsx-head-bxf2b, to: inspector-tsx-copylinkbutton-kmdg7}
+  - {from: nodecard-tsx-head-bxf2b, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: nodecard-tsx-head-bxf2b, to: project-ts-logoof-1i1c5}
+  - {from: nodecard-tsx-head-bxf2b, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-libsview-13ooz, to: actions-ts-updateobject-b8yrs}
+  - {from: nodecard-tsx-libsview-13ooz, to: model-ts-makeobject-ojdfc}
+  - {from: nodecard-tsx-libsview-13ooz, to: model-ts-safeurl-f4wjp}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-ts-parsepackage-py0w6}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-tsx-eco-guess-18o8n}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-tsx-followup-151cq}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-libsview-13ooz, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-libsview-13ooz, to: references-ts-librarydocs-18mxp}
+  - {from: nodecard-tsx-libsview-13ooz, to: references-ts-referencedby-1e30l}
+  - {from: nodecard-tsx-libsview-13ooz, to: references-ts-referencesof-aox32}
+  - {from: nodecard-tsx-linkrow-6n47i, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: nodecard-tsx-linksof-usqdh, to: project-ts-descendants-121jc}
+  - {from: nodecard-tsx-middle-19jcv, to: context-ts-codehome-v1gfs}
+  - {from: nodecard-tsx-middle-19jcv, to: nodecard-tsx-techline-g3qs5}
+  - {from: nodecard-tsx-middle-19jcv, to: references-ts-librarydocs-18mxp}
+  - {from: nodecard-tsx-middle-19jcv, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-middle-19jcv, to: typesuggest-tsx-signaturefield-1fkzr}
+  - {from: nodecard-tsx-nodecard-196f0, to: actions-ts-updateobject-b8yrs}
+  - {from: nodecard-tsx-nodecard-196f0, to: entities-ts-signatureops-2mqcz}
+  - {from: nodecard-tsx-nodecard-196f0, to: newwalk-tsx-newwalk-14z50}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-foot-j9ijc}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-head-bxf2b}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-linkrow-6n47i}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-linksof-usqdh}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-middle-19jcv}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-partsof-1g8rr}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-rows-gtuxn}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-rowview-i8dp2}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-sub-6jpz9}
+  - {from: nodecard-tsx-nodecard-196f0, to: nodecard-tsx-summary-6uy06}
+  - {from: nodecard-tsx-nodecard-196f0, to: project-ts-tableopenheight-vmhct}
+  - {from: nodecard-tsx-nodecard-196f0, to: project-ts-tableshowscolumns-v1kor}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-ts-addnote-cd18v}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-ts-noteitems-rzk4o}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-ts-removenote-17xr4}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-notesview-1jri3, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-partsof-1g8rr, to: entities-ts-entitiesof-ya3q2}
+  - {from: nodecard-tsx-partsof-1g8rr, to: nodecard-ts-noteitems-rzk4o}
+  - {from: nodecard-tsx-partsof-1g8rr, to: nodecard-tsx-commentsof-1xkqz}
+  - {from: nodecard-tsx-partsof-1g8rr, to: references-ts-referencesof-aox32}
+  - {from: nodecard-tsx-refsview-g7w64, to: model-ts-safeurl-f4wjp}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-ts-detectref-1ffts}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-ts-linkname-1awqh}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-tsx-followup-151cq}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-refsview-g7w64, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-refsview-g7w64, to: references-ts-referencesof-aox32}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-columnsview-1i1wz}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-commentsview-dnfx3}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-connectsview-oxaz0}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-contextview-1bmik}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-entitiesview-2s136}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-libsview-13ooz}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-notesview-1jri3}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-refsview-g7w64}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-tagsview-1veww}
+  - {from: nodecard-tsx-rowview-i8dp2, to: nodecard-tsx-techview-hctj5}
+  - {from: nodecard-tsx-summary-6uy06, to: model-ts-mergedcontext-d55w6}
+  - {from: nodecard-tsx-summary-6uy06, to: textfield-tsx-textfield-1hdfe}
+  - {from: nodecard-tsx-tagsview-1veww, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-tagsview-1veww, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-tagsview-1veww, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-techline-g3qs5, to: references-ts-sharingtech-dtyr1}
+  - {from: nodecard-tsx-techline-g3qs5, to: references-ts-techsof-5vts4}
+  - {from: nodecard-tsx-techview-hctj5, to: nodecard-tsx-addinput-19ir5}
+  - {from: nodecard-tsx-techview-hctj5, to: nodecard-tsx-item-1fynt}
+  - {from: nodecard-tsx-techview-hctj5, to: nodecard-tsx-none-12adx}
+  - {from: nodecard-tsx-techview-hctj5, to: references-ts-designtechs-6qyld}
+  - {from: nodecard-tsx-techview-hctj5, to: references-ts-sharingtech-dtyr1}
+  - {from: nodecard-tsx-techview-hctj5, to: references-ts-techsof-5vts4}
+  - {from: nodecard-tsx-viafield-1rmrs, to: actions-ts-updateconnection-msz2q}

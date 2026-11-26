@@ -1,0 +1,31 @@
+# archnemesis:shared/tools/judge.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-judge-ts-1clew:
+    kind: module
+    name: judge.ts
+    in: shared-tools-1cbb9
+    context: "How a tool call went, from its arguments and its answer: which mode of the tool it used, and whether it was ok, refused (Not written), invalid or an exception. Shared, so the page's WebMCP judges its calls the same way the server does (server/telemetry.ts keeps them)."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/judge.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/judge.ts
+  judge-ts-judge-7nhjg:
+    kind: function
+    name: judge()
+    in: tools-judge-ts-1clew
+    context: "What an answer's text says about how it went: refused, invalid, or ok, with its error and warning lines."
+    signature: "judge(text: string, isError: boolean): { outcome: Outcome; errors: number; warnings: number; firstError: string | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/judge.ts:39
+  judge-ts-modeof-qiht5:
+    kind: function
+    name: modeOf()
+    in: tools-judge-ts-1clew
+    context: "Which option or action of a tool a call used: what read was asked, what write did."
+    signature: "modeOf(tool: string, a?: Record<string, unknown>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/judge.ts:8

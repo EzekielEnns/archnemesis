@@ -1,0 +1,27 @@
+# archnemesis:src/workspace/FlowHost.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-flowhost-tsx-dxwem:
+    kind: module
+    name: FlowHost.tsx
+    in: web-workspace
+    context: "The flow you're walking (or the path lit on the diagram): its chip and its panel."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/FlowHost.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/FlowHost.tsx
+  flowhost-tsx-flowhost-t3d07:
+    kind: function
+    name: FlowHost()
+    in: workspace-flowhost-tsx-dxwem
+    context: "A flow: its chip, or its panel when the drawer is open."
+    signature: "FlowHost({ setFlowId, step, setStep, activeFlow, isPath, pick, sidebar, setSidebar, idx, run, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; …"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/FlowHost.tsx:8
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: flowhost-tsx-flowhost-t3d07, to: flowpanel-tsx-flowpanel-r7va3}

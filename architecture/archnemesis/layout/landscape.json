@@ -1,0 +1,8 @@
+{
+  "agent": {"x": 0, "y": 64},
+  "archnemesis": {"x": 304, "y": 128},
+  "github": {"x": 608, "y": 128},
+  "identity-provider": {"x": 608, "y": 256},
+  "object-storage": {"x": 608, "y": 0},
+  "person": {"x": 0, "y": 192}
+}

@@ -1,0 +1,22 @@
+# archnemesis:src/ui/KindDot.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-kinddot-tsx-hsjpr:
+    kind: module
+    name: KindDot.tsx
+    in: web-ui
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/KindDot.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/KindDot.tsx
+  kinddot-tsx-kinddot-1tqsu:
+    kind: function
+    name: KindDot()
+    in: ui-kinddot-tsx-hsjpr
+    signature: 'KindDot({ kind, external }: { kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table"; external?: boolean | undefined; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/KindDot.tsx:15
+    references:
+      - dependency: lib-types-react-1i7zx

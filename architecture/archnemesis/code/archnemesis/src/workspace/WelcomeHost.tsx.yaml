@@ -1,0 +1,58 @@
+# archnemesis:src/workspace/WelcomeHost.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-welcomehost-tsx-ns0d1:
+    kind: module
+    name: WelcomeHost.tsx
+    in: web-workspace
+    context: "Puts the first-run welcome on the page: which of its pieces shows (welcomeState.ts decides), where the ways in lead, and the keys it listens for."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/WelcomeHost.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/WelcomeHost.tsx
+  welcomehost-tsx-focushelp-wr1ad:
+    kind: function
+    name: focusHelp()
+    in: workspace-welcomehost-tsx-ns0d1
+    context: The "?" button, which takes focus when the welcome is hidden for good.
+    signature: "focusHelp: () => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/WelcomeHost.tsx:26
+    references:
+      - dependency: lib-types-react-1i7zx
+  welcomehost-tsx-welcomehost-1cqib:
+    kind: function
+    name: WelcomeHost()
+    in: workspace-welcomehost-tsx-ns0d1
+    signature: 'WelcomeHost({ store, empty, leftPanel, help, toast, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store" | ... 3 more ... | "leftPanel">…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/WelcomeHost.tsx:31
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: exampledesign-ts-exampleerror-1vhql}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: exampledesign-ts-openexample-e1642}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: route-ts-carrytoast-10tze}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: route-ts-hashfor-km4zf}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: store-ts-store-getversion-1jscx}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: store-ts-store-subscribe-1px4z}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: webmcp-ts-modelcontext-1pwu4}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcome-tsx-emptyhint-1k8ew}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcome-tsx-sharedtip-1ebqd}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcome-tsx-welcomecoach-1h7o4}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcome-tsx-welcomepanel-ytf7a}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomehost-tsx-focushelp-wr1ad}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-autoopen-tmwrr}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-endcoach-m2cnf}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-hideforgood-av2g5}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-isfromlink-zju81}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-modeof-sor1j}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-openwelcome-l3dug}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-placeof-bdx5u}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-readmemory-ts0oc}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-showtip-1d7v6}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-tuck-1s2nx}
+  - {from: welcomehost-tsx-welcomehost-1cqib, to: welcomestate-ts-usewelcomeui-phohi}

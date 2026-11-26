@@ -1,0 +1,54 @@
+# archnemesis:shared/tools/guide.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-guide-ts-1i48t:
+    kind: module
+    name: guide.ts
+    in: shared-tools-1cbb9
+    context: "guide: how Archnemesis works, for an agent and for the person it's helping. The grammar (short, and the field reference a section at a time), views, code, the playbooks, and the app itself."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/guide.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/guide.ts
+  guide-ts-fieldname-6kmm1:
+    kind: function
+    name: fieldName()
+    in: tools-guide-ts-1i48t
+    signature: "fieldName: (head: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/guide.ts:69
+  guide-ts-guide-1szq5:
+    kind: function
+    name: guide()
+    in: tools-guide-ts-1i48t
+    signature: "guide(a: GuideArgs, config?: FConfig, where?: string): Out"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/guide.ts:71
+  guide-ts-sections-1i20s:
+    kind: function
+    name: sections()
+    in: tools-guide-ts-1i48t
+    context: The AGENTS.md Archnemesis writes, split at its headings (outside code blocks).
+    signature: "sections(config: FConfig): { head: string; level: number; body: string[]; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/guide.ts:54
+  guide-ts-topictables-1nflx:
+    kind: function
+    name: topicTables()
+    in: tools-guide-ts-1i48t
+    context: Tables and their columns, from the format's one definition (spec.ts), so it can't drift.
+    signature: "topicTables(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/guide.ts:19
+connections:
+  - {from: guide-ts-guide-1szq5, to: guide-ts-fieldname-6kmm1}
+  - {from: guide-ts-guide-1szq5, to: guide-ts-guidetext-1s3hb}
+  - {from: guide-ts-guide-1szq5, to: guide-ts-sections-1i20s}
+  - {from: guide-ts-guide-1szq5, to: guide-ts-topictables-1nflx}
+  - {from: guide-ts-guide-1szq5, to: host-ts-ok-1qtxz}
+  - {from: guide-ts-sections-1i20s, to: agentsmd-ts-agentsguide-1xxl7}

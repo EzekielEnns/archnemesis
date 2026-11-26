@@ -1,0 +1,70 @@
+# archnemesis:cli/telemetry.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-telemetry-ts-5k14z:
+    kind: module
+    name: telemetry.ts
+    in: cli
+    context: "archnm telemetry: read the server's call log and the feedback agents sent (server/telemetry.ts)."
+    tech: [TypeScript]
+    path: archnemesis:cli/telemetry.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts
+  telemetry-ts-line-601dk:
+    kind: function
+    name: line()
+    in: cli-telemetry-ts-5k14z
+    signature: "line(c: Stored): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts:55
+  telemetry-ts-parse-s6ck4:
+    kind: function
+    name: parse()
+    in: cli-telemetry-ts-5k14z
+    signature: "parse: (s: string) => unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts:24
+  telemetry-ts-repro-yl97h:
+    kind: function
+    name: repro()
+    in: cli-telemetry-ts-5k14z
+    signature: "repro(t: Telemetry, id: number, designsRoot: string): Repro | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts:32
+  telemetry-ts-telemetrycli-hylbr:
+    kind: function
+    name: telemetryCli()
+    in: cli-telemetry-ts-5k14z
+    signature: "telemetryCli(argv: string[]): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts:60
+  telemetry-ts-usage-16jo3:
+    kind: function
+    name: usage()
+    in: cli-telemetry-ts-5k14z
+    signature: "usage(): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/telemetry.ts:149
+connections:
+  - {from: telemetry-ts-repro-yl97h, to: telemetry-ts-parse-s6ck4}
+  - {from: telemetry-ts-repro-yl97h, to: telemetry-ts-telemetry-get-1k5lw}
+  - {from: telemetry-ts-repro-yl97h, to: telemetry-ts-telemetry-session-162to}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: config-ts-loadconfig-69nnh}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-line-601dk}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-parse-s6ck4}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-repro-yl97h}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-summarytext-6d0gi}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-close-154vg}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-constructor-at1w0}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-feedbacklist-182xz}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-resolvefeedback-lobvu}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-session-162to}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-sessionslike-1h3q3}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-telemetry-summary-3i5ti}
+  - {from: telemetry-ts-telemetrycli-hylbr, to: telemetry-ts-usage-16jo3}

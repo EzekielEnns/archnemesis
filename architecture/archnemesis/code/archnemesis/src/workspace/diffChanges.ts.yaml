@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/diffChanges.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-diffchanges-ts-1f4p9:
+    kind: module
+    name: diffChanges.ts
+    in: web-workspace
+    context: "While diffing: the fork's changes as a list, each one a way to go and look."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/diffChanges.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/diffChanges.ts
+  diffchanges-ts-diffchangesof-ca58u:
+    kind: function
+    name: diffChangesOf()
+    in: workspace-diffchanges-ts-1f4p9
+    signature: 'diffChangesOf({ whatsNew, idx, diagramId, scene, jumpFrom, navigate, toast, goToObject, }: { whatsNew: WhatsNew | null; idx: ModelIndex; diagramId: string | null; scene: SceneRef; jumpFrom: () => void; navigate: Navigate; toast: (text: string, toneOrAction?: "error" | ... 2 more ... | undefined) …'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/diffChanges.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: diffchanges-ts-diffchangesof-ca58u, to: scene-ts-scene-centerat-11u77}
+  - {from: diffchanges-ts-diffchangesof-ca58u, to: usejump-ts-usejump-bukbq}

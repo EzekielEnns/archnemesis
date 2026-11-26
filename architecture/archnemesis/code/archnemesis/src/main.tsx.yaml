@@ -1,0 +1,16 @@
+# archnemesis:src/main.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-main-tsx-10qm7:
+    kind: module
+    name: main.tsx
+    in: web-shell
+    context: "Frame stalls, React commits and page errors: for the performance meter and bug reports."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/main.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/main.tsx
+connections:
+  - {from: src-main-tsx-10qm7, to: perf-tsx-installperf-w3xm7}
+  - {from: src-main-tsx-10qm7, to: share-ts-takesharefromhash-4psnr}

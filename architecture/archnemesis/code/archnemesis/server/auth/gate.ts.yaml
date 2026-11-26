@@ -1,0 +1,75 @@
+# archnemesis:server/auth/gate.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-gate-ts-wwd76:
+    kind: module
+    name: gate.ts
+    in: srv-auth
+    context: "What the core hands every provider (ProviderContext, server/auth/provider.ts) and keeps for itself: signing a person in once a provider has said who they are. The role lists are checked here, so a provider cannot sign in someone they don't allow, and the cookie is the core's."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/gate.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts
+  gate-ts-gate-constructor-2932c:
+    kind: function
+    name: Gate.<constructor>()
+    in: auth-gate-ts-wwd76
+    tech: [method of Gate]
+    signature: 'constructor(cfg: { mode: string; builtin: "github" | "local" | "header" | "tokens" | "tailscale" | "iap" | "cloudflare-access" | "oidc" | null; module: string | null; publicUrl: string; loopback: boolean; ... 11 more ...; tokenKey: string | undefined; }, roles: Roles, sessions: Sessions, fetchFn?…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts:29
+  gate-ts-gate-failed-adjp0:
+    kind: function
+    name: Gate.failed()
+    in: auth-gate-ts-wwd76
+    tech: [method of Gate]
+    signature: "failed(message: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts:57
+  gate-ts-gate-saferedirect-c1jac:
+    kind: function
+    name: Gate.safeRedirect()
+    in: auth-gate-ts-wwd76
+    tech: [method of Gate]
+    signature: "safeRedirect(target: string | null | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts:53
+  gate-ts-gate-signin-x0qzg:
+    kind: function
+    name: Gate.signIn()
+    in: auth-gate-ts-wwd76
+    tech: [method of Gate]
+    signature: "signIn(res: ServerResponse<IncomingMessage>, identity: Identity, back: string | null | undefined, secure: boolean): { ok: boolean; redirect: string; error?: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts:61
+  gate-ts-identityproblem-14m9g:
+    kind: function
+    name: identityProblem()
+    in: auth-gate-ts-wwd76
+    context: Whether a provider's answer is well formed; the reason when it is not.
+    signature: "identityProblem(i: Identity): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/gate.ts:11
+connections:
+  - {from: gate-ts-gate-constructor-2932c, to: gate-ts-gate-failed-adjp0}
+  - {from: gate-ts-gate-constructor-2932c, to: gate-ts-gate-saferedirect-c1jac}
+  - {from: gate-ts-gate-constructor-2932c, to: gate-ts-gate-signin-x0qzg}
+  - {from: gate-ts-gate-constructor-2932c, to: provider-ts-providercontext-failed-1gt4q}
+  - {from: gate-ts-gate-constructor-2932c, to: provider-ts-providercontext-saferedirect-1fvv9}
+  - {from: gate-ts-gate-constructor-2932c, to: provider-ts-typeliteral3-signin-xakfv}
+  - {from: gate-ts-gate-constructor-2932c, to: provider-ts-typeliteral5-info-wm14a}
+  - {from: gate-ts-gate-constructor-2932c, to: provider-ts-typeliteral5-warn-4ybl7}
+  - {from: gate-ts-gate-saferedirect-c1jac, to: provider-ts-islocalpath-1r4gf}
+  - {from: gate-ts-gate-signin-x0qzg, to: gate-ts-gate-failed-adjp0}
+  - {from: gate-ts-gate-signin-x0qzg, to: gate-ts-gate-saferedirect-c1jac}
+  - {from: gate-ts-gate-signin-x0qzg, to: gate-ts-identityproblem-14m9g}
+  - {from: gate-ts-gate-signin-x0qzg, to: provider-ts-typeliteral5-warn-4ybl7}
+  - {from: gate-ts-gate-signin-x0qzg, to: roles-ts-roles-of-1mwqe}
+  - {from: gate-ts-gate-signin-x0qzg, to: session-ts-sessioncookie-1u4xk}
+  - {from: gate-ts-gate-signin-x0qzg, to: session-ts-sessions-make-4l07d}

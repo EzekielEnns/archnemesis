@@ -1,0 +1,99 @@
+# archnemesis:src/ui/Chrome.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-chrome-tsx-13ajo:
+    kind: module
+    name: Chrome.tsx
+    in: web-ui
+    context: "The controls floating over the canvas, laid out like Excalidraw: the sidebar toggle and where you are top-left, the tools top-centre, zoom, history and the minimap bottom-left, help bottom-right."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Chrome.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx
+  chrome-tsx-bottomleft-wm5hr:
+    kind: function
+    name: BottomLeft()
+    in: ui-chrome-tsx-13ajo
+    signature: "BottomLeft(p: BottomLeftProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:431
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  chrome-tsx-emptystate-1k009:
+    kind: function
+    name: EmptyState()
+    in: ui-chrome-tsx-13ajo
+    context: "What an empty diagram shows: no box, just the way in."
+    signature: "EmptyState({ onTool }: { onTool: (t: ToolId) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:510
+    references:
+      - dependency: lib-types-react-1i7zx
+  chrome-tsx-helpbutton-1bg84:
+    kind: function
+    name: HelpButton()
+    in: ui-chrome-tsx-13ajo
+    signature: "HelpButton({ on, onClick, children, }: { on: boolean; onClick: () => void; children?: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:486
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  chrome-tsx-keyof-oe782:
+    kind: function
+    name: keyOf()
+    in: ui-chrome-tsx-13ajo
+    signature: "keyOf: (t: ToolId) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:94
+  chrome-tsx-otherviews-17dcy:
+    kind: function
+    name: OtherViews()
+    in: ui-chrome-tsx-13ajo
+    context: "The other views at this level, behind a small chip: the way to side views like Deployment."
+    signature: "OtherViews({ views, onNavigate, }: { views: { id: string; name: string; }[]; onNavigate: (id: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:538
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-dom-1pvn2
+  chrome-tsx-tools-nikbq:
+    kind: function
+    name: Tools()
+    in: ui-chrome-tsx-13ajo
+    signature: 'Tools({ tool, onTool, onSearch, hint, simple, last, compact, }: ToolsProps & { simple?: boolean | undefined; last?: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table" | null | undefined; compact?: boolean | undefined; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:274
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  chrome-tsx-topleft-1ltqs:
+    kind: function
+    name: TopLeft()
+    in: ui-chrome-tsx-13ajo
+    signature: "TopLeft(p: TopLeftProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Chrome.tsx:127
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: chrome-tsx-emptystate-1k009, to: chrome-tsx-keyof-oe782}
+  - {from: chrome-tsx-tools-nikbq, to: chrome-tsx-keyof-oe782}
+  - {from: chrome-tsx-topleft-1ltqs, to: branchmenu-tsx-branchmenu-13gye}
+  - {from: chrome-tsx-topleft-1ltqs, to: chrome-tsx-otherviews-17dcy}
+  - {from: chrome-tsx-topleft-1ltqs, to: designmenu-tsx-designmenu-tfqy1}
+  - {from: chrome-tsx-topleft-1ltqs, to: model-ts-now-1lkd5}
+  - {from: chrome-tsx-topleft-1ltqs, to: project-ts-diagramforscope-1ff5x}
+  - {from: chrome-tsx-topleft-1ltqs, to: project-ts-scopetrail-u5s74}
+  - {from: ui-chrome-tsx-13ajo, to: model-ts-iscodekind-1jl6v}

@@ -1,0 +1,89 @@
+# archnemesis:server/routes/signin.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-signin-ts-u15m0:
+    kind: module
+    name: signin.ts
+    in: srv-edge
+    context: "Signing in, and who you are: how the app learns to sign in (/api/config), the browser's sign-in and sign-out, /api/me, the flags waiting on your agent, and your personal tokens."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/signin.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts
+  signin-ts-accountroutes-1073i:
+    kind: function
+    name: accountRoutes()
+    in: routes-signin-ts-u15m0
+    context: "Who you are, what's waiting on your agent, and your tokens: for anyone signed in."
+    signature: "accountRoutes(ctx: Ctx, call: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:142
+  signin-ts-channelsetup-71aul:
+    kind: function
+    name: channelSetup()
+    in: routes-signin-ts-u15m0
+    context: "The other way in, a Claude Code feature: the tools through the channel (a file the server serves, run by node), so"
+    signature: "channelSetup(ctx: Ctx, token: string | null): { download: string; command: string; start: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:10
+  signin-ts-mcpsetup-ice16:
+    kind: function
+    name: mcpSetup()
+    in: routes-signin-ts-u15m0
+    context: "How to connect an agent, for the app's first-open card: the MCP address, and Claude Code's commands as the example."
+    signature: "mcpSetup(ctx: Ctx): ({ url: string; } & { command: string; note: string; } & { channel: { download: string; command: string; start: string; }; }) | ({ url: string; } & { command: string; note: null; } & { ...; })"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:21
+  signin-ts-providerroutes-9e7rs:
+    kind: function
+    name: providerRoutes()
+    in: routes-signin-ts-u15m0
+    context: "/auth/<provider id>/...: the provider's own routes (redirect flows, callbacks, a page of its own). Only the provider whose id it is gets them; whatever it does wrong is a plain 500 and signs no one in."
+    signature: "providerRoutes(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:67
+  signin-ts-signinroutes-1erb0:
+    kind: function
+    name: signinRoutes()
+    in: routes-signin-ts-u15m0
+    context: What the app needs before it connects, and the browser's sign-out.
+    signature: "signinRoutes(ctx: Ctx, { req, res, path }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:87
+  signin-ts-tokenroutes-z2x2k:
+    kind: function
+    name: tokenRoutes()
+    in: routes-signin-ts-u15m0
+    context: Your own personal tokens, made by you in the app (never by an agent).
+    signature: "tokenRoutes(ctx: Ctx, { req, res, path, who }: Call): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/signin.ts:116
+connections:
+  - {from: signin-ts-accountroutes-1073i, to: flags-ts-waitingflags-ztsms}
+  - {from: signin-ts-accountroutes-1073i, to: http-ts-json-3ycbr}
+  - {from: signin-ts-accountroutes-1073i, to: live-ts-live-get-ready-pjizs}
+  - {from: signin-ts-accountroutes-1073i, to: live-ts-live-index-8r94z}
+  - {from: signin-ts-accountroutes-1073i, to: perms-ts-perms-can-kqb2y}
+  - {from: signin-ts-accountroutes-1073i, to: perms-ts-perms-warm-nt7hb}
+  - {from: signin-ts-accountroutes-1073i, to: signin-ts-tokenroutes-z2x2k}
+  - {from: signin-ts-mcpsetup-ice16, to: auth-ts-auth-get-browsersignin-apbwa}
+  - {from: signin-ts-mcpsetup-ice16, to: signin-ts-channelsetup-71aul}
+  - {from: signin-ts-providerroutes-9e7rs, to: http-ts-json-3ycbr}
+  - {from: signin-ts-providerroutes-9e7rs, to: provider-ts-authprovider-routes-4ikph}
+  - {from: signin-ts-signinroutes-1erb0, to: auth-ts-auth-signinpage-154y8}
+  - {from: signin-ts-signinroutes-1erb0, to: http-ts-json-3ycbr}
+  - {from: signin-ts-signinroutes-1erb0, to: session-ts-sessioncookie-1u4xk}
+  - {from: signin-ts-signinroutes-1erb0, to: signin-ts-mcpsetup-ice16}
+  - {from: signin-ts-tokenroutes-z2x2k, to: auth-ts-auth-get-personaltokens-1trr2}
+  - {from: signin-ts-tokenroutes-z2x2k, to: http-ts-body-14i98}
+  - {from: signin-ts-tokenroutes-z2x2k, to: http-ts-json-3ycbr}
+  - {from: signin-ts-tokenroutes-z2x2k, to: personal-ts-personaltokens-list-1rt6y}
+  - {from: signin-ts-tokenroutes-z2x2k, to: personal-ts-personaltokens-make-2cyxc}
+  - {from: signin-ts-tokenroutes-z2x2k, to: personal-ts-personaltokens-revoke-1am42}

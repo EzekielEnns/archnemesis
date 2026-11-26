@@ -1,0 +1,26 @@
+# archnemesis:vite.config.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  vite-config-ts-fhoxn:
+    kind: module
+    name: vite.config.ts
+    in: build
+    context: "The app is served by server/main.ts (Vite runs inside it in dev), on 127.0.0.1:5190. `--mode static` (pnpm build:static) builds the server-less version: .env.static picks the local backend, and a relative base lets any static file server host it at any path."
+    tech: [TypeScript]
+    path: archnemesis:vite.config.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:vite.config.ts
+  vite-config-ts-origintrials-13ur3:
+    kind: function
+    name: originTrials()
+    in: vite-config-ts-fhoxn
+    signature: "originTrials: (tokens: string | undefined) => Plugin<any>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:vite.config.ts:13
+    references:
+      - dependency: lib-vite-122n3
+      - dependency: lib-vitest-17yez
+connections:
+  - {from: vite-config-ts-fhoxn, to: vite-config-ts-origintrials-13ur3}

@@ -1,0 +1,126 @@
+# archnemesis:server/presence.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-presence-ts-mntft:
+    kind: module
+    name: presence.ts
+    in: srv-live
+    context: "Who's on Archnemesis: people on sockets (their awareness) and agents over MCP (no socket, so remembered for a while after their last tool call), as each viewer is allowed to see them."
+    tech: [TypeScript]
+    path: archnemesis:server/presence.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts
+  presence-ts-doclabel-aw2hw:
+    kind: function
+    name: docLabel()
+    in: server-presence-ts-mntft
+    signature: "docLabel: (hub: Hub, doc: string) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:35
+  presence-ts-guestuser-uotmb:
+    kind: function
+    name: guestUser()
+    in: server-presence-ts-mntft
+    context: "A guest as everyone else sees it: no name, no id of its own that means anything."
+    signature: 'guestUser: (guestId: string) => { id: string; name: string; color: string; kind: "system" | "human" | "agent"; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:19
+  presence-ts-presence-agentprogress-194kq:
+    kind: function
+    name: Presence.agentProgress()
+    in: server-presence-ts-mntft
+    context: "An agent says what it's on in a long job: shown beside it and across the design's top."
+    tech: [method of Presence]
+    signature: "agentProgress(p: Principal, doc: string, progress: Progress | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:83
+  presence-ts-presence-agentseen-m0o2l:
+    kind: function
+    name: Presence.agentSeen()
+    in: server-presence-ts-mntft
+    context: "An agent called a tool on `doc` (a design or fork): it shows to those who may see that design until it's been quiet for AGENT_ACTIVE_MS."
+    tech: [method of Presence]
+    signature: "agentSeen(p: Principal, doc: string, diagram: string | null, what: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:56
+  presence-ts-presence-changed-1jbxb:
+    kind: function
+    name: Presence.changed()
+    in: server-presence-ts-mntft
+    context: Send everyone their own list soon, once a burst of changes settles.
+    tech: [method of Presence]
+    signature: "changed(force?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:160
+  presence-ts-presence-closetimers-12p8x:
+    kind: function
+    name: Presence.closeTimers()
+    in: server-presence-ts-mntft
+    tech: [method of Presence]
+    signature: "closeTimers(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:191
+  presence-ts-presence-constructor-19v8u:
+    kind: function
+    name: Presence.<constructor>()
+    in: server-presence-ts-mntft
+    tech: [method of Presence]
+    signature: "constructor(hub: Hub): Presence"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:48
+  presence-ts-presence-guestclients-14pel:
+    kind: function
+    name: Presence.guestClients()
+    in: server-presence-ts-mntft
+    context: Awareness client ids that belong to guests' connections, on one document.
+    tech: [method of Presence]
+    signature: "guestClients(d: Document): Map<number, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:98
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  presence-ts-presence-here-ne4ls:
+    kind: function
+    name: Presence.here()
+    in: server-presence-ts-mntft
+    context: Everyone connected, one entry per person per document, as `viewer` may see them.
+    tech: [method of Presence]
+    signature: "here(viewer: Viewer): HereEntry[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:111
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+      - dependency: lib-y-protocols-pwcjh
+  presence-ts-presence-send-1x2j5:
+    kind: function
+    name: Presence.send()
+    in: server-presence-ts-mntft
+    tech: [method of Presence]
+    signature: "send(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/presence.ts:169
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+connections:
+  - {from: presence-ts-doclabel-aw2hw, to: live-ts-hub-get-171sh}
+  - {from: presence-ts-doclabel-aw2hw, to: live-ts-live-name-w0cjk}
+  - {from: presence-ts-presence-agentprogress-194kq, to: presence-ts-presence-changed-1jbxb}
+  - {from: presence-ts-presence-agentseen-m0o2l, to: presence-ts-presence-changed-1jbxb}
+  - {from: presence-ts-presence-changed-1jbxb, to: presence-ts-presence-send-1x2j5}
+  - {from: presence-ts-presence-here-ne4ls, to: live-ts-hub-get-171sh}
+  - {from: presence-ts-presence-here-ne4ls, to: perms-ts-perms-can-kqb2y}
+  - {from: presence-ts-presence-here-ne4ls, to: presence-ts-doclabel-aw2hw}
+  - {from: presence-ts-presence-here-ne4ls, to: presence-ts-guestuser-uotmb}
+  - {from: presence-ts-presence-here-ne4ls, to: presence-ts-presence-guestclients-14pel}
+  - {from: presence-ts-presence-send-1x2j5, to: presence-ts-presence-here-ne4ls}

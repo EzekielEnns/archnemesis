@@ -1,0 +1,91 @@
+# archnemesis:shared/tools/diff.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-diff-ts-6fcec:
+    kind: module
+    name: diff.ts
+    in: shared-tools-1cbb9
+    context: "read {diff}: what a fork changed against its main, for whoever manages the agents writing to it. Grouped (boxes, connections, entities, views), each line added / changed (with the fields) / removed, with a ref that works in the other tools; capped, with counts. `in` keeps one box's subtree; `by` keeps what one agent session (or worker name) touched."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/diff.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts
+  diff-ts-connref-1cvdd:
+    kind: function
+    name: connRef()
+    in: tools-diff-ts-6fcec
+    signature: "connRef: (c: FConnection) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:24
+  diff-ts-diff-1587g:
+    kind: function
+    name: diff()
+    in: tools-diff-ts-6fcec
+    signature: "diff(host: Host, a: { in?: string | undefined; by?: string | undefined; limit?: number | undefined; }): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:107
+  diff-ts-fields-55bk0:
+    kind: function
+    name: fields()
+    in: tools-diff-ts-6fcec
+    context: "What changed between two records: each field, with the value when it's short."
+    signature: "fields(a: Rec, b: Rec, skip?: string[]): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:32
+  diff-ts-forkfocus-19vh1:
+    kind: function
+    name: forkFocus()
+    in: tools-diff-ts-6fcec
+    signature: "forkFocus(host: Host): Promise<ForkFocus | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:60
+  diff-ts-modelof-nx1f2:
+    kind: function
+    name: modelOf()
+    in: tools-diff-ts-6fcec
+    signature: "modelOf: (state: ModelState, host: Host) => FileModel"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:50
+  diff-ts-same-tazcw:
+    kind: function
+    name: same()
+    in: tools-diff-ts-6fcec
+    signature: "same: (a: unknown, b: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:25
+  diff-ts-short-pfbna:
+    kind: function
+    name: short()
+    in: tools-diff-ts-6fcec
+    signature: "short: (v: unknown) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/diff.ts:26
+connections:
+  - {from: diff-ts-diff-1587g, to: diff-ts-connref-1cvdd}
+  - {from: diff-ts-diff-1587g, to: diff-ts-fields-55bk0}
+  - {from: diff-ts-diff-1587g, to: diff-ts-modelof-nx1f2}
+  - {from: diff-ts-diff-1587g, to: diff-ts-same-tazcw}
+  - {from: diff-ts-diff-1587g, to: host-ts-host-base-3uc76}
+  - {from: diff-ts-diff-1587g, to: host-ts-host-basename-1gmjq}
+  - {from: diff-ts-diff-1587g, to: host-ts-host-recent-40oaa}
+  - {from: diff-ts-diff-1587g, to: host-ts-host-state-150dr}
+  - {from: diff-ts-diff-1587g, to: host-ts-ok-1qtxz}
+  - {from: diff-ts-diff-1587g, to: host-ts-plural-n7ls8}
+  - {from: diff-ts-diff-1587g, to: refs-ts-matchesby-7vagz}
+  - {from: diff-ts-fields-55bk0, to: diff-ts-same-tazcw}
+  - {from: diff-ts-fields-55bk0, to: diff-ts-short-pfbna}
+  - {from: diff-ts-forkfocus-19vh1, to: host-ts-host-base-3uc76}
+  - {from: diff-ts-forkfocus-19vh1, to: host-ts-host-basename-1gmjq}
+  - {from: diff-ts-forkfocus-19vh1, to: host-ts-host-state-150dr}
+  - {from: diff-ts-forkfocus-19vh1, to: whatsnew-ts-changedwithcontext-1yvpv}
+  - {from: diff-ts-modelof-nx1f2, to: files-ts-readfiles-1ttso}
+  - {from: diff-ts-modelof-nx1f2, to: files-ts-writefiles-dumd7}
+  - {from: diff-ts-modelof-nx1f2, to: host-ts-host-config-12dpi}

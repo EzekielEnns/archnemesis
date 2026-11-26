@@ -1,0 +1,35 @@
+# archnemesis:src/ui/Markdown.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-markdown-tsx-ppa5t:
+    kind: module
+    name: Markdown.tsx
+    in: web-ui
+    context: "A little markdown, rendered as React elements (never as HTML, so nothing in the text can run): headings, paragraphs, lists, quotes, fenced code, and inline code, bold, italics and links. Enough for a plan's context with examples; anything else shows as text."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Markdown.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Markdown.tsx
+  markdown-tsx-inline-6oxyw:
+    kind: function
+    name: inline()
+    in: ui-markdown-tsx-ppa5t
+    signature: "inline(text: string, key: string): ReactNode[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Markdown.tsx:8
+    references:
+      - dependency: lib-types-react-1i7zx
+  markdown-tsx-markdown-amm8z:
+    kind: function
+    name: Markdown()
+    in: ui-markdown-tsx-ppa5t
+    signature: "Markdown({ text, className }: { text: string; className?: string | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Markdown.tsx:40
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: markdown-tsx-markdown-amm8z, to: markdown-tsx-inline-6oxyw}

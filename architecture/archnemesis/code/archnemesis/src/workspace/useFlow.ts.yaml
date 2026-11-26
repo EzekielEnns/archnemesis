@@ -1,0 +1,40 @@
+# archnemesis:src/workspace/useFlow.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useflow-ts-cmz25:
+    kind: module
+    name: useFlow.ts
+    in: web-workspace
+    context: "Flows and tags lit on the diagram: which flow is open, its step, the tag shown, \"new flow\", what's selected as a step, and the path being framed once it opens."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useFlow.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useFlow.ts
+  useflow-ts-useflow-k7v32:
+    kind: function
+    name: useFlow()
+    in: workspace-useflow-ts-cmz25
+    signature: "useFlow({ idx, diagramId, run, sel, graph, }: { idx: ModelIndex; diagramId: string | null; run: (ops: Op[], label: string) => Promise<void>; sel: Selection; graph: CanvasGraph | null; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useFlow.ts:12
+    references:
+      - dependency: lib-types-react-1i7zx
+  useflow-ts-usefloweffects-rkz2s:
+    kind: function
+    name: useFlowEffects()
+    in: workspace-useflow-ts-cmz25
+    context: "The effects of a flow: its path framed once it opens, and closing it on leaving its diagram. (Called after the tour's effects, which can set the flow in the same commit.)"
+    signature: "useFlowEffects({ idx, diagramId, scene, ready, activeFlow, isPath, setFlowId, }: { idx: ModelIndex; diagramId: string | null; scene: SceneRef; ready: boolean; activeFlow: Flow | undefined; isPath: boolean; setFlowId: Dispatch<SetStateAction<string | null>>; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useFlow.ts:60
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: useflow-ts-useflow-k7v32, to: model-ts-makeflow-huuj3}
+  - {from: useflow-ts-useflow-k7v32, to: project-ts-flowsof-26p5a}
+  - {from: useflow-ts-usefloweffects-rkz2s, to: project-ts-placedfor-15d7e}
+  - {from: useflow-ts-usefloweffects-rkz2s, to: scene-ts-scene-frameboxes-1ps2g}
+  - {from: useflow-ts-usefloweffects-rkz2s, to: useflow-ts-useflow-k7v32}

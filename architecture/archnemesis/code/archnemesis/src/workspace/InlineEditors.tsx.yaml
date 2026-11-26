@@ -1,0 +1,38 @@
+# archnemesis:src/workspace/InlineEditors.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-inlineeditors-tsx-10rpu:
+    kind: module
+    name: InlineEditors.tsx
+    in: web-workspace
+    context: "Names typed in place: over a box, and over an arrow."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/InlineEditors.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/InlineEditors.tsx
+  inlineeditors-tsx-edgerenameinput-110je:
+    kind: function
+    name: EdgeRenameInput()
+    in: workspace-inlineeditors-tsx-10rpu
+    context: The name being typed over an arrow.
+    signature: 'EdgeRenameInput({ edgeEdit, setEdgeEdit, idx, run, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "run" | ... 2 more ... | "edgeEdit">): E…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/InlineEditors.tsx:47
+    references:
+      - dependency: lib-types-react-1i7zx
+  inlineeditors-tsx-renameinput-1nuc0:
+    kind: function
+    name: RenameInput()
+    in: workspace-inlineeditors-tsx-10rpu
+    context: The name being typed over a box.
+    signature: 'RenameInput({ renaming, setRenaming, idx, run, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "run" | ... 2 more ... | "renaming">): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/InlineEditors.tsx:7
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: inlineeditors-tsx-edgerenameinput-110je, to: actions-ts-updateconnection-msz2q}
+  - {from: inlineeditors-tsx-renameinput-1nuc0, to: actions-ts-updateobject-b8yrs}

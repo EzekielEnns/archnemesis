@@ -1,0 +1,30 @@
+# archnemesis:server/seed.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-seed-ts-1adwp:
+    kind: module
+    name: seed.ts
+    in: srv-live
+    context: "A code example for tests and demos: the agent board mapped down to its functions. (The shop example, shared with the browser, is shared/seed.ts.)"
+    tech: [TypeScript]
+    path: archnemesis:server/seed.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/seed.ts
+  seed-ts-codeseedops-1hncm:
+    kind: function
+    name: codeSeedOps()
+    in: server-seed-ts-1adwp
+    context: "A code example: the agent board (a Rust CLI that runs as three processes) mapped down to its functions and libraries, with ordinary objects, boundaries and views only."
+    signature: "codeSeedOps(): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/seed.ts:20
+connections:
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-boxsize-1fd2o}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makeboundary-1q81r}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makeconnection-22l8u}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makediagram-8ks8b}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makeflow-huuj3}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makeobject-ojdfc}
+  - {from: seed-ts-codeseedops-1hncm, to: model-ts-makestep-16ytd}

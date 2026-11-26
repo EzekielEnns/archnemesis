@@ -1,0 +1,74 @@
+# archnemesis:src/canvas/scene/frame.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-frame-ts-xb5qb:
+    kind: module
+    name: frame.ts
+    in: canvas-scene-iaxtu
+    context: "Drawing on demand: ask for a frame, draw it, report stats; hide what's off screen and drop labels that would be too small to read."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/frame.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts
+  frame-ts-applylabelvisibility-1nods:
+    kind: function
+    name: applyLabelVisibility()
+    in: scene-frame-ts-xb5qb
+    signature: "applyLabelVisibility(state: SceneState, force: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:28
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  frame-ts-cull-v3bfc:
+    kind: function
+    name: cull()
+    in: scene-frame-ts-xb5qb
+    signature: "cull(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:10
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  frame-ts-emitstats-18qkd:
+    kind: function
+    name: emitStats()
+    in: scene-frame-ts-xb5qb
+    signature: "emitStats(state: SceneState, now: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:68
+  frame-ts-renderframe-1wc3w:
+    kind: function
+    name: renderFrame()
+    in: scene-frame-ts-xb5qb
+    signature: "renderFrame(state: SceneState, now: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:56
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  frame-ts-requestrender-sstrq:
+    kind: function
+    name: requestRender()
+    in: scene-frame-ts-xb5qb
+    signature: "requestRender(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:50
+  frame-ts-stats-1bi4w:
+    kind: function
+    name: stats()
+    in: scene-frame-ts-xb5qb
+    signature: "stats(state: SceneState, now: number): SceneStats"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/frame.ts:79
+connections:
+  - {from: frame-ts-cull-v3bfc, to: camera-ts-visibleworld-1745x}
+  - {from: frame-ts-cull-v3bfc, to: geometry-ts-intersects-1xejh}
+  - {from: frame-ts-emitstats-18qkd, to: frame-ts-stats-1bi4w}
+  - {from: frame-ts-renderframe-1wc3w, to: flow-ts-drawflowdots-1cv4c}
+  - {from: frame-ts-renderframe-1wc3w, to: frame-ts-emitstats-18qkd}
+  - {from: frame-ts-renderframe-1wc3w, to: frame-ts-requestrender-sstrq}

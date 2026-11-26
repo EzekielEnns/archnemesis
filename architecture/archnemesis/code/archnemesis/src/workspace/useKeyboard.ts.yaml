@@ -1,0 +1,25 @@
+# archnemesis:src/workspace/useKeyboard.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usekeyboard-ts-hq75j:
+    kind: module
+    name: useKeyboard.ts
+    in: web-workspace
+    context: Keys for the model, on the window; see keys.ts for what each does.
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useKeyboard.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useKeyboard.ts
+  usekeyboard-ts-usekeyboard-1ttio:
+    kind: function
+    name: useKeyboard()
+    in: workspace-usekeyboard-ts-hq75j
+    signature: "useKeyboard(k: KeyCtx): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useKeyboard.ts:6
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usekeyboard-ts-usekeyboard-1ttio, to: keys-ts-onkey-k6t8e}

@@ -1,0 +1,75 @@
+# archnemesis:src/ui/Branches.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-branches-tsx-1p3a5:
+    kind: module
+    name: Branches.tsx
+    in: web-ui
+    context: "Branches, as a view in the left panel (tree · code · branches), the way git tools show them:"
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Branches.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Branches.tsx
+  branches-tsx-branchesview-1lej1:
+    kind: function
+    name: BranchesView()
+    in: ui-branches-tsx-1p3a5
+    signature: "BranchesView({ store, toast, diff, onRepo }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Branches.tsx:92
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  branches-tsx-changeslist-1du2y:
+    kind: function
+    name: ChangesList()
+    in: ui-branches-tsx-1p3a5
+    context: "The fork's changes against main, one row each: new, changed, deleted (still on main)."
+    signature: "ChangesList({ changes }: { changes: Change[]; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Branches.tsx:574
+    references:
+      - dependency: lib-types-react-1i7zx
+  branches-tsx-graphrow-jfs5x:
+    kind: function
+    name: GraphRow()
+    in: ui-branches-tsx-1p3a5
+    context: "One row of the graph: its piece of main's lane, a fork's curve off it, and its dot."
+    signature: 'GraphRow(p: { kind: "fork" | "main" | "commit"; color: string; on: boolean; lane: "down" | "none" | "end" | "through"; name: string; meta: string; who?: string | undefined; extra?: ReactNode; tip: string; onClick: () => void; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Branches.tsx:479
+    references:
+      - dependency: lib-types-react-1i7zx
+  branches-tsx-panelbranchhead-1m302:
+    kind: function
+    name: PanelBranchHead()
+    in: ui-branches-tsx-1p3a5
+    context: "The panel's head: the branch you're on, and a save icon for where it's saved."
+    signature: "PanelBranchHead(p: { store: Store; onRepo: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Branches.tsx:50
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: branches-tsx-branchesview-1lej1, to: branches-tsx-changeslist-1du2y}
+  - {from: branches-tsx-branchesview-1lej1, to: branches-tsx-graphrow-jfs5x}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-ago-12leb}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-forkicons-1tins}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-mainmeta-1aoi0}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-mainnote-nkbr6}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-prstate-rldm9}
+  - {from: branches-tsx-branchesview-1lej1, to: branchmenu-tsx-reponame-1recg}
+  - {from: branches-tsx-branchesview-1lej1, to: dialog-tsx-dialog-39zlh}
+  - {from: branches-tsx-branchesview-1lej1, to: route-ts-carrytoast-10tze}
+  - {from: branches-tsx-branchesview-1lej1, to: route-ts-godoc-1q44f}
+  - {from: branches-tsx-branchesview-1lej1, to: store-ts-store-refreshgit-q9sbw}
+  - {from: branches-tsx-branchesview-1lej1, to: store-ts-store-versions-162kz}
+  - {from: branches-tsx-branchesview-1lej1, to: store-ts-store-viewat-uj4b0}
+  - {from: branches-tsx-graphrow-jfs5x, to: presence-ts-colorfor-1fa9e}
+  - {from: branches-tsx-panelbranchhead-1m302, to: branchmenu-tsx-gitstatus-18sj9}

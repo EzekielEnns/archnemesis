@@ -1,0 +1,47 @@
+# archnemesis:src/workspace/SidebarHost.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-sidebarhost-tsx-e1q01:
+    kind: module
+    name: SidebarHost.tsx
+    in: web-workspace
+    context: The left panel (or the drawer), with the tree of diagrams and, on a fork, the branches.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/SidebarHost.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/SidebarHost.tsx
+  sidebarhost-tsx-leftpanelof-lclqx:
+    kind: function
+    name: leftPanelOf()
+    in: workspace-sidebarhost-tsx-e1q01
+    context: "What goes in the left panel's head and body: the view tabs, and the branches."
+    signature: "leftPanelOf({ leftPanel, panelView, store, toast, diffCount, showNew, setShowNew, diffChanges, setSettings, setPanelView, idx, setPalette, panelPinned, setPanelPinned, setPanelOn, }: SidebarProps): { code: boolean; body: Element | undefined; head: Element; } | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/SidebarHost.tsx:158
+  sidebarhost-tsx-sidebarhost-o6mj4:
+    kind: function
+    name: SidebarHost()
+    in: workspace-sidebarhost-tsx-e1q01
+    context: "The left panel: tree, flows, tags, branches, settings."
+    signature: "SidebarHost(props: SidebarProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/SidebarHost.tsx:52
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: sidebarhost-tsx-leftpanelof-lclqx, to: branches-tsx-branchesview-1lej1}
+  - {from: sidebarhost-tsx-leftpanelof-lclqx, to: leftpanel-tsx-panelhead-c6jpl}
+  - {from: sidebarhost-tsx-leftpanelof-lclqx, to: navtree-ts-hascode-m69x0}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: actions-ts-newdiagram-fj5lx}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: actions-ts-placebeside-1oogd}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: project-ts-alltags-174gm}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: project-ts-flowsof-26p5a}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: scene-ts-scene-centeron-12ft8}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: scene-ts-scene-select-1g1o3}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: sidebar-tsx-sidebar-1120m}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: sidebarhost-tsx-leftpanelof-lclqx}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: store-ts-store-send-v1x64}
+  - {from: sidebarhost-tsx-sidebarhost-o6mj4, to: store-ts-store-undo-10r8q}

@@ -1,0 +1,39 @@
+# archnemesis:src/canvas/scene/groups.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-groups-ts-dyayq:
+    kind: module
+    name: groups.ts
+    in: canvas-scene-iaxtu
+    context: "Frames behind the boxes: a file or package around its functions, a box opened in place, lanes, boundaries (dashed) and the diagram's own frame."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/groups.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/groups.ts
+  groups-ts-drawboundary-a05vp:
+    kind: function
+    name: drawBoundary()
+    in: scene-groups-ts-dyayq
+    context: "A boundary (project, network…): a dashed frame, its name, and its kind in small type."
+    signature: "drawBoundary(state: SceneState, grp: CanvasGroup): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/groups.ts:82
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  groups-ts-drawgroups-1o8a4:
+    kind: function
+    name: drawGroups()
+    in: scene-groups-ts-dyayq
+    signature: "drawGroups(state: SceneState, groups: CanvasGroup[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/groups.ts:9
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: groups-ts-drawboundary-a05vp, to: measure-ts-clip-103pb}
+  - {from: groups-ts-drawgroups-1o8a4, to: groups-ts-drawboundary-a05vp}
+  - {from: groups-ts-drawgroups-1o8a4, to: measure-ts-clip-103pb}
+  - {from: groups-ts-drawgroups-1o8a4, to: theme-ts-mixcolor-ebi2x}

@@ -1,0 +1,122 @@
+# archnemesis:src/webmcp.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-webmcp-ts-1k72v:
+    kind: module
+    name: webmcp.ts
+    in: web-webmcp
+    context: "WebMCP: the same tools (shared/tools), offered to an agent in the browser, when the browser has WebMCP (Chrome's preview: document.modelContext; older builds and guides: navigator.modelContext). The agent works for the person, on the design they have open, with their rights (nothing new to sign in to) but in its own name: history shows it as the agent, archnm.yaml's protect applies to it, and…"
+    tech: [TypeScript]
+    path: archnemesis:src/webmcp.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts
+  webmcp-ts-modelcontext-1pwu4:
+    kind: function
+    name: modelContext()
+    in: src-webmcp-ts-1k72v
+    context: The browser's WebMCP, if it has one.
+    signature: "modelContext(): ModelContext | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:35
+  webmcp-ts-modelcontext-registertool-1wei5:
+    kind: function
+    name: ModelContext.registerTool()
+    in: src-webmcp-ts-1k72v
+    tech: [method of ModelContext]
+    signature: "registerTool(tool: { name: string; title?: string | undefined; description: string; inputSchema: object; annotations?: object | undefined; execute: (input: Record<string, unknown>) => Promise<unknown>; }, options?: { ...; } | undefined): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:20
+  webmcp-ts-modelcontext-unregistertool-1uwu3:
+    kind: function
+    name: ModelContext.unregisterTool()
+    in: src-webmcp-ts-1k72v
+    tech: [method of ModelContext]
+    signature: "unregisterTool(name: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:31
+  webmcp-ts-pageagent-1lsw9:
+    kind: function
+    name: pageAgent()
+    in: src-webmcp-ts-1k72v
+    context: "The agent in the page: its own name, working for the person."
+    signature: "pageAgent: (store: Store) => Actor"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:55
+  webmcp-ts-pagedesigns-1egn7:
+    kind: function
+    name: pageDesigns()
+    in: src-webmcp-ts-1k72v
+    signature: "pageDesigns(store: Store): Designs"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:94
+  webmcp-ts-pagehost-s972u:
+    kind: function
+    name: pageHost()
+    in: src-webmcp-ts-1k72v
+    signature: "pageHost(store: Store, canvas: Canvas | undefined, hand?: { send(ops: Op[], label: string, opts?: CommitOpts | undefined): Promise<void>; undo(dry?: boolean | undefined): string | null; }): Host"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:61
+  webmcp-ts-registerwebmcp-1kiyy:
+    kind: function
+    name: registerWebMcp()
+    in: src-webmcp-ts-1k72v
+    context: Register the tools for the design this page has open; the returned function takes them away.
+    signature: "registerWebMcp(store: Store, canvas: () => Canvas | undefined): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:133
+    references:
+      - dependency: lib-zod-vhnf6
+  webmcp-ts-warn-16nlu:
+    kind: function
+    name: warn()
+    in: src-webmcp-ts-1k72v
+    signature: "warn: (name: string) => (e: unknown) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/webmcp.ts:127
+connections:
+  - {from: webmcp-ts-modelcontext-1pwu4, to: webmcp-ts-modelcontext-registertool-1wei5}
+  - {from: webmcp-ts-pagedesigns-1egn7, to: host-ts-designs-fork-1qzte}
+  - {from: webmcp-ts-pagedesigns-1egn7, to: host-ts-designs-list-1pevt}
+  - {from: webmcp-ts-pagedesigns-1egn7, to: host-ts-designs-propose-wersw}
+  - {from: webmcp-ts-pagedesigns-1egn7, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-commit-j2yh7}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-config-12dpi}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-index-23rxl}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-recent-40oaa}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-settled-1fv3t}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-state-150dr}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-undo-1ur4s}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-url-6ll81}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-host-wrote-1e2xa}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-typeliteral26-get-178xz}
+  - {from: webmcp-ts-pagehost-s972u, to: host-ts-typeliteral26-set-awpei}
+  - {from: webmcp-ts-pagehost-s972u, to: route-ts-hashfor-km4zf}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-store-helper-1339z}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-store-liveindex-1pbj9}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-store-log-1p4iw}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-store-model-1pa7u}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-typeliteral156-send-1yor4}
+  - {from: webmcp-ts-pagehost-s972u, to: store-ts-typeliteral156-undo-vif9b}
+  - {from: webmcp-ts-pagehost-s972u, to: webmcp-ts-pageagent-1lsw9}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: host-ts-canvas-fit-6q4u9}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: judge-ts-judge-7nhjg}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: store-ts-store-helper-1339z}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: tools-ts-runtool-w0fvl}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: types-ts-typeliteral61-call-1gy49}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: types-ts-typeliteral61-feedback-1yn33}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-modelcontext-1pwu4}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-modelcontext-registertool-1wei5}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-modelcontext-unregistertool-1uwu3}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-pageagent-1lsw9}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-pagedesigns-1egn7}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-pagehost-s972u}
+  - {from: webmcp-ts-registerwebmcp-1kiyy, to: webmcp-ts-warn-16nlu}

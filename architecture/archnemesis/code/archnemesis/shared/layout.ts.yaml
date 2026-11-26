@@ -1,0 +1,69 @@
+# archnemesis:shared/layout.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-layout-ts-1r4yq:
+    kind: module
+    name: layout.ts
+    in: shared-layout
+    context: "Lay out a diagram with ELK's layered algorithm: callers before callees, few crossings. Runs on the server (the MCP's tidy) and in the browser (Lay out, loaded on first use). A hand-placed box is never moved unless a whole diagram is laid out on request."
+    tech: [TypeScript]
+    path: archnemesis:shared/layout.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts
+  layout-ts-layout-161of:
+    kind: function
+    name: layout()
+    in: shared-layout-ts-1r4yq
+    context: "Where each box goes: callers left of callees (\"right\") or above them (\"down\"), on the 8px grid, with the whole thing's top-left at `origin`."
+    signature: 'layout(nodes: { id: string; w: number; h: number; }[], edges: { from: string; to: string; label?: string | undefined; }[], direction?: "right" | "down", origin?: { x: number; y: number; }, clusters?: Map<string, string[]> | undefined, partitions?: Map<...> | undefined): Promise<...>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts:19
+    references:
+      - dependency: lib-elkjs-e2a27
+  layout-ts-layoutops-1r6pk:
+    kind: function
+    name: layoutOps()
+    in: shared-layout-ts-1r4yq
+    context: "Lay out a whole diagram: the moves, and its hand-shaped arrows' bends carried along, as one batch of ops (empty if nothing would move). From the diagram's top-left."
+    signature: 'layoutOps(idx: ModelIndex, diagramId: string, direction: "right" | "down", tags?: Record<string, { values: string[]; }> | undefined): Promise<Op[]>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts:247
+  layout-ts-roomforlines-12kiz:
+    kind: function
+    name: roomForLines()
+    in: shared-layout-ts-1r4yq
+    context: "Rows (along the flow) get apart by what runs between them: every line that turns in a gap takes room in it, and a gap with labels in it needs a row for them. A fixed gap squeezed a dozen lines and their labels into 96px (an agent's service map, 2026-11-26). Moves whole rows, so the order and what's beside what stay as the layout found them."
+    signature: 'roomForLines(pos: Map<string, { x: number; y: number; }>, size: Map<string, { w: number; h: number; }>, edges: { from: string; to: string; label?: string | undefined; }[], direction: "right" | "down"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts:180
+  layout-ts-snap-bgoij:
+    kind: function
+    name: snap()
+    in: shared-layout-ts-1r4yq
+    signature: "snap: (v: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts:241
+  layout-ts-structureof-1gub4:
+    kind: function
+    name: structureOf()
+    in: shared-layout-ts-1r4yq
+    context: "What a diagram is made of (its boxes and arrows, not where they sit): keep tidy lays out again when this changes."
+    signature: "structureOf(g: CanvasGraph): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/layout.ts:367
+connections:
+  - {from: layout-ts-layout-161of, to: layout-ts-roomforlines-12kiz}
+  - {from: layout-ts-layout-161of, to: layout-ts-snap-bgoij}
+  - {from: layout-ts-layoutops-1r6pk, to: actions-ts-moveops-8dtw8}
+  - {from: layout-ts-layoutops-1r6pk, to: align-ts-shiftbends-vb5ym}
+  - {from: layout-ts-layoutops-1r6pk, to: boundaries-ts-boundarypath-1u0rn}
+  - {from: layout-ts-layoutops-1r6pk, to: layout-ts-layout-161of}
+  - {from: layout-ts-layoutops-1r6pk, to: project-ts-ancestors-lfs25}
+  - {from: layout-ts-layoutops-1r6pk, to: project-ts-laneof-dizn5}
+  - {from: layout-ts-layoutops-1r6pk, to: project-ts-projectdiagram-1p3dd}

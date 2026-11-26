@@ -1,0 +1,55 @@
+# archnemesis:server/routes/oauth.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-oauth-ts-1l7xa:
+    kind: module
+    name: oauth.ts
+    in: srv-edge
+    context: "Claude Code (or any MCP client) signing in through the browser, where the server has sign-in (gcip): the OAuth endpoints the client calls, and the app's Allow page."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/oauth.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/oauth.ts
+  oauth-ts-endpoints-gnepo:
+    kind: function
+    name: endpoints()
+    in: routes-oauth-ts-1l7xa
+    signature: "endpoints(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/oauth.ts:53
+  oauth-ts-oauthallowpage-qwd8l:
+    kind: function
+    name: oauthAllowPage()
+    in: routes-oauth-ts-1l7xa
+    context: "The Allow page for an MCP client signing in: only someone signed in to the app itself (the cookie, not a token: a token can't hand out more of itself)."
+    signature: "oauthAllowPage(ctx: Ctx, { req, res, path, who }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/oauth.ts:9
+  oauth-ts-oauthendpoints-1t3eh:
+    kind: function
+    name: oauthEndpoints()
+    in: routes-oauth-ts-1l7xa
+    context: "/.well-known/* and /oauth/*: answered here, never by the app (a clean 404 where there's no sign-in to do)."
+    signature: "oauthEndpoints(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/oauth.ts:38
+connections:
+  - {from: oauth-ts-endpoints-gnepo, to: http-ts-body-14i98}
+  - {from: oauth-ts-endpoints-gnepo, to: http-ts-json-3ycbr}
+  - {from: oauth-ts-endpoints-gnepo, to: http-ts-text-1xdic}
+  - {from: oauth-ts-endpoints-gnepo, to: oauth-ts-oauth-begin-1idev}
+  - {from: oauth-ts-endpoints-gnepo, to: oauth-ts-oauth-register-a8gln}
+  - {from: oauth-ts-endpoints-gnepo, to: oauth-ts-oauth-resourcemetadata-29p25}
+  - {from: oauth-ts-endpoints-gnepo, to: oauth-ts-oauth-servermetadata-1cu66}
+  - {from: oauth-ts-endpoints-gnepo, to: oauth-ts-oauth-token-1bdyo}
+  - {from: oauth-ts-oauthallowpage-qwd8l, to: http-ts-archnmheader-1v00w}
+  - {from: oauth-ts-oauthallowpage-qwd8l, to: http-ts-body-14i98}
+  - {from: oauth-ts-oauthallowpage-qwd8l, to: http-ts-json-3ycbr}
+  - {from: oauth-ts-oauthallowpage-qwd8l, to: oauth-ts-oauth-decide-thwre}
+  - {from: oauth-ts-oauthallowpage-qwd8l, to: oauth-ts-oauth-describe-dxrmg}
+  - {from: oauth-ts-oauthendpoints-1t3eh, to: http-ts-json-3ycbr}
+  - {from: oauth-ts-oauthendpoints-1t3eh, to: oauth-ts-endpoints-gnepo}

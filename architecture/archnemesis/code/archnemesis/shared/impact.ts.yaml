@@ -1,0 +1,24 @@
+# archnemesis:shared/impact.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-impact-ts-noazx:
+    kind: module
+    name: impact.ts
+    in: shared-model
+    context: 'What depends on a box, and what it depends on, however many hops away: the "what breaks if this goes down" question. Upstream: whoever calls it, anything inside it, or what it sits in (a call to app-service may well reach the component in it); then whoever calls them, and so on. Downstream mirrors it: what it, or anything inside it, calls.'
+    tech: [TypeScript]
+    path: archnemesis:shared/impact.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/impact.ts
+  impact-ts-impact-7mpl1:
+    kind: function
+    name: impact()
+    in: shared-impact-ts-noazx
+    signature: "impact(idx: ModelIndex, id: string, way: ImpactWay): Reached[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/impact.ts:19
+connections:
+  - {from: impact-ts-impact-7mpl1, to: project-ts-ancestors-lfs25}
+  - {from: impact-ts-impact-7mpl1, to: project-ts-descendants-121jc}

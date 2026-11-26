@@ -1,0 +1,206 @@
+# archnemesis:shared/model.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-model-ts-y3d88:
+    kind: module
+    name: model.ts
+    in: shared-model
+    context: The model, shared by the server, the browser and the MCP. One set of objects and connections; diagrams are views of it (which objects, where). Every change is a batch of Ops, checked and applied to the live document in one go (shared/doc.ts).
+    tech: [TypeScript]
+    path: archnemesis:shared/model.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts
+  model-ts-boxsize-1fd2o:
+    kind: function
+    name: boxSize()
+    in: shared-model-ts-y3d88
+    context: A new box's size, by kind.
+    signature: 'boxSize: (kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table") => { w: number; h: number; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:507
+  model-ts-cleantags-oavfv:
+    kind: function
+    name: cleanTags()
+    in: shared-model-ts-y3d88
+    context: "Tags as typed: trimmed, lower-cased, no blanks or repeats."
+    signature: "cleanTags(tags: string[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:617
+  model-ts-iscodekind-1jl6v:
+    kind: function
+    name: isCodeKind()
+    in: shared-model-ts-y3d88
+    signature: "isCodeKind: (k: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:27
+  model-ts-isplaceholdername-8d59w:
+    kind: function
+    name: isPlaceholderName()
+    in: shared-model-ts-y3d88
+    context: 'A name nobody has chosen yet ("New app"): too early to give it a key.'
+    signature: "isPlaceholderName: (name: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:641
+  model-ts-istbd-m1dzw:
+    kind: function
+    name: isTbd()
+    in: shared-model-ts-y3d88
+    context: 'Just a name so far: drawn dashed, "TBD", until it gets a field or a value.'
+    signature: 'isTbd: (e: Pick<Entity, "fields" | "values">) => boolean'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:308
+  model-ts-isthreadop-18qdp:
+    kind: function
+    name: isThreadOp()
+    in: shared-model-ts-y3d88
+    context: Is this op only about a comment thread (a note or a reply)? Threads live in Archnemesis's database, not the files, so they're the one edit allowed on the main of a design that follows git. Links are in the files (views/<view>.yaml), so they go through a fork.
+    signature: "isThreadOp: (op: Op, notes: ReadonlyMap<string, Note>) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:496
+  model-ts-makeboundary-1q81r:
+    kind: function
+    name: makeBoundary()
+    in: shared-model-ts-y3d88
+    signature: 'makeBoundary(fields: Partial<Boundary> & Pick<Boundary, "kind" | "name">): Boundary'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:561
+  model-ts-makeconnection-22l8u:
+    kind: function
+    name: makeConnection()
+    in: shared-model-ts-y3d88
+    signature: 'makeConnection(fields: Partial<Connection> & Pick<Connection, "fromId" | "toId">): Connection'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:550
+  model-ts-makediagram-8ks8b:
+    kind: function
+    name: makeDiagram()
+    in: shared-model-ts-y3d88
+    signature: 'makeDiagram(fields: Partial<Diagram> & Pick<Diagram, "name">): Diagram'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:556
+  model-ts-makeflow-huuj3:
+    kind: function
+    name: makeFlow()
+    in: shared-model-ts-y3d88
+    signature: 'makeFlow(fields: Partial<Flow> & Pick<Flow, "name" | "diagramId">): Flow'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:576
+  model-ts-makenote-1kpn6:
+    kind: function
+    name: makeNote()
+    in: shared-model-ts-y3d88
+    signature: 'makeNote(fields: Partial<Note> & Pick<Note, "kind" | "diagramId" | "author" | "text">): Note'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:581
+  model-ts-makeobject-ojdfc:
+    kind: function
+    name: makeObject()
+    in: shared-model-ts-y3d88
+    signature: 'makeObject(fields: Partial<ModelObject> & Pick<ModelObject, "kind" | "name">): ModelObject'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:532
+  model-ts-makereply-1jfpi:
+    kind: function
+    name: makeReply()
+    in: shared-model-ts-y3d88
+    signature: 'makeReply(fields: Pick<Reply, "author" | "text" | "noteId">): Reply'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:597
+  model-ts-makestep-16ytd:
+    kind: function
+    name: makeStep()
+    in: shared-model-ts-y3d88
+    signature: 'makeStep(fields: Partial<FlowStep> & Pick<FlowStep, "fromId" | "toId">): FlowStep'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:612
+  model-ts-mergedcontext-d55w6:
+    kind: function
+    name: mergedContext()
+    in: shared-model-ts-y3d88
+    context: "A node's text, all of it: older files and agents kept a description and a context apart."
+    signature: "mergedContext(description?: string | undefined, context?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:135
+  model-ts-newid-wokej:
+    kind: function
+    name: newId()
+    in: shared-model-ts-y3d88
+    signature: "newId(prefix: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:522
+  model-ts-nextdecisionid-9m0vr:
+    kind: function
+    name: nextDecisionId()
+    in: shared-model-ts-y3d88
+    context: "A new decision's id: numbered in order, like ADRs (0003-short-title)."
+    signature: "nextDecisionId(existing: Iterable<{ id: string; }>, title: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:623
+  model-ts-now-1lkd5:
+    kind: function
+    name: now()
+    in: shared-model-ts-y3d88
+    signature: "now(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:528
+  model-ts-safeurl-f4wjp:
+    kind: function
+    name: safeUrl()
+    in: shared-model-ts-y3d88
+    context: "A link's address, if it's one we'll open: http(s) only, nothing else (no javascript:)."
+    signature: "safeUrl(url: unknown): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:602
+  model-ts-slug-1nu4f:
+    kind: function
+    name: slug()
+    in: shared-model-ts-y3d88
+    signature: "slug(name: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:628
+  model-ts-typename-mljz8:
+    kind: function
+    name: typeName()
+    in: shared-model-ts-y3d88
+    context: 'A name made into a type name, for entities named before names were checked: "Paid Order" → PaidOrder, "order-status" → OrderStatus.'
+    signature: "typeName(raw: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/model.ts:296
+connections:
+  - {from: model-ts-makeboundary-1q81r, to: model-ts-newid-wokej}
+  - {from: model-ts-makeboundary-1q81r, to: model-ts-now-1lkd5}
+  - {from: model-ts-makeconnection-22l8u, to: model-ts-newid-wokej}
+  - {from: model-ts-makediagram-8ks8b, to: model-ts-newid-wokej}
+  - {from: model-ts-makediagram-8ks8b, to: model-ts-now-1lkd5}
+  - {from: model-ts-makeflow-huuj3, to: model-ts-newid-wokej}
+  - {from: model-ts-makeflow-huuj3, to: model-ts-now-1lkd5}
+  - {from: model-ts-makenote-1kpn6, to: model-ts-newid-wokej}
+  - {from: model-ts-makenote-1kpn6, to: model-ts-now-1lkd5}
+  - {from: model-ts-makeobject-ojdfc, to: model-ts-newid-wokej}
+  - {from: model-ts-makeobject-ojdfc, to: model-ts-now-1lkd5}
+  - {from: model-ts-makereply-1jfpi, to: model-ts-newid-wokej}
+  - {from: model-ts-makereply-1jfpi, to: model-ts-now-1lkd5}
+  - {from: model-ts-makestep-16ytd, to: model-ts-newid-wokej}
+  - {from: model-ts-nextdecisionid-9m0vr, to: model-ts-slug-1nu4f}

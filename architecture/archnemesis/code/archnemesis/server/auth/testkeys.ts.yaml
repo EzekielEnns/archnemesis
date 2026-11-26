@@ -1,0 +1,51 @@
+# archnemesis:server/auth/testkeys.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-testkeys-ts-18a6t:
+    kind: module
+    name: testkeys.ts
+    in: srv-auth
+    context: "Test support: signing keys and tokens made in the test, for the JWT and provider tests."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/testkeys.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/testkeys.ts
+  testkeys-ts-enc-1d1t8:
+    kind: function
+    name: enc()
+    in: auth-testkeys-ts-18a6t
+    signature: "enc: (o: unknown) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/testkeys.ts:4
+  testkeys-ts-fakefetch-10vny:
+    kind: function
+    name: fakeFetch()
+    in: auth-testkeys-ts-18a6t
+    context: A fetch that answers these URLs with these JSON documents, and 404s the rest.
+    signature: "fakeFetch(docs: Record<string, unknown>): { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/testkeys.ts:43
+  testkeys-ts-testkey-paihn:
+    kind: function
+    name: testKey()
+    in: auth-testkeys-ts-18a6t
+    signature: 'testKey(alg: "RS256" | "ES256", kid?: string): TestKey'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/testkeys.ts:19
+  testkeys-ts-testkey-token-1lhzi:
+    kind: function
+    name: TestKey.token()
+    in: auth-testkeys-ts-18a6t
+    context: A signed token; `head` overrides header fields.
+    tech: [method of TestKey]
+    signature: "token(claims: Record<string, unknown>, head?: Record<string, unknown> | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/testkeys.ts:16
+connections:
+  - {from: testkeys-ts-testkey-paihn, to: testkeys-ts-enc-1d1t8}
+  - {from: testkeys-ts-testkey-paihn, to: testkeys-ts-testkey-token-1lhzi}

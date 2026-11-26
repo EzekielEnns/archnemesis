@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/useArrows.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usearrows-ts-pxw7f:
+    kind: module
+    name: useArrows.ts
+    in: web-workspace
+    context: "Arrow style: the diagram's own (in its file, for everyone) unless you've picked one for yourself (this browser), pushed to the canvas."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useArrows.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useArrows.ts
+  usearrows-ts-usearrows-1u19t:
+    kind: function
+    name: useArrows()
+    in: workspace-usearrows-ts-pxw7f
+    signature: 'useArrows({ idx, diagramId, scene, ready, }: { idx: ModelIndex; diagramId: string | null; scene: SceneRef; ready: boolean; }): { myArrows: "curved" | "elbow" | "straight" | null; setMyArrows: (v: "curved" | "elbow" | "straight" | null) => void; diagramArrows: "curved" | ... 1 more ... | "straight…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useArrows.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usearrows-ts-usearrows-1u19t, to: scene-ts-scene-setarrowstyle-iv707}
+  - {from: usearrows-ts-usearrows-1u19t, to: usestored-ts-usestoredchoice-1otaz}

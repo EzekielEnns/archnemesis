@@ -1,0 +1,38 @@
+# archnemesis:src/ui/DesignMenu.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-designmenu-tsx-167en:
+    kind: module
+    name: DesignMenu.tsx
+    in: web-ui
+    context: "Top left: which design is open. Click for every design, and to start a new one."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/DesignMenu.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DesignMenu.tsx
+  designmenu-tsx-designmenu-tfqy1:
+    kind: function
+    name: DesignMenu()
+    in: ui-designmenu-tsx-167en
+    signature: "DesignMenu({ design, name, isAdmin, label }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/DesignMenu.tsx:21
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-dom-1pvn2
+connections:
+  - {from: designmenu-tsx-designmenu-tfqy1, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: dialog-tsx-dialog-39zlh}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: portable-tsx-say-close-1s2t4}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: portable-tsx-say-error-135jt}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: portable-tsx-say-note-gvoup}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: portable-tsx-useportable-1hckp}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: sharedialog-tsx-sharedialog-18nl6}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: types-ts-typeliteral34-create-1sko1}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: types-ts-typeliteral34-remove-1pfvs}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: types-ts-typeliteral34-share-3rhm1}
+  - {from: designmenu-tsx-designmenu-tfqy1, to: types-ts-typeliteral45-sync-1vfsv}

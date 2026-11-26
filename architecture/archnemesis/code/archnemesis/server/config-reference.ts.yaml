@@ -1,0 +1,13 @@
+# archnemesis:server/config-reference.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-config-reference-ts-1rk6i:
+    kind: module
+    name: config-reference.ts
+    in: srv-edge
+    context: "The reference for every environment variable: its group, default and meaning. server/config.ts reads them (and `archnm config` prints this table); a variable read there that is missing here fails server/config.test.ts."
+    tech: [TypeScript]
+    path: archnemesis:server/config-reference.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/config-reference.ts

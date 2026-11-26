@@ -1,0 +1,28 @@
+# archnemesis:src/workspace/useClipboard.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useclipboard-ts-8f9ww:
+    kind: module
+    name: useClipboard.ts
+    in: web-workspace
+    context: "Copy, cut and paste through the system clipboard (no permission needed in these events): the selection as Archnemesis YAML, pasted at the pointer."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useClipboard.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useClipboard.ts
+  useclipboard-ts-useclipboard-lyv2p:
+    kind: function
+    name: useClipboard()
+    in: workspace-useclipboard-ts-8f9ww
+    signature: 'useClipboard({ simple, sel, idx, diagramId, store, run, toast, removeSelected, scene, pointer, }: { simple: boolean; sel: Selection; idx: ModelIndex; diagramId: string | null; store: Store; run: (ops: Op[], label: string) => Promise<void>; toast: (text: string, toneOrAction?: "error" | ... 2 more…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useClipboard.ts:13
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: useclipboard-ts-useclipboard-lyv2p, to: clipboard-ts-copytext-uhapd}
+  - {from: useclipboard-ts-useclipboard-lyv2p, to: clipboard-ts-pasteops-p1bxd}
+  - {from: useclipboard-ts-useclipboard-lyv2p, to: scene-ts-scene-select-1g1o3}
+  - {from: useclipboard-ts-useclipboard-lyv2p, to: scene-ts-scene-viewcenter-105do}

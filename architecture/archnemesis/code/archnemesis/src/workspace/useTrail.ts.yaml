@@ -1,0 +1,27 @@
+# archnemesis:src/workspace/useTrail.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usetrail-ts-190po:
+    kind: module
+    name: useTrail.ts
+    in: web-workspace
+    context: "The trail of jumps made from the box panel (a connection, another diagram): remembered so you can walk back, and ended when the panel closes. ⌥← walks it (or the crumb)."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useTrail.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTrail.ts
+  usetrail-ts-usetrail-52wgp:
+    kind: function
+    name: useTrail()
+    in: workspace-usetrail-ts-190po
+    signature: "useTrail({ diagramId, sel, idx, graph, navigate, scene, latest, jumpBack, }: { diagramId: string | null; sel: Selection; idx: ModelIndex; graph: CanvasGraph | null; navigate: Navigate; scene: SceneRef; latest: LatestRef; jumpBack: () => void; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTrail.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usetrail-ts-usetrail-52wgp, to: scene-ts-scene-centeron-12ft8}
+  - {from: usetrail-ts-usetrail-52wgp, to: scene-ts-scene-frameboxes-1ps2g}
+  - {from: usetrail-ts-usetrail-52wgp, to: scene-ts-scene-select-1g1o3}

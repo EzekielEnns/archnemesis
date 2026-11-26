@@ -1,0 +1,22 @@
+# archnemesis:server/scale-index.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-scale-index-ts-1if4k:
+    kind: module
+    name: scale-index.ts
+    in: srv-index
+    context: A made-up repo index of any size, for timing imports and big designs (server/scale.test.ts).
+    tech: [TypeScript]
+    path: archnemesis:server/scale-index.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scale-index.ts
+  scale-index-ts-bigindex-1c382:
+    kind: function
+    name: bigIndex()
+    in: server-scale-index-ts-1if4k
+    context: ~2,000 functions in ~200 files (10 folders), ~4,000 calls.
+    signature: "bigIndex(files?: number, perFile?: number, callsPer?: number): CodeIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/scale-index.ts:5

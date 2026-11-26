@@ -1,0 +1,86 @@
+# archnemesis:src/backend/local-upstream.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-upstream-ts-itf0a:
+    kind: module
+    name: local-upstream.ts
+    in: web-backend
+    context: "A local design that remembers the public GitHub repository it was forked from (the static build): it can pull what changed there by reading the public repository again. Nothing is ever sent to GitHub but plain reads, with nothing about the visitor; pushing back needs a server (your own Archnemesis)."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local-upstream.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts
+  local-upstream-ts-adopt-jmlq3:
+    kind: function
+    name: adopt()
+    in: backend-local-upstream-ts-itf0a
+    context: "Remember where a design came from: its main as it is now matches the repository."
+    signature: "adopt(core: GitCore, key: string, spec: GhSpec, folder: string, subject: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts:39
+  local-upstream-ts-createupstream-1u4wk:
+    kind: function
+    name: createUpstream()
+    in: backend-local-upstream-ts-itf0a
+    signature: "createUpstream(core: GitCore): { sync: (key: string) => Promise<void>; adopt: (key: string, spec: GhSpec, folder: string, subject: string) => Promise<void>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts:91
+  local-upstream-ts-normal-1lvc2:
+    kind: function
+    name: normal()
+    in: backend-local-upstream-ts-itf0a
+    context: A design read from files, written out as this app writes it (so two can be compared).
+    signature: "normal(found: Map<string, string>, name: string): { model: FileModel; files: Files; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts:30
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-upstream-ts-refusedhere-18m13:
+    kind: function
+    name: refusedHere()
+    in: backend-local-upstream-ts-itf0a
+    signature: "refusedHere: () => BackendError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts:27
+  local-upstream-ts-sync-11ki5:
+    kind: function
+    name: sync()
+    in: backend-local-upstream-ts-itf0a
+    context: Pull what changed on the public repository into main (when main has nothing of its own to lose).
+    signature: "sync(core: GitCore, key: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-upstream.ts:61
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: local-upstream-ts-adopt-jmlq3, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-upstream-ts-adopt-jmlq3, to: local-core-ts-gitcore-patch-445fg}
+  - {from: local-upstream-ts-adopt-jmlq3, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-upstream-ts-adopt-jmlq3, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-upstream-ts-createupstream-1u4wk, to: local-upstream-ts-adopt-jmlq3}
+  - {from: local-upstream-ts-createupstream-1u4wk, to: local-upstream-ts-sync-11ki5}
+  - {from: local-upstream-ts-normal-1lvc2, to: local-core-ts-tofiles-165i7}
+  - {from: local-upstream-ts-normal-1lvc2, to: portable-files-ts-filesofdoc-lk8af}
+  - {from: local-upstream-ts-normal-1lvc2, to: portable-files-ts-loadmodel-1tf3r}
+  - {from: local-upstream-ts-normal-1lvc2, to: portable-files-ts-readwithproblems-1j7zz}
+  - {from: local-upstream-ts-normal-1lvc2, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-upstream-ts-refusedhere-18m13, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-upstream-ts-sync-11ki5, to: github-public-ts-fetchghdesign-1evxg}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-gitcore-files-qs4q2}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-gitcore-patch-445fg}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-upstream-ts-sync-11ki5, to: local-core-ts-samefiles-eak0f}
+  - {from: local-upstream-ts-sync-11ki5, to: local-upstream-ts-normal-1lvc2}
+  - {from: local-upstream-ts-sync-11ki5, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-upstream-ts-sync-11ki5, to: portable-files-ts-applymodel-1scrp}
+  - {from: local-upstream-ts-sync-11ki5, to: portable-files-ts-givekeys-2jjm3}
+  - {from: local-upstream-ts-sync-11ki5, to: types-ts-backenderror-constructor-trfnp}

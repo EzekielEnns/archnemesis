@@ -1,0 +1,170 @@
+# archnemesis:server/mcp.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-mcp-ts-1y14o:
+    kind: module
+    name: mcp.ts
+    in: srv-mcp
+    context: "The MCP: how agents read and change the architecture while people watch."
+    tech: [TypeScript]
+    path: archnemesis:server/mcp.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts
+  mcp-ts-buildserver-1iq4n:
+    kind: function
+    name: buildServer()
+    in: server-mcp-ts-1y14o
+    signature: "buildServer({ hub, baseUrl, libstats, uploads, scripts, created, telemetry }: Deps, principal: Principal, session?: Session | undefined): McpServer"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:192
+    references:
+      - dependency: lib-modelcontextprotocol-sdk-pwf6s
+      - dependency: lib-hocuspocus-server-h2kpr
+      - dependency: lib-y-protocols-pwcjh
+      - dependency: lib-zod-vhnf6
+  mcp-ts-clientname-o78gf:
+    kind: function
+    name: clientName()
+    in: server-mcp-ts-1y14o
+    signature: "clientName: (s?: Session | undefined) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:87
+  mcp-ts-forks-vb2xa:
+    kind: function
+    name: forks()
+    in: server-mcp-ts-1y14o
+    signature: "forks: (name: string, args: Record<string, unknown>) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:188
+  mcp-ts-isdry-2qb46:
+    kind: function
+    name: isDry()
+    in: server-mcp-ts-1y14o
+    context: "Calls that change the design: on a design that follows git they go to the agent's fork."
+    signature: "isDry: (name: string, args: Record<string, unknown>) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:185
+  mcp-ts-mcphandler-axpgb:
+    kind: function
+    name: mcpHandler()
+    in: server-mcp-ts-1y14o
+    signature: "mcpHandler(deps: Deps): (req: IncomingMessage, res: ServerResponse<IncomingMessage>) => Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:113
+    references:
+      - dependency: lib-modelcontextprotocol-sdk-pwf6s
+  mcp-ts-sessionfor-1dgtt:
+    kind: function
+    name: sessionFor()
+    in: server-mcp-ts-1y14o
+    signature: "sessionFor(req: IncomingMessage, body: unknown): Session | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:91
+  mcp-ts-shortid-ujsz5:
+    kind: function
+    name: shortId()
+    in: server-mcp-ts-1y14o
+    context: "A session's short id, for history lines: \"s-1a2b\"."
+    signature: "shortId: (s: Session) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/mcp.ts:85
+connections:
+  - {from: mcp-ts-buildserver-1iq4n, to: access-ts-cancreate-r0ix9}
+  - {from: mcp-ts-buildserver-1iq4n, to: agent-ts-findview-bfne5}
+  - {from: mcp-ts-buildserver-1iq4n, to: agent-ts-planchanges-i14x4}
+  - {from: mcp-ts-buildserver-1iq4n, to: codeindex-ts-callsadvice-1l6ql}
+  - {from: mcp-ts-buildserver-1iq4n, to: codeindex-ts-importchanges-1rj1i}
+  - {from: mcp-ts-buildserver-1iq4n, to: codeindex-ts-importsummary-164fo}
+  - {from: mcp-ts-buildserver-1iq4n, to: git-ts-giterror-constructor-1k98c}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-droplocalrepo-1l66m}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-basestate-1sb7j}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-discard-qg41j}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-fork-14wew}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-forkfor-8jate}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-info-1s6v7}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-openfork-w2iwj}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-parentof-1507x}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-propose-1a83z}
+  - {from: mcp-ts-buildserver-1iq4n, to: gitsync-ts-gitsync-where-1hq4c}
+  - {from: mcp-ts-buildserver-1iq4n, to: guide-ts-guide-1szq5}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-canvas-end-v0f0s}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-canvas-here-ow69f}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-canvas-show-gmybw}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-canvas-watching-uzme0}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-create-sar0u}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-delete-fdulu}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-discard-1frrz}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-fork-1qzte}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-list-1pevt}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-designs-propose-wersw}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-applyrules-f2do4}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-base-3uc76}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-basename-1gmjq}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-commit-j2yh7}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-config-12dpi}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-index-23rxl}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-recent-40oaa}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-render-1c1pn}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-repos-1e9su}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-state-150dr}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-undo-1ur4s}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-host-url-6ll81}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-indexer-importplan-xkprb}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-indexer-progress-1qj6g}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-indexer-scan-v5rjy}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-indexer-start-t3q0c}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-typeliteral26-get-178xz}
+  - {from: mcp-ts-buildserver-1iq4n, to: host-ts-typeliteral26-set-awpei}
+  - {from: mcp-ts-buildserver-1iq4n, to: judge-ts-judge-7nhjg}
+  - {from: mcp-ts-buildserver-1iq4n, to: judge-ts-modeof-qiht5}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-access-6z19v}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-create-1bqx6}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-get-171sh}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-list-1ewsx}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-present-iwb2c}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-hub-remove-11vhc}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-applyrules-mzbpr}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-commit-1ohvh}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-config-1ps60}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-endguide-u47pm}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-get-guideseq-1d7as}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-get-mode-1wax1}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-index-8r94z}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-name-w0cjk}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-point-z21m7}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-recent-1mba2}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-undo-12dny}
+  - {from: mcp-ts-buildserver-1iq4n, to: live-ts-live-waitreply-5hjyi}
+  - {from: mcp-ts-buildserver-1iq4n, to: mcp-ts-clientname-o78gf}
+  - {from: mcp-ts-buildserver-1iq4n, to: mcp-ts-forks-vb2xa}
+  - {from: mcp-ts-buildserver-1iq4n, to: mcp-ts-isdry-2qb46}
+  - {from: mcp-ts-buildserver-1iq4n, to: mcp-ts-shortid-ujsz5}
+  - {from: mcp-ts-buildserver-1iq4n, to: notes-ts-newnotes-9ixt9}
+  - {from: mcp-ts-buildserver-1iq4n, to: perms-ts-perms-can-kqb2y}
+  - {from: mcp-ts-buildserver-1iq4n, to: presence-ts-presence-agentprogress-194kq}
+  - {from: mcp-ts-buildserver-1iq4n, to: presence-ts-presence-agentseen-m0o2l}
+  - {from: mcp-ts-buildserver-1iq4n, to: render-ts-renderview-19anl}
+  - {from: mcp-ts-buildserver-1iq4n, to: render-ts-topng-c4jqn}
+  - {from: mcp-ts-buildserver-1iq4n, to: scripts-ts-scripts-ensure-w0uav}
+  - {from: mcp-ts-buildserver-1iq4n, to: store-ts-docstore-forks-b3wdv}
+  - {from: mcp-ts-buildserver-1iq4n, to: store-ts-docstore-trail-x1v9a}
+  - {from: mcp-ts-buildserver-1iq4n, to: survey-ts-draftyaml-1sbet}
+  - {from: mcp-ts-buildserver-1iq4n, to: survey-ts-surveytext-18jhs}
+  - {from: mcp-ts-buildserver-1iq4n, to: telemetry-ts-telemetry-call-1311c}
+  - {from: mcp-ts-buildserver-1iq4n, to: telemetry-ts-telemetry-feedback-13why}
+  - {from: mcp-ts-buildserver-1iq4n, to: tools-ts-runtool-w0fvl}
+  - {from: mcp-ts-buildserver-1iq4n, to: uploads-ts-uploads-get-1rwd0}
+  - {from: mcp-ts-buildserver-1iq4n, to: uploads-ts-uploads-mint-77q87}
+  - {from: mcp-ts-buildserver-1iq4n, to: uploads-ts-uploads-reposfor-oc807}
+  - {from: mcp-ts-buildserver-1iq4n, to: write-ts-liftparams-1a4fg}
+  - {from: mcp-ts-mcphandler-axpgb, to: mcp-ts-buildserver-1iq4n}
+  - {from: mcp-ts-mcphandler-axpgb, to: mcp-ts-sessionfor-1dgtt}
+  - {from: mcp-ts-mcphandler-axpgb, to: perms-ts-perms-warm-nt7hb}

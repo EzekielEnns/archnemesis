@@ -1,0 +1,31 @@
+# archnemesis:src/backend/local-watch.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-watch-ts-7fkk6:
+    kind: module
+    name: local-watch.ts
+    in: web-backend
+    context: "Keeping an eye on an open document (the static build): main's edits become a version once they settle; a fork's tell the page its changes moved, so the diff and the merge button stay current."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local-watch.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-watch.ts
+  local-watch-ts-watchdoc-1uwlq:
+    kind: function
+    name: watchDoc()
+    in: backend-local-watch-ts-7fkk6
+    context: Watch the document `key` (a design's main, or a fork "design@fork"). Returns a stop.
+    signature: "watchDoc(core: GitCore, key: string, ydoc: Doc): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-watch.ts:13
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: local-watch-ts-watchdoc-1uwlq, to: doc-ts-logof-drj7i}
+  - {from: local-watch-ts-watchdoc-1uwlq, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-watch-ts-watchdoc-1uwlq, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-watch-ts-watchdoc-1uwlq, to: local-core-ts-subjectof-18ifc}
+  - {from: local-watch-ts-watchdoc-1uwlq, to: local-core-ts-typeliteral0-find-11rrv}
+  - {from: local-watch-ts-watchdoc-1uwlq, to: local-versions-ts-versionstore-list-1t7ms}

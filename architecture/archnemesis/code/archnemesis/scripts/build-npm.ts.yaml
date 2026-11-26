@@ -1,0 +1,51 @@
+# archnemesis:scripts/build-npm.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scripts-build-npm-ts-4fdbx:
+    kind: module
+    name: build-npm.ts
+    in: build
+    context: "Make the publishable package in dist-npm/: `pnpm build:npm` (it runs `pnpm build` first)."
+    tech: [TypeScript]
+    path: archnemesis:scripts/build-npm.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/build-npm.ts
+  build-npm-ts-imported-1dhuf:
+    kind: function
+    name: imported()
+    in: scripts-build-npm-ts-4fdbx
+    context: The packages the compiled code imports (by name, not path).
+    signature: "imported(): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/build-npm.ts:43
+  build-npm-ts-jsfiles-9mvy3:
+    kind: function
+    name: jsFiles()
+    in: scripts-build-npm-ts-4fdbx
+    signature: "jsFiles(dir: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/build-npm.ts:32
+  build-npm-ts-run-18705:
+    kind: function
+    name: run()
+    in: scripts-build-npm-ts-4fdbx
+    signature: "run: (cmd: string, args: string[]) => NonSharedBuffer"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/build-npm.ts:26
+  build-npm-ts-size-1p2pw:
+    kind: function
+    name: size()
+    in: scripts-build-npm-ts-4fdbx
+    signature: "size: (p: string) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:scripts/build-npm.ts:129
+connections:
+  - {from: build-npm-ts-imported-1dhuf, to: build-npm-ts-jsfiles-9mvy3}
+  - {from: scripts-build-npm-ts-4fdbx, to: build-npm-ts-imported-1dhuf}
+  - {from: scripts-build-npm-ts-4fdbx, to: build-npm-ts-run-18705}
+  - {from: scripts-build-npm-ts-4fdbx, to: build-npm-ts-size-1p2pw}

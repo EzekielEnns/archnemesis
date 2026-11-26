@@ -1,0 +1,118 @@
+# archnemesis:server/repoaccess.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-repoaccess-ts-12s9i:
+    kind: module
+    name: repoaccess.ts
+    in: srv-git
+    context: "What GitHub says about a repo, remembered for a few minutes: what one person may do there (asked with their own GitHub sign-in) and whether anyone may read it without signing in."
+    tech: [TypeScript]
+    path: archnemesis:server/repoaccess.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts
+  repoaccess-ts-githubsource-rlg65:
+    kind: function
+    name: githubSource()
+    in: server-repoaccess-ts-12s9i
+    context: GitHub as a RepoSource. A person's rights are asked with THEIR OWN sign-in token, never the app's installation token (which can do more than they can); no token, or any failure, is "none". Whether a repo is public is asked with no credentials at all; failing, it's "not public".
+    signature: "githubSource(gh: GitHub, api: string): RepoSource"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:90
+  repoaccess-ts-keyof-urzpv:
+    kind: function
+    name: keyOf()
+    in: server-repoaccess-ts-12s9i
+    signature: "keyOf: (r: RepoRef) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:24
+  repoaccess-ts-repoaccess-constructor-1tq15:
+    kind: function
+    name: RepoAccess.<constructor>()
+    in: server-repoaccess-ts-12s9i
+    tech: [method of RepoAccess]
+    signature: "constructor(source: () => RepoSource | null, now?: () => number): RepoAccess"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:33
+  repoaccess-ts-repoaccess-ispublic-1351g:
+    kind: function
+    name: RepoAccess.isPublic()
+    in: server-repoaccess-ts-12s9i
+    tech: [method of RepoAccess]
+    signature: "isPublic(repo: RepoRef): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:43
+  repoaccess-ts-repoaccess-once-qmp6m:
+    kind: function
+    name: RepoAccess.once()
+    in: server-repoaccess-ts-12s9i
+    context: Concurrent questions about the same thing share one call. A failed ask is remembered as none (or not public), for the usual time.
+    tech: [method of RepoAccess]
+    signature: "once(key: string, ask: () => Promise<void>): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:75
+  repoaccess-ts-repoaccess-rights-1flx6:
+    kind: function
+    name: RepoAccess.rights()
+    in: server-repoaccess-ts-12s9i
+    tech: [method of RepoAccess]
+    signature: "rights(person: string, repo: RepoRef): RepoRights"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:38
+  repoaccess-ts-repoaccess-warmpublic-11daj:
+    kind: function
+    name: RepoAccess.warmPublic()
+    in: server-repoaccess-ts-12s9i
+    context: Ask whether the repo is public, unless that's recent. Never throws.
+    tech: [method of RepoAccess]
+    signature: "warmPublic(repo: RepoRef): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:63
+  repoaccess-ts-repoaccess-warmrights-amvcg:
+    kind: function
+    name: RepoAccess.warmRights()
+    in: server-repoaccess-ts-12s9i
+    context: Ask GitHub what `person` may do on the repo, unless that's recent. Never throws.
+    tech: [method of RepoAccess]
+    signature: "warmRights(person: string, repo: RepoRef): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:49
+  repoaccess-ts-reposource-repoispublic-19ttl:
+    kind: function
+    name: RepoSource.repoIsPublic()
+    in: server-repoaccess-ts-12s9i
+    tech: [method of RepoSource]
+    signature: "repoIsPublic(owner: string, repo: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:12
+  repoaccess-ts-reposource-reporights-1e857:
+    kind: function
+    name: RepoSource.repoRights()
+    in: server-repoaccess-ts-12s9i
+    tech: [method of RepoSource]
+    signature: "repoRights(person: string, owner: string, repo: string): Promise<RepoRights>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/repoaccess.ts:11
+connections:
+  - {from: repoaccess-ts-githubsource-rlg65, to: github-ts-github-call-19jpd}
+  - {from: repoaccess-ts-githubsource-rlg65, to: github-ts-github-usertoken-tln6a}
+  - {from: repoaccess-ts-githubsource-rlg65, to: repoaccess-ts-reposource-repoispublic-19ttl}
+  - {from: repoaccess-ts-githubsource-rlg65, to: repoaccess-ts-reposource-reporights-1e857}
+  - {from: repoaccess-ts-repoaccess-ispublic-1351g, to: repoaccess-ts-keyof-urzpv}
+  - {from: repoaccess-ts-repoaccess-rights-1flx6, to: repoaccess-ts-keyof-urzpv}
+  - {from: repoaccess-ts-repoaccess-warmpublic-11daj, to: repoaccess-ts-keyof-urzpv}
+  - {from: repoaccess-ts-repoaccess-warmpublic-11daj, to: repoaccess-ts-repoaccess-once-qmp6m}
+  - {from: repoaccess-ts-repoaccess-warmpublic-11daj, to: repoaccess-ts-reposource-repoispublic-19ttl}
+  - {from: repoaccess-ts-repoaccess-warmrights-amvcg, to: repoaccess-ts-keyof-urzpv}
+  - {from: repoaccess-ts-repoaccess-warmrights-amvcg, to: repoaccess-ts-repoaccess-once-qmp6m}
+  - {from: repoaccess-ts-repoaccess-warmrights-amvcg, to: repoaccess-ts-reposource-reporights-1e857}

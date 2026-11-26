@@ -1,0 +1,711 @@
+# archnemesis:server/live.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-live-ts-1my3j:
+    kind: module
+    name: live.ts
+    in: srv-live
+    context: The live documents on the server, one per design. Hocuspocus relays every edit between open tabs over WebSockets, and the server is itself a participant holding each document open, so agents, the API and the file writer always have it.
+    tech: [TypeScript]
+    path: archnemesis:server/live.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts
+  live-ts-actorof-18oks:
+    kind: function
+    name: actorOf()
+    in: server-live-ts-1my3j
+    signature: "actorOf: (p: Principal) => Actor"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:94
+  live-ts-hub-access-6z19v:
+    kind: function
+    name: Hub.access()
+    in: server-live-ts-1my3j
+    context: A design's owner and whether it's private.
+    tech: [method of Hub]
+    signature: "access(design: string): Access"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:415
+  live-ts-hub-broadcast-kvtl2:
+    kind: function
+    name: Hub.broadcast()
+    in: server-live-ts-1my3j
+    context: A small message to every tab on a document (not part of the document).
+    tech: [method of Hub]
+    signature: "broadcast(doc: string, payload: unknown): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:403
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-close-1gcha:
+    kind: function
+    name: Hub.close()
+    in: server-live-ts-1my3j
+    tech: [method of Hub]
+    signature: "close(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:544
+    references:
+      - dependency: lib-types-ws-1ex0u
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-closelinks-d9j5x:
+    kind: function
+    name: Hub.closeLinks()
+    in: server-live-ts-1my3j
+    context: Close the connections on a share link that no longer works (all of one link, or every dead one).
+    tech: [method of Hub]
+    signature: "closeLinks(only?: string | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:390
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-connectionsof-azhzs:
+    kind: function
+    name: Hub.connectionsOf()
+    in: server-live-ts-1my3j
+    context: The tabs' connections to a document (Hocuspocus keys its map by them).
+    tech: [method of Hub]
+    signature: "connectionsOf(doc: string): { readOnly: boolean; close(e?: { code: number; reason: string; } | undefined): void; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:381
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-constructor-fqprl:
+    kind: function
+    name: Hub.<constructor>()
+    in: server-live-ts-1my3j
+    tech: [method of Hub]
+    signature: "constructor(store: DocStore, auth: Auth, config: Config): Hub"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:164
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-create-1bqx6:
+    kind: function
+    name: Hub.create()
+    in: server-live-ts-1my3j
+    context: A new design, empty (one blank diagram) or a copy of the example shop.
+    tech: [method of Hub]
+    signature: "create(name: string, key?: string | undefined, from?: Seed, owner?: Principal | null | undefined, copyOf?: Live | undefined): Promise<Live>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:467
+  live-ts-hub-dropfork-tf249:
+    kind: function
+    name: Hub.dropFork()
+    in: server-live-ts-1my3j
+    context: "Close a fork: its tabs are told where to go, then it stops being served."
+    tech: [method of Hub]
+    signature: "dropFork(doc: string, to: string, why: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:358
+  live-ts-hub-freeze-1f762:
+    kind: function
+    name: Hub.freeze()
+    in: server-live-ts-1my3j
+    context: Stop taking edits from the tabs already on a document (it just became git's main), and have them reload, which reconnects them read-only.
+    tech: [method of Hub]
+    signature: "freeze(doc: string, why: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:375
+  live-ts-hub-get-171sh:
+    kind: function
+    name: Hub.get()
+    in: server-live-ts-1my3j
+    context: A design's main by key, or a fork by its document name.
+    tech: [method of Hub]
+    signature: "get(name: string): Live | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:307
+  live-ts-hub-list-1ewsx:
+    kind: function
+    name: Hub.list()
+    in: server-live-ts-1my3j
+    tech: [method of Hub]
+    signature: "list(who?: Who, all?: boolean): DesignInfo[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:320
+  live-ts-hub-open-x8rp1:
+    kind: function
+    name: Hub.open()
+    in: server-live-ts-1my3j
+    tech: [method of Hub]
+    signature: "open(key: string, seed: Seed, name?: string | undefined, copyOf?: Live | undefined): Promise<Live>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:504
+  live-ts-hub-openfork-mby3y:
+    kind: function
+    name: Hub.openFork()
+    in: server-live-ts-1my3j
+    context: "Open a fork's document: a copy of `from` when it's new, else what's stored."
+    tech: [method of Hub]
+    signature: "openFork(row: ForkRow, from: Live): Promise<Live>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:344
+  live-ts-hub-present-iwb2c:
+    kind: function
+    name: Hub.present()
+    in: server-live-ts-1my3j
+    context: People and agents connected to one document right now.
+    tech: [method of Hub]
+    signature: "present(doc: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:314
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+      - dependency: lib-y-protocols-pwcjh
+  live-ts-hub-remove-11vhc:
+    kind: function
+    name: Hub.remove()
+    in: server-live-ts-1my3j
+    context: Delete a design that doesn't follow git. Its files move aside (under the state folder's deleted/), its history leaves the database, and anyone on it is sent elsewhere.
+    tech: [method of Hub]
+    signature: "remove(design: string, why: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:438
+  live-ts-hub-setprivate-1k9k2:
+    kind: function
+    name: Hub.setPrivate()
+    in: server-live-ts-1my3j
+    context: Make a design private to its owner, or share it with the team.
+    tech: [method of Hub]
+    signature: "setPrivate(design: string, priv: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:425
+  live-ts-hub-start-1kbs5:
+    kind: function
+    name: Hub.start()
+    in: server-live-ts-1my3j
+    tech: [method of Hub]
+    signature: "start(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:265
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-hub-upgrade-km93n:
+    kind: function
+    name: Hub.upgrade()
+    in: server-live-ts-1my3j
+    context: Hand a WebSocket upgrade on /sync to Hocuspocus.
+    tech: [method of Hub]
+    signature: "upgrade(req: IncomingMessage, socket: Duplex, head: Buffer<ArrayBufferLike>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:519
+    references:
+      - dependency: lib-types-ws-1ex0u
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-live-applyrules-mzbpr:
+    kind: function
+    name: Live.applyRules()
+    in: server-live-ts-1my3j
+    context: Bring every diagram that follows rules in line with the model as it is now.
+    tech: [method of Live]
+    signature: "applyRules(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1042
+  live-ts-live-awareness-154t9:
+    kind: function
+    name: Live.awareness()
+    in: server-live-ts-1my3j
+    context: The awareness of this design's document (presence), shared with every tab.
+    tech: [method of Live]
+    signature: "awareness(): { setLocalState(s: unknown): void; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:822
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+  live-ts-live-close-rfdfk:
+    kind: function
+    name: Live.close()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1012
+  live-ts-live-commit-1ohvh:
+    kind: function
+    name: Live.commit()
+    in: server-live-ts-1my3j
+    context: Apply a batch as `p`; every open tab sees it at once. Throws ModelError on a bad batch.
+    tech: [method of Live]
+    signature: "commit(p: Principal, ops: Op[], label: string, opts?: CommitOpts | undefined): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:853
+  live-ts-live-config-1ps60:
+    kind: function
+    name: Live.config()
+    in: server-live-ts-1my3j
+    context: archnm.yaml's settings (its rules), kept in the document so a fork carries them, a commit writes them back and check holds an agent's edits to them.
+    tech: [method of Live]
+    signature: "config(): FConfig"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:797
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-constructor-1gcyv:
+    kind: function
+    name: Live.<constructor>()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "constructor(hub: Hub, key: string, dir: string | null, where: { design: string; branch: string | null; }): Live"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:576
+  live-ts-live-docid-1cxew:
+    kind: function
+    name: Live.docId()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "docId(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:785
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-endguide-u47pm:
+    kind: function
+    name: Live.endGuide()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "endGuide(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:965
+  live-ts-live-follow-2bh27:
+    kind: function
+    name: Live.follow()
+    in: server-live-ts-1my3j
+    context: Follow a checkout read-only (git's main), instead of writing a folder of our own.
+    tech: [method of Live]
+    signature: "follow(dir: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:770
+  live-ts-live-get-changes-hgnx8:
+    kind: function
+    name: Live.<get>changes()
+    in: server-live-ts-1my3j
+    context: Bumped by every change; lets a fork tell whether it has anything new to commit.
+    tech: [method of Live]
+    signature: "get changes: number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:606
+  live-ts-live-get-guideseq-1d7as:
+    kind: function
+    name: Live.<get>guideSeq()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "get guideSeq: number | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:961
+  live-ts-live-get-mode-1wax1:
+    kind: function
+    name: Live.<get>mode()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "get mode: Mode"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:596
+  live-ts-live-get-ready-pjizs:
+    kind: function
+    name: Live.<get>ready()
+    in: server-live-ts-1my3j
+    context: Has start() finished (the document is there to read)?
+    tech: [method of Live]
+    signature: "get ready: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1022
+  live-ts-live-get-statedir-1x4tc:
+    kind: function
+    name: Live.<get>stateDir()
+    in: server-live-ts-1my3j
+    context: Where Archnemesis keeps its own state, next to the database.
+    tech: [method of Live]
+    signature: "get stateDir: string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:601
+  live-ts-live-guardsenders-1bhbc:
+    kind: function
+    name: Live.guardSenders()
+    in: server-live-ts-1my3j
+    context: "A browser writes to the document directly, so it could claim to be someone else. What it sends is checked against who it signed in as: a history entry in someone else's name (or a malformed one) is taken out, and a note or reply it starts, or re-signs, is put back in its sender's name. Editing someone else's note (resolving it) keeps theirs."
+    tech: [method of Live]
+    signature: "guardSenders(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:709
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-index-8r94z:
+    kind: function
+    name: Live.index()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "index(): ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:830
+  live-ts-live-keeptidy-1flg8:
+    kind: function
+    name: Live.keepTidy()
+    in: server-live-ts-1my3j
+    context: "Keep tidy: a diagram that asks for it is laid out again when a box or arrow comes or goes, or its direction changes. Moving a box doesn't count, so a hand placement stays until the next change of structure. The first look (a server start) only takes note."
+    tech: [method of Live]
+    signature: "keepTidy(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1095
+  live-ts-live-name-w0cjk:
+    kind: function
+    name: Live.name()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "name(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:789
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-onchange-71ioh:
+    kind: function
+    name: Live.onChange()
+    in: server-live-ts-1my3j
+    context: Called after every change to the document, from anyone.
+    tech: [method of Live]
+    signature: "onChange(fn: () => void): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1002
+  live-ts-live-onlog-x3svo:
+    kind: function
+    name: Live.onLog()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "onLog(fn: (entries: LogEntry[]) => void): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1007
+  live-ts-live-point-z21m7:
+    kind: function
+    name: Live.point()
+    in: server-live-ts-1my3j
+    context: Steer the tabs of the person `p` works for to a view (a box, a flow step), with a line to read.
+    tech: [method of Live]
+    signature: 'point(p: Principal, g: Omit<Guide, "by" | "seq" | "for">): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:878
+  live-ts-live-recent-1mba2:
+    kind: function
+    name: Live.recent()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "recent(n?: number): LogEntry[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:996
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-reply-tlsce:
+    kind: function
+    name: Live.reply()
+    in: server-live-ts-1my3j
+    context: The person answered a guided step. Only whoever is being guided can.
+    tech: [method of Live]
+    signature: "reply(who: Principal, seq: number, r: GuideReply): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:942
+  live-ts-live-schedulesweep-1n1no:
+    kind: function
+    name: Live.scheduleSweep()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "scheduleSweep(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1066
+  live-ts-live-setconfig-12139:
+    kind: function
+    name: Live.setConfig()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "setConfig(config: FConfig): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:808
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-setlistening-1ovgu:
+    kind: function
+    name: Live.setListening()
+    in: server-live-ts-1my3j
+    context: "Tell the tab whether a wait call is open. Going quiet waits a few seconds: an agent that's still there calls again straight away, and the bar shouldn't flicker."
+    tech: [method of Live]
+    signature: "setListening(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:928
+  live-ts-live-setname-cpudu:
+    kind: function
+    name: Live.setName()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "setName(name: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:815
+    references:
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-showagent-10o16:
+    kind: function
+    name: Live.showAgent()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "showAgent(p: Principal, ids: string[], label: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:971
+  live-ts-live-start-1btnc:
+    kind: function
+    name: Live.start()
+    in: server-live-ts-1my3j
+    context: Load (or create) the document, keep it open for the life of the server, and sync its files. A new fork starts as a copy of `from`.
+    tech: [method of Live]
+    signature: "start(seed: Seed, name?: string | undefined, from?: Live | undefined): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:614
+    references:
+      - dependency: lib-hocuspocus-server-h2kpr
+      - dependency: lib-yjs-1y6wn
+  live-ts-live-undo-12dny:
+    kind: function
+    name: Live.undo()
+    in: server-live-ts-1my3j
+    context: "Undo `p`'s last step (only theirs; dry: only say it). What it was, or null when there's nothing to undo."
+    tech: [method of Live]
+    signature: "undo(p: Principal, dry?: boolean): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:992
+  live-ts-live-undofor-ai0vr:
+    kind: function
+    name: Live.undoFor()
+    in: server-live-ts-1my3j
+    tech: [method of Live]
+    signature: "undoFor(p: Principal): { actor: Actor; steps: UndoSteps; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1026
+  live-ts-live-unfollow-6y5ro:
+    kind: function
+    name: Live.unfollow()
+    in: server-live-ts-1my3j
+    context: "Connecting to git failed: back to the design's own folder, edited directly again."
+    tech: [method of Live]
+    signature: "unfollow(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:777
+  live-ts-live-waitreply-5hjyi:
+    kind: function
+    name: Live.waitReply()
+    in: server-live-ts-1my3j
+    context: Wait for the person's Next / Back / Stop / question on step `seq`; null when `ms` runs out.
+    tech: [method of Live]
+    signature: "waitReply(seq: number, ms: number): Promise<GuideReply | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:903
+  live-ts-movedir-194gv:
+    kind: function
+    name: moveDir()
+    in: server-live-ts-1my3j
+    context: "Move a folder, across filesystems too (the designs and the state dir often live on different ones, where rename fails with EXDEV): copy, then remove the original. A copy that fails partway is removed again, so the original is never left half-moved."
+    signature: "moveDir(from: string, to: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1143
+  live-ts-originactor-1h6df:
+    kind: function
+    name: originActor()
+    in: server-live-ts-1my3j
+    signature: "originActor(origin: unknown): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:1129
+  live-ts-senderof-1udlv:
+    kind: function
+    name: senderOf()
+    in: server-live-ts-1my3j
+    context: Who sent a transaction, when it came in over a browser's socket (Hocuspocus tags it).
+    signature: "senderOf(origin: unknown): Principal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/live.ts:102
+connections:
+  - {from: live-ts-hub-access-6z19v, to: store-ts-docstore-setting-se7db}
+  - {from: live-ts-hub-close-1gcha, to: gitsync-ts-gitsync-close-a1yhp}
+  - {from: live-ts-hub-close-1gcha, to: live-ts-live-close-rfdfk}
+  - {from: live-ts-hub-close-1gcha, to: presence-ts-presence-closetimers-12p8x}
+  - {from: live-ts-hub-close-1gcha, to: store-ts-docstore-close-19yo8}
+  - {from: live-ts-hub-closelinks-d9j5x, to: links-ts-links-valid-10c7u}
+  - {from: live-ts-hub-constructor-fqprl, to: auth-ts-auth-identify-1293d}
+  - {from: live-ts-hub-constructor-fqprl, to: links-ts-links-constructor-10hlb}
+  - {from: live-ts-hub-constructor-fqprl, to: live-ts-hub-get-171sh}
+  - {from: live-ts-hub-constructor-fqprl, to: live-ts-live-get-mode-1wax1}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-perms-can-kqb2y}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-perms-constructor-i7mun}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-perms-linkid-8cu2u}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-perms-prepare-13vzz}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-perms-present-329hw}
+  - {from: live-ts-hub-constructor-fqprl, to: perms-ts-splittoken-1fj08}
+  - {from: live-ts-hub-constructor-fqprl, to: presence-link-ts-stopawarenesstimer-dfz68}
+  - {from: live-ts-hub-constructor-fqprl, to: presence-ts-guestuser-uotmb}
+  - {from: live-ts-hub-constructor-fqprl, to: presence-ts-presence-changed-1jbxb}
+  - {from: live-ts-hub-constructor-fqprl, to: presence-ts-presence-constructor-19v8u}
+  - {from: live-ts-hub-constructor-fqprl, to: presence-ts-presence-here-ne4ls}
+  - {from: live-ts-hub-constructor-fqprl, to: repoaccess-ts-githubsource-rlg65}
+  - {from: live-ts-hub-constructor-fqprl, to: repoaccess-ts-repoaccess-constructor-1tq15}
+  - {from: live-ts-hub-constructor-fqprl, to: store-ts-docstore-load-10vh9}
+  - {from: live-ts-hub-create-1bqx6, to: live-ts-hub-open-x8rp1}
+  - {from: live-ts-hub-create-1bqx6, to: model-ts-slug-1nu4f}
+  - {from: live-ts-hub-create-1bqx6, to: store-ts-docstore-setsetting-ong2u}
+  - {from: live-ts-hub-dropfork-tf249, to: links-ts-links-drop-1ovr8}
+  - {from: live-ts-hub-dropfork-tf249, to: live-ts-hub-broadcast-kvtl2}
+  - {from: live-ts-hub-dropfork-tf249, to: live-ts-hub-connectionsof-azhzs}
+  - {from: live-ts-hub-dropfork-tf249, to: live-ts-live-close-rfdfk}
+  - {from: live-ts-hub-freeze-1f762, to: live-ts-hub-broadcast-kvtl2}
+  - {from: live-ts-hub-freeze-1f762, to: live-ts-hub-connectionsof-azhzs}
+  - {from: live-ts-hub-list-1ewsx, to: live-ts-hub-access-6z19v}
+  - {from: live-ts-hub-list-1ewsx, to: live-ts-hub-present-iwb2c}
+  - {from: live-ts-hub-list-1ewsx, to: live-ts-live-get-ready-pjizs}
+  - {from: live-ts-hub-list-1ewsx, to: live-ts-live-name-w0cjk}
+  - {from: live-ts-hub-list-1ewsx, to: perms-ts-perms-can-kqb2y}
+  - {from: live-ts-hub-list-1ewsx, to: perms-ts-perms-owns-9o8kl}
+  - {from: live-ts-hub-open-x8rp1, to: live-ts-live-close-rfdfk}
+  - {from: live-ts-hub-open-x8rp1, to: live-ts-live-constructor-1gcyv}
+  - {from: live-ts-hub-open-x8rp1, to: live-ts-live-start-1btnc}
+  - {from: live-ts-hub-openfork-mby3y, to: live-ts-live-close-rfdfk}
+  - {from: live-ts-hub-openfork-mby3y, to: live-ts-live-constructor-1gcyv}
+  - {from: live-ts-hub-openfork-mby3y, to: live-ts-live-start-1btnc}
+  - {from: live-ts-hub-remove-11vhc, to: links-ts-links-drop-1ovr8}
+  - {from: live-ts-hub-remove-11vhc, to: live-ts-hub-broadcast-kvtl2}
+  - {from: live-ts-hub-remove-11vhc, to: live-ts-hub-connectionsof-azhzs}
+  - {from: live-ts-hub-remove-11vhc, to: live-ts-live-close-rfdfk}
+  - {from: live-ts-hub-remove-11vhc, to: live-ts-movedir-194gv}
+  - {from: live-ts-hub-remove-11vhc, to: presence-ts-presence-changed-1jbxb}
+  - {from: live-ts-hub-remove-11vhc, to: store-ts-docstore-deletesetting-1ene3}
+  - {from: live-ts-hub-remove-11vhc, to: store-ts-docstore-dropdoc-1kk6u}
+  - {from: live-ts-hub-setprivate-1k9k2, to: live-ts-hub-access-6z19v}
+  - {from: live-ts-hub-setprivate-1k9k2, to: presence-ts-presence-changed-1jbxb}
+  - {from: live-ts-hub-setprivate-1k9k2, to: store-ts-docstore-setsetting-ong2u}
+  - {from: live-ts-hub-start-1kbs5, to: files-ts-hasdesignfolder-abc2j}
+  - {from: live-ts-hub-start-1kbs5, to: gitsync-ts-gitsync-boot-1vot3}
+  - {from: live-ts-hub-start-1kbs5, to: gitsync-ts-gitsync-constructor-1b1ie}
+  - {from: live-ts-hub-start-1kbs5, to: live-ts-hub-closelinks-d9j5x}
+  - {from: live-ts-hub-start-1kbs5, to: live-ts-hub-create-1bqx6}
+  - {from: live-ts-hub-start-1kbs5, to: live-ts-hub-open-x8rp1}
+  - {from: live-ts-hub-start-1kbs5, to: model-ts-slug-1nu4f}
+  - {from: live-ts-hub-start-1kbs5, to: store-ts-docstore-bindings-voxl1}
+  - {from: live-ts-hub-start-1kbs5, to: store-ts-docstore-docs-ee7d9}
+  - {from: live-ts-hub-start-1kbs5, to: store-ts-docstore-setbinding-s640z}
+  - {from: live-ts-hub-upgrade-km93n, to: addr-ts-clientaddr-6w728}
+  - {from: live-ts-live-applyrules-mzbpr, to: doc-ts-applyops-7k6hw}
+  - {from: live-ts-live-applyrules-mzbpr, to: live-ts-live-index-8r94z}
+  - {from: live-ts-live-applyrules-mzbpr, to: views-ts-viewops-1bd47}
+  - {from: live-ts-live-close-rfdfk, to: files-ts-filesync-close-1n85e}
+  - {from: live-ts-live-commit-1ohvh, to: doc-ts-undosteps-apply-15ixe}
+  - {from: live-ts-live-commit-1ohvh, to: live-ts-live-get-mode-1wax1}
+  - {from: live-ts-live-commit-1ohvh, to: live-ts-live-showagent-10o16}
+  - {from: live-ts-live-commit-1ohvh, to: live-ts-live-undofor-ai0vr}
+  - {from: live-ts-live-commit-1ohvh, to: model-ts-isthreadop-18qdp}
+  - {from: live-ts-live-config-1ps60, to: live-ts-live-name-w0cjk}
+  - {from: live-ts-live-constructor-1gcyv, to: files-ts-filesync-constructor-wdle3}
+  - {from: live-ts-live-endguide-u47pm, to: live-ts-live-awareness-154t9}
+  - {from: live-ts-live-follow-2bh27, to: files-ts-filesync-close-1n85e}
+  - {from: live-ts-live-follow-2bh27, to: files-ts-filesync-constructor-wdle3}
+  - {from: live-ts-live-follow-2bh27, to: files-ts-filesync-start-rcai2}
+  - {from: live-ts-live-guardsenders-1bhbc, to: doc-ts-logentryok-1rxk0}
+  - {from: live-ts-live-guardsenders-1bhbc, to: doc-ts-logof-drj7i}
+  - {from: live-ts-live-guardsenders-1bhbc, to: live-ts-senderof-1udlv}
+  - {from: live-ts-live-index-8r94z, to: project-ts-buildindex-dkcy4}
+  - {from: live-ts-live-keeptidy-1flg8, to: doc-ts-applyops-7k6hw}
+  - {from: live-ts-live-keeptidy-1flg8, to: layout-ts-layoutops-1r6pk}
+  - {from: live-ts-live-keeptidy-1flg8, to: layout-ts-structureof-1gub4}
+  - {from: live-ts-live-keeptidy-1flg8, to: live-ts-live-config-1ps60}
+  - {from: live-ts-live-keeptidy-1flg8, to: live-ts-live-index-8r94z}
+  - {from: live-ts-live-keeptidy-1flg8, to: project-ts-projectdiagram-1p3dd}
+  - {from: live-ts-live-point-z21m7, to: live-ts-live-awareness-154t9}
+  - {from: live-ts-live-point-z21m7, to: live-ts-live-endguide-u47pm}
+  - {from: live-ts-live-recent-1mba2, to: doc-ts-logentryok-1rxk0}
+  - {from: live-ts-live-recent-1mba2, to: doc-ts-logof-drj7i}
+  - {from: live-ts-live-reply-tlsce, to: live-ts-live-awareness-154t9}
+  - {from: live-ts-live-reply-tlsce, to: live-ts-live-endguide-u47pm}
+  - {from: live-ts-live-reply-tlsce, to: live-ts-live-setlistening-1ovgu}
+  - {from: live-ts-live-schedulesweep-1n1no, to: doc-ts-applyops-7k6hw}
+  - {from: live-ts-live-schedulesweep-1n1no, to: doc-ts-sweep-1nd2o}
+  - {from: live-ts-live-schedulesweep-1n1no, to: live-ts-live-applyrules-mzbpr}
+  - {from: live-ts-live-schedulesweep-1n1no, to: live-ts-live-keeptidy-1flg8}
+  - {from: live-ts-live-schedulesweep-1n1no, to: notes-ts-linknoteops-1xfe6}
+  - {from: live-ts-live-setlistening-1ovgu, to: live-ts-live-awareness-154t9}
+  - {from: live-ts-live-setname-cpudu, to: live-ts-live-name-w0cjk}
+  - {from: live-ts-live-showagent-10o16, to: live-ts-live-awareness-154t9}
+  - {from: live-ts-live-showagent-10o16, to: live-ts-live-index-8r94z}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-applyops-7k6hw}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-fill-dwqka}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-logentryok-1rxk0}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-logof-drj7i}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-mirror-1k3af}
+  - {from: live-ts-live-start-1btnc, to: doc-ts-readstate-1orda}
+  - {from: live-ts-live-start-1btnc, to: files-ts-filesync-start-rcai2}
+  - {from: live-ts-live-start-1btnc, to: files-ts-hasdesignfolder-abc2j}
+  - {from: live-ts-live-start-1btnc, to: live-ts-live-guardsenders-1bhbc}
+  - {from: live-ts-live-start-1btnc, to: live-ts-live-keeptidy-1flg8}
+  - {from: live-ts-live-start-1btnc, to: live-ts-live-schedulesweep-1n1no}
+  - {from: live-ts-live-start-1btnc, to: live-ts-originactor-1h6df}
+  - {from: live-ts-live-start-1btnc, to: model-ts-makediagram-8ks8b}
+  - {from: live-ts-live-start-1btnc, to: seed-ts-codeseedops-1hncm}
+  - {from: live-ts-live-start-1btnc, to: seed-ts-seedops-1s1it}
+  - {from: live-ts-live-start-1btnc, to: store-ts-docstore-append-gsep2}
+  - {from: live-ts-live-start-1btnc, to: store-ts-docstore-compact-926kr}
+  - {from: live-ts-live-start-1btnc, to: store-ts-docstore-isnew-16pxj}
+  - {from: live-ts-live-undo-12dny, to: doc-ts-undosteps-undo-b5zj7}
+  - {from: live-ts-live-undo-12dny, to: live-ts-live-undofor-ai0vr}
+  - {from: live-ts-live-undofor-ai0vr, to: doc-ts-undosteps-constructor-17njk}
+  - {from: live-ts-live-undofor-ai0vr, to: live-ts-actorof-18oks}
+  - {from: live-ts-live-unfollow-6y5ro, to: files-ts-filesync-close-1n85e}
+  - {from: live-ts-live-unfollow-6y5ro, to: files-ts-filesync-constructor-wdle3}
+  - {from: live-ts-live-unfollow-6y5ro, to: files-ts-filesync-start-rcai2}
+  - {from: live-ts-live-waitreply-5hjyi, to: live-ts-live-setlistening-1ovgu}
+  - {from: server-live-ts-1my3j, to: doc-ts-emptystate-1a3cm}

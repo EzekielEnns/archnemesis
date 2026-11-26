@@ -1,0 +1,9 @@
+{
+  "cli": {"x": 0, "y": 0},
+  "server": {"x": 256, "y": 0},
+  "shared-layout": {"x": 504, "y": 512},
+  "shared-model": {"x": 296, "y": 752},
+  "shared-support": {"x": 280, "y": 1000},
+  "shared-tools": {"x": 296, "y": 304},
+  "web": {"x": 552, "y": 0}
+}

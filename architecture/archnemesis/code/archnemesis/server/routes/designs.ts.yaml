@@ -1,0 +1,29 @@
+# archnemesis:server/routes/designs.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-designs-ts-1r34b:
+    kind: module
+    name: designs.ts
+    in: srv-edge
+    context: The list of designs, and making one.
+    tech: [TypeScript]
+    path: archnemesis:server/routes/designs.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/designs.ts
+  designs-ts-designsroutes-wg1co:
+    kind: function
+    name: designsRoutes()
+    in: routes-designs-ts-1r34b
+    signature: "designsRoutes(ctx: Ctx, { req, res, path, who }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/designs.ts:7
+connections:
+  - {from: designs-ts-designsroutes-wg1co, to: access-ts-cancreate-r0ix9}
+  - {from: designs-ts-designsroutes-wg1co, to: http-ts-body-14i98}
+  - {from: designs-ts-designsroutes-wg1co, to: http-ts-json-3ycbr}
+  - {from: designs-ts-designsroutes-wg1co, to: live-ts-hub-create-1bqx6}
+  - {from: designs-ts-designsroutes-wg1co, to: live-ts-hub-list-1ewsx}
+  - {from: designs-ts-designsroutes-wg1co, to: live-ts-live-docid-1cxew}
+  - {from: designs-ts-designsroutes-wg1co, to: live-ts-live-name-w0cjk}

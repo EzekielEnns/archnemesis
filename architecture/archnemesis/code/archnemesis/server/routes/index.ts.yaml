@@ -1,0 +1,47 @@
+# archnemesis:server/routes/index.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-index-ts-1tarj:
+    kind: module
+    name: index.ts
+    in: srv-edge
+    context: "The JSON API: one module per area in this folder, tried in the order below. Each takes the context and the call and answers true when it handled the request."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/index.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/index.ts
+  index-ts-apiroutes-spm50:
+    kind: function
+    name: apiRoutes()
+    in: routes-index-ts-1tarj
+    signature: "apiRoutes(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/index.ts:46
+  index-ts-guestmayask-1812t:
+    kind: function
+    name: guestMayAsk()
+    in: routes-index-ts-1tarj
+    context: "A guest only ever reads one design: GET /api/d/<key>/..., and only where the hoster allows it."
+    signature: "guestMayAsk(ctx: Ctx, method: string | undefined, path: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/index.ts:86
+connections:
+  - {from: index-ts-apiroutes-spm50, to: addr-ts-clientaddr-6w728}
+  - {from: index-ts-apiroutes-spm50, to: auth-ts-auth-authorize-hqj8x}
+  - {from: index-ts-apiroutes-spm50, to: design-ts-designroutes-1d9fm}
+  - {from: index-ts-apiroutes-spm50, to: designs-ts-designsroutes-wg1co}
+  - {from: index-ts-apiroutes-spm50, to: github-ts-githubreturnroutes-yh4nw}
+  - {from: index-ts-apiroutes-spm50, to: github-ts-githubroutes-xmqo3}
+  - {from: index-ts-apiroutes-spm50, to: http-ts-json-3ycbr}
+  - {from: index-ts-apiroutes-spm50, to: http-ts-sharetoken-1dyhe}
+  - {from: index-ts-apiroutes-spm50, to: icons-ts-iconroutes-1iiwi}
+  - {from: index-ts-apiroutes-spm50, to: index-ts-guestmayask-1812t}
+  - {from: index-ts-apiroutes-spm50, to: oauth-ts-oauthallowpage-qwd8l}
+  - {from: index-ts-apiroutes-spm50, to: perms-ts-perms-present-329hw}
+  - {from: index-ts-apiroutes-spm50, to: perms-ts-perms-warm-nt7hb}
+  - {from: index-ts-apiroutes-spm50, to: signin-ts-accountroutes-1073i}
+  - {from: index-ts-apiroutes-spm50, to: signin-ts-signinroutes-1erb0}
+  - {from: index-ts-apiroutes-spm50, to: telemetry-ts-telemetryroutes-hd5yu}

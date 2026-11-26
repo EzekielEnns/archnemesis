@@ -1,0 +1,691 @@
+# archnemesis:shared/doc.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-doc-ts-wuzun:
+    kind: module
+    name: doc.ts
+    in: shared-model
+    context: The live model is a Yjs document, shared by every open tab, the server and the agents.
+    tech: [TypeScript]
+    path: archnemesis:shared/doc.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts
+  doc-ts-akey-97egr:
+    kind: function
+    name: akey()
+    in: shared-doc-ts-wuzun
+    signature: "akey: (diagramId: string, from: string, to: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:90
+  doc-ts-appendlog-17rlo:
+    kind: function
+    name: appendLog()
+    in: shared-doc-ts-wuzun
+    signature: "appendLog(doc: Doc, entry: LogEntry): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1479
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-applyops-7k6hw:
+    kind: function
+    name: applyOps()
+    in: shared-doc-ts-wuzun
+    context: Check and apply a batch as one transaction, tagged with `origin` (so each editor's undo only sees their own edits) and logged under `actor`. Returns the ids touched.
+    signature: "applyOps(doc: Doc, state: ModelState, ops: Op[], actor: Actor, label: string, origin?: unknown, opts?: { pin?: boolean | undefined; log?: boolean | undefined; }): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1397
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-authorok-mhi2y:
+    kind: function
+    name: authorOk()
+    in: shared-doc-ts-wuzun
+    signature: "authorOk(a: unknown): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:452
+  doc-ts-check-19ost:
+    kind: function
+    name: check()
+    in: shared-doc-ts-wuzun
+    signature: "check(cond: unknown, message: string): asserts cond"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:68
+  doc-ts-checker-constructor-805nt:
+    kind: function
+    name: Checker.<constructor>()
+    in: shared-doc-ts-wuzun
+    context: "A batch checked a step at a time against one working copy: each step's ops on top of the steps before it, a step that fails taken back whole. Linear, where planning the whole batch so far again after every step was quadratic."
+    tech: [method of Checker]
+    signature: "constructor(state: ModelState): Checker"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:728
+  doc-ts-checker-step-k56gl:
+    kind: function
+    name: Checker.step()
+    in: shared-doc-ts-wuzun
+    context: Check these ops on top of what's checked so far; throws (having taken them back) if they don't hold.
+    tech: [method of Checker]
+    signature: "step(ops: Op[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:732
+  doc-ts-cleanarrow-157qj:
+    kind: function
+    name: cleanArrow()
+    in: shared-doc-ts-wuzun
+    context: Only the fields an arrow shape has, rounded, and only the ones that say something.
+    signature: "cleanArrow(r: Record<string, unknown>): ArrowShape"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1634
+  doc-ts-cleanauthor-1blpq:
+    kind: function
+    name: cleanAuthor()
+    in: shared-doc-ts-wuzun
+    context: "Only who they are: an author is copied into every note, so nothing else rides along."
+    signature: "cleanAuthor(a: Author): Author"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:458
+  doc-ts-columnsok-1gumo:
+    kind: function
+    name: columnsOk()
+    in: shared-doc-ts-wuzun
+    context: "A table's columns: each a name and a type, flags true or left out."
+    signature: "columnsOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:171
+  doc-ts-danglingops-ql5kh:
+    kind: function
+    name: danglingOps()
+    in: shared-doc-ts-wuzun
+    context: Deletes that clear references left dangling by concurrent edits.
+    signature: "danglingOps(s: ModelState): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1486
+  doc-ts-draft-all-1g6zx:
+    kind: function
+    name: Draft.all()
+    in: shared-doc-ts-wuzun
+    tech: [method of Draft]
+    signature: "all<T>(table: keyof ModelState): Iterable<[string, T]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:652
+  doc-ts-draft-begin-b09xs:
+    kind: function
+    name: Draft.begin()
+    in: shared-doc-ts-wuzun
+    tech: [method of Draft]
+    signature: "begin(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:693
+  doc-ts-draft-commit-8joy6:
+    kind: function
+    name: Draft.commit()
+    in: shared-doc-ts-wuzun
+    tech: [method of Draft]
+    signature: "commit(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:696
+  doc-ts-draft-constructor-1ntnk:
+    kind: function
+    name: Draft.<constructor>()
+    in: shared-doc-ts-wuzun
+    context: A working copy of the state that a batch is checked against before anything is written. Unique keys and names are looked up in indexes kept as it goes (built on first use), so a batch of thousands checks in linear time. A step can be taken back (begin, rollback).
+    tech: [method of Draft]
+    signature: "constructor(base: ModelState): Draft"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:642
+  doc-ts-draft-get-1vjhv:
+    kind: function
+    name: Draft.get()
+    in: shared-doc-ts-wuzun
+    tech: [method of Draft]
+    signature: "get<T>(table: keyof ModelState, key: string): T | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:646
+  doc-ts-draft-owners-1l5wq:
+    kind: function
+    name: Draft.owners()
+    in: shared-doc-ts-wuzun
+    context: The ids of what's known by `value` (a key, an entity's name).
+    tech: [method of Draft]
+    signature: 'owners(u: "objectKey" | "viewKey" | "boundaryKey" | "entityKey" | "entityName", value: string): ReadonlySet<string>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:661
+  doc-ts-draft-rollback-klhd5:
+    kind: function
+    name: Draft.rollback()
+    in: shared-doc-ts-wuzun
+    context: Take back everything since begin() (the indexes are rebuilt when next needed).
+    tech: [method of Draft]
+    signature: "rollback(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:700
+  doc-ts-draft-set-r6kwb:
+    kind: function
+    name: Draft.set()
+    in: shared-doc-ts-wuzun
+    tech: [method of Draft]
+    signature: 'set(table: keyof ModelState | "tagGroup", key: string, value: unknown): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:675
+  doc-ts-dropselectors-y5zit:
+    kind: function
+    name: dropSelectors()
+    in: shared-doc-ts-wuzun
+    context: "A selector list with `id` let go: out of ids lists, and selectors about it dropped. Same list when untouched."
+    signature: "dropSelectors<S extends object>(list: S[], id: string): S[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1304
+  doc-ts-emptystate-1a3cm:
+    kind: function
+    name: emptyState()
+    in: shared-doc-ts-wuzun
+    signature: "emptyState(): ModelState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:553
+  doc-ts-exec-u5z60:
+    kind: function
+    name: exec()
+    in: shared-doc-ts-wuzun
+    signature: "exec(d: Draft, op: Op): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:744
+  doc-ts-fill-dwqka:
+    kind: function
+    name: fill()
+    in: shared-doc-ts-wuzun
+    context: Copy `from` into `into`'s own maps (the mirror holds on to those).
+    signature: "fill(into: ModelState, from: ModelState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:570
+  doc-ts-free-8vg0z:
+    kind: function
+    name: free()
+    in: shared-doc-ts-wuzun
+    context: Is `value` free for record `id` (no other record is known by it)?
+    signature: 'free: (d: Draft, u: "objectKey" | "viewKey" | "boundaryKey" | "entityKey" | "entityName", value: string, id: string) => boolean'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:711
+  doc-ts-lines-adiur:
+    kind: function
+    name: lines()
+    in: shared-doc-ts-wuzun
+    context: A list of short lines (an entity's fields or values).
+    signature: "lines: (v: unknown, max: number) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:433
+  doc-ts-linksok-hkapa:
+    kind: function
+    name: linksOk()
+    in: shared-doc-ts-wuzun
+    context: "Docs on a box or diagram: http(s) only, exactly as safeUrl writes it, one per address."
+    signature: "linksOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:392
+  doc-ts-logentryok-1rxk0:
+    kind: function
+    name: logEntryOk()
+    in: shared-doc-ts-wuzun
+    context: Is this history entry well formed? Anything in the log came from some client.
+    signature: "logEntryOk(e: unknown): e is LogEntry"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1465
+  doc-ts-logof-drj7i:
+    kind: function
+    name: logOf()
+    in: shared-doc-ts-wuzun
+    signature: "logOf: (doc: Doc) => YArray<LogEntry>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:137
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-mirror-1k3af:
+    kind: function
+    name: mirror()
+    in: shared-doc-ts-wuzun
+    context: Keep `state` in step with `doc`. Calls `onChange` once per transaction with the transaction itself, after the plain copies are updated.
+    signature: "mirror(doc: Doc, state: ModelState, onChange: (tr: Transaction) => void): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:582
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-normalise-m4pcp:
+    kind: function
+    name: normalise()
+    in: shared-doc-ts-wuzun
+    context: An entry as the model type, defaults filled in (older or hand-made records have every field); null if it's malformed.
+    signature: "normalise(table: keyof ModelState, raw: unknown, key?: string | undefined): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:467
+  doc-ts-notesok-wev5r:
+    kind: function
+    name: notesOk()
+    in: shared-doc-ts-wuzun
+    signature: "notesOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:431
+  doc-ts-num-1f4zr:
+    kind: function
+    name: num()
+    in: shared-doc-ts-wuzun
+    signature: "num: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:145
+  doc-ts-optin-xt22m:
+    kind: function
+    name: optIn()
+    in: shared-doc-ts-wuzun
+    signature: "optIn: (v: unknown, list: readonly unknown[]) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:150
+  doc-ts-optkey-146wv:
+    kind: function
+    name: optKey()
+    in: shared-doc-ts-wuzun
+    signature: "optKey: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:193
+  doc-ts-optref-tlqau:
+    kind: function
+    name: optRef()
+    in: shared-doc-ts-wuzun
+    signature: "optRef: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:195
+  doc-ts-opttext-5efla:
+    kind: function
+    name: optText()
+    in: shared-doc-ts-wuzun
+    context: Absent, or a string of at most `max` characters.
+    signature: "optText: (v: unknown, max: number) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:149
+  doc-ts-packageok-m7lhu:
+    kind: function
+    name: packageOk()
+    in: shared-doc-ts-wuzun
+    context: "A library's package: a known registry, a name there, maybe a version."
+    signature: "packageOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:159
+  doc-ts-pathok-1k2fv:
+    kind: function
+    name: pathOk()
+    in: shared-doc-ts-wuzun
+    context: "A module's repo:path: a slug, a colon, a relative path that never climbs out with \"..\"."
+    signature: "pathOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:153
+  doc-ts-pkey-1l7v4:
+    kind: function
+    name: pkey()
+    in: shared-doc-ts-wuzun
+    signature: "pkey: (diagramId: string, objectId: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:89
+  doc-ts-plan-1b1ki:
+    kind: function
+    name: plan()
+    in: shared-doc-ts-wuzun
+    context: Check a batch and expand its cascades. Throws ModelError, having written nothing.
+    signature: "plan(state: ModelState, ops: Op[]): Write[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:715
+  doc-ts-readstate-1orda:
+    kind: function
+    name: readState()
+    in: shared-doc-ts-wuzun
+    signature: "readState(doc: Doc): ModelState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:540
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-readvalue-ad598:
+    kind: function
+    name: readValue()
+    in: shared-doc-ts-wuzun
+    signature: "readValue(v: unknown): unknown"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:141
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-ref-1j6p3:
+    kind: function
+    name: ref()
+    in: shared-doc-ts-wuzun
+    signature: "ref: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:194
+  doc-ts-referencesok-1m9q0:
+    kind: function
+    name: referencesOk()
+    in: shared-doc-ts-wuzun
+    context: "References: an image is an http(s) address or a path in the design, a doc a path in it."
+    signature: "referencesOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:409
+  doc-ts-refsok-1glux:
+    kind: function
+    name: refsOk()
+    in: shared-doc-ts-wuzun
+    context: "Identifiers elsewhere: a few short name → value pairs."
+    signature: "refsOk(v: unknown): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:384
+  doc-ts-rulesok-y71z7:
+    kind: function
+    name: rulesOk()
+    in: shared-doc-ts-wuzun
+    signature: "rulesOk(v: unknown): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:441
+  doc-ts-safekey-145pz:
+    kind: function
+    name: safeKey()
+    in: shared-doc-ts-wuzun
+    context: "An id or key that may become a file name: letters, digits, - _ . only."
+    signature: "safeKey: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:192
+  doc-ts-same-qe7z9:
+    kind: function
+    name: same()
+    in: shared-doc-ts-wuzun
+    signature: "same: (a: unknown, b: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1340
+  doc-ts-sourcesok-pr4qa:
+    kind: function
+    name: sourcesOk()
+    in: shared-doc-ts-wuzun
+    signature: "sourcesOk: (v: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:436
+  doc-ts-sweep-1nd2o:
+    kind: function
+    name: sweep()
+    in: shared-doc-ts-wuzun
+    context: "Remove dangling records directly (no checks: the references are already broken)."
+    signature: "sweep(doc: Doc, state: ModelState, actor: Actor): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1593
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-tables-14dtu:
+    kind: function
+    name: tables()
+    in: shared-doc-ts-wuzun
+    signature: "tables: (doc: Doc) => Record<keyof ModelState, YMap<unknown>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:123
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-text-ez0od:
+    kind: function
+    name: text()
+    in: shared-doc-ts-wuzun
+    context: A string of at most `max` characters.
+    signature: "text: (v: unknown, max: number) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:147
+  doc-ts-undomanager-bh3t5:
+    kind: function
+    name: undoManager()
+    in: shared-doc-ts-wuzun
+    context: "An undo stack for one editor: only their own transactions, one step per batch."
+    signature: "undoManager(doc: Doc, origin: unknown): UndoManager"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1657
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-undosteps-apply-15ixe:
+    kind: function
+    name: UndoSteps.apply()
+    in: shared-doc-ts-wuzun
+    tech: [method of UndoSteps]
+    signature: "apply(state: ModelState, ops: Op[], actor: Actor, label: string, opts?: CommitOpts): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1689
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-undosteps-constructor-17njk:
+    kind: function
+    name: UndoSteps.<constructor>()
+    in: shared-doc-ts-wuzun
+    context: One actor's edits as steps that know what they were, so an undo can say what it took back.
+    tech: [method of UndoSteps]
+    signature: "constructor(doc: Doc, origin: object): UndoSteps"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1677
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-undosteps-undo-b5zj7:
+    kind: function
+    name: UndoSteps.undo()
+    in: shared-doc-ts-wuzun
+    context: "Take back the last step (dry: only say what it was). Null: nothing to take back."
+    tech: [method of UndoSteps]
+    signature: "undo(dry?: boolean): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1712
+    references:
+      - dependency: lib-yjs-1y6wn
+  doc-ts-unpinnotes-1kynw:
+    kind: function
+    name: unpinNotes()
+    in: shared-doc-ts-wuzun
+    signature: "unpinNotes(d: Draft, objectId: string, diagramId: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1332
+  doc-ts-wellformed-1c5qx:
+    kind: function
+    name: wellFormed()
+    in: shared-doc-ts-wuzun
+    context: "Can this entry be trusted at all? A document holds whatever any client sent over the socket, which skips the checks ops get (plan()), so every entry is checked field by field as it's read, here and in every browser, and a malformed one is ignored. This is what stops a key like \"../../x\" from ever reaching a file name, or a javascript: link from reaching the page. `key` is the entry's key in its…"
+    signature: "wellFormed(table: keyof ModelState, r: Record<string, unknown>, key?: string | undefined): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:204
+  doc-ts-withoutid-btb0m:
+    kind: function
+    name: withoutId()
+    in: shared-doc-ts-wuzun
+    signature: "withoutId<R extends { include: S[]; exclude: S[]; }, S extends object>(rules: R, id: string): R"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1321
+  doc-ts-withpins-6z04f:
+    kind: function
+    name: withPins()
+    in: shared-doc-ts-wuzun
+    context: Placing or removing a box by hand on a diagram that follows rules updates its rules too, so the next time the rules are applied the hand edit sticks.
+    signature: "withPins(state: ModelState, ops: Op[]): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1426
+  doc-ts-write-13d8y:
+    kind: function
+    name: write()
+    in: shared-doc-ts-wuzun
+    context: Write planned changes into the document, touching only fields that changed.
+    signature: "write(doc: Doc, writes: Write[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/doc.ts:1343
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: doc-ts-appendlog-17rlo, to: doc-ts-logof-drj7i}
+  - {from: doc-ts-applyops-7k6hw, to: doc-ts-appendlog-17rlo}
+  - {from: doc-ts-applyops-7k6hw, to: doc-ts-plan-1b1ki}
+  - {from: doc-ts-applyops-7k6hw, to: doc-ts-withpins-6z04f}
+  - {from: doc-ts-applyops-7k6hw, to: doc-ts-write-13d8y}
+  - {from: doc-ts-authorok-mhi2y, to: doc-ts-ref-1j6p3}
+  - {from: doc-ts-authorok-mhi2y, to: doc-ts-text-ez0od}
+  - {from: doc-ts-checker-constructor-805nt, to: doc-ts-draft-constructor-1ntnk}
+  - {from: doc-ts-checker-step-k56gl, to: doc-ts-draft-begin-b09xs}
+  - {from: doc-ts-checker-step-k56gl, to: doc-ts-draft-commit-8joy6}
+  - {from: doc-ts-checker-step-k56gl, to: doc-ts-draft-rollback-klhd5}
+  - {from: doc-ts-checker-step-k56gl, to: doc-ts-exec-u5z60}
+  - {from: doc-ts-cleanarrow-157qj, to: doc-ts-num-1f4zr}
+  - {from: doc-ts-columnsok-1gumo, to: doc-ts-opttext-5efla}
+  - {from: doc-ts-columnsok-1gumo, to: doc-ts-text-ez0od}
+  - {from: doc-ts-danglingops-ql5kh, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-draft-owners-1l5wq, to: doc-ts-draft-all-1g6zx}
+  - {from: doc-ts-draft-set-r6kwb, to: doc-ts-draft-get-1vjhv}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-akey-97egr}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-authorok-mhi2y}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-check-19ost}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-cleanarrow-157qj}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-cleanauthor-1blpq}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-columnsok-1gumo}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-draft-all-1g6zx}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-draft-get-1vjhv}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-draft-set-r6kwb}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-dropselectors-y5zit}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-free-8vg0z}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-lines-adiur}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-linksok-hkapa}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-notesok-wev5r}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-num-1f4zr}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-optin-xt22m}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-packageok-m7lhu}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-pathok-1k2fv}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-referencesok-1m9q0}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-refsok-1glux}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-sourcesok-pr4qa}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-unpinnotes-1kynw}
+  - {from: doc-ts-exec-u5z60, to: doc-ts-withoutid-btb0m}
+  - {from: doc-ts-exec-u5z60, to: model-ts-safeurl-f4wjp}
+  - {from: doc-ts-exec-u5z60, to: views-ts-selectorerror-geuez}
+  - {from: doc-ts-free-8vg0z, to: doc-ts-draft-owners-1l5wq}
+  - {from: doc-ts-lines-adiur, to: doc-ts-text-ez0od}
+  - {from: doc-ts-linksok-hkapa, to: doc-ts-text-ez0od}
+  - {from: doc-ts-linksok-hkapa, to: model-ts-safeurl-f4wjp}
+  - {from: doc-ts-logentryok-1rxk0, to: doc-ts-authorok-mhi2y}
+  - {from: doc-ts-logentryok-1rxk0, to: doc-ts-text-ez0od}
+  - {from: doc-ts-mirror-1k3af, to: doc-ts-normalise-m4pcp}
+  - {from: doc-ts-mirror-1k3af, to: doc-ts-readvalue-ad598}
+  - {from: doc-ts-mirror-1k3af, to: doc-ts-tables-14dtu}
+  - {from: doc-ts-normalise-m4pcp, to: doc-ts-cleanarrow-157qj}
+  - {from: doc-ts-normalise-m4pcp, to: doc-ts-cleanauthor-1blpq}
+  - {from: doc-ts-normalise-m4pcp, to: doc-ts-wellformed-1c5qx}
+  - {from: doc-ts-normalise-m4pcp, to: model-ts-typename-mljz8}
+  - {from: doc-ts-notesok-wev5r, to: doc-ts-opttext-5efla}
+  - {from: doc-ts-optkey-146wv, to: doc-ts-safekey-145pz}
+  - {from: doc-ts-optref-tlqau, to: doc-ts-ref-1j6p3}
+  - {from: doc-ts-opttext-5efla, to: doc-ts-text-ez0od}
+  - {from: doc-ts-packageok-m7lhu, to: doc-ts-opttext-5efla}
+  - {from: doc-ts-packageok-m7lhu, to: doc-ts-text-ez0od}
+  - {from: doc-ts-plan-1b1ki, to: doc-ts-draft-constructor-1ntnk}
+  - {from: doc-ts-plan-1b1ki, to: doc-ts-exec-u5z60}
+  - {from: doc-ts-readstate-1orda, to: doc-ts-emptystate-1a3cm}
+  - {from: doc-ts-readstate-1orda, to: doc-ts-normalise-m4pcp}
+  - {from: doc-ts-readstate-1orda, to: doc-ts-readvalue-ad598}
+  - {from: doc-ts-readstate-1orda, to: doc-ts-tables-14dtu}
+  - {from: doc-ts-ref-1j6p3, to: doc-ts-text-ez0od}
+  - {from: doc-ts-referencesok-1m9q0, to: doc-ts-opttext-5efla}
+  - {from: doc-ts-referencesok-1m9q0, to: doc-ts-text-ez0od}
+  - {from: doc-ts-referencesok-1m9q0, to: model-ts-safeurl-f4wjp}
+  - {from: doc-ts-refsok-1glux, to: doc-ts-text-ez0od}
+  - {from: doc-ts-rulesok-y71z7, to: views-ts-selectorerror-geuez}
+  - {from: doc-ts-sourcesok-pr4qa, to: doc-ts-text-ez0od}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-akey-97egr}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-appendlog-17rlo}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-danglingops-ql5kh}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-tables-14dtu}
+  - {from: doc-ts-sweep-1nd2o, to: doc-ts-write-13d8y}
+  - {from: doc-ts-undomanager-bh3t5, to: doc-ts-tables-14dtu}
+  - {from: doc-ts-undosteps-apply-15ixe, to: doc-ts-applyops-7k6hw}
+  - {from: doc-ts-undosteps-constructor-17njk, to: doc-ts-undomanager-bh3t5}
+  - {from: doc-ts-unpinnotes-1kynw, to: doc-ts-draft-all-1g6zx}
+  - {from: doc-ts-unpinnotes-1kynw, to: doc-ts-draft-get-1vjhv}
+  - {from: doc-ts-unpinnotes-1kynw, to: doc-ts-draft-set-r6kwb}
+  - {from: doc-ts-unpinnotes-1kynw, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-akey-97egr}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-authorok-mhi2y}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-columnsok-1gumo}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-lines-adiur}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-linksok-hkapa}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-notesok-wev5r}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-num-1f4zr}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-optin-xt22m}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-optkey-146wv}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-optref-tlqau}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-opttext-5efla}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-packageok-m7lhu}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-pathok-1k2fv}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-ref-1j6p3}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-referencesok-1m9q0}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-refsok-1glux}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-rulesok-y71z7}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-safekey-145pz}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-sourcesok-pr4qa}
+  - {from: doc-ts-wellformed-1c5qx, to: doc-ts-text-ez0od}
+  - {from: doc-ts-wellformed-1c5qx, to: model-ts-safeurl-f4wjp}
+  - {from: doc-ts-withoutid-btb0m, to: doc-ts-dropselectors-y5zit}
+  - {from: doc-ts-withpins-6z04f, to: doc-ts-pkey-1l7v4}
+  - {from: doc-ts-withpins-6z04f, to: project-ts-buildindex-dkcy4}
+  - {from: doc-ts-withpins-6z04f, to: views-ts-pinedits-tr8o8}
+  - {from: doc-ts-write-13d8y, to: doc-ts-same-qe7z9}
+  - {from: doc-ts-write-13d8y, to: doc-ts-tables-14dtu}

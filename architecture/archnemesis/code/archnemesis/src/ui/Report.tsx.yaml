@@ -1,0 +1,28 @@
+# archnemesis:src/ui/Report.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-report-tsx-blnzu:
+    kind: module
+    name: Report.tsx
+    in: web-ui
+    context: "Report a bug or request a feature, from the app: kept on the server with agents' feedback (`archnm telemetry feedback` lists both), with where you were and how the page was doing."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Report.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Report.tsx
+  report-tsx-reportdialog-kah0s:
+    kind: function
+    name: ReportDialog()
+    in: ui-report-tsx-blnzu
+    signature: "ReportDialog({ kind: start, place, onDone, onCancel, }: { kind: ReportKind; place: ReportPlace; onDone: (id: number | null, error?: string | undefined) => void; onCancel: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Report.tsx:17
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: report-tsx-reportdialog-kah0s, to: dialog-tsx-dialog-39zlh}
+  - {from: report-tsx-reportdialog-kah0s, to: perf-tsx-perfsnapshot-zbie0}
+  - {from: report-tsx-reportdialog-kah0s, to: perf-tsx-recenterrors-13878}
+  - {from: report-tsx-reportdialog-kah0s, to: types-ts-typeliteral60-send-mv0n7}

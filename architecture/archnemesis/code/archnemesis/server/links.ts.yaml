@@ -1,0 +1,171 @@
+# archnemesis:server/links.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-links-ts-wmcvc:
+    kind: module
+    name: links.ts
+    in: srv-edge
+    context: "Share links: a token that lets whoever holds it view (and fork) one design or fork. Never edit."
+    tech: [TypeScript]
+    path: archnemesis:server/links.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts
+  links-ts-failurelimiter-blocked-1kvv8:
+    kind: function
+    name: FailureLimiter.blocked()
+    in: server-links-ts-wmcvc
+    tech: [method of FailureLimiter]
+    signature: "blocked(addr: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:119
+  links-ts-failurelimiter-constructor-fds0a:
+    kind: function
+    name: FailureLimiter.<constructor>()
+    in: server-links-ts-wmcvc
+    context: "Failed link checks per address, in a sliding minute: past the limit, that address's links are not looked at at all until it has been quiet (so tokens can't be guessed cheaply). A link that works never counts."
+    tech: [method of FailureLimiter]
+    signature: "constructor(limit?: number, windowMs?: number, now?: () => number): FailureLimiter"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:113
+  links-ts-failurelimiter-fail-1sor3:
+    kind: function
+    name: FailureLimiter.fail()
+    in: server-links-ts-wmcvc
+    tech: [method of FailureLimiter]
+    signature: "fail(addr: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:123
+  links-ts-failurelimiter-recent-1j50w:
+    kind: function
+    name: FailureLimiter.recent()
+    in: server-links-ts-wmcvc
+    tech: [method of FailureLimiter]
+    signature: "recent(addr: string): number[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:130
+  links-ts-hashof-1c0fm:
+    kind: function
+    name: hashOf()
+    in: server-links-ts-wmcvc
+    signature: "hashOf: (token: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:13
+  links-ts-iso-uz2vl:
+    kind: function
+    name: iso()
+    in: server-links-ts-wmcvc
+    signature: "iso: (n: number | null) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:17
+  links-ts-links-constructor-10hlb:
+    kind: function
+    name: Links.<constructor>()
+    in: server-links-ts-wmcvc
+    tech: [method of Links]
+    signature: "constructor(store: DocStore, now?: () => number): Links"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:25
+  links-ts-links-drop-1ovr8:
+    kind: function
+    name: Links.drop()
+    in: server-links-ts-wmcvc
+    context: Every link to a document (and, for a design, its forks) goes.
+    tech: [method of Links]
+    signature: "drop(doc: string, withForks: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:84
+  links-ts-links-find-rlvds:
+    kind: function
+    name: Links.find()
+    in: server-links-ts-wmcvc
+    context: The link a token names (any state), or null. Same work either way.
+    tech: [method of Links]
+    signature: "find(token: string): LinkRow | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:48
+  links-ts-links-info-1pzra:
+    kind: function
+    name: Links.info()
+    in: server-links-ts-wmcvc
+    tech: [method of Links]
+    signature: "info(r: LinkRecord): ShareLink"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:88
+  links-ts-links-list-1t9qb:
+    kind: function
+    name: Links.list()
+    in: server-links-ts-wmcvc
+    tech: [method of Links]
+    signature: "list(doc: string): ShareLink[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:71
+  links-ts-links-make-1583j:
+    kind: function
+    name: Links.make()
+    in: server-links-ts-wmcvc
+    context: A new link for `doc`; the token is only ever in this return value.
+    tech: [method of Links]
+    signature: "make(doc: string, by: { id: string; name: string; }, expiresInMs?: number | null | undefined): { token: string; id: string; info: ShareLink; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:31
+  links-ts-links-revoke-dc7k7:
+    kind: function
+    name: Links.revoke()
+    in: server-links-ts-wmcvc
+    context: Revoke one of `doc`'s links; false when it isn't one of its links.
+    tech: [method of Links]
+    signature: "revoke(doc: string, id: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:76
+  links-ts-links-used-ktqi7:
+    kind: function
+    name: Links.used()
+    in: server-links-ts-wmcvc
+    context: Note that a link was just used (at most once a minute per link).
+    tech: [method of Links]
+    signature: "used(id: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:63
+  links-ts-links-valid-10c7u:
+    kind: function
+    name: Links.valid()
+    in: server-links-ts-wmcvc
+    context: Whether a link still works (for the connections open on it).
+    tech: [method of Links]
+    signature: "valid(id: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/links.ts:57
+connections:
+  - {from: links-ts-failurelimiter-blocked-1kvv8, to: links-ts-failurelimiter-recent-1j50w}
+  - {from: links-ts-failurelimiter-fail-1sor3, to: links-ts-failurelimiter-recent-1j50w}
+  - {from: links-ts-links-drop-1ovr8, to: store-ts-docstore-droplinks-1xv3g}
+  - {from: links-ts-links-find-rlvds, to: links-ts-hashof-1c0fm}
+  - {from: links-ts-links-find-rlvds, to: store-ts-docstore-linkrow-1cdkx}
+  - {from: links-ts-links-info-1pzra, to: links-ts-iso-uz2vl}
+  - {from: links-ts-links-list-1t9qb, to: links-ts-links-info-1pzra}
+  - {from: links-ts-links-list-1t9qb, to: store-ts-docstore-linksof-tpe3g}
+  - {from: links-ts-links-make-1583j, to: links-ts-hashof-1c0fm}
+  - {from: links-ts-links-make-1583j, to: links-ts-links-info-1pzra}
+  - {from: links-ts-links-make-1583j, to: store-ts-docstore-addlink-1k4o6}
+  - {from: links-ts-links-make-1583j, to: store-ts-docstore-linkrow-1cdkx}
+  - {from: links-ts-links-revoke-dc7k7, to: store-ts-docstore-linkrow-1cdkx}
+  - {from: links-ts-links-revoke-dc7k7, to: store-ts-docstore-revokelink-n2t7j}
+  - {from: links-ts-links-used-ktqi7, to: store-ts-docstore-touchlink-1cz0o}
+  - {from: links-ts-links-valid-10c7u, to: store-ts-docstore-linkrow-1cdkx}
+  - {from: server-links-ts-wmcvc, to: links-ts-hashof-1c0fm}

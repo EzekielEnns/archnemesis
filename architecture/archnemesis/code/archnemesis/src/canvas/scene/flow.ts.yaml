@@ -1,0 +1,74 @@
+# archnemesis:src/canvas/scene/flow.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-flow-ts-1pey9:
+    kind: module
+    name: flow.ts
+    in: canvas-scene-iaxtu
+    context: "Story steps on the canvas: dots running along a flow's arrows, and the numbered badges and stars that go with them."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/flow.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts
+  flow-ts-dotspainter-1qbgk:
+    kind: function
+    name: dotsPainter()
+    in: scene-flow-ts-1pey9
+    context: "Draws dots running along one route: the painter drawFlowDots hands to each arrow."
+    signature: "dotsPainter(g: Graphics, still: boolean, px: number, t: number): Dots"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts:21
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  flow-ts-drawflowdots-1cv4c:
+    kind: function
+    name: drawFlowDots()
+    in: scene-flow-ts-1pey9
+    context: "A flow step plays: dots run along each of its arrows from the step's caller to what it calls, so which way the traffic goes reads at a glance. True while there's something to animate (the frame loop keeps going). Still dots, no motion, for reduced motion."
+    signature: "drawFlowDots(state: SceneState, now: number): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts:85
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  flow-ts-drawsteps-z3fmk:
+    kind: function
+    name: drawSteps()
+    in: scene-flow-ts-1pey9
+    context: A flow's step numbers, the same size on screen at any zoom.
+    signature: "drawSteps(state: SceneState, px: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts:102
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  flow-ts-focusdots-11snm:
+    kind: function
+    name: focusDots()
+    in: scene-flow-ts-1pey9
+    context: What's selected or lit always runs; every other arrow only if this person asked for it.
+    signature: "focusDots(state: SceneState, dots: Dots, stepped: Set<EdgeView>): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts:64
+  flow-ts-stepdots-10m72:
+    kind: function
+    name: stepDots()
+    in: scene-flow-ts-1pey9
+    context: "A playing flow's steps: bright, whatever else is on. Says whether any was drawn, and which arrows."
+    signature: "stepDots(state: SceneState, dots: Dots): { any: boolean; stepped: Set<EdgeView>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/flow.ts:42
+connections:
+  - {from: flow-ts-dotspainter-1qbgk, to: geometry-ts-routepoint-vghoc}
+  - {from: flow-ts-drawflowdots-1cv4c, to: flow-ts-dotspainter-1qbgk}
+  - {from: flow-ts-drawflowdots-1cv4c, to: flow-ts-focusdots-11snm}
+  - {from: flow-ts-drawflowdots-1cv4c, to: flow-ts-stepdots-10m72}
+  - {from: flow-ts-drawsteps-z3fmk, to: geometry-ts-route-26rwn}
+  - {from: flow-ts-drawsteps-z3fmk, to: geometry-ts-routepoint-vghoc}
+  - {from: flow-ts-drawsteps-z3fmk, to: lookup-ts-frameof-175pu}
+  - {from: flow-ts-focusdots-11snm, to: camera-ts-visibleworld-1745x}
+  - {from: flow-ts-stepdots-10m72, to: geometry-ts-route-26rwn}

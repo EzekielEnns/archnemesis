@@ -1,0 +1,284 @@
+# archnemesis:server/git.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-git-ts-13ze1:
+    kind: module
+    name: git.ts
+    in: srv-git
+    context: Git, for designs synced with a repo. One clone per design, driven with the plain `git` command, one command at a time per clone.
+    tech: [TypeScript]
+    path: archnemesis:server/git.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts
+  git-ts-giterror-constructor-1k98c:
+    kind: function
+    name: GitError.<constructor>()
+    in: server-git-ts-13ze1
+    tech: [method of GitError]
+    signature: "constructor(message: string, code?: number | null): GitError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:17
+  git-ts-personfor-rsfxb:
+    kind: function
+    name: personFor()
+    in: server-git-ts-13ze1
+    context: "A git author for someone in Archnemesis: their real address when Archnemesis knows it."
+    signature: "personFor(id: string, name: string): Person"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:442
+  git-ts-repo-bodies-zjl60:
+    kind: function
+    name: Repo.bodies()
+    in: server-git-ts-13ze1
+    context: The commit messages' bodies in `from..to`, oldest first.
+    tech: [method of Repo]
+    signature: "bodies(from: string | null, to: string): Promise<string[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:296
+  git-ts-repo-checkout-104mz:
+    kind: function
+    name: Repo.checkout()
+    in: server-git-ts-13ze1
+    context: Move the clone's checkout to `sha` (detached). Only ever done to follow origin's main.
+    tech: [method of Repo]
+    signature: "checkout(sha: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:195
+  git-ts-repo-commitfiles-1j9uc:
+    kind: function
+    name: Repo.commitFiles()
+    in: server-git-ts-13ze1
+    context: A commit holding `files` at `subpath`, on top of `start`'s tree (the rest of the repo is kept as it is), or null when that's exactly `parents[0]`'s tree already. `owned` says which paths under `subpath` Archnemesis manages; others found there are left alone.
+    tech: [method of Repo]
+    signature: "commitFiles(o: { start: string | null; parents: string[]; subpath: string; files: Map<string, string>; owned: (rel: string) => boolean; message: string; author: Person; }): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:318
+  git-ts-repo-committree-8fwlk:
+    kind: function
+    name: Repo.commitTree()
+    in: server-git-ts-13ze1
+    tech: [method of Repo]
+    signature: "commitTree(tree: string, parents: string[], message: string, author: Person): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:389
+  git-ts-repo-constructor-r5wvd:
+    kind: function
+    name: Repo.<constructor>()
+    in: server-git-ts-13ze1
+    context: A clone of one remote, at `dir`.
+    tech: [method of Repo]
+    signature: "constructor(dir: string, remote: string, git: { env: ProcessEnv; sshCommand: string; }): Repo"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:51
+  git-ts-repo-count-11ty7:
+    kind: function
+    name: Repo.count()
+    in: server-git-ts-13ze1
+    context: How many commits `to` has that `from` doesn't.
+    tech: [method of Repo]
+    signature: "count(from: string, to: string): Promise<number>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:207
+  git-ts-repo-deleteremote-156er:
+    kind: function
+    name: Repo.deleteRemote()
+    in: server-git-ts-13ze1
+    tech: [method of Repo]
+    signature: "deleteRemote(branch: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:425
+  git-ts-repo-ensure-1jcgy:
+    kind: function
+    name: Repo.ensure()
+    in: server-git-ts-13ze1
+    context: Clone the remote if it isn't here yet.
+    tech: [method of Repo]
+    signature: "ensure(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:170
+  git-ts-repo-exclusive-1wxj0:
+    kind: function
+    name: Repo.exclusive()
+    in: server-git-ts-13ze1
+    context: "Run `fn` with the clone to itself: git work on one clone never interleaves."
+    tech: [method of Repo]
+    signature: "exclusive<T>(fn: () => Promise<T>): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:59
+  git-ts-repo-fetch-p35nm:
+    kind: function
+    name: Repo.fetch()
+    in: server-git-ts-13ze1
+    tech: [method of Repo]
+    signature: "fetch(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:181
+  git-ts-repo-filesat-epvfq:
+    kind: function
+    name: Repo.filesAt()
+    in: server-git-ts-13ze1
+    context: The files under `subpath` in `commit` that `owned` picks, by path relative to it.
+    tech: [method of Repo]
+    signature: "filesAt(commit: string, subpath: string, owned: (rel: string) => boolean): Promise<Map<string, string>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:229
+  git-ts-repo-git-1nyc3:
+    kind: function
+    name: Repo.git()
+    in: server-git-ts-13ze1
+    context: "Run one git command in the clone (not queued: call inside exclusive)."
+    tech: [method of Repo]
+    signature: "git(args: string[], opts?: RunOpts): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:117
+  git-ts-repo-gitbytes-1w3md:
+    kind: function
+    name: Repo.gitBytes()
+    in: server-git-ts-13ze1
+    context: Run one git command that reads `input` and answers in bytes (cat-file --batch).
+    tech: [method of Repo]
+    signature: "gitBytes(args: string[], input: string): Promise<Buffer<ArrayBufferLike>>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:75
+  git-ts-repo-has-1mqkd:
+    kind: function
+    name: Repo.has()
+    in: server-git-ts-13ze1
+    context: Does `commit` have `path` (a file)?
+    tech: [method of Repo]
+    signature: "has(commit: string, path: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:212
+  git-ts-repo-initbare-16hyi:
+    kind: function
+    name: Repo.initBare()
+    in: server-git-ts-13ze1
+    context: Make a new bare repository at `dir` (for a design with nowhere else to go yet).
+    tech: [method of Repo]
+    signature: "initBare(dir: string, branch: string, git: { env: ProcessEnv; sshCommand: string; }): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:430
+  git-ts-repo-isancestor-rzdlm:
+    kind: function
+    name: Repo.isAncestor()
+    in: server-git-ts-13ze1
+    tech: [method of Repo]
+    signature: "isAncestor(a: string, b: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:199
+  git-ts-repo-log-76gps:
+    kind: function
+    name: Repo.log()
+    in: server-git-ts-13ze1
+    context: The last `n` commits on `ref` that changed `path`, newest first.
+    tech: [method of Repo]
+    signature: "log(ref: string, path: string, n: number): Promise<{ sha: string; date: string; author: string; subject: string; }[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:272
+  git-ts-repo-mergetree-4xexo:
+    kind: function
+    name: Repo.mergeTree()
+    in: server-git-ts-13ze1
+    context: "Merge `theirs` into `ours` without a working tree: the merged tree, or null on a conflict (nothing is written anywhere)."
+    tech: [method of Repo]
+    signature: "mergeTree(ours: string, theirs: string): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:410
+  git-ts-repo-objectformat-x87ov:
+    kind: function
+    name: Repo.objectFormat()
+    in: server-git-ts-13ze1
+    context: "The repo's object ids: \"sha1\" (nearly every repo) or \"sha256\"."
+    tech: [method of Repo]
+    signature: "objectFormat(): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:67
+  git-ts-repo-push-16nko:
+    kind: function
+    name: Repo.push()
+    in: server-git-ts-13ze1
+    context: Point a branch on the remote at `sha` (a fast-forward; never forced).
+    tech: [method of Repo]
+    signature: "push(sha: string, branch: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:421
+  git-ts-repo-remotehead-ze2yo:
+    kind: function
+    name: Repo.remoteHead()
+    in: server-git-ts-13ze1
+    context: The commit a remote branch points at, or null if it doesn't exist (an empty repo).
+    tech: [method of Repo]
+    signature: "remoteHead(branch: string): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:186
+  git-ts-repo-subtree-ytwqe:
+    kind: function
+    name: Repo.subtree()
+    in: server-git-ts-13ze1
+    context: The tree at `path` in `commit` ("" for the root), or null if it isn't there.
+    tech: [method of Repo]
+    signature: "subtree(commit: string, path: string): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:220
+  git-ts-repo-treeof-gig52:
+    kind: function
+    name: Repo.treeOf()
+    in: server-git-ts-13ze1
+    tech: [method of Repo]
+    signature: "treeOf(commit: string): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/git.ts:309
+connections:
+  - {from: git-ts-repo-bodies-zjl60, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-checkout-104mz, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-commitfiles-1j9uc, to: agentsmd-ts-isgeneratedagents-h0c04}
+  - {from: git-ts-repo-commitfiles-1j9uc, to: git-ts-repo-committree-8fwlk}
+  - {from: git-ts-repo-commitfiles-1j9uc, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-commitfiles-1j9uc, to: git-ts-repo-objectformat-x87ov}
+  - {from: git-ts-repo-commitfiles-1j9uc, to: git-ts-repo-treeof-gig52}
+  - {from: git-ts-repo-committree-8fwlk, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-count-11ty7, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-deleteremote-156er, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-ensure-1jcgy, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-fetch-p35nm, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-filesat-epvfq, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-filesat-epvfq, to: git-ts-repo-gitbytes-1w3md}
+  - {from: git-ts-repo-git-1nyc3, to: git-ts-giterror-constructor-1k98c}
+  - {from: git-ts-repo-gitbytes-1w3md, to: git-ts-giterror-constructor-1k98c}
+  - {from: git-ts-repo-has-1mqkd, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-initbare-16hyi, to: git-ts-repo-constructor-r5wvd}
+  - {from: git-ts-repo-initbare-16hyi, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-isancestor-rzdlm, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-log-76gps, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-mergetree-4xexo, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-objectformat-x87ov, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-push-16nko, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-remotehead-ze2yo, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-subtree-ytwqe, to: git-ts-repo-git-1nyc3}
+  - {from: git-ts-repo-treeof-gig52, to: git-ts-repo-git-1nyc3}

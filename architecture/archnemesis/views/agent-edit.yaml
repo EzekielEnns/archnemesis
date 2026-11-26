@@ -1,0 +1,50 @@
+# A hand-picked diagram: exactly these boxes.
+name: How an agent's edit lands
+story: |
+  From a write call to a pull request a person merges.
+arrows: elbow
+tidy: down
+boxes:
+  - agent
+  - db
+  - design-files
+  - design-repos
+  - github
+  - person
+  - shared-tools
+  - srv-files
+  - srv-git
+  - srv-live
+  - srv-mcp
+  - srv-store
+  - web
+flows:
+  - name: An agent adds a box
+    steps:
+      - from: agent
+        to: srv-mcp
+        text: The agent calls write with a YAML fragment. On a design that follows git, it lands on the agent's own fork.
+      - from: srv-mcp
+        to: shared-tools
+        text: The shared write tool checks the whole fragment against the grammar. Every problem comes back at once; nothing is half-applied.
+      - from: srv-mcp
+        to: srv-live
+        text: The change is applied to the fork's live document, as one undo step.
+      - from: srv-live
+        to: web
+        text: Everyone with the fork open sees the new box appear, with the agent's cursor.
+      - from: srv-live
+        to: srv-store
+        text: The update is saved to the database.
+      - from: srv-live
+        to: srv-files
+        text: The design's folder of YAML is rewritten to match.
+      - from: srv-live
+        to: srv-git
+        text: The fork is committed to its own branch.
+      - from: srv-git
+        to: github
+        text: When the agent proposes, the branch is pushed and a pull request link goes to the person.
+      - from: person
+        to: web
+        text: The person opens the fork, reads the diff on the canvas, and merges it into main.

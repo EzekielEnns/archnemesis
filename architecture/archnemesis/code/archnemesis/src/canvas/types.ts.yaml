@@ -1,0 +1,13 @@
+# archnemesis:src/canvas/types.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-types-ts-t0lv5:
+    kind: module
+    name: types.ts
+    in: web-canvas
+    context: "What the canvas draws: the projection of one diagram (shared/project.ts), so the canvas never knows about the model, only about boxes, arrows and boundaries."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/types.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/types.ts

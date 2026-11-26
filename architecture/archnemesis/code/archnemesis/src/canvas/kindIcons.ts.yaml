@@ -1,0 +1,22 @@
+# archnemesis:src/canvas/kindIcons.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-kindicons-ts-1k4pf:
+    kind: module
+    name: kindIcons.ts
+    in: web-canvas
+    context: "The toolbar's kind icons (lucide, ISC), as SVG for the canvas: a box shows its kind as one of these. Generated from lucide-react's icon data; regenerate if the toolbar icons change."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/kindIcons.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/kindIcons.ts
+  kindicons-ts-kindsvg-1kytf:
+    kind: function
+    name: kindSvg()
+    in: canvas-kindicons-ts-1k4pf
+    context: The kind's icon as an SVG document, stroked in `color`.
+    signature: 'kindSvg(kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table", color: string): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/kindIcons.ts:25

@@ -1,0 +1,102 @@
+# archnemesis:src/trail.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-trail-ts-1ioim:
+    kind: module
+    name: trail.ts
+    in: web-shell
+    context: 'Recording where you go (opt-in, this browser only): each move between views and how it was made, sent to the server in batches. ⌘K → "Record my navigation" turns it on.'
+    tech: [TypeScript]
+    path: archnemesis:src/trail.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts
+  trail-ts-flush-1jwbp:
+    kind: function
+    name: flush()
+    in: src-trail-ts-1ioim
+    signature: "flush(beacon?: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:91
+  trail-ts-mark-wbtsh:
+    kind: function
+    name: mark()
+    in: src-trail-ts-1ioim
+    context: '"This is confusing": always kept (the person asked), and sent straight away.'
+    signature: "mark(text: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:57
+  trail-ts-note-1tgcq:
+    kind: function
+    name: note()
+    in: src-trail-ts-1ioim
+    signature: 'note(e: Omit<TrailEvent, "at">): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:38
+  trail-ts-noteedit-1msyr:
+    kind: function
+    name: noteEdit()
+    in: src-trail-ts-1ioim
+    context: An edit made here (a batch of ops, or undo / redo).
+    signature: "noteEdit(label: string, ops?: { op: string; }[] | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:43
+  trail-ts-on-3w5e0:
+    kind: function
+    name: on()
+    in: src-trail-ts-1ioim
+    signature: "on: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:8
+  trail-ts-recording-10bnq:
+    kind: function
+    name: recording()
+    in: src-trail-ts-1ioim
+    signature: "recording: () => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:21
+  trail-ts-setrecording-fzv50:
+    kind: function
+    name: setRecording()
+    in: src-trail-ts-1ioim
+    signature: "setRecording(v: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:22
+  trail-ts-via-1jfvt:
+    kind: function
+    name: via()
+    in: src-trail-ts-1ioim
+    context: Say how the next move is being made (just before changing the URL).
+    signature: "via(how: How, created?: boolean | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:35
+  trail-ts-wiretrail-1pjjr:
+    kind: function
+    name: wireTrail()
+    in: src-trail-ts-1ioim
+    context: A way to count what's on screen.
+    signature: "wireTrail(boxes: () => number | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/trail.ts:31
+connections:
+  - {from: src-trail-ts-1ioim, to: route-ts-parsehash-1rghw}
+  - {from: src-trail-ts-1ioim, to: trail-ts-flush-1jwbp}
+  - {from: trail-ts-flush-1jwbp, to: route-ts-parsehash-1rghw}
+  - {from: trail-ts-flush-1jwbp, to: types-ts-typeliteral62-send-12gzc}
+  - {from: trail-ts-mark-wbtsh, to: route-ts-parsehash-1rghw}
+  - {from: trail-ts-mark-wbtsh, to: trail-ts-flush-1jwbp}
+  - {from: trail-ts-note-1tgcq, to: trail-ts-on-3w5e0}
+  - {from: trail-ts-noteedit-1msyr, to: route-ts-parsehash-1rghw}
+  - {from: trail-ts-noteedit-1msyr, to: trail-ts-on-3w5e0}
+  - {from: trail-ts-on-3w5e0, to: route-ts-parsehash-1rghw}
+  - {from: trail-ts-recording-10bnq, to: trail-ts-on-3w5e0}
+  - {from: trail-ts-setrecording-fzv50, to: trail-ts-on-3w5e0}

@@ -1,0 +1,24 @@
+# archnemesis:server/auth/providers/local.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  providers-local-ts-vpk7q:
+    kind: module
+    name: local.ts
+    in: srv-auth
+    context: "local: the machine itself. Everyone who reaches the port is the one person who runs it, an admin (server/config.ts only lets this listen on loopback). The name they chose in the app rides along as a hint; an agent on this machine acts for anyone local."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/providers/local.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/local.ts
+  local-ts-localprovider-8n77d:
+    kind: function
+    name: localProvider()
+    in: providers-local-ts-vpk7q
+    signature: "localProvider(): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/local.ts:6
+connections:
+  - {from: local-ts-localprovider-8n77d, to: provider-ts-authprovider-describe-cepor}
+  - {from: local-ts-localprovider-8n77d, to: provider-ts-authprovider-identify-3u74p}

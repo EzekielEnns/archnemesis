@@ -1,0 +1,26 @@
+# archnemesis:shared/seed.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-seed-ts-1tdlf:
+    kind: module
+    name: seed.ts
+    in: shared-model
+    context: "A small example landscape for an empty model: an online shop, three levels deep, so the roll-up of connections shows from the first click. Delete it whenever you like."
+    tech: [TypeScript]
+    path: archnemesis:shared/seed.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/seed.ts
+  seed-ts-seedops-1s1it:
+    kind: function
+    name: seedOps()
+    in: shared-seed-ts-1tdlf
+    context: The example landscape as one batch of ops.
+    signature: "seedOps(): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/seed.ts:15
+connections:
+  - {from: seed-ts-seedops-1s1it, to: model-ts-makeconnection-22l8u}
+  - {from: seed-ts-seedops-1s1it, to: model-ts-makediagram-8ks8b}
+  - {from: seed-ts-seedops-1s1it, to: model-ts-makeobject-ojdfc}

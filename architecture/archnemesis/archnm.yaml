@@ -1,0 +1,3 @@
+# Archnemesis: architecture as files. See README for the format; `archnm check` validates.
+name: Archnemesis
+version: 2

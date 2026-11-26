@@ -1,0 +1,30 @@
+# archnemesis:shared/tools/design.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-design-ts-1dx8t:
+    kind: module
+    name: design.ts
+    in: shared-tools-1cbb9
+    context: "design: the designs and their forks. What a host can do here varies: the server does all of it, a page lists and forks (and never deletes or discards)."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/design.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/design.ts
+  design-ts-design-1yn2o:
+    kind: function
+    name: design()
+    in: tools-design-ts-1dx8t
+    signature: "design(designs: Designs | undefined, a: DesignArgs, o?: { page?: boolean | undefined; }): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/design.ts:17
+connections:
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-create-sar0u}
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-delete-fdulu}
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-discard-1frrz}
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-fork-1qzte}
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-list-1pevt}
+  - {from: design-ts-design-1yn2o, to: host-ts-designs-propose-wersw}
+  - {from: design-ts-design-1yn2o, to: host-ts-fail-15k5p}
+  - {from: design-ts-design-1yn2o, to: host-ts-ok-1qtxz}

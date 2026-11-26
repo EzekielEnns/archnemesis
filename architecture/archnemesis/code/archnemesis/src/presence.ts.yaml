@@ -1,0 +1,35 @@
+# archnemesis:src/presence.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-presence-ts-1vvxj:
+    kind: module
+    name: presence.ts
+    in: web-shell
+    context: "Who else is here, through Yjs awareness: throwaway state each client broadcasts and nobody stores. Pointers, selections and in-progress drags go here, so a drag shows live for everyone without writing a hundred edits; the drop is the one real edit."
+    tech: [TypeScript]
+    path: archnemesis:src/presence.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/presence.ts
+  presence-ts-colorfor-1fa9e:
+    kind: function
+    name: colorFor()
+    in: src-presence-ts-1vvxj
+    signature: "colorFor(id: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/presence.ts:48
+  presence-ts-usepresence-8zy3c:
+    kind: function
+    name: usePresence()
+    in: src-presence-ts-1vvxj
+    context: Everyone else's presence, and a setter for this tab's own.
+    signature: "usePresence(store: Store, version: number): { peers: PeerInfo[]; ownTabs: number; set: (patch: Partial<PresenceState>, now?: boolean) => void; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/presence.ts:55
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-y-protocols-pwcjh
+connections:
+  - {from: presence-ts-usepresence-8zy3c, to: presence-ts-colorfor-1fa9e}

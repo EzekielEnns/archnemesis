@@ -1,0 +1,24 @@
+# archnemesis:src/ui/TextField.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-textfield-tsx-1knf4:
+    kind: module
+    name: TextField.tsx
+    in: web-ui
+    context: A text box that saves on Enter or when it loses focus, and reverts on Escape.
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/TextField.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TextField.tsx
+  textfield-tsx-textfield-1hdfe:
+    kind: function
+    name: TextField()
+    in: ui-textfield-tsx-1knf4
+    context: A text box that saves on Enter or when it loses focus, and reverts on Escape.
+    signature: "TextField(props: { value: string; onCommit: (v: string) => void; placeholder?: string | undefined; multiline?: boolean | undefined; className?: string | undefined; autoFocus?: boolean | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/TextField.tsx:4
+    references:
+      - dependency: lib-types-react-1i7zx

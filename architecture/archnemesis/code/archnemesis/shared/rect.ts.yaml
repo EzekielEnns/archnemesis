@@ -1,0 +1,20 @@
+# archnemesis:shared/rect.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-rect-ts-1m9tx:
+    kind: module
+    name: rect.ts
+    in: shared-layout
+    tech: [TypeScript]
+    path: archnemesis:shared/rect.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/rect.ts
+  rect-ts-intersectsrect-1303r:
+    kind: function
+    name: intersectsRect()
+    in: shared-rect-ts-1m9tx
+    signature: "intersectsRect(a: Box, b: Box): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/rect.ts:8

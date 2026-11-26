@@ -1,0 +1,27 @@
+# archnemesis:src/workspace/useDiffMode.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usediffmode-ts-6u8un:
+    kind: module
+    name: useDiffMode.ts
+    in: web-workspace
+    context: "\"Diff with main\" on a fork: what changed since it started (asked of the server), the switch that draws it, the index with main's deleted things put back, and the leave-it-alone rules (off when you leave the fork, its list in the branches view)."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDiffMode.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiffMode.ts
+  usediffmode-ts-usediffmode-1q2c9:
+    kind: function
+    name: useDiffMode()
+    in: workspace-usediffmode-ts-6u8un
+    signature: "useDiffMode({ store, idx, setPanelView, }: { store: Store; idx: ModelIndex; setPanelView: Dispatch<SetStateAction<PanelView>>; }): { whatsNew: WhatsNew | null; ... 5 more ...; newSets: { ...; } | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiffMode.ts:12
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usediffmode-ts-usediffmode-1q2c9, to: store-ts-store-indexwith-jvolq}
+  - {from: usediffmode-ts-usediffmode-1q2c9, to: types-ts-portablecapability-whatsnew-lg7sk}
+  - {from: usediffmode-ts-usediffmode-1q2c9, to: types-ts-typeliteral45-whatsnew-1hmgp}

@@ -1,0 +1,43 @@
+# archnemesis:src/workspace/scenePlace.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-sceneplace-ts-122j8:
+    kind: module
+    name: scenePlace.ts
+    in: web-workspace
+    context: "A click on the canvas with a placing tool: a note (pinned to a box or an arrow), or a new box, dropped into the file or folder under the pointer when it's code."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/scenePlace.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/scenePlace.ts
+  sceneplace-ts-placehandler-1uefh:
+    kind: function
+    name: placeHandler()
+    in: workspace-sceneplace-ts-122j8
+    signature: "placeHandler(deps: SceneDeps, getScene: () => Scene): ((world: Point) => void) | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/scenePlace.ts:50
+    references:
+      - dependency: lib-types-react-1i7zx
+  sceneplace-ts-placenote-1eiow:
+    kind: function
+    name: placeNote()
+    in: workspace-sceneplace-ts-122j8
+    context: "The note tool: a draft, pinned to the box or the arrow under the pointer."
+    signature: "placeNote(deps: SceneDeps, s: Scene, drawnAt: { x: number; y: number; }, world: { x: number; y: number; }, i: ModelIndex, d: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/scenePlace.ts:15
+connections:
+  - {from: sceneplace-ts-placehandler-1uefh, to: actions-ts-addobject-ny43p}
+  - {from: sceneplace-ts-placehandler-1uefh, to: actions-ts-codeholder-qidjz}
+  - {from: sceneplace-ts-placehandler-1uefh, to: scene-ts-scene-nodeat-vu5oy}
+  - {from: sceneplace-ts-placehandler-1uefh, to: scene-ts-scene-select-1g1o3}
+  - {from: sceneplace-ts-placehandler-1uefh, to: sceneplace-ts-placenote-1eiow}
+  - {from: sceneplace-ts-placehandler-1uefh, to: spread-ts-spread-up-1n409}
+  - {from: sceneplace-ts-placenote-1eiow, to: scene-ts-scene-connectionanchor-tgimu}
+  - {from: sceneplace-ts-placenote-1eiow, to: scene-ts-scene-edgeat-omiqw}
+  - {from: sceneplace-ts-placenote-1eiow, to: scene-ts-scene-nodeat-vu5oy}
+  - {from: sceneplace-ts-placenote-1eiow, to: scene-ts-scene-select-1g1o3}

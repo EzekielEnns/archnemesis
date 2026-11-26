@@ -1,0 +1,23 @@
+# archnemesis:src/workspace/useOverlays.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useoverlays-ts-1p1dv:
+    kind: module
+    name: useOverlays.ts
+    in: web-workspace
+    context: "The little things floating over the canvas: the name being typed over a box, the name being typed over an arrow, the right-click menu, and the hint by the pointer while dragging."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useOverlays.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useOverlays.ts
+  useoverlays-ts-useoverlays-132ae:
+    kind: function
+    name: useOverlays()
+    in: workspace-useoverlays-ts-1p1dv
+    signature: "useOverlays(): { renaming: { id: string; x: number; y: number; w: number; scale: number; } | null; setRenaming: Dispatch<SetStateAction<{ id: string; x: number; y: number; w: number; scale: number; } | null>>; ... 5 more ...; setDropHint: Dispatch<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useOverlays.ts:6
+    references:
+      - dependency: lib-types-react-1i7zx

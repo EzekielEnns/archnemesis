@@ -1,0 +1,37 @@
+# archnemesis:src/favicon.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-favicon-ts-47bey:
+    kind: module
+    name: favicon.ts
+    in: web-shell
+    context: "The tab: Archnemesis's mark, tinted with the open design's colour, and the design's name as the title, so a row of Archnemesis tabs says which is which."
+    tech: [TypeScript]
+    path: archnemesis:src/favicon.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/favicon.ts
+  favicon-ts-marksvg-rydj7:
+    kind: function
+    name: markSvg()
+    in: src-favicon-ts-47bey
+    context: Archnemesis's mark (three boxes, connected) in one colour, as an SVG.
+    signature: "markSvg(color: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/favicon.ts:6
+  favicon-ts-showintab-8du03:
+    kind: function
+    name: showInTab()
+    in: src-favicon-ts-47bey
+    context: Show `design` (and its fork) in the tab.
+    signature: "showInTab(designKey: string, name: string, branch: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/favicon.ts:17
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-vite-122n3
+connections:
+  - {from: favicon-ts-showintab-8du03, to: favicon-ts-marksvg-rydj7}
+  - {from: favicon-ts-showintab-8du03, to: presence-ts-colorfor-1fa9e}

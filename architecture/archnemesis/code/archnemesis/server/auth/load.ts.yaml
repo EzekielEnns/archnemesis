@@ -1,0 +1,38 @@
+# archnemesis:server/auth/load.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-load-ts-1i73h:
+    kind: module
+    name: load.ts
+    in: srv-auth
+    context: "Building the server's Auth from its config: a built-in provider, or a module the hoster wrote (ARCHNM_AUTH=./provider.js, or the gcip example). A module that is missing, doesn't export createProvider, throws, or returns something that isn't a provider stops the server at start with a message: nobody is let in by accident."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/load.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/load.ts
+  load-ts-createauth-12j0y:
+    kind: function
+    name: createAuth()
+    in: auth-load-ts-1i73h
+    context: The Auth for a config. `deps` is what the built-in providers may use; a module gets only its context.
+    signature: "createAuth(config: Config, deps?: BuiltinDeps & { fetch?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/load.ts:37
+  load-ts-loadmodule-hdct2:
+    kind: function
+    name: loadModule()
+    in: auth-load-ts-1i73h
+    signature: "loadModule(path: string, ctx: ProviderContext): Promise<AuthProvider>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/load.ts:17
+connections:
+  - {from: load-ts-createauth-12j0y, to: auth-ts-auth-constructor-15660}
+  - {from: load-ts-createauth-12j0y, to: builtin-ts-builtinprovider-1iy59}
+  - {from: load-ts-createauth-12j0y, to: gate-ts-gate-constructor-2932c}
+  - {from: load-ts-createauth-12j0y, to: load-ts-loadmodule-hdct2}
+  - {from: load-ts-createauth-12j0y, to: roles-ts-roles-constructor-1u9ut}
+  - {from: load-ts-createauth-12j0y, to: session-ts-sessions-constructor-13hhp}
+  - {from: load-ts-loadmodule-hdct2, to: provider-ts-checkprovider-17027}

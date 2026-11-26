@@ -1,0 +1,94 @@
+# archnemesis:src/canvas/avoid.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-avoid-ts-7tvck:
+    kind: module
+    name: avoid.ts
+    in: web-canvas
+    context: "The arrow router for the canvas: libavoid in a worker (routeWorker.ts), so a big diagram never freezes the page. The router itself is shared (shared/router.ts), so a server render routes the same."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/avoid.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts
+  avoid-ts-asyncrouter-constructor-1iy7w:
+    kind: function
+    name: AsyncRouter.<constructor>()
+    in: canvas-avoid-ts-7tvck
+    context: "Asks the worker for routes and keeps the latest. sync() returns at once; onRouted fires when new routes arrive. Until then an arrow whose boxes moved has no path (it's drawn as a curve), and the rest keep the path they had. Only the newest request waits: a burst (a drag) routes the last position, not every step."
+    tech: [method of AsyncRouter]
+    signature: "constructor(onRouted: () => void): AsyncRouter"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:38
+    references:
+      - dependency: lib-vite-122n3
+  avoid-ts-asyncrouter-destroy-p155u:
+    kind: function
+    name: AsyncRouter.destroy()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: "destroy(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:78
+  avoid-ts-asyncrouter-fail-ddy6e:
+    kind: function
+    name: AsyncRouter.fail()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: "fail(why: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:111
+  avoid-ts-asyncrouter-path-9jqnu:
+    kind: function
+    name: AsyncRouter.path()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: "path(id: string): Point[] | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:74
+  avoid-ts-asyncrouter-post-ncngy:
+    kind: function
+    name: AsyncRouter.post()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: "post(req: RouteRequest): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:82
+  avoid-ts-asyncrouter-receive-1mm3g:
+    kind: function
+    name: AsyncRouter.receive()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: "receive(r: RouteReply): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:87
+  avoid-ts-asyncrouter-sync-15br9:
+    kind: function
+    name: AsyncRouter.sync()
+    in: canvas-avoid-ts-7tvck
+    tech: [method of AsyncRouter]
+    signature: 'sync(boxes: Map<string, Rect>, edges: RouterEdge[], style: "elbow" | "straight"): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:45
+  avoid-ts-keyof-vdvxg:
+    kind: function
+    name: keyOf()
+    in: canvas-avoid-ts-7tvck
+    context: "A short stable hash of which boxes are on the canvas: picks the worker's router."
+    signature: "keyOf(ids: Iterable<string>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/avoid.ts:11
+connections:
+  - {from: avoid-ts-asyncrouter-constructor-1iy7w, to: avoid-ts-asyncrouter-fail-ddy6e}
+  - {from: avoid-ts-asyncrouter-constructor-1iy7w, to: avoid-ts-asyncrouter-receive-1mm3g}
+  - {from: avoid-ts-asyncrouter-receive-1mm3g, to: avoid-ts-asyncrouter-post-ncngy}
+  - {from: avoid-ts-asyncrouter-sync-15br9, to: avoid-ts-asyncrouter-post-ncngy}
+  - {from: avoid-ts-asyncrouter-sync-15br9, to: avoid-ts-keyof-vdvxg}

@@ -1,0 +1,35 @@
+# archnemesis:src/workspace/useEditActions.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useeditactions-ts-us5yc:
+    kind: module
+    name: useEditActions.ts
+    in: web-workspace
+    context: "Editing the selection: delete or hide it, duplicate it, group it in a frame, put it inside a box, take a box's insides out (ungroup)."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useEditActions.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useEditActions.ts
+  useeditactions-ts-useeditactions-12xbx:
+    kind: function
+    name: useEditActions()
+    in: workspace-useeditactions-ts-us5yc
+    signature: 'useEditActions({ sel, idx, diagramId, graph, run, toast, openFresh, openHere, scene, }: { sel: Selection; idx: ModelIndex; diagramId: string | null; graph: CanvasGraph | null; run: (ops: Op[], label: string) => Promise<void>; toast: (text: string, toneOrAction?: "error" | ... 2 more ... | undefin…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useEditActions.ts:22
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: useeditactions-ts-useeditactions-12xbx, to: actions-ts-deleteconnections-lo409}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: actions-ts-deleteobjects-1cccc}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: actions-ts-removefromdiagram-1pkpj}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: actions-ts-updateobject-b8yrs}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: boundaries-ts-newboundaryops-kxdwt}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: inspector-tsx-foldback-1chfk}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: model-ts-makeobject-ojdfc}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: model-ts-now-1lkd5}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: project-ts-descendants-121jc}
+  - {from: useeditactions-ts-useeditactions-12xbx, to: scene-ts-scene-select-1g1o3}

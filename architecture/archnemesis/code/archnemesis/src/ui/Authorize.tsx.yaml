@@ -1,0 +1,28 @@
+# archnemesis:src/ui/Authorize.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-authorize-tsx-1rsfv:
+    kind: module
+    name: Authorize.tsx
+    in: web-ui
+    context: "The page an MCP client (Claude Code) opens to sign in: sign in to Archnemesis if you aren't, then Allow or Deny. Archnemesis then sends the browser back to the client."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Authorize.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Authorize.tsx
+  authorize-tsx-authorize-cnume:
+    kind: function
+    name: Authorize()
+    in: ui-authorize-tsx-1rsfv
+    signature: "Authorize({ id }: { id: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Authorize.tsx:16
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: authorize-tsx-authorize-cnume, to: peers-tsx-signinform-e4qiv}
+  - {from: authorize-tsx-authorize-cnume, to: types-ts-typeliteral56-decide-1hlkv}
+  - {from: authorize-tsx-authorize-cnume, to: types-ts-typeliteral56-read-7prwr}

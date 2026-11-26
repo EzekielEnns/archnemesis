@@ -1,0 +1,149 @@
+# archnemesis:server/auth/provider.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-provider-ts-ohnv7:
+    kind: module
+    name: provider.ts
+    in: srv-auth
+    context: "The contract for a sign-in provider: what a hoster writes to put their own sign-in in front of Archnemesis. ARCHNM_AUTH names one of the built-in providers (server/auth/providers/), or is a path to an ES module that exports"
+    tech: [TypeScript]
+    path: archnemesis:server/auth/provider.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts
+  provider-ts-authprovider-describe-cepor:
+    kind: function
+    name: AuthProvider.describe()
+    in: auth-provider-ts-ohnv7
+    context: "What the app's one sign-in page shows: nothing, a token field, or one button per way in. The page and its styling are the app's, never the provider's."
+    tech: [method of AuthProvider]
+    signature: "describe(): SignInPage"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:67
+  provider-ts-authprovider-identify-3u74p:
+    kind: function
+    name: AuthProvider.identify()
+    in: auth-provider-ts-ohnv7
+    context: Who a request is from, or null. Must not throw, but if it does that means null.
+    tech: [method of AuthProvider]
+    signature: "identify(creds: ProviderCredentials): Identity | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:69
+  provider-ts-authprovider-ready-9e0rm:
+    kind: function
+    name: AuthProvider.ready()
+    in: auth-provider-ts-ohnv7
+    context: Load keys, discover endpoints, check settings. Rejecting stops the server with the message.
+    tech: [method of AuthProvider]
+    signature: "ready(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:76
+  provider-ts-authprovider-routes-4ikph:
+    kind: function
+    name: AuthProvider.routes()
+    in: auth-provider-ts-ohnv7
+    context: "Anything under /auth/<id>/: redirect flows, callbacks, a page of your own for a vendor's SDK. Return true when you answered. Errors are caught and answered with a 500."
+    tech: [method of AuthProvider]
+    signature: "routes(req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:81
+  provider-ts-checkpage-7tgz8:
+    kind: function
+    name: checkPage()
+    in: auth-provider-ts-ohnv7
+    context: The page a provider described, if it is valid. Throws what is wrong with it.
+    signature: "checkPage(page: SignInPage): SignInPage"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:126
+  provider-ts-checkprovider-17027:
+    kind: function
+    name: checkProvider()
+    in: auth-provider-ts-ohnv7
+    context: Throws what is wrong with a provider object (a custom module's export), else returns it.
+    signature: "checkProvider(p: unknown, where: string): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:151
+  provider-ts-islocalpath-1r4gf:
+    kind: function
+    name: isLocalPath()
+    in: auth-provider-ts-ohnv7
+    context: "Whether a start URL is on this server: a path, never another site."
+    signature: "isLocalPath(url: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:121
+  provider-ts-providercontext-failed-1gt4q:
+    kind: function
+    name: ProviderContext.failed()
+    in: auth-provider-ts-ohnv7
+    context: "The app's sign-in page, showing `message`: where to send the browser when your flow failed."
+    tech: [method of ProviderContext]
+    signature: "failed(message: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:111
+  provider-ts-providercontext-saferedirect-1fvv9:
+    kind: function
+    name: ProviderContext.safeRedirect()
+    in: auth-provider-ts-ohnv7
+    context: "A URL on this server for a path (and #fragment) the browser asked to return to; the app's home for anything else."
+    tech: [method of ProviderContext]
+    signature: "safeRedirect(target: string | null | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:113
+  provider-ts-providercredentials-cookie-2o437:
+    kind: function
+    name: ProviderCredentials.cookie()
+    in: auth-provider-ts-ohnv7
+    context: One cookie, by name.
+    tech: [method of ProviderCredentials]
+    signature: "cookie(name: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:58
+  provider-ts-providercredentials-header-4prbx:
+    kind: function
+    name: ProviderCredentials.header()
+    in: auth-provider-ts-ohnv7
+    context: One request header, by name (any case), first value; null when absent or empty.
+    tech: [method of ProviderCredentials]
+    signature: "header(name: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:56
+  provider-ts-typeliteral3-signin-xakfv:
+    kind: function
+    name: typeLiteral3:signIn()
+    in: auth-provider-ts-ohnv7
+    context: "Sign the person in: the role lists are checked here, and if they are on them the session cookie is set on `res`. Returns where to send the browser (a URL on this server): the app, back where they were going (`back`, the `?back=` the sign-in page added to your start URL), or, when they are refused, the app's sign-in page with the reason. Send it as a 302, or hand it to your own page."
+    signature: "signIn(res: ServerResponse<IncomingMessage>, identity: Identity, back?: string | null | undefined): { ok: boolean; redirect: string; error?: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:104
+  provider-ts-typeliteral5-info-wm14a:
+    kind: function
+    name: typeLiteral5:info()
+    in: auth-provider-ts-ohnv7
+    signature: "info(message: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:114
+  provider-ts-typeliteral5-warn-4ybl7:
+    kind: function
+    name: typeLiteral5:warn()
+    in: auth-provider-ts-ohnv7
+    signature: "warn(message: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/provider.ts:114
+connections:
+  - {from: provider-ts-checkpage-7tgz8, to: provider-ts-islocalpath-1r4gf}
+  - {from: provider-ts-checkprovider-17027, to: provider-ts-authprovider-describe-cepor}
+  - {from: provider-ts-checkprovider-17027, to: provider-ts-checkpage-7tgz8}

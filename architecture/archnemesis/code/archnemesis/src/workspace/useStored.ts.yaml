@@ -1,0 +1,35 @@
+# archnemesis:src/workspace/useStored.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usestored-ts-18np2:
+    kind: module
+    name: useStored.ts
+    in: web-workspace
+    context: Per-browser choices kept in localStorage (layout flags, arrow style), quietly skipped when storage isn't there (a private window).
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useStored.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useStored.ts
+  usestored-ts-usestoredchoice-1otaz:
+    kind: function
+    name: useStoredChoice()
+    in: workspace-usestored-ts-18np2
+    context: One of a few choices kept in localStorage, or null for "not chosen" (falls back quietly).
+    signature: "useStoredChoice<T extends string>(key: string, allowed: readonly T[]): [T | null, (v: T | null) => void]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useStored.ts:7
+    references:
+      - dependency: lib-types-react-1i7zx
+  usestored-ts-usestoredflag-qzzk3:
+    kind: function
+    name: useStoredFlag()
+    in: workspace-usestored-ts-18np2
+    context: A boolean kept in localStorage (a per-browser preference; falls back quietly).
+    signature: "useStoredFlag(key: string, initial: boolean): [boolean, Dispatch<SetStateAction<boolean>>]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useStored.ts:35
+    references:
+      - dependency: lib-types-react-1i7zx

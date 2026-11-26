@@ -1,0 +1,25 @@
+# archnemesis:cli/channel-main.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-channel-main-ts-olbpk:
+    kind: module
+    name: channel-main.ts
+    in: cli
+    context: "The channel on its own, bundled into one file (dist/archnm-channel.mjs) that Archnemesis serves at /archnm-channel.mjs, so anyone can run it with plain node, no checkout: node archnm-channel.mjs --server <url> [--every 3] (ARCHNM_TOKEN for a token)"
+    tech: [TypeScript]
+    path: archnemesis:cli/channel-main.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/channel-main.ts
+  channel-main-ts-flag-pufxk:
+    kind: function
+    name: flag()
+    in: cli-channel-main-ts-olbpk
+    signature: "flag: (name: string) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/channel-main.ts:10
+connections:
+  - {from: cli-channel-main-ts-olbpk, to: channel-main-ts-flag-pufxk}
+  - {from: cli-channel-main-ts-olbpk, to: channel-ts-runchannel-qjl83}
+  - {from: cli-channel-main-ts-olbpk, to: config-ts-loadclientconfig-1lcx2}

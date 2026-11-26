@@ -1,0 +1,28 @@
+# archnemesis:src/canvas/scene/exportPng.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-exportpng-ts-15uid:
+    kind: module
+    name: exportPng.ts
+    in: canvas-scene-iaxtu
+    context: The whole diagram as a PNG.
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/exportPng.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/exportPng.ts
+  exportpng-ts-exportpng-wi01g:
+    kind: function
+    name: exportPng()
+    in: scene-exportpng-ts-15uid
+    context: The whole diagram as a PNG, at 2x, on the canvas background.
+    signature: "exportPng(state: SceneState): Promise<Blob | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/exportPng.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: exportpng-ts-exportpng-wi01g, to: frame-ts-applylabelvisibility-1nods}
+  - {from: exportpng-ts-exportpng-wi01g, to: view-ts-setcamera-re09j}

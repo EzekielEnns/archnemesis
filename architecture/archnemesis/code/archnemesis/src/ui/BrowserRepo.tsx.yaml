@@ -1,0 +1,29 @@
+# archnemesis:src/ui/BrowserRepo.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-browserrepo-tsx-wqwaa:
+    kind: module
+    name: BrowserRepo.tsx
+    in: web-ui
+    context: "Settings → Repo & git where the design is kept in this browser (the static build): where it's saved, and, for a design forked off a public GitHub repository, where it came from and a way to pull that repository's changes. Forks, diffs and history need nothing from here."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/BrowserRepo.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BrowserRepo.tsx
+  browserrepo-tsx-browserrepopane-v1h6x:
+    kind: function
+    name: BrowserRepoPane()
+    in: ui-browserrepo-tsx-wqwaa
+    signature: "BrowserRepoPane({ store, toast }: { store: Store; toast: Toast; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BrowserRepo.tsx:11
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: browserrepo-tsx-browserrepopane-v1h6x, to: branchmenu-tsx-ago-12leb}
+  - {from: browserrepo-tsx-browserrepopane-v1h6x, to: branchmenu-tsx-gitstatus-18sj9}
+  - {from: browserrepo-tsx-browserrepopane-v1h6x, to: branchmenu-tsx-reponame-1recg}
+  - {from: browserrepo-tsx-browserrepopane-v1h6x, to: store-ts-store-refreshgit-q9sbw}

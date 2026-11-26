@@ -1,0 +1,46 @@
+# archnemesis:shared/handover.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-handover-ts-qyrzl:
+    kind: module
+    name: handover.ts
+    in: shared-support
+    context: "Is this design good enough to hand over? The finish line for an agent mapping a code base: what still has to be fixed (must) and what would make it better (should), each with how. An agent loops on it until nothing's left in must, so nobody has to judge \"half decent\"."
+    tech: [TypeScript]
+    path: archnemesis:shared/handover.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/handover.ts
+  handover-ts-keyof-1odop:
+    kind: function
+    name: keyOf()
+    in: shared-handover-ts-qyrzl
+    signature: "keyOf: (idx: ModelIndex, id: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/handover.ts:31
+  handover-ts-review-1f4an:
+    kind: function
+    name: review()
+    in: shared-handover-ts-qyrzl
+    signature: "review(idx: ModelIndex): Review"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/handover.ts:33
+  handover-ts-reviewtext-mbo0r:
+    kind: function
+    name: reviewText()
+    in: shared-handover-ts-qyrzl
+    signature: "reviewText(r: Review, design: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/handover.ts:274
+connections:
+  - {from: handover-ts-review-1f4an, to: curate-ts-worklist-99wef}
+  - {from: handover-ts-review-1f4an, to: handover-ts-keyof-1odop}
+  - {from: handover-ts-review-1f4an, to: project-ts-ancestors-lfs25}
+  - {from: handover-ts-review-1f4an, to: project-ts-crossinghelp-1luhe}
+  - {from: handover-ts-review-1f4an, to: project-ts-diagramforscope-1ff5x}
+  - {from: handover-ts-review-1f4an, to: project-ts-projectdiagram-1p3dd}
+  - {from: handover-ts-review-1f4an, to: score-ts-scoreview-ldvks}
+  - {from: handover-ts-review-1f4an, to: views-ts-resolve-17a3a}

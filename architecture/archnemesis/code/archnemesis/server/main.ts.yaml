@@ -1,0 +1,17 @@
+# archnemesis:server/main.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-main-ts-w8l84:
+    kind: module
+    name: main.ts
+    in: srv-edge
+    context: "Archnemesis's server: one process holding every design's live document (Yjs, synced over WebSockets at /sync), a small JSON API, the MCP endpoint, and the app itself (Vite in dev, the built files in production)."
+    tech: [TypeScript]
+    path: archnemesis:server/main.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/main.ts
+connections:
+  - {from: server-main-ts-w8l84, to: app-ts-createapp-1chkt}
+  - {from: server-main-ts-w8l84, to: auth-ts-auth-describe-1o8n9}
+  - {from: server-main-ts-w8l84, to: config-ts-loadconfig-69nnh}

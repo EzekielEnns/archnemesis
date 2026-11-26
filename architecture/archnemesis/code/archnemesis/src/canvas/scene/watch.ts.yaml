@@ -1,0 +1,41 @@
+# archnemesis:src/canvas/scene/watch.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-watch-ts-hwv1r:
+    kind: module
+    name: watch.ts
+    in: canvas-scene-iaxtu
+    context: Telling things drawn over the canvas (notes, links) when the camera or a live drag moves.
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/watch.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/watch.ts
+  watch-ts-tellwatchers-ft9o3:
+    kind: function
+    name: tellWatchers()
+    in: scene-watch-ts-hwv1r
+    signature: "tellWatchers(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/watch.ts:21
+  watch-ts-tellwatcherssoon-wwgab:
+    kind: function
+    name: tellWatchersSoon()
+    in: scene-watch-ts-hwv1r
+    context: "Arrows moved (a reroute, a live drag): tell watchers once this frame."
+    signature: "tellWatchersSoon(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/watch.ts:13
+  watch-ts-watch-thsik:
+    kind: function
+    name: watch()
+    in: scene-watch-ts-hwv1r
+    context: Follow the camera and live drags (for notes drawn over the canvas). Returns an unwatch.
+    signature: "watch(state: SceneState, fn: (v: SceneView) => void): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/watch.ts:6
+connections:
+  - {from: watch-ts-tellwatcherssoon-wwgab, to: watch-ts-tellwatchers-ft9o3}

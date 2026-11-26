@@ -1,0 +1,37 @@
+# archnemesis:server/routes/upload.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-upload-ts-1rdz6:
+    kind: module
+    name: upload.ts
+    in: srv-edge
+    context: "Not the API, and not the app: the repo upload an agent's script makes, and the scripts the server hands out (one file each for node; npm run build makes them)."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/upload.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/upload.ts
+  upload-ts-upload-1x6na:
+    kind: function
+    name: upload()
+    in: routes-upload-ts-1rdz6
+    context: "A repo's survey and code index, from the script an agent ran: the ticket is the permission (minted by index start inside a signed-in MCP call), so no sign-in here."
+    signature: "upload(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, ticket: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/upload.ts:9
+  upload-ts-uploadroutes-1bjmr:
+    kind: function
+    name: uploadRoutes()
+    in: routes-upload-ts-1rdz6
+    signature: "uploadRoutes(ctx: Ctx, req: IncomingMessage, res: ServerResponse<IncomingMessage>, path: string): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/upload.ts:29
+connections:
+  - {from: upload-ts-upload-1x6na, to: http-ts-body-14i98}
+  - {from: upload-ts-upload-1x6na, to: http-ts-json-3ycbr}
+  - {from: upload-ts-upload-1x6na, to: uploads-ts-uploads-put-1ovk5}
+  - {from: upload-ts-uploadroutes-1bjmr, to: http-ts-json-3ycbr}
+  - {from: upload-ts-uploadroutes-1bjmr, to: scripts-ts-scripts-read-1ku6l}
+  - {from: upload-ts-uploadroutes-1bjmr, to: upload-ts-upload-1x6na}

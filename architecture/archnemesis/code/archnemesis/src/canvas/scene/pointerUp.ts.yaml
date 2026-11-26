@@ -1,0 +1,101 @@
+# archnemesis:src/canvas/scene/pointerUp.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-pointerup-ts-1y5u5:
+    kind: module
+    name: pointerUp.ts
+    in: canvas-scene-iaxtu
+    context: "Letting go: what each kind of drag does when it ends (select, move, resize, connect, shape)."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/pointerUp.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts
+  pointerup-ts-finishconnect-15a0z:
+    kind: function
+    name: finishConnect()
+    in: scene-pointerup-ts-1y5u5
+    context: A connection dropped on a box connects them; on nothing, it makes a new box there.
+    signature: 'finishConnect(state: SceneState, d: { kind: "connect"; from: string; start: Point; current: Point; target: string | null; }): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:73
+  pointerup-ts-finishmarquee-1p60r:
+    kind: function
+    name: finishMarquee()
+    in: scene-pointerup-ts-1y5u5
+    context: "A marquee ends: a right-click shows the menu; a drag selects (or draws a group around) what it covers."
+    signature: 'finishMarquee(state: SceneState, d: { kind: "marquee"; start: Point; current: Point; right?: boolean | undefined; }): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:36
+  pointerup-ts-finishnodes-vha1p:
+    kind: function
+    name: finishNodes()
+    in: scene-pointerup-ts-1y5u5
+    context: "A move ends: the arrows are routed for the new places, and the app told where they landed."
+    signature: 'finishNodes(state: SceneState, d: { kind: "nodes"; ids: string[]; start: Point; startScreen: Point; origin: Map<string, Point>; moved: boolean; frame?: string | undefined; }): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:110
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointerup-ts-finishpan-1mllq:
+    kind: function
+    name: finishPan()
+    in: scene-pointerup-ts-1y5u5
+    context: A click on empty canvas (not a drag, not on a frame's title) lets go of what's picked.
+    signature: 'finishPan(state: SceneState, d: { kind: "pan"; last: Point; moved: boolean; keep?: boolean | undefined; }, e: PointerEvent): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:19
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerup-ts-finishresize-ckmne:
+    kind: function
+    name: finishResize()
+    in: scene-pointerup-ts-1y5u5
+    context: "A resize ends: the arrows are routed for the new size, and the app told."
+    signature: 'finishResize(state: SceneState, d: { kind: "resize"; id: string; start: Point; origin: { w: number; h: number; }; moved: boolean; }): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:92
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointerup-ts-onpointerup-1p8ck:
+    kind: function
+    name: onPointerUp()
+    in: scene-pointerup-ts-1y5u5
+    signature: "onPointerUp(state: SceneState, e: PointerEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerUp.ts:144
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: pointerup-ts-finishmarquee-1p60r, to: camera-ts-screentoworld-1ot24}
+  - {from: pointerup-ts-finishmarquee-1p60r, to: geometry-ts-intersects-1xejh}
+  - {from: pointerup-ts-finishmarquee-1p60r, to: geometry-ts-rectfromcorners-kqq47}
+  - {from: pointerup-ts-finishmarquee-1p60r, to: overlay-ts-drawmarquee-1x56q}
+  - {from: pointerup-ts-finishmarquee-1p60r, to: selection-ts-emitselect-1yos5}
+  - {from: pointerup-ts-finishnodes-vha1p, to: edges-ts-drawstaticedges-1a491}
+  - {from: pointerup-ts-finishnodes-vha1p, to: minimap-ts-drawminimap-6jl4a}
+  - {from: pointerup-ts-finishnodes-vha1p, to: routing-ts-recomputeroutes-drbw5}
+  - {from: pointerup-ts-finishpan-1mllq, to: camera-ts-screentoworld-1ot24}
+  - {from: pointerup-ts-finishpan-1mllq, to: hit-ts-hitboundary-12vlf}
+  - {from: pointerup-ts-finishpan-1mllq, to: hit-ts-hitscope-14xmq}
+  - {from: pointerup-ts-finishpan-1mllq, to: lookup-ts-local-1y6p5}
+  - {from: pointerup-ts-finishpan-1mllq, to: selection-ts-emitselect-1yos5}
+  - {from: pointerup-ts-finishresize-ckmne, to: edges-ts-drawstaticedges-1a491}
+  - {from: pointerup-ts-finishresize-ckmne, to: minimap-ts-drawminimap-6jl4a}
+  - {from: pointerup-ts-finishresize-ckmne, to: routing-ts-recomputeroutes-drbw5}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: arrows-ts-commitshape-1frj4}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: frame-ts-requestrender-sstrq}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: pointerup-ts-finishconnect-15a0z}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: pointerup-ts-finishmarquee-1p60r}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: pointerup-ts-finishnodes-vha1p}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: pointerup-ts-finishpan-1mllq}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: pointerup-ts-finishresize-ckmne}
+  - {from: pointerup-ts-onpointerup-1p8ck, to: watch-ts-tellwatchers-ft9o3}

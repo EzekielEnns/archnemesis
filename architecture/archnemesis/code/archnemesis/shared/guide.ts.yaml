@@ -1,0 +1,22 @@
+# archnemesis:shared/guide.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-guide-ts-kvinh:
+    kind: module
+    name: guide.ts
+    in: shared-support
+    context: "How to use the app, for an agent teaching someone (MCP `guide`). Keep it true to the UI: when a control, key or label changes, change it here too (src/ui/Shortcuts.tsx has the keys)."
+    tech: [TypeScript]
+    path: archnemesis:shared/guide.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/guide.ts
+  guide-ts-guidetext-1s3hb:
+    kind: function
+    name: guideText()
+    in: shared-guide-ts-kvinh
+    context: The guide on a topic (or the start and the list of topics).
+    signature: "guideText(topic?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/guide.ts:198

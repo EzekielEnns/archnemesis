@@ -1,0 +1,31 @@
+# archnemesis:src/workspace/useTour.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usetour-ts-eifuy:
+    kind: module
+    name: useTour.ts
+    in: web-workspace
+    context: "An agent showing you around (MCP point, or WebMCP show): the guide's current stop, following it (your tab goes where it points, the drawer folds away for the tour), gliding to what the step is about, and answering it (next, back, stop, ask)."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useTour.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTour.ts
+  usetour-ts-usetour-1d3fu:
+    kind: function
+    name: useTour()
+    in: workspace-usetour-ts-eifuy
+    signature: "useTour({ store, peers, diagramId, idx, scene, ready, sidebar, setSidebar, setFlowId, setStep, setTag, }: { store: Store; peers: PeerInfo[]; diagramId: string | null; idx: ModelIndex; scene: SceneRef; ready: boolean; sidebar: boolean; setSidebar: Dispatch<SetStateAction<boolean>>; setFlowId: Disp…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useTour.ts:16
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usetour-ts-usetour-1d3fu, to: project-ts-boxeswithtag-12t1g}
+  - {from: usetour-ts-usetour-1d3fu, to: route-ts-go-1cual}
+  - {from: usetour-ts-usetour-1d3fu, to: scene-ts-scene-centeron-12ft8}
+  - {from: usetour-ts-usetour-1d3fu, to: scene-ts-scene-frameboxes-1ps2g}
+  - {from: usetour-ts-usetour-1d3fu, to: scene-ts-scene-select-1g1o3}
+  - {from: usetour-ts-usetour-1d3fu, to: trail-ts-via-1jfvt}
+  - {from: usetour-ts-usetour-1d3fu, to: types-ts-typeliteral63-reply-fdj7i}

@@ -1,0 +1,144 @@
+# archnemesis:src/canvas/scene/pointerMove.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-pointermove-ts-49xcy:
+    kind: module
+    name: pointerMove.ts
+    in: canvas-scene-iaxtu
+    context: "The pointer moving: hover while nothing is held, and each kind of drag while one is."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/pointerMove.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts
+  pointermove-ts-cursorovercontrol-1axyk:
+    kind: function
+    name: cursorOverControl()
+    in: scene-pointermove-ts-49xcy
+    context: "Over the minimap, the resize corner or a handle of the selected arrow: say so by the cursor."
+    signature: "cursorOverControl(state: SceneState, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:21
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointermove-ts-dragconnect-15o8q:
+    kind: function
+    name: dragConnect()
+    in: scene-pointermove-ts-49xcy
+    context: "A connection dragged from a box: the box under the pointer is its target."
+    signature: 'dragConnect(state: SceneState, d: { kind: "connect"; from: string; start: Point; current: Point; target: string | null; }, world: Point): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:131
+  pointermove-ts-dragpan-pcjym:
+    kind: function
+    name: dragPan()
+    in: scene-pointermove-ts-49xcy
+    context: "A drag on empty canvas: the camera follows the pointer."
+    signature: 'dragPan(state: SceneState, d: { kind: "pan"; last: Point; moved: boolean; keep?: boolean | undefined; }, screen: Point): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:108
+  pointermove-ts-dragresize-1nbss:
+    kind: function
+    name: dragResize()
+    in: scene-pointermove-ts-49xcy
+    context: "A box's corner dragged: its size follows, on the grid."
+    signature: 'dragResize(state: SceneState, d: { kind: "resize"; id: string; start: Point; origin: { w: number; h: number; }; moved: boolean; }, world: Point): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:116
+  pointermove-ts-frametitlehint-508a6:
+    kind: function
+    name: frameTitleHint()
+    in: scene-pointermove-ts-49xcy
+    context: "Over a frame's title: say which kind of frame it is (they look alike otherwise)."
+    signature: "frameTitleHint(state: SceneState, world: Point): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:55
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointermove-ts-hovercursor-1xiz8:
+    kind: function
+    name: hoverCursor()
+    in: scene-pointermove-ts-49xcy
+    context: The cursor over what's under the pointer.
+    signature: "hoverCursor(state: SceneState, world: Point, under: { hit: NodeView | null; handle: string | null; edge: EdgeView | null; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:70
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointermove-ts-hoveredge-13x6o:
+    kind: function
+    name: hoverEdge()
+    in: scene-pointermove-ts-49xcy
+    context: The arrow under the pointer is lit; a merged arrow ("3 connections") lists what it stands for.
+    signature: "hoverEdge(state: SceneState, edge: EdgeView | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:38
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  pointermove-ts-hovermove-1aixo:
+    kind: function
+    name: hoverMove()
+    in: scene-pointermove-ts-49xcy
+    context: "Nothing held: light up what's under the pointer, and say what a press would do."
+    signature: "hoverMove(state: SceneState, screen: Point, world: Point): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:89
+  pointermove-ts-onpointermove-j8634:
+    kind: function
+    name: onPointerMove()
+    in: scene-pointermove-ts-49xcy
+    signature: "onPointerMove(state: SceneState, e: PointerEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerMove.ts:139
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: pointermove-ts-cursorovercontrol-1axyk, to: hit-ts-hitarrowpart-1z0x3}
+  - {from: pointermove-ts-cursorovercontrol-1axyk, to: hit-ts-hitresize-3udgl}
+  - {from: pointermove-ts-cursorovercontrol-1axyk, to: minimap-ts-inminimap-xjkzu}
+  - {from: pointermove-ts-dragconnect-15o8q, to: frame-ts-requestrender-sstrq}
+  - {from: pointermove-ts-dragconnect-15o8q, to: hit-ts-hitnode-1f6df}
+  - {from: pointermove-ts-dragconnect-15o8q, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointermove-ts-dragpan-pcjym, to: camera-ts-panby-rrkox}
+  - {from: pointermove-ts-dragpan-pcjym, to: view-ts-setcamera-re09j}
+  - {from: pointermove-ts-dragresize-1nbss, to: live-ts-beginliveedges-1njqd}
+  - {from: pointermove-ts-dragresize-1nbss, to: live-ts-redrawlive-1tyb8}
+  - {from: pointermove-ts-dragresize-1nbss, to: measure-ts-signature-m4t0y}
+  - {from: pointermove-ts-dragresize-1nbss, to: snap-ts-resizedsize-kdbmo}
+  - {from: pointermove-ts-frametitlehint-508a6, to: hit-ts-hitboundary-12vlf}
+  - {from: pointermove-ts-frametitlehint-508a6, to: hit-ts-hitscope-14xmq}
+  - {from: pointermove-ts-hovercursor-1xiz8, to: hit-ts-hitboundary-12vlf}
+  - {from: pointermove-ts-hovercursor-1xiz8, to: hit-ts-hitscope-14xmq}
+  - {from: pointermove-ts-hoveredge-13x6o, to: frame-ts-requestrender-sstrq}
+  - {from: pointermove-ts-hoveredge-13x6o, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointermove-ts-hovermove-1aixo, to: frame-ts-requestrender-sstrq}
+  - {from: pointermove-ts-hovermove-1aixo, to: hit-ts-hitedge-zauf5}
+  - {from: pointermove-ts-hovermove-1aixo, to: hit-ts-hithandle-1pyg0}
+  - {from: pointermove-ts-hovermove-1aixo, to: hit-ts-hitnode-1f6df}
+  - {from: pointermove-ts-hovermove-1aixo, to: measure-ts-nearestonborder-pi0sx}
+  - {from: pointermove-ts-hovermove-1aixo, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointermove-ts-hovermove-1aixo, to: pointermove-ts-cursorovercontrol-1axyk}
+  - {from: pointermove-ts-hovermove-1aixo, to: pointermove-ts-frametitlehint-508a6}
+  - {from: pointermove-ts-hovermove-1aixo, to: pointermove-ts-hovercursor-1xiz8}
+  - {from: pointermove-ts-hovermove-1aixo, to: pointermove-ts-hoveredge-13x6o}
+  - {from: pointermove-ts-hovermove-1aixo, to: selection-ts-sethovered-1aimh}
+  - {from: pointermove-ts-onpointermove-j8634, to: arrows-ts-dragarrow-9lfr4}
+  - {from: pointermove-ts-onpointermove-j8634, to: camera-ts-screentoworld-1ot24}
+  - {from: pointermove-ts-onpointermove-j8634, to: frame-ts-requestrender-sstrq}
+  - {from: pointermove-ts-onpointermove-j8634, to: lookup-ts-local-1y6p5}
+  - {from: pointermove-ts-onpointermove-j8634, to: nodedrag-ts-dragnodes-g2yxw}
+  - {from: pointermove-ts-onpointermove-j8634, to: overlay-ts-drawmarquee-1x56q}
+  - {from: pointermove-ts-onpointermove-j8634, to: pointermove-ts-dragconnect-15o8q}
+  - {from: pointermove-ts-onpointermove-j8634, to: pointermove-ts-dragpan-pcjym}
+  - {from: pointermove-ts-onpointermove-j8634, to: pointermove-ts-dragresize-1nbss}
+  - {from: pointermove-ts-onpointermove-j8634, to: pointermove-ts-hovermove-1aixo}
+  - {from: pointermove-ts-onpointermove-j8634, to: view-ts-pantominimap-199rj}

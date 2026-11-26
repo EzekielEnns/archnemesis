@@ -1,0 +1,198 @@
+# archnemesis:server/signin/oauth.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  signin-oauth-ts-jcn25:
+    kind: module
+    name: oauth.ts
+    in: srv-auth
+    context: "Sign in from an agent (Claude Code, or any MCP client) without copying a token: the MCP OAuth flow. The client finds Archnemesis's endpoints (the two /.well-known documents), registers itself (dynamic client registration), and opens the browser on /oauth/authorize. There the person signs in to Archnemesis the usual way and presses Allow; the client swaps the one-time code for a token (PKCE, S256…"
+    tech: [TypeScript]
+    path: archnemesis:server/signin/oauth.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts
+  oauth-ts-oauth-begin-1idev:
+    kind: function
+    name: OAuth.begin()
+    in: signin-oauth-ts-jcn25
+    context: GET /oauth/authorize. Before the client and its redirect check out, errors are shown (never sent to an address nobody vouched for); after, they go back to the client.
+    tech: [method of OAuth]
+    signature: "begin(q: URLSearchParams): { pending: string; } | { redirect: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:165
+  oauth-ts-oauth-challenge-v99cm:
+    kind: function
+    name: OAuth.challenge()
+    in: signin-oauth-ts-jcn25
+    context: "The WWW-Authenticate header on a 401 from /mcp: where to start."
+    tech: [method of OAuth]
+    signature: "challenge(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:115
+  oauth-ts-oauth-client-fqf3k:
+    kind: function
+    name: OAuth.client()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuth]
+    signature: "client(id: string): Client | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:152
+  oauth-ts-oauth-constructor-xjtr9:
+    kind: function
+    name: OAuth.<constructor>()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuth]
+    signature: "constructor(store: SettingsStore, tokens: PersonalTokens, baseUrl: string, now?: () => number): OAuth"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:78
+  oauth-ts-oauth-decide-thwre:
+    kind: function
+    name: OAuth.decide()
+    in: signin-oauth-ts-jcn25
+    context: "The person pressed Allow (or Deny): where the browser goes next."
+    tech: [method of OAuth]
+    signature: "decide(id: string, allow: boolean, who: { owner: string; login: string; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:214
+  oauth-ts-oauth-describe-dxrmg:
+    kind: function
+    name: OAuth.describe()
+    in: signin-oauth-ts-jcn25
+    context: What the Allow page shows.
+    tech: [method of OAuth]
+    signature: "describe(id: string): { client: string; to: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:208
+  oauth-ts-oauth-live-bgaom:
+    kind: function
+    name: OAuth.live()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuth]
+    signature: "live(id: string): Request | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:253
+  oauth-ts-oauth-register-a8gln:
+    kind: function
+    name: OAuth.register()
+    in: signin-oauth-ts-jcn25
+    context: "RFC 7591: a public client (no secret) registers its redirect addresses."
+    tech: [method of OAuth]
+    signature: "register(b: Record<string, unknown>): { client_id: string; client_name: string; redirect_uris: string[]; grant_types: string[]; response_types: string[]; token_endpoint_auth_method: string; client_id_issued_at: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:120
+  oauth-ts-oauth-resourcemetadata-29p25:
+    kind: function
+    name: OAuth.resourceMetadata()
+    in: signin-oauth-ts-jcn25
+    context: "RFC 9728: what protects /mcp, and who signs people in for it."
+    tech: [method of OAuth]
+    signature: "resourceMetadata(): { resource: string; authorization_servers: string[]; bearer_methods_supported: string[]; resource_name: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:91
+  oauth-ts-oauth-servermetadata-1cu66:
+    kind: function
+    name: OAuth.serverMetadata()
+    in: signin-oauth-ts-jcn25
+    context: "RFC 8414: Archnemesis's endpoints."
+    tech: [method of OAuth]
+    signature: "serverMetadata(): { issuer: string; authorization_endpoint: string; token_endpoint: string; registration_endpoint: string; response_types_supported: string[]; grant_types_supported: string[]; code_challenge_methods_supported: string[]; token_endpoint_auth_methods_supported: string[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:101
+  oauth-ts-oauth-sweep-1b3to:
+    kind: function
+    name: OAuth.sweep()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuth]
+    signature: "sweep(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:258
+  oauth-ts-oauth-token-1bdyo:
+    kind: function
+    name: OAuth.token()
+    in: signin-oauth-ts-jcn25
+    context: POST /oauth/token.
+    tech: [method of OAuth]
+    signature: "token(f: URLSearchParams): { access_token: string; token_type: string; expires_in: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:234
+  oauth-ts-oauth-withparams-ruenv:
+    kind: function
+    name: OAuth.withParams()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuth]
+    signature: "withParams(uri: string, params: Record<string, string | null>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:264
+  oauth-ts-oautherror-constructor-1prx2:
+    kind: function
+    name: OAuthError.<constructor>()
+    in: signin-oauth-ts-jcn25
+    tech: [method of OAuthError]
+    signature: "constructor(code: string, message: string): OAuthError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:50
+  oauth-ts-redirectok-kc1be:
+    kind: function
+    name: redirectOk()
+    in: signin-oauth-ts-jcn25
+    context: "A redirect a client may use: https anywhere, or http on this machine (Claude Code's)."
+    signature: "redirectOk(u: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:57
+  oauth-ts-s256-fpfms:
+    kind: function
+    name: s256()
+    in: signin-oauth-ts-jcn25
+    signature: "s256: (v: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:68
+  oauth-ts-settingsstore-setsetting-hce08:
+    kind: function
+    name: SettingsStore.setSetting()
+    in: signin-oauth-ts-jcn25
+    tech: [method of SettingsStore]
+    signature: "setSetting(key: string, value: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:23
+  oauth-ts-settingsstore-setting-xp618:
+    kind: function
+    name: SettingsStore.setting()
+    in: signin-oauth-ts-jcn25
+    tech: [method of SettingsStore]
+    signature: "setting(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/oauth.ts:22
+connections:
+  - {from: oauth-ts-oauth-begin-1idev, to: oauth-ts-oauth-client-fqf3k}
+  - {from: oauth-ts-oauth-begin-1idev, to: oauth-ts-oauth-sweep-1b3to}
+  - {from: oauth-ts-oauth-begin-1idev, to: oauth-ts-oauth-withparams-ruenv}
+  - {from: oauth-ts-oauth-begin-1idev, to: oauth-ts-oautherror-constructor-1prx2}
+  - {from: oauth-ts-oauth-client-fqf3k, to: oauth-ts-settingsstore-setting-xp618}
+  - {from: oauth-ts-oauth-decide-thwre, to: oauth-ts-oauth-live-bgaom}
+  - {from: oauth-ts-oauth-decide-thwre, to: oauth-ts-oauth-withparams-ruenv}
+  - {from: oauth-ts-oauth-decide-thwre, to: oauth-ts-oautherror-constructor-1prx2}
+  - {from: oauth-ts-oauth-describe-dxrmg, to: oauth-ts-oauth-live-bgaom}
+  - {from: oauth-ts-oauth-register-a8gln, to: oauth-ts-oautherror-constructor-1prx2}
+  - {from: oauth-ts-oauth-register-a8gln, to: oauth-ts-redirectok-kc1be}
+  - {from: oauth-ts-oauth-register-a8gln, to: oauth-ts-settingsstore-setsetting-hce08}
+  - {from: oauth-ts-oauth-token-1bdyo, to: oauth-ts-oautherror-constructor-1prx2}
+  - {from: oauth-ts-oauth-token-1bdyo, to: oauth-ts-s256-fpfms}
+  - {from: oauth-ts-oauth-token-1bdyo, to: personal-ts-personaltokens-make-2cyxc}

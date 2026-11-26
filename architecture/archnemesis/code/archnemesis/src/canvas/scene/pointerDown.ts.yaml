@@ -1,0 +1,214 @@
+# archnemesis:src/canvas/scene/pointerDown.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-pointerdown-ts-14c3w:
+    kind: module
+    name: pointerDown.ts
+    in: canvas-scene-iaxtu
+    context: "A press on the canvas: what it picks up (a drag from a box, a handle, an arrow, a frame, the minimap, empty canvas) and the drag it starts."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/pointerDown.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts
+  pointerdown-ts-onpointerdown-1pk1i:
+    kind: function
+    name: onPointerDown()
+    in: scene-pointerdown-ts-14c3w
+    signature: "onPointerDown(state: SceneState, e: PointerEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:257
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  pointerdown-ts-pressonarrowpart-cypj1:
+    kind: function
+    name: pressOnArrowPart()
+    in: scene-pointerdown-ts-14c3w
+    context: "An end or a bend of the selected arrow: dragging it shapes the arrow."
+    signature: "pressOnArrowPart(state: SceneState, e: PointerEvent, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:56
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  pointerdown-ts-pressonboundary-mxqzu:
+    kind: function
+    name: pressOnBoundary()
+    in: scene-pointerdown-ts-14c3w
+    context: A boundary frame's title picks the boundary.
+    signature: "pressOnBoundary(state: SceneState, e: PointerEvent, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:135
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressonedge-1dly8:
+    kind: function
+    name: pressOnEdge()
+    in: scene-pointerdown-ts-14c3w
+    context: "An arrow: picks it, and a drag from it shapes it."
+    signature: "pressOnEdge(state: SceneState, e: PointerEvent, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:171
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  pointerdown-ts-pressonempty-4focp:
+    kind: function
+    name: pressOnEmpty()
+    in: scene-pointerdown-ts-14c3w
+    context: Nothing under the press but empty canvas (or a frame, or an arrow).
+    signature: "pressOnEmpty(state: SceneState, e: PointerEvent, screen: Point, world: Point): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:204
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  pointerdown-ts-pressonfile-1w878:
+    kind: function
+    name: pressOnFile()
+    in: scene-pointerdown-ts-14c3w
+    context: A file frame's title picks the module, as clicking its box would.
+    signature: "pressOnFile(state: SceneState, e: PointerEvent, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:116
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressonhandle-53j83:
+    kind: function
+    name: pressOnHandle()
+    in: scene-pointerdown-ts-14c3w
+    context: "The band along the hovered box's border: dragging it draws a connection."
+    signature: "pressOnHandle(state: SceneState, e: PointerEvent, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:102
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  pointerdown-ts-pressonnode-e5fiu:
+    kind: function
+    name: pressOnNode()
+    in: scene-pointerdown-ts-14c3w
+    context: "A box: picks it (shift adds), and a drag from it moves what's picked."
+    signature: "pressOnNode(state: SceneState, e: PointerEvent, hit: NodeView, screen: Point, world: Point): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:218
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressonoffdiagram-8ul93:
+    kind: function
+    name: pressOnOffDiagram()
+    in: scene-pointerdown-ts-14c3w
+    context: '"⇄ N off diagram" sits where the bottom handle does: the words win.'
+    signature: "pressOnOffDiagram(state: SceneState, e: PointerEvent, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:91
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressonresize-1dkhi:
+    kind: function
+    name: pressOnResize()
+    in: scene-pointerdown-ts-14c3w
+    context: "The corner of the one selected box: dragging it resizes."
+    signature: "pressOnResize(state: SceneState, e: PointerEvent, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:74
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressonscope-14oee:
+    kind: function
+    name: pressOnScope()
+    in: scene-pointerdown-ts-14c3w
+    context: The diagram's own frame's title picks the diagram.
+    signature: "pressOnScope(state: SceneState, e: PointerEvent, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:153
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressontool-1i195:
+    kind: function
+    name: pressOnTool()
+    in: scene-pointerdown-ts-14c3w
+    context: The group tool, the minimap and the place tool take the press before anything under it.
+    signature: "pressOnTool(state: SceneState, e: PointerEvent, screen: Point, world: Point): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:38
+    references:
+      - dependency: lib-types-react-1i7zx
+  pointerdown-ts-pressrightinsimple-43roy:
+    kind: function
+    name: pressRightInSimple()
+    in: scene-pointerdown-ts-14c3w
+    context: "Simple mode: a right-press on empty canvas starts a marquee; the menu waits for the release."
+    signature: "pressRightInSimple(state: SceneState, e: PointerEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/pointerDown.ts:27
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: camera-ts-screentoworld-1ot24}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: hit-ts-hitnode-1f6df}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: lookup-ts-local-1y6p5}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonarrowpart-cypj1}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonempty-4focp}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonhandle-53j83}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonnode-e5fiu}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonoffdiagram-8ul93}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressonresize-1dkhi}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressontool-1i195}
+  - {from: pointerdown-ts-onpointerdown-1pk1i, to: pointerdown-ts-pressrightinsimple-43roy}
+  - {from: pointerdown-ts-pressonarrowpart-cypj1, to: hit-ts-hitarrowpart-1z0x3}
+  - {from: pointerdown-ts-pressonboundary-mxqzu, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonboundary-mxqzu, to: hit-ts-hitboundary-12vlf}
+  - {from: pointerdown-ts-pressonboundary-mxqzu, to: nodedrag-ts-dragframe-1mqxw}
+  - {from: pointerdown-ts-pressonboundary-mxqzu, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonboundary-mxqzu, to: selection-ts-emitselect-1yos5}
+  - {from: pointerdown-ts-pressonedge-1dly8, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonedge-1dly8, to: hit-ts-hitedge-zauf5}
+  - {from: pointerdown-ts-pressonedge-1dly8, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonedge-1dly8, to: selection-ts-emitselect-1yos5}
+  - {from: pointerdown-ts-pressonempty-4focp, to: pointerdown-ts-pressonboundary-mxqzu}
+  - {from: pointerdown-ts-pressonempty-4focp, to: pointerdown-ts-pressonedge-1dly8}
+  - {from: pointerdown-ts-pressonempty-4focp, to: pointerdown-ts-pressonfile-1w878}
+  - {from: pointerdown-ts-pressonempty-4focp, to: pointerdown-ts-pressonscope-14oee}
+  - {from: pointerdown-ts-pressonfile-1w878, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonfile-1w878, to: hit-ts-hitcontainer-17v53}
+  - {from: pointerdown-ts-pressonfile-1w878, to: nodedrag-ts-dragframe-1mqxw}
+  - {from: pointerdown-ts-pressonfile-1w878, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonfile-1w878, to: selection-ts-emitselect-1yos5}
+  - {from: pointerdown-ts-pressonhandle-53j83, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonhandle-53j83, to: hit-ts-hithandle-1pyg0}
+  - {from: pointerdown-ts-pressonhandle-53j83, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonnode-e5fiu, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonnode-e5fiu, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonnode-e5fiu, to: selection-ts-emitselect-1yos5}
+  - {from: pointerdown-ts-pressonnode-e5fiu, to: selection-ts-raise-16cq0}
+  - {from: pointerdown-ts-pressonoffdiagram-8ul93, to: hit-ts-hitoffdiagram-1bi0z}
+  - {from: pointerdown-ts-pressonoffdiagram-8ul93, to: selection-ts-select-848l7}
+  - {from: pointerdown-ts-pressonresize-1dkhi, to: hit-ts-hitresize-3udgl}
+  - {from: pointerdown-ts-pressonscope-14oee, to: frame-ts-requestrender-sstrq}
+  - {from: pointerdown-ts-pressonscope-14oee, to: hit-ts-hitscope-14xmq}
+  - {from: pointerdown-ts-pressonscope-14oee, to: nodedrag-ts-dragframe-1mqxw}
+  - {from: pointerdown-ts-pressonscope-14oee, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: pointerdown-ts-pressonscope-14oee, to: selection-ts-emitselect-1yos5}
+  - {from: pointerdown-ts-pressontool-1i195, to: minimap-ts-inminimap-xjkzu}
+  - {from: pointerdown-ts-pressontool-1i195, to: view-ts-pantominimap-199rj}
+  - {from: pointerdown-ts-pressrightinsimple-43roy, to: camera-ts-screentoworld-1ot24}
+  - {from: pointerdown-ts-pressrightinsimple-43roy, to: hit-ts-hitedge-zauf5}
+  - {from: pointerdown-ts-pressrightinsimple-43roy, to: hit-ts-hitnode-1f6df}
+  - {from: pointerdown-ts-pressrightinsimple-43roy, to: lookup-ts-local-1y6p5}
+  - {from: pointerdown-ts-pressrightinsimple-43roy, to: minimap-ts-inminimap-xjkzu}

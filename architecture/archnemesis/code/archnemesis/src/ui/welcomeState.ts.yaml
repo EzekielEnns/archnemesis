@@ -1,0 +1,176 @@
+# archnemesis:src/ui/welcomeState.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-welcomestate-ts-2em06:
+    kind: module
+    name: welcomeState.ts
+    in: web-ui
+    context: "The first-run welcome: what is shown when (one decision from three facts), the one thing this browser remembers about it, the words an agent is given, and the state the pieces share. The pieces are in Welcome.tsx; src/workspace/WelcomeHost.tsx puts them on the page."
+    tech: [TypeScript]
+    path: archnemesis:src/ui/welcomeState.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts
+  welcomestate-ts-autoopen-tmwrr:
+    kind: function
+    name: autoOpen()
+    in: ui-welcomestate-ts-2em06
+    context: "The welcome opens on its own, once: this browser has now seen it."
+    signature: "autoOpen(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:128
+  welcomestate-ts-endcoach-m2cnf:
+    kind: function
+    name: endCoach()
+    in: ui-welcomestate-ts-2em06
+    signature: "endCoach: () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:152
+  welcomestate-ts-getwelcomeui-lioo9:
+    kind: function
+    name: getWelcomeUi()
+    in: ui-welcomestate-ts-2em06
+    context: The shared state as it is now.
+    signature: "getWelcomeUi: () => WelcomeUi"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:112
+  welcomestate-ts-hideforgood-av2g5:
+    kind: function
+    name: hideForGood()
+    in: ui-welcomestate-ts-2em06
+    context: "\"Don't show this again\"."
+    signature: "hideForGood(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:147
+  welcomestate-ts-isfromlink-zju81:
+    kind: function
+    name: isFromLink()
+    in: ui-welcomestate-ts-2em06
+    context: The design was opened from a link (a GitHub one is read-only and says where it is from).
+    signature: "isFromLink: (design: string, from: string | null) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:53
+  welcomestate-ts-markopenedfromlink-1p2nc:
+    kind: function
+    name: markOpenedFromLink()
+    in: ui-welcomestate-ts-2em06
+    context: A link that carries a design just opened this design (see OpenShared).
+    signature: "markOpenedFromLink: (design: string) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:50
+  welcomestate-ts-modeof-sor1j:
+    kind: function
+    name: modeOf()
+    in: ui-welcomestate-ts-2em06
+    context: The welcome is for the first empty design a browser opens; after that an empty design gets a quiet hint (unless told "never"); a design that came from a link gets only a tip.
+    signature: "modeOf(a: { memory: Memory; empty: boolean; fromLink: boolean; }): Mode"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:38
+  welcomestate-ts-openwelcome-l3dug:
+    kind: function
+    name: openWelcome()
+    in: ui-welcomestate-ts-2em06
+    context: '"Getting started" under ?: open the panel (at one of its two agent ways, or the four).'
+    signature: "openWelcome(detail?: Detail): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:135
+  welcomestate-ts-placeof-bdx5u:
+    kind: function
+    name: placeOf()
+    in: ui-welcomestate-ts-2em06
+    context: A server has an MCP address; a static page with WebMCP can take an agent in the page; else neither.
+    signature: "placeOf(mcp: McpSetup | null, webmcp: boolean): Place"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:27
+  welcomestate-ts-readmemory-ts0oc:
+    kind: function
+    name: readMemory()
+    in: ui-welcomestate-ts-2em06
+    signature: "readMemory(): Memory"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:15
+  welcomestate-ts-remember-1w2qf:
+    kind: function
+    name: remember()
+    in: ui-welcomestate-ts-2em06
+    signature: 'remember: (m: "seen" | "never") => void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:21
+  welcomestate-ts-resetwelcome-1q4ig:
+    kind: function
+    name: resetWelcome()
+    in: ui-welcomestate-ts-2em06
+    context: Back to a fresh visit (tests).
+    signature: "resetWelcome(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:122
+  welcomestate-ts-set-11wfw:
+    kind: function
+    name: set()
+    in: ui-welcomestate-ts-2em06
+    signature: "set(patch: Partial<WelcomeUi>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:106
+  welcomestate-ts-showdetail-9rs6o:
+    kind: function
+    name: showDetail()
+    in: ui-welcomestate-ts-2em06
+    signature: "showDetail: (detail: Detail) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:144
+  welcomestate-ts-showtip-1d7v6:
+    kind: function
+    name: showTip()
+    in: ui-welcomestate-ts-2em06
+    context: "The shared-link tip: put it back (? → What is this?) or put it away."
+    signature: "showTip: (on: boolean) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:155
+  welcomestate-ts-tuck-1s2nx:
+    kind: function
+    name: tuck()
+    in: ui-welcomestate-ts-2em06
+    context: "Esc, or a way in taken: the panel goes away (it comes back from ? → Getting started)."
+    signature: "tuck(o?: { coach?: boolean | undefined; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:140
+  welcomestate-ts-usewelcomeui-phohi:
+    kind: function
+    name: useWelcomeUi()
+    in: ui-welcomestate-ts-2em06
+    signature: "useWelcomeUi(): WelcomeUi"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/welcomeState.ts:114
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: welcomestate-ts-autoopen-tmwrr, to: welcomestate-ts-remember-1w2qf}
+  - {from: welcomestate-ts-autoopen-tmwrr, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-endcoach-m2cnf, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-hideforgood-av2g5, to: welcomestate-ts-remember-1w2qf}
+  - {from: welcomestate-ts-hideforgood-av2g5, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-openwelcome-l3dug, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-readmemory-ts0oc, to: storage-ts-stored-3h0kp}
+  - {from: welcomestate-ts-remember-1w2qf, to: storage-ts-setstored-9bk3c}
+  - {from: welcomestate-ts-resetwelcome-1q4ig, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-showdetail-9rs6o, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-showtip-1d7v6, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-tuck-1s2nx, to: welcomestate-ts-set-11wfw}
+  - {from: welcomestate-ts-usewelcomeui-phohi, to: welcomestate-ts-getwelcomeui-lioo9}

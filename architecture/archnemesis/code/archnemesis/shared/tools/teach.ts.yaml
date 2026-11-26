@@ -1,0 +1,13 @@
+# archnemesis:shared/tools/teach.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-teach-ts-hi2cq:
+    kind: module
+    name: teach.ts
+    in: shared-tools-1cbb9
+    context: "What the tools teach: the server's instructions (kept under 2,500 characters: the mental model, the loop, where to read more), and the playbooks, served as MCP prompts and as guide topics for clients without prompts."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/teach.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/teach.ts

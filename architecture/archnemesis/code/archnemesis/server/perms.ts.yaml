@@ -1,0 +1,191 @@
+# archnemesis:server/perms.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-perms-ts-lwa5b:
+    kind: module
+    name: perms.ts
+    in: srv-auth
+    context: "The server's side of server/access.ts: answers \"may this person do that to this design?\" from what the hub knows (owners, git bindings), the share links, and what GitHub said about repos (server/repoaccess.ts). Every route, the sync socket, presence and the MCP ask here; this is where can() gets its facts and nothing else decides."
+    tech: [TypeScript]
+    path: archnemesis:server/perms.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts
+  perms-ts-perms-access-ksl69:
+    kind: function
+    name: Perms.access()
+    in: server-perms-ts-lwa5b
+    context: What `who` may do on `doc`, gathered; null when there's no such document.
+    tech: [method of Perms]
+    signature: "access(who: Who, doc: string, pass?: string | null): DesignAccess | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:118
+  perms-ts-perms-can-kqb2y:
+    kind: function
+    name: Perms.can()
+    in: server-perms-ts-lwa5b
+    context: "The one question. Synchronous: call prepare() first where GitHub may need asking."
+    tech: [method of Perms]
+    signature: "can(who: Who, doc: string, action: DesignAction, pass?: string | null): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:124
+  perms-ts-perms-canshare-mgl7c:
+    kind: function
+    name: Perms.canShare()
+    in: server-perms-ts-lwa5b
+    context: Whether `who` may make or revoke links for `doc`.
+    tech: [method of Perms]
+    signature: "canShare(who: Who, doc: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:130
+  perms-ts-perms-constructor-i7mun:
+    kind: function
+    name: Perms.<constructor>()
+    in: server-perms-ts-lwa5b
+    tech: [method of Perms]
+    signature: "constructor(hub: Hub, links: Links, repo: RepoAccess, publicLinks: boolean, githubSignIn?: boolean, now?: () => number): Perms"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:72
+  perms-ts-perms-get-publiclinkson-1vlzc:
+    kind: function
+    name: Perms.<get>publicLinksOn()
+    in: server-perms-ts-lwa5b
+    tech: [method of Perms]
+    signature: "get publicLinksOn: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:91
+  perms-ts-perms-linkid-8cu2u:
+    kind: function
+    name: Perms.linkId()
+    in: server-perms-ts-lwa5b
+    context: The id of the link a (presented) token names.
+    tech: [method of Perms]
+    signature: "linkId(token: string | null): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:189
+  perms-ts-perms-owns-9o8kl:
+    kind: function
+    name: Perms.owns()
+    in: server-perms-ts-lwa5b
+    context: Whether `who` made `doc` (the one who shares it with the team, or takes it back).
+    tech: [method of Perms]
+    signature: "owns(who: Who, doc: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:136
+  perms-ts-perms-prepare-13vzz:
+    kind: function
+    name: Perms.prepare()
+    in: server-perms-ts-lwa5b
+    context: Fetch what answering about `doc` needs from GitHub (the person's rights; for a guest or a link page, whether the repo is public).
+    tech: [method of Perms]
+    signature: "prepare(who: Who, doc: string, withPublic?: boolean): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:147
+  perms-ts-perms-present-329hw:
+    kind: function
+    name: Perms.present()
+    in: server-perms-ts-lwa5b
+    context: "A share token that came with a request, checked at the edge: the token itself when it names a link that works now, else null. A failure counts against the address; past a few, that address's tokens aren't looked at for a while. Looking costs the same either way."
+    tech: [method of Perms]
+    signature: "present(token: string | null | undefined, addr: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:174
+  perms-ts-perms-reach-okt5i:
+    kind: function
+    name: Perms.reach()
+    in: server-perms-ts-lwa5b
+    context: 'What anyone who opens a link to this design needs to sign in for: "signin" or "anyone" (public repo, hoster allows it).'
+    tech: [method of Perms]
+    signature: "reach(doc: string): ShareReach"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:194
+  perms-ts-perms-repoof-1mgbk:
+    kind: function
+    name: Perms.repoOf()
+    in: server-perms-ts-lwa5b
+    tech: [method of Perms]
+    signature: "repoOf(doc: string): RepoRef | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:141
+  perms-ts-perms-sources-1iytb:
+    kind: function
+    name: Perms.sources()
+    in: server-perms-ts-lwa5b
+    tech: [method of Perms]
+    signature: "sources(): AccessSources"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:95
+  perms-ts-perms-warm-nt7hb:
+    kind: function
+    name: Perms.warm()
+    in: server-perms-ts-lwa5b
+    context: Fetch GitHub's answers for every design this person might list.
+    tech: [method of Perms]
+    signature: "warm(who: Who): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:158
+  perms-ts-splittoken-1fj08:
+    kind: function
+    name: splitToken()
+    in: server-perms-ts-lwa5b
+    context: "What the sync connection's auth message carries: the bearer token (as before), then, after a newline, \"share:\" and a share link's token. (Auth messages are not URLs: nothing logs them.)"
+    signature: "splitToken(raw: string | undefined): { bearer: string | null; share: string | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/perms.ts:53
+connections:
+  - {from: perms-ts-perms-access-ksl69, to: access-ts-designaccess-15nrv}
+  - {from: perms-ts-perms-access-ksl69, to: live-ts-hub-get-171sh}
+  - {from: perms-ts-perms-access-ksl69, to: perms-ts-perms-sources-1iytb}
+  - {from: perms-ts-perms-can-kqb2y, to: access-ts-can-ozrqr}
+  - {from: perms-ts-perms-can-kqb2y, to: perms-ts-perms-access-ksl69}
+  - {from: perms-ts-perms-canshare-mgl7c, to: access-ts-canshare-18yi1}
+  - {from: perms-ts-perms-canshare-mgl7c, to: perms-ts-perms-access-ksl69}
+  - {from: perms-ts-perms-linkid-8cu2u, to: links-ts-links-find-rlvds}
+  - {from: perms-ts-perms-owns-9o8kl, to: access-ts-owns-phc81}
+  - {from: perms-ts-perms-owns-9o8kl, to: live-ts-hub-get-171sh}
+  - {from: perms-ts-perms-owns-9o8kl, to: perms-ts-perms-access-ksl69}
+  - {from: perms-ts-perms-prepare-13vzz, to: access-ts-personof-8hbiy}
+  - {from: perms-ts-perms-prepare-13vzz, to: perms-ts-perms-repoof-1mgbk}
+  - {from: perms-ts-perms-prepare-13vzz, to: repoaccess-ts-repoaccess-warmpublic-11daj}
+  - {from: perms-ts-perms-prepare-13vzz, to: repoaccess-ts-repoaccess-warmrights-amvcg}
+  - {from: perms-ts-perms-present-329hw, to: links-ts-failurelimiter-blocked-1kvv8}
+  - {from: perms-ts-perms-present-329hw, to: links-ts-failurelimiter-fail-1sor3}
+  - {from: perms-ts-perms-present-329hw, to: links-ts-links-find-rlvds}
+  - {from: perms-ts-perms-present-329hw, to: links-ts-links-used-ktqi7}
+  - {from: perms-ts-perms-reach-okt5i, to: perms-ts-perms-repoof-1mgbk}
+  - {from: perms-ts-perms-reach-okt5i, to: repoaccess-ts-repoaccess-ispublic-1351g}
+  - {from: perms-ts-perms-repoof-1mgbk, to: gitsync-ts-gitsync-githubrepo-ject4}
+  - {from: perms-ts-perms-repoof-1mgbk, to: live-ts-hub-get-171sh}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-designof-13byn}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-githubrepo-tnmg0}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-isprivate-1pxsb}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-ispublic-iipll}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-linkbytoken-1v5f4}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-now-1jy2i}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-ownerof-7cevs}
+  - {from: perms-ts-perms-sources-1iytb, to: access-ts-accesssources-rights-vayyy}
+  - {from: perms-ts-perms-sources-1iytb, to: gitsync-ts-gitsync-githubrepo-ject4}
+  - {from: perms-ts-perms-sources-1iytb, to: gitsync-ts-gitsync-ownerof-1g8g8}
+  - {from: perms-ts-perms-sources-1iytb, to: links-ts-links-find-rlvds}
+  - {from: perms-ts-perms-sources-1iytb, to: live-ts-hub-access-6z19v}
+  - {from: perms-ts-perms-sources-1iytb, to: live-ts-hub-get-171sh}
+  - {from: perms-ts-perms-sources-1iytb, to: repoaccess-ts-repoaccess-ispublic-1351g}
+  - {from: perms-ts-perms-sources-1iytb, to: repoaccess-ts-repoaccess-rights-1flx6}
+  - {from: perms-ts-perms-warm-nt7hb, to: access-ts-personof-8hbiy}
+  - {from: perms-ts-perms-warm-nt7hb, to: gitsync-ts-gitsync-githubrepo-ject4}
+  - {from: perms-ts-perms-warm-nt7hb, to: repoaccess-ts-repoaccess-warmrights-amvcg}
+  - {from: server-perms-ts-lwa5b, to: links-ts-failurelimiter-constructor-fds0a}

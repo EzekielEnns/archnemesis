@@ -1,0 +1,59 @@
+# archnemesis:shared/align.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-align-ts-1etf6:
+    kind: module
+    name: align.ts
+    in: shared-layout
+    context: "Alignment: where boxes sit is most of what makes a diagram readable. Two tools, both plain geometry (no canvas, no model) so they're tested on their own and the server can use them: - snapToNeighbours: while dragging, line the box up with others' edges, centres and gaps. - straighten: the smallest moves that put connected boxes on shared rows and columns."
+    tech: [TypeScript]
+    path: archnemesis:shared/align.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts
+  align-ts-overlapsany-1rjy7:
+    kind: function
+    name: overlapsAny()
+    in: shared-align-ts-1etf6
+    signature: "overlapsAny(members: Box[], all: Box[], at: Map<string, { x: number; y: number; }>): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts:219
+  align-ts-shiftbends-vb5ym:
+    kind: function
+    name: shiftBends()
+    in: shared-align-ts-1etf6
+    context: "Boxes moved (laid out, straightened): hand-placed bends go with their arrow, moved by how far its two ends moved on average, so a shaped arrow keeps its shape. Only shapes that change come back."
+    signature: "shiftBends(shapes: Iterable<ArrowShape>, before: Map<string, { x: number; y: number; }>, after: Map<string, { x: number; y: number; }>): ArrowShape[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts:241
+  align-ts-snapaxis-1u8kl:
+    kind: function
+    name: snapAxis()
+    in: shared-align-ts-1etf6
+    signature: 'snapAxis(m: Box, others: Box[], threshold: number, axis: "x" | "y"): Snap | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts:45
+  align-ts-snaptoneighbours-1v37y:
+    kind: function
+    name: snapToNeighbours()
+    in: shared-align-ts-1etf6
+    context: "Where the dragged boxes (their bounds, `moving`) would snap: to another box's left, centre or right (top, middle, bottom), or to the same gap as the neighbours next to them. Within `threshold`; otherwise no snap on that axis."
+    signature: "snapToNeighbours(moving: Box, others: Box[], threshold: number): { dx: number; dy: number; guides: Guide[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts:31
+  align-ts-straighten-qq21h:
+    kind: function
+    name: straighten()
+    in: shared-align-ts-1etf6
+    context: "Straighten: the smallest moves that put connected boxes on shared rows and columns. Boxes joined by an arrow whose centres are already close on one axis (within `near`, or half the smaller box) are grouped, and each group moves to its members' median line. A group that would land a box on top of another is left where it is. Snapped to `grid`."
+    signature: "straighten(boxes: Box[], edges: { from: string; to: string; }[], opts?: { near?: number | undefined; grid?: number | undefined; only?: Set<string> | undefined; }): Map<string, { x: number; y: number; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/align.ts:141
+connections:
+  - {from: align-ts-snaptoneighbours-1v37y, to: align-ts-snapaxis-1u8kl}
+  - {from: align-ts-straighten-qq21h, to: align-ts-overlapsany-1rjy7}

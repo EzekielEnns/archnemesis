@@ -1,0 +1,187 @@
+# archnemesis:shared/boundaries.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-boundaries-ts-1qoh0:
+    kind: module
+    name: boundaries.ts
+    in: shared-model
+    context: "Boundaries: where things run (a project, a VPC, a subnet, the edge), drawn as dashed frames on the diagrams that ask for them. See Boundary in model.ts."
+    tech: [TypeScript]
+    path: archnemesis:shared/boundaries.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts
+  boundaries-ts-boundarychain-11jhx:
+    kind: function
+    name: boundaryChain()
+    in: shared-boundaries-ts-1qoh0
+    context: A boundary and everything it sits inside, innermost first.
+    signature: "boundaryChain(idx: ModelIndex, id: string | null): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:39
+  boundaries-ts-boundaryclashes-1k33v:
+    kind: function
+    name: boundaryClashes()
+    in: shared-boundaries-ts-1qoh0
+    context: Objects two unrelated boundaries both pick (only one of them is drawn).
+    signature: "boundaryClashes(idx: ModelIndex): { objectId: string; boundaries: [string, string]; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:118
+  boundaries-ts-boundaryframes-17agb:
+    kind: function
+    name: boundaryFrames()
+    in: shared-boundaries-ts-1qoh0
+    context: The frames on a diagram, outermost first (draw order), each around its boxes and the frames inside it. Only boundaries that end up holding a box are drawn.
+    signature: "boundaryFrames(idx: ModelIndex, nodes: { id: string; x: number; y: number; w: number; h: number; }[]): BoundaryFrame[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:126
+  boundaries-ts-boundarymembers-ikghy:
+    kind: function
+    name: boundaryMembers()
+    in: shared-boundaries-ts-1qoh0
+    context: The objects a boundary's rules pick (no inheritance).
+    signature: "boundaryMembers(idx: ModelIndex, b: Boundary): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:52
+  boundaries-ts-boundaryof-ujb2s:
+    kind: function
+    name: boundaryOf()
+    in: shared-boundaries-ts-1qoh0
+    context: Which boundary a box for this object is drawn in, or null.
+    signature: "boundaryOf(idx: ModelIndex, objectId: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:93
+  boundaries-ts-boundarypath-1u0rn:
+    kind: function
+    name: boundaryPath()
+    in: shared-boundaries-ts-1qoh0
+    context: "For layout: a box's boundary chain, outermost first (so ELK can nest them)."
+    signature: "boundaryPath(idx: ModelIndex, objectId: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:177
+  boundaries-ts-common-ad8yv:
+    kind: function
+    name: common()
+    in: shared-boundaries-ts-1qoh0
+    context: The deepest boundary holding both (null if none does).
+    signature: "common(idx: ModelIndex, a: string, b: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:86
+  boundaries-ts-compute-6u6e2:
+    kind: function
+    name: compute()
+    in: shared-boundaries-ts-1qoh0
+    signature: "compute(idx: ModelIndex): Memo"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:59
+  boundaries-ts-crossesregions-13w8p:
+    kind: function
+    name: crossesRegions()
+    in: shared-boundaries-ts-1qoh0
+    context: '"us-central1 → europe-west2" when the two ends are in different regions; null otherwise (same region, or either end in none).'
+    signature: "crossesRegions(idx: ModelIndex, fromId: string, toId: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:294
+  boundaries-ts-crossesregionsshort-1c2mk:
+    kind: function
+    name: crossesRegionsShort()
+    in: shared-boundaries-ts-1qoh0
+    context: "The same crossing, short, for a badge: the regions' keys (\"US → UK\")."
+    signature: "crossesRegionsShort(idx: ModelIndex, fromId: string, toId: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:301
+  boundaries-ts-frominside-10fro:
+    kind: function
+    name: fromInside()
+    in: shared-boundaries-ts-1qoh0
+    context: "Rule 3: the deepest boundary common to everything inside that has one."
+    signature: "fromInside(idx: ModelIndex, id: string, m: Memo, seen: Set<string>): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:104
+  boundaries-ts-movemanytoboundaryops-wkz4y:
+    kind: function
+    name: moveManyToBoundaryOps()
+    in: shared-boundaries-ts-1qoh0
+    context: "moveToBoundaryOps for several objects: each sees the rules as the ones before left them."
+    signature: "moveManyToBoundaryOps(idx: ModelIndex, objectIds: string[], target: string | null): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:244
+  boundaries-ts-movetoboundaryops-jsxnv:
+    kind: function
+    name: moveToBoundaryOps()
+    in: shared-boundaries-ts-1qoh0
+    context: "Ops that make an object run in `target` (null: in none of its own), by editing rules so the files stay the truth: it's listed by id in the target, and taken out of (or excluded from) any other boundary that picks it, except the target's own parents."
+    signature: "moveToBoundaryOps(idx: ModelIndex, objectId: string, target: string | null): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:186
+  boundaries-ts-newboundaryops-kxdwt:
+    kind: function
+    name: newBoundaryOps()
+    in: shared-boundaries-ts-1qoh0
+    context: A new boundary holding these objects (taken out of any unrelated boundary).
+    signature: 'newBoundaryOps(idx: ModelIndex, b: { name: string; kind: "cloud" | "project" | "host" | "network" | "subnet" | "region" | "edge" | "trust" | "process" | "group"; parentId: string | null; }, objectIds: string[]): { ...; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:261
+  boundaries-ts-regionof-1s7pj:
+    kind: function
+    name: regionOf()
+    in: shared-boundaries-ts-1qoh0
+    context: The region an object is in (the nearest region boundary around where it's drawn), or null.
+    signature: "regionOf(idx: ModelIndex, objectId: string): Boundary | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:284
+  boundaries-ts-whyin-en8rr:
+    kind: function
+    name: whyIn()
+    in: shared-boundaries-ts-1qoh0
+    context: "Why an object is drawn in a boundary: the rule that picks it, or where it inherits it from."
+    signature: "whyIn(idx: ModelIndex, b: Boundary, objectId: string, name: (id: string) => string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/boundaries.ts:229
+connections:
+  - {from: boundaries-ts-boundaryclashes-1k33v, to: boundaries-ts-compute-6u6e2}
+  - {from: boundaries-ts-boundaryframes-17agb, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-boundaryframes-17agb, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: boundaries-ts-boundarymembers-ikghy, to: views-ts-matchselector-1g0mh}
+  - {from: boundaries-ts-boundaryof-ujb2s, to: boundaries-ts-compute-6u6e2}
+  - {from: boundaries-ts-boundaryof-ujb2s, to: boundaries-ts-frominside-10fro}
+  - {from: boundaries-ts-boundaryof-ujb2s, to: project-ts-ancestors-lfs25}
+  - {from: boundaries-ts-boundarypath-1u0rn, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-boundarypath-1u0rn, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: boundaries-ts-common-ad8yv, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-compute-6u6e2, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-compute-6u6e2, to: boundaries-ts-boundarymembers-ikghy}
+  - {from: boundaries-ts-crossesregions-13w8p, to: boundaries-ts-regionof-1s7pj}
+  - {from: boundaries-ts-crossesregionsshort-1c2mk, to: boundaries-ts-regionof-1s7pj}
+  - {from: boundaries-ts-frominside-10fro, to: boundaries-ts-common-ad8yv}
+  - {from: boundaries-ts-movemanytoboundaryops-wkz4y, to: boundaries-ts-movetoboundaryops-jsxnv}
+  - {from: boundaries-ts-movetoboundaryops-jsxnv, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-movetoboundaryops-jsxnv, to: boundaries-ts-boundarymembers-ikghy}
+  - {from: boundaries-ts-movetoboundaryops-jsxnv, to: model-ts-now-1lkd5}
+  - {from: boundaries-ts-newboundaryops-kxdwt, to: boundaries-ts-movemanytoboundaryops-wkz4y}
+  - {from: boundaries-ts-newboundaryops-kxdwt, to: model-ts-makeboundary-1q81r}
+  - {from: boundaries-ts-newboundaryops-kxdwt, to: model-ts-slug-1nu4f}
+  - {from: boundaries-ts-regionof-1s7pj, to: boundaries-ts-boundarychain-11jhx}
+  - {from: boundaries-ts-regionof-1s7pj, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: boundaries-ts-whyin-en8rr, to: boundaries-ts-boundarymembers-ikghy}
+  - {from: boundaries-ts-whyin-en8rr, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: boundaries-ts-whyin-en8rr, to: boundaries-ts-compute-6u6e2}
+  - {from: boundaries-ts-whyin-en8rr, to: project-ts-ancestors-lfs25}
+  - {from: boundaries-ts-whyin-en8rr, to: views-ts-describeselector-aqh3b}
+  - {from: boundaries-ts-whyin-en8rr, to: views-ts-matchselector-1g0mh}

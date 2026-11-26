@@ -1,0 +1,42 @@
+# archnemesis:src/workspace/useScene.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usescene-ts-1k6h2:
+    kind: module
+    name: useScene.ts
+    in: web-workspace
+    context: "The canvas: made once, drawn whenever the model or the diagram changes (and its camera kept per diagram), and the things only it needs, such as its callbacks' connection maker, the minimap and arrow-animation switches, the zoom and where the pointer last was."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useScene.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useScene.ts
+  usescene-ts-usescene-90alb:
+    kind: function
+    name: useScene()
+    in: workspace-usescene-ts-1k6h2
+    signature: "useScene({ store, latest, refs, open, drawn, graph, diagramId, route, sidebar, leftPanel, deps, }: { store: Store; latest: LatestRef; refs: { host: RefObject<HTMLDivElement | null>; scene: RefObject<Scene | null>; cameras: RefObject<...>; shown: RefObject<...>; ready: boolean; setReady: Dispatch<…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useScene.ts:17
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-vite-122n3
+connections:
+  - {from: usescene-ts-usescene-90alb, to: actions-ts-connect-andb0}
+  - {from: usescene-ts-usescene-90alb, to: route-ts-parsehash-1rghw}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-centeron-12ft8}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-constructor-8e3bx}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-destroy-qhmor}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-fit-klilw}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-getcamera-171ga}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-init-1sslj}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-select-1g1o3}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-setanimate-bey5q}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-setinsetleft-lqubb}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-setview-1jdxq}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-sync-4z0mq}
+  - {from: usescene-ts-usescene-90alb, to: scene-ts-scene-toggleminimap-mk549}
+  - {from: usescene-ts-usescene-90alb, to: scenecallbacks-ts-scenecallbacks-2i45i}
+  - {from: usescene-ts-usescene-90alb, to: usescenerefs-ts-usescenerefs-1xwq3}
+  - {from: usescene-ts-usescene-90alb, to: usestored-ts-usestoredflag-qzzk3}

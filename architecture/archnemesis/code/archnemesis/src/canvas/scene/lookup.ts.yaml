@@ -1,0 +1,69 @@
+# archnemesis:src/canvas/scene/lookup.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-lookup-ts-12dt0:
+    kind: module
+    name: lookup.ts
+    in: canvas-scene-iaxtu
+    context: "Small lookups the other modules share: a box or frame by id, where a line ends, an arrow's shape while it's being reshaped, and the pointer's position on the canvas."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/lookup.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts
+  lookup-ts-endrect-10url:
+    kind: function
+    name: endRect()
+    in: scene-lookup-ts-12dt0
+    context: "Where a line ends: a box, or a frame."
+    signature: "endRect(state: SceneState, id: string): Rect | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:23
+  lookup-ts-frameof-175pu:
+    kind: function
+    name: frameOf()
+    in: scene-lookup-ts-12dt0
+    signature: "frameOf(state: SceneState, id: string): CanvasGroup | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:18
+  lookup-ts-local-1y6p5:
+    kind: function
+    name: local()
+    in: scene-lookup-ts-12dt0
+    signature: "local(state: SceneState, e: MouseEvent): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:31
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  lookup-ts-pickable-820r6:
+    kind: function
+    name: pickable()
+    in: scene-lookup-ts-12dt0
+    context: A box on the diagram, or a module drawn as a frame around its insides.
+    signature: "pickable(state: SceneState, id: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:14
+  lookup-ts-shapeof-18bgx:
+    kind: function
+    name: shapeOf()
+    in: scene-lookup-ts-12dt0
+    signature: 'shapeOf(state: Pick<SceneState, "shaping">, e: CanvasEdge): ArrowShape | undefined'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:27
+  lookup-ts-viewmid-6obpa:
+    kind: function
+    name: viewMid()
+    in: scene-lookup-ts-12dt0
+    context: The middle of the part of the canvas you can see, in screen px.
+    signature: "viewMid(state: SceneState): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lookup.ts:9
+connections:
+  - {from: lookup-ts-pickable-820r6, to: lookup-ts-frameof-175pu}

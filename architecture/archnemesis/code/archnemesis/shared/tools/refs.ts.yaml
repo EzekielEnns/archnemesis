@@ -1,0 +1,194 @@
+# archnemesis:shared/tools/refs.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-refs-ts-b06al:
+    kind: module
+    name: refs.ts
+    in: shared-tools-1cbb9
+    context: "Refs: how every line names a thing, and how a ref is read back. A box is its id (or repo:path#fn for code), an entity its type name, a connection from>to (:label when two share ends), a view its key. Every one of these works in any tool."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/refs.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts
+  refs-ts-ambiguity-h5jnn:
+    kind: function
+    name: ambiguity()
+    in: tools-refs-ts-b06al
+    context: "When a bare ref names two things (a box and a view both called \"returns\"): which one it was read as (a box or an entity wins over a view), and how to name the view. Null when it's plain."
+    signature: "ambiguity(idx: ModelIndex, raw: string, r: Resolved): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:220
+  refs-ts-boxline-r7nbi:
+    kind: function
+    name: boxLine()
+    in: tools-refs-ts-b06al
+    context: "One line for a box: `id Name · kind · tech · status · external — purpose`, ref first."
+    signature: "boxLine(idx: ModelIndex, o: ModelObject, o2?: { purpose?: boolean | undefined; parent?: boolean | undefined; cutNote?: boolean | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:65
+  refs-ts-carriesof-p0gen:
+    kind: function
+    name: carriesOf()
+    in: tools-refs-ts-b06al
+    context: What a connection carries, by entity name.
+    signature: "carriesOf(idx: ModelIndex, c: Connection): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:44
+  refs-ts-connection-1udnj:
+    kind: function
+    name: connection()
+    in: tools-refs-ts-b06al
+    signature: "connection(idx: ModelIndex, a: string, b: string, label?: string | undefined): Connection"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:235
+  refs-ts-connref-1hum7:
+    kind: function
+    name: connRef()
+    in: tools-refs-ts-b06al
+    context: '"a>b", with ":label" when another connection shares its ends.'
+    signature: "connRef(idx: ModelIndex, c: Connection): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:55
+  refs-ts-edgeline-1ini3:
+    kind: function
+    name: edgeLine()
+    in: tools-refs-ts-b06al
+    context: "An edge from where we stand: `→ id label (tech) carries X`, or `← id …` for callers."
+    signature: 'edgeLine(idx: ModelIndex, c: Connection, dir: "in" | "out", from?: string | undefined): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:96
+  refs-ts-entitybyname-13a8g:
+    kind: function
+    name: entityByName()
+    in: tools-refs-ts-b06al
+    signature: "entityByName(idx: ModelIndex, name: string): Entity | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:25
+  refs-ts-entityline-6mka2:
+    kind: function
+    name: entityLine()
+    in: tools-refs-ts-b06al
+    signature: "entityLine(idx: ModelIndex, e: Entity): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:112
+  refs-ts-idof-1erbh:
+    kind: function
+    name: idOf()
+    in: tools-refs-ts-b06al
+    signature: "idOf: (o: { id: string; key?: string | undefined; }) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:19
+  refs-ts-matchesby-7vagz:
+    kind: function
+    name: matchesBy()
+    in: tools-refs-ts-b06al
+    context: "A history entry's actor is `by`: its session's short id (s-1a2b), its worker name (as), or its whole name."
+    signature: "matchesBy(actor: { name: string; session?: string | undefined; }, by: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:292
+  refs-ts-note-1of50:
+    kind: function
+    name: note()
+    in: tools-refs-ts-b06al
+    signature: "note(idx: ModelIndex, id: string): Resolved"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:229
+  refs-ts-noteline-12bhq:
+    kind: function
+    name: noteLine()
+    in: tools-refs-ts-b06al
+    signature: "noteLine(idx: ModelIndex, n: Note): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:117
+  refs-ts-object-1mo87:
+    kind: function
+    name: object()
+    in: tools-refs-ts-b06al
+    context: The object a ref names (boxes only), as a ToolError when it isn't one.
+    signature: "object(idx: ModelIndex, ref: string): ModelObject"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:265
+  refs-ts-refof-yj811:
+    kind: function
+    name: refOf()
+    in: tools-refs-ts-b06al
+    context: "The ref a line shows for an object: repo:path#fn for code, else its id."
+    signature: "refOf: (idx: ModelIndex, id: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:23
+  refs-ts-resolve-1kqf4:
+    kind: function
+    name: resolve()
+    in: tools-refs-ts-b06al
+    context: A ref of any kind, read back; a ToolError that says what's near when there's nothing.
+    signature: "resolve(idx: ModelIndex, raw: string): Resolved"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:134
+  refs-ts-usesof-inv0m:
+    kind: function
+    name: usesOf()
+    in: tools-refs-ts-b06al
+    context: "Entity names a box points at: its uses, and what its signature names that is an entity."
+    signature: "usesOf(idx: ModelIndex, o: ModelObject): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:35
+  refs-ts-viewfor-mdkcu:
+    kind: function
+    name: viewFor()
+    in: tools-refs-ts-b06al
+    context: "The view to show a box on: the one about its parent first, then any it's on, then its nearest drawn ancestor's."
+    signature: "viewFor(idx: ModelIndex, objectId: string): { d: Diagram; objectId: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:275
+  refs-ts-viewid-jf4mm:
+    kind: function
+    name: viewId()
+    in: tools-refs-ts-b06al
+    signature: "viewId: (d: Diagram) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/refs.ts:20
+connections:
+  - {from: refs-ts-boxline-r7nbi, to: host-ts-purpose-qepde}
+  - {from: refs-ts-boxline-r7nbi, to: model-ts-mergedcontext-d55w6}
+  - {from: refs-ts-boxline-r7nbi, to: refs-ts-idof-1erbh}
+  - {from: refs-ts-boxline-r7nbi, to: refs-ts-refof-yj811}
+  - {from: refs-ts-connection-1udnj, to: agent-ts-findobject-wv2n5}
+  - {from: refs-ts-connection-1udnj, to: refs-ts-idof-1erbh}
+  - {from: refs-ts-connref-1hum7, to: refs-ts-idof-1erbh}
+  - {from: refs-ts-edgeline-1ini3, to: refs-ts-carriesof-p0gen}
+  - {from: refs-ts-edgeline-1ini3, to: refs-ts-refof-yj811}
+  - {from: refs-ts-entityline-6mka2, to: entities-ts-entitysummary-i5oax}
+  - {from: refs-ts-entityline-6mka2, to: host-ts-purpose-qepde}
+  - {from: refs-ts-entityline-6mka2, to: refs-ts-idof-1erbh}
+  - {from: refs-ts-noteline-12bhq, to: host-ts-clip-wy39m}
+  - {from: refs-ts-noteline-12bhq, to: refs-ts-connref-1hum7}
+  - {from: refs-ts-noteline-12bhq, to: refs-ts-refof-yj811}
+  - {from: refs-ts-object-1mo87, to: refs-ts-resolve-1kqf4}
+  - {from: refs-ts-refof-yj811, to: context-ts-coderef-1vzch}
+  - {from: refs-ts-resolve-1kqf4, to: agent-ts-findobject-wv2n5}
+  - {from: refs-ts-resolve-1kqf4, to: agent-ts-findview-bfne5}
+  - {from: refs-ts-resolve-1kqf4, to: context-ts-resolveref-a6jyg}
+  - {from: refs-ts-resolve-1kqf4, to: refs-ts-connection-1udnj}
+  - {from: refs-ts-resolve-1kqf4, to: refs-ts-entitybyname-13a8g}
+  - {from: refs-ts-resolve-1kqf4, to: refs-ts-note-1of50}
+  - {from: refs-ts-usesof-inv0m, to: entities-ts-signaturetypes-698iu}
+  - {from: refs-ts-usesof-inv0m, to: refs-ts-entitybyname-13a8g}

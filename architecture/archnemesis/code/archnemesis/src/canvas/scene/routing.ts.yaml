@@ -1,0 +1,57 @@
+# archnemesis:src/canvas/scene/routing.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-routing-ts-16mm7:
+    kind: module
+    name: routing.ts
+    in: canvas-scene-iaxtu
+    context: Which sides every arrow uses and where along them, and handing boxes and arrows to the router for elbow and straight lines.
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/routing.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/routing.ts
+  routing-ts-recomputeroutes-drbw5:
+    kind: function
+    name: recomputeRoutes()
+    in: scene-routing-ts-16mm7
+    context: "Which sides every arrow uses (around boxes in the way) and where along them. With `dirty`, only the arrows that could have changed are re-routed: ones touching a moved box, ones whose curve reaches where a box was or now is, and any listed."
+    signature: "recomputeRoutes(state: SceneState, dirty?: Dirty | undefined): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/routing.ts:56
+  routing-ts-routed-1cp8r:
+    kind: function
+    name: routed()
+    in: scene-routing-ts-16mm7
+    context: Is the router drawing arrows right now (style, loaded, and the diagram not too big)?
+    signature: "routed(state: SceneState): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/routing.ts:21
+  routing-ts-syncavoid-xlxxg:
+    kind: function
+    name: syncAvoid()
+    in: scene-routing-ts-16mm7
+    context: Tell the router where every box and arrow is now; it re-routes what that touches.
+    signature: "syncAvoid(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/routing.ts:31
+connections:
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-boxgrid-add-vcn8d}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-boxgrid-constructor-1uxkw}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-choosesides-1ue4u}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-intersects-1xejh}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-ports-1dg9c}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-route-26rwn}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-routebox-1yj8t}
+  - {from: routing-ts-recomputeroutes-drbw5, to: geometry-ts-sides-1t0b8}
+  - {from: routing-ts-recomputeroutes-drbw5, to: lookup-ts-endrect-10url}
+  - {from: routing-ts-recomputeroutes-drbw5, to: measure-ts-pad-zaeba}
+  - {from: routing-ts-recomputeroutes-drbw5, to: routing-ts-syncavoid-xlxxg}
+  - {from: routing-ts-syncavoid-xlxxg, to: avoid-ts-asyncrouter-destroy-p155u}
+  - {from: routing-ts-syncavoid-xlxxg, to: avoid-ts-asyncrouter-sync-15br9}
+  - {from: routing-ts-syncavoid-xlxxg, to: lookup-ts-shapeof-18bgx}
+  - {from: routing-ts-syncavoid-xlxxg, to: router-ts-routeredges-8dt0a}
+  - {from: routing-ts-syncavoid-xlxxg, to: routing-ts-routed-1cp8r}

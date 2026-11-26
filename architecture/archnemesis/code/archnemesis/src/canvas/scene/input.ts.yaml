@@ -1,0 +1,93 @@
+# archnemesis:src/canvas/scene/input.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-input-ts-ggvol:
+    kind: module
+    name: input.ts
+    in: canvas-scene-iaxtu
+    context: "Wiring the browser's events to the canvas: pointer, wheel, keys, resizing."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/input.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/input.ts
+  input-ts-bindinput-16w89:
+    kind: function
+    name: bindInput()
+    in: scene-input-ts-ggvol
+    signature: "bindInput(state: SceneState, host: HTMLElement): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/input.ts:27
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  input-ts-forwardwheel-1026i:
+    kind: function
+    name: forwardWheel()
+    in: scene-input-ts-ggvol
+    context: Scroll or zoom from something laid over the canvas (a note), as if it were the canvas.
+    signature: "forwardWheel(state: SceneState, e: WheelEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/input.ts:23
+    references:
+      - dependency: lib-types-react-1i7zx
+  input-ts-onkey-726xv:
+    kind: function
+    name: onKey()
+    in: scene-input-ts-ggvol
+    signature: "onKey(state: SceneState, e: KeyboardEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/input.ts:162
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  input-ts-onwheel-1h9mz:
+    kind: function
+    name: onWheel()
+    in: scene-input-ts-ggvol
+    context: "Trackpad: two fingers pan, a pinch zooms (it arrives as a ctrl-wheel). Mouse: ⌘-wheel zooms."
+    signature: "onWheel(state: SceneState, e: WheelEvent): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/input.ts:144
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: input-ts-bindinput-16w89, to: arrows-ts-commitshape-1frj4}
+  - {from: input-ts-bindinput-16w89, to: camera-ts-screentoworld-1ot24}
+  - {from: input-ts-bindinput-16w89, to: edges-ts-drawstaticedges-1a491}
+  - {from: input-ts-bindinput-16w89, to: frame-ts-requestrender-sstrq}
+  - {from: input-ts-bindinput-16w89, to: hit-ts-hitarrowpart-1z0x3}
+  - {from: input-ts-bindinput-16w89, to: hit-ts-hitedge-zauf5}
+  - {from: input-ts-bindinput-16w89, to: hit-ts-hitnode-1f6df}
+  - {from: input-ts-bindinput-16w89, to: input-ts-onkey-726xv}
+  - {from: input-ts-bindinput-16w89, to: input-ts-onwheel-1h9mz}
+  - {from: input-ts-bindinput-16w89, to: lookup-ts-local-1y6p5}
+  - {from: input-ts-bindinput-16w89, to: lookup-ts-shapeof-18bgx}
+  - {from: input-ts-bindinput-16w89, to: minimap-ts-drawminimap-6jl4a}
+  - {from: input-ts-bindinput-16w89, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: input-ts-bindinput-16w89, to: pointerdown-ts-onpointerdown-1pk1i}
+  - {from: input-ts-bindinput-16w89, to: pointermove-ts-onpointermove-j8634}
+  - {from: input-ts-bindinput-16w89, to: pointerup-ts-onpointerup-1p8ck}
+  - {from: input-ts-bindinput-16w89, to: queries-ts-edgelabelclient-cmsmn}
+  - {from: input-ts-bindinput-16w89, to: routing-ts-syncavoid-xlxxg}
+  - {from: input-ts-bindinput-16w89, to: selection-ts-select-848l7}
+  - {from: input-ts-bindinput-16w89, to: selection-ts-sethovered-1aimh}
+  - {from: input-ts-bindinput-16w89, to: view-ts-setcamera-re09j}
+  - {from: input-ts-forwardwheel-1026i, to: input-ts-onwheel-1h9mz}
+  - {from: input-ts-onkey-726xv, to: edges-ts-drawstaticedges-1a491}
+  - {from: input-ts-onkey-726xv, to: frame-ts-requestrender-sstrq}
+  - {from: input-ts-onkey-726xv, to: minimap-ts-drawminimap-6jl4a}
+  - {from: input-ts-onkey-726xv, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: input-ts-onkey-726xv, to: routing-ts-recomputeroutes-drbw5}
+  - {from: input-ts-onkey-726xv, to: selection-ts-select-848l7}
+  - {from: input-ts-onkey-726xv, to: view-ts-fit-q84m1}
+  - {from: input-ts-onwheel-1h9mz, to: camera-ts-panby-rrkox}
+  - {from: input-ts-onwheel-1h9mz, to: camera-ts-zoomat-9psxp}
+  - {from: input-ts-onwheel-1h9mz, to: lookup-ts-local-1y6p5}
+  - {from: input-ts-onwheel-1h9mz, to: minimap-ts-inminimap-xjkzu}
+  - {from: input-ts-onwheel-1h9mz, to: view-ts-setcamera-re09j}
+  - {from: input-ts-onwheel-1h9mz, to: view-ts-zoomby-1ixww}

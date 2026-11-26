@@ -1,0 +1,159 @@
+# archnemesis:src/backend/local-git.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-git-ts-aoh5p:
+    kind: module
+    name: local-git.ts
+    in: web-backend
+    context: "Forks and history in the static build, all in this browser. The server's Branches, kept the same way local.ts keeps designs: each design has a main (its own document) and forks (each a document of its own, started as a copy of main's state). Merging a fork into main is a Yjs merge, so edits made on main in the meantime are kept too and nothing ever conflicts. History is a list of versions of…"
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local-git.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts
+  local-git-ts-changesof-193e7:
+    kind: function
+    name: changesOf()
+    in: backend-local-git-ts-aoh5p
+    signature: "changesOf(core: GitCore, doc: string): Promise<WhatsNew | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:141
+  local-git-ts-createlocalgit-12knx:
+    kind: function
+    name: createLocalGit()
+    in: backend-local-git-ts-aoh5p
+    signature: "createLocalGit(host: GitHost, deps: GitDeps): { git: { inBrowser?: boolean | undefined; info(key: string): Promise<GitInfo | null>; follow(key: string, o: FollowOptions): Promise<...>; ... 7 more ...; whatsNew(doc: string): Promise<...>; }; ... 6 more ...; removeDesign(key: string): Promise<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:149
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-git-ts-endfork-1kz3q:
+    kind: function
+    name: endFork()
+    in: backend-local-git-ts-aoh5p
+    context: "A fork is over (merged or thrown away): its record and document go, and its tabs move to main."
+    signature: "endFork(core: GitCore, f: ForkRecord, why: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:122
+  local-git-ts-forkinfo-htce9:
+    kind: function
+    name: forkInfo()
+    in: backend-local-git-ts-aoh5p
+    signature: "forkInfo(core: GitCore, f: ForkRecord, list: VersionMeta[]): Promise<ForkInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:38
+  local-git-ts-gitinfo-10x25:
+    kind: function
+    name: gitInfo()
+    in: backend-local-git-ts-aoh5p
+    context: "What the branch menu shows for a design: main, its upstream (if any), and its forks."
+    signature: "gitInfo(core: GitCore, key: string, state: { syncing: Set<string>; errors: Map<string, string>; }): Promise<GitInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:63
+  local-git-ts-mergefork-j73no:
+    kind: function
+    name: mergeFork()
+    in: backend-local-git-ts-aoh5p
+    signature: "mergeFork(core: GitCore, doc: string): Promise<{ result: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:129
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-git-ts-namefor-hajs7:
+    kind: function
+    name: nameFor()
+    in: backend-local-git-ts-aoh5p
+    context: "A name for a new fork: the one asked for, else yours and the date; never one a fork has."
+    signature: "nameFor(core: GitCore, rec: DesignRecord, wanted?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:89
+  local-git-ts-notfork-49yiy:
+    kind: function
+    name: notFork()
+    in: backend-local-git-ts-aoh5p
+    signature: "notFork: () => BackendError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:36
+  local-git-ts-startfork-1v9es:
+    kind: function
+    name: startFork()
+    in: backend-local-git-ts-aoh5p
+    signature: "startFork(core: GitCore, key: string, wanted?: string | undefined): Promise<{ doc: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-git.ts:99
+connections:
+  - {from: local-git-ts-changesof-193e7, to: diff-ts-statefromfiles-oqdnu}
+  - {from: local-git-ts-changesof-193e7, to: doc-ts-readstate-1orda}
+  - {from: local-git-ts-changesof-193e7, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-git-ts-changesof-193e7, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-git-ts-changesof-193e7, to: whatsnew-ts-changedwithcontext-1yvpv}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-core-ts-createcore-1kpg9}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-core-ts-githost-wipe-v7ina}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-core-ts-typeliteral0-find-11rrv}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-changesof-193e7}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-endfork-1kz3q}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-gitinfo-10x25}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-mergefork-j73no}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-notfork-49yiy}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-git-ts-startfork-1v9es}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-upstream-ts-createupstream-1u4wk}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-upstream-ts-refusedhere-18m13}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-versions-ts-statejsonof-1av7z}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-versions-ts-versionstore-removedesign-x5f52}
+  - {from: local-git-ts-createlocalgit-12knx, to: local-watch-ts-watchdoc-1uwlq}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral44-at-ipdqg}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral44-list-96u9m}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-discard-a3n7v}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-edit-oyj74}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-follow-1jca0}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-fork-1lja4}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-info-pyl7c}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-merge-yjv00}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-propose-16vkm}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-savenotes-17phs}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-sync-1vfsv}
+  - {from: local-git-ts-createlocalgit-12knx, to: types-ts-typeliteral45-whatsnew-1hmgp}
+  - {from: local-git-ts-endfork-1kz3q, to: local-core-ts-forkkey-1rw56}
+  - {from: local-git-ts-endfork-1kz3q, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-git-ts-endfork-1kz3q, to: local-core-ts-githost-wipe-v7ina}
+  - {from: local-git-ts-endfork-1kz3q, to: types-ts-dochandlers-onevent-1my7r}
+  - {from: local-git-ts-forkinfo-htce9, to: local-core-ts-fileskey-2u01s}
+  - {from: local-git-ts-forkinfo-htce9, to: local-core-ts-forkkey-1rw56}
+  - {from: local-git-ts-forkinfo-htce9, to: local-core-ts-gitcore-files-qs4q2}
+  - {from: local-git-ts-forkinfo-htce9, to: local-core-ts-samefiles-eak0f}
+  - {from: local-git-ts-forkinfo-htce9, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-git-ts-forkinfo-htce9, to: sharelink-ts-fingerprint-1eq0b}
+  - {from: local-git-ts-gitinfo-10x25, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-git-ts-gitinfo-10x25, to: local-git-ts-forkinfo-htce9}
+  - {from: local-git-ts-gitinfo-10x25, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-git-ts-mergefork-j73no, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-git-ts-mergefork-j73no, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-git-ts-mergefork-j73no, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-git-ts-mergefork-j73no, to: local-git-ts-endfork-1kz3q}
+  - {from: local-git-ts-mergefork-j73no, to: local-git-ts-notfork-49yiy}
+  - {from: local-git-ts-namefor-hajs7, to: local-core-ts-githost-who-6wh42}
+  - {from: local-git-ts-namefor-hajs7, to: model-ts-slug-1nu4f}
+  - {from: local-git-ts-notfork-49yiy, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-forkkey-1rw56}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-githost-clone-dy5qh}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-githost-who-6wh42}
+  - {from: local-git-ts-startfork-1v9es, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-git-ts-startfork-1v9es, to: local-git-ts-namefor-hajs7}
+  - {from: local-git-ts-startfork-1v9es, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-git-ts-startfork-1v9es, to: portable-files-ts-givekeys-2jjm3}

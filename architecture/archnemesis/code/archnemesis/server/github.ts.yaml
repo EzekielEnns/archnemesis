@@ -1,0 +1,402 @@
+# archnemesis:server/github.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-github-ts-l3kfq:
+    kind: module
+    name: github.ts
+    in: srv-git
+    context: "Archnemesis as a GitHub App: the one place that talks to GitHub's API."
+    tech: [TypeScript]
+    path: archnemesis:server/github.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts
+  github-ts-appmanifest-1xd4h:
+    kind: function
+    name: appManifest()
+    in: server-github-ts-l3kfq
+    context: The GitHub App Archnemesis asks GitHub to create (the manifest flow), for `baseUrl`'s Archnemesis. `redirect` is where GitHub sends the one-time code (Archnemesis itself, or scripts/github-app.ts).
+    signature: "appManifest(o: { name: string; baseUrl: string; redirect: string; public: boolean; }): { name: string; url: string; description: string; redirect_url: string; callback_urls: string[]; setup_url: string; setup_on_update: boolean; public: boolean; request_oauth_on_install: boolean; default_permissi…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:711
+  github-ts-b64url-pqaoj:
+    kind: function
+    name: b64url()
+    in: server-github-ts-l3kfq
+    signature: "b64url: (b: string | Buffer<ArrayBufferLike>) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:70
+  github-ts-github-branches-1pnj3:
+    kind: function
+    name: GitHub.branches()
+    in: server-github-ts-l3kfq
+    context: "A repo's branches, each with the folders that hold an Archnemesis design (\"\" is the root): what the connect form offers once a repo is picked. Cached for a minute."
+    tech: [method of GitHub]
+    signature: "branches(fullName: string): Promise<BranchChoice[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:326
+  github-ts-github-call-19jpd:
+    kind: function
+    name: GitHub.call()
+    in: server-github-ts-l3kfq
+    context: "One API call. Polite about limits: a GET sends the ETag of the last answer, and GitHub doesn't count a \"304 not modified\" against the rate limit; when GitHub says the limit is used up (or to slow down), every call waits out the time it gives."
+    tech: [method of GitHub]
+    signature: "call<T>(method: string, path: string, token: string, body?: unknown): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:560
+  github-ts-github-cipherkey-3mkmf:
+    kind: function
+    name: GitHub.cipherKey()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "cipherKey(): Buffer<ArrayBufferLike>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:509
+  github-ts-github-commits-1omay:
+    kind: function
+    name: GitHub.commits()
+    in: server-github-ts-l3kfq
+    context: The latest commits that touched `path` on the default branch, with the app's token.
+    tech: [method of GitHub]
+    signature: "commits(owner: string, repo: string, path: string, limit: number, token: string): Promise<{ sha: string; name: string; login?: string | undefined; email: string; date: string; message: string; }[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:637
+  github-ts-github-constructor-g1qtn:
+    kind: function
+    name: GitHub.<constructor>()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "constructor(store: DocStore, baseUrl: string, cfg: { web: string; api: string; host: string; envApp: { id: number; slug: string; clientId: string; clientSecret: string; privateKey: string | undefined; privateKeyFile: string | undefined; } | null; appPublic: boolean; }, tokenKey: string | undefine…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:90
+  github-ts-github-creds-1lmhr:
+    kind: function
+    name: GitHub.creds()
+    in: server-github-ts-l3kfq
+    context: From the environment if set there, else from the database (the setup flow).
+    tech: [method of GitHub]
+    signature: "creds(): AppCreds | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:107
+  github-ts-github-disconnect-a6utx:
+    kind: function
+    name: GitHub.disconnect()
+    in: server-github-ts-l3kfq
+    context: Forget the GitHub App and everyone's GitHub sign-ins (the app was deleted, or set up under the wrong owner), so it can be set up again. The app itself stays on GitHub until someone deletes it there. Not for an app given in the environment.
+    tech: [method of GitHub]
+    signature: "disconnect(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:127
+  github-ts-github-finishlogin-p87l0:
+    kind: function
+    name: GitHub.finishLogin()
+    in: server-github-ts-l3kfq
+    context: 'GitHub sent the person back. For a sign-in (signInUrl) `signIn` is true, `binding` must be the cookie the browser sent, and `principal` is who they are: "github:<login>".'
+    tech: [method of GitHub]
+    signature: "finishLogin(code: string, state: string | null, binding?: string | null | undefined): Promise<{ back: string; login: string; name: string | null; principal: string; signIn: boolean; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:416
+  github-ts-github-finishsetup-1x9c6:
+    kind: function
+    name: GitHub.finishSetup()
+    in: server-github-ts-l3kfq
+    context: "GitHub sent us back with a code: trade it for the app's credentials and keep them."
+    tech: [method of GitHub]
+    signature: "finishSetup(code: string, state: string | null): Promise<{ back: string; installUrl: string; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:211
+  github-ts-github-get-configured-139vx:
+    kind: function
+    name: GitHub.<get>configured()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "get configured: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:141
+  github-ts-github-gitenv-9jhq6:
+    kind: function
+    name: GitHub.gitEnv()
+    in: server-github-ts-l3kfq
+    context: git config (as environment) that sends the token to GitHub, never on the command line.
+    tech: [method of GitHub]
+    signature: "gitEnv(token: string): Record<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:379
+  github-ts-github-httpsremote-lcsrh:
+    kind: function
+    name: GitHub.httpsRemote()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "httpsRemote(owner: string, repo: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:387
+  github-ts-github-installurl-17nhc:
+    kind: function
+    name: GitHub.installUrl()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "installUrl(): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:145
+  github-ts-github-jwt-fomjd:
+    kind: function
+    name: GitHub.jwt()
+    in: server-github-ts-l3kfq
+    context: A short-lived JWT that proves Archnemesis is the app (for app-level API calls).
+    tech: [method of GitHub]
+    signature: "jwt(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:151
+  github-ts-github-loaduser-mvpby:
+    kind: function
+    name: GitHub.loadUser()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "loadUser(principal: string): UserToken | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:532
+  github-ts-github-loginurl-2dsvm:
+    kind: function
+    name: GitHub.loginUrl()
+    in: server-github-ts-l3kfq
+    context: Where to send someone to sign in with GitHub; `back` is where they return to.
+    tech: [method of GitHub]
+    signature: "loginUrl(principal: string, back: string, binding?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:394
+  github-ts-github-newstate-zxvtq:
+    kind: function
+    name: GitHub.newState()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: 'newState(kind: "login" | "setup", principal: string, back: string, binding?: string | undefined): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:163
+  github-ts-github-oauth-czn5r:
+    kind: function
+    name: GitHub.oauth()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: 'oauth(grant: { code: string; } | { refresh_token: string; }): Promise<Omit<UserToken, "login">>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:428
+  github-ts-github-openpull-1aprv:
+    kind: function
+    name: GitHub.openPull()
+    in: server-github-ts-l3kfq
+    context: Open a pull request as `principal` (or find the open one for that branch).
+    tech: [method of GitHub]
+    signature: "openPull(principal: string, o: { owner: string; repo: string; head: string; base: string; title: string; body: string; }): Promise<PullState | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:614
+  github-ts-github-pullstate-1mukj:
+    kind: function
+    name: GitHub.pullState()
+    in: server-github-ts-l3kfq
+    context: Where a pull request stands, read with the app's token.
+    tech: [method of GitHub]
+    signature: "pullState(owner: string, repo: string, number: number): Promise<PullState | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:668
+  github-ts-github-repos-1wv40:
+    kind: function
+    name: GitHub.repos()
+    in: server-github-ts-l3kfq
+    context: "Every repo Archnemesis's app is installed on, across all the accounts and orgs that installed it: what the connect form offers to pick from. Cached for a minute."
+    tech: [method of GitHub]
+    signature: "repos(): Promise<RepoChoice[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:282
+  github-ts-github-repotoken-qrd5j:
+    kind: function
+    name: GitHub.repoToken()
+    in: server-github-ts-l3kfq
+    context: A token for git and the API on one repo, from the app's installation there. Null when there's no app, or it isn't installed on that repo (then plain git is used).
+    tech: [method of GitHub]
+    signature: "repoToken(owner: string, repo: string): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:253
+  github-ts-github-saveuser-1oaxz:
+    kind: function
+    name: GitHub.saveUser()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "saveUser(principal: string, u: UserToken): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:518
+  github-ts-github-setup-jqatx:
+    kind: function
+    name: GitHub.setup()
+    in: server-github-ts-l3kfq
+    context: What the browser posts to GitHub to create the app (to an org with `org`).
+    tech: [method of GitHub]
+    signature: "setup(principal: string, opts: { org?: string | undefined; back?: string | undefined; }): { action: string; manifest: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:185
+  github-ts-github-signinurl-1q0si:
+    kind: function
+    name: GitHub.signInUrl()
+    in: server-github-ts-l3kfq
+    context: "ARCHNM_AUTH=github: where to send someone who isn't signed in yet. Nobody is known, so the state is tied to the browser instead: `binding` goes in a cookie that must come back with the callback, so a link can't sign someone in as somebody else."
+    tech: [method of GitHub]
+    signature: "signInUrl(back: string): { url: string; binding: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:407
+  github-ts-github-signout-1a1aq:
+    kind: function
+    name: GitHub.signOut()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: "signOut(principal: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:472
+  github-ts-github-takestate-orjl0:
+    kind: function
+    name: GitHub.takeState()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHub]
+    signature: 'takeState(s: string | null, kind: "login" | "setup"): { kind: "login" | "setup"; principal: string; back: string; at: number; binding?: string | undefined; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:176
+  github-ts-github-userlogin-mx7sf:
+    kind: function
+    name: GitHub.userLogin()
+    in: server-github-ts-l3kfq
+    context: Someone's GitHub login, if they've signed in.
+    tech: [method of GitHub]
+    signature: "userLogin(principal: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:457
+  github-ts-github-username-14c7p:
+    kind: function
+    name: GitHub.userName()
+    in: server-github-ts-l3kfq
+    context: The name someone goes by on GitHub (else their login), if they've signed in here.
+    tech: [method of GitHub]
+    signature: "userName(principal: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:462
+  github-ts-github-usertoken-tln6a:
+    kind: function
+    name: GitHub.userToken()
+    in: server-github-ts-l3kfq
+    context: A working token for someone (server/repoaccess.ts asks GitHub with it), refreshed if it has expired; null if they haven't signed in.
+    tech: [method of GitHub]
+    signature: "userToken(principal: string): Promise<string | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:477
+  github-ts-githuberror-constructor-79gmz:
+    kind: function
+    name: GitHubError.<constructor>()
+    in: server-github-ts-l3kfq
+    tech: [method of GitHubError]
+    signature: "constructor(message: string, status?: number): GitHubError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:33
+  github-ts-repoof-nwdzi:
+    kind: function
+    name: repoOf()
+    in: server-github-ts-l3kfq
+    context: owner/repo from a GitHub remote URL (any of its shapes), or null.
+    signature: "repoOf(remote: string, githubHost: string): { owner: string; repo: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:59
+  github-ts-same-d42nr:
+    kind: function
+    name: same()
+    in: server-github-ts-l3kfq
+    signature: "same: (a?: string | null | undefined, b?: string | null | undefined) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/github.ts:68
+connections:
+  - {from: github-ts-github-branches-1pnj3, to: github-ts-github-repotoken-qrd5j}
+  - {from: github-ts-github-branches-1pnj3, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-call-19jpd, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-cipherkey-3mkmf, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-commits-1omay, to: github-ts-github-call-19jpd}
+  - {from: github-ts-github-creds-1lmhr, to: store-ts-docstore-setting-se7db}
+  - {from: github-ts-github-disconnect-a6utx, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-disconnect-a6utx, to: store-ts-docstore-deletesetting-1ene3}
+  - {from: github-ts-github-disconnect-a6utx, to: store-ts-docstore-deletesettings-o5s24}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-github-call-19jpd}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-github-oauth-czn5r}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-github-saveuser-1oaxz}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-github-takestate-orjl0}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-finishlogin-p87l0, to: github-ts-same-d42nr}
+  - {from: github-ts-github-finishsetup-1x9c6, to: github-ts-github-takestate-orjl0}
+  - {from: github-ts-github-finishsetup-1x9c6, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-finishsetup-1x9c6, to: store-ts-docstore-setsetting-ong2u}
+  - {from: github-ts-github-get-configured-139vx, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-installurl-17nhc, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-jwt-fomjd, to: github-ts-b64url-pqaoj}
+  - {from: github-ts-github-jwt-fomjd, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-jwt-fomjd, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-loaduser-mvpby, to: github-ts-github-cipherkey-3mkmf}
+  - {from: github-ts-github-loaduser-mvpby, to: github-ts-github-get-configured-139vx}
+  - {from: github-ts-github-loaduser-mvpby, to: store-ts-docstore-setting-se7db}
+  - {from: github-ts-github-loginurl-2dsvm, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-loginurl-2dsvm, to: github-ts-github-newstate-zxvtq}
+  - {from: github-ts-github-loginurl-2dsvm, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-oauth-czn5r, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-github-oauth-czn5r, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-openpull-1aprv, to: github-ts-github-call-19jpd}
+  - {from: github-ts-github-openpull-1aprv, to: github-ts-github-usertoken-tln6a}
+  - {from: github-ts-github-pullstate-1mukj, to: github-ts-github-call-19jpd}
+  - {from: github-ts-github-pullstate-1mukj, to: github-ts-github-repotoken-qrd5j}
+  - {from: github-ts-github-repos-1wv40, to: github-ts-github-get-configured-139vx}
+  - {from: github-ts-github-repos-1wv40, to: github-ts-github-jwt-fomjd}
+  - {from: github-ts-github-repos-1wv40, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-repotoken-qrd5j, to: github-ts-github-get-configured-139vx}
+  - {from: github-ts-github-repotoken-qrd5j, to: github-ts-github-jwt-fomjd}
+  - {from: github-ts-github-repotoken-qrd5j, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-saveuser-1oaxz, to: github-ts-github-cipherkey-3mkmf}
+  - {from: github-ts-github-saveuser-1oaxz, to: store-ts-docstore-setsetting-ong2u}
+  - {from: github-ts-github-setup-jqatx, to: github-ts-appmanifest-1xd4h}
+  - {from: github-ts-github-setup-jqatx, to: github-ts-github-get-configured-139vx}
+  - {from: github-ts-github-setup-jqatx, to: github-ts-github-newstate-zxvtq}
+  - {from: github-ts-github-setup-jqatx, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-signinurl-1q0si, to: github-ts-github-loginurl-2dsvm}
+  - {from: github-ts-github-signout-1a1aq, to: store-ts-docstore-deletesetting-1ene3}
+  - {from: github-ts-github-takestate-orjl0, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-github-userlogin-mx7sf, to: github-ts-github-loaduser-mvpby}
+  - {from: github-ts-github-username-14c7p, to: store-ts-docstore-setting-se7db}
+  - {from: github-ts-github-usertoken-tln6a, to: github-ts-github-loaduser-mvpby}
+  - {from: github-ts-github-usertoken-tln6a, to: github-ts-github-oauth-czn5r}
+  - {from: github-ts-github-usertoken-tln6a, to: github-ts-github-saveuser-1oaxz}
+  - {from: github-ts-github-usertoken-tln6a, to: github-ts-github-signout-1a1aq}

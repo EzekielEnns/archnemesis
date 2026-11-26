@@ -1,0 +1,40 @@
+# archnemesis:src/workspace/useSpotlight.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usespotlight-ts-1g2wq:
+    kind: module
+    name: useSpotlight.ts
+    in: web-workspace
+    context: "What's lit on the canvas, in order of who's asking: a hovered connection, the arrows carrying an entity, \"what depends on it\", a flow (or its path), the diff, or a tag."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useSpotlight.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useSpotlight.ts
+  usespotlight-ts-flowendsof-1mjao:
+    kind: function
+    name: flowEndsOf()
+    in: workspace-usespotlight-ts-1g2wq
+    context: The two ends of each step of the flow (or of the step being played), as drawn here.
+    signature: "flowEndsOf(activeFlow: Flow | undefined, step: number, idx: ModelIndex, diagramId: string): { a: string | null; b: string | null; n: number; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useSpotlight.ts:19
+  usespotlight-ts-usespotlight-gz3du:
+    kind: function
+    name: useSpotlight()
+    in: workspace-usespotlight-ts-1g2wq
+    signature: "useSpotlight({ scene, ready, diagramId, activeFlow, isPath, step, tag, idx, graph, hoverPair, partPairs, impactNow, showNew, whatsNew, sidebar, sel, }: { scene: SceneRef; ready: boolean; diagramId: string | null; activeFlow: Flow | undefined; isPath: boolean; step: number; tag: string | null; idx…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useSpotlight.ts:34
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usespotlight-ts-flowendsof-1mjao, to: project-ts-placedfor-15d7e}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: project-ts-boxeswithtag-12t1g}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: project-ts-placedfor-15d7e}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: scene-ts-scene-reveal-1i33n}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: scene-ts-scene-spotlight-1tua0}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: usehighlights-ts-usehighlights-vpxee}
+  - {from: usespotlight-ts-usespotlight-gz3du, to: usespotlight-ts-flowendsof-1mjao}

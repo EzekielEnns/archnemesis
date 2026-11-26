@@ -1,0 +1,87 @@
+# archnemesis:shared/diff.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-diff-ts-g9qyj:
+    kind: module
+    name: diff.ts
+    in: shared-model
+    context: "What changed between two versions of a design, in words a reviewer reads: \"Added app Refunds in Shop\", \"Rearranged 3 boxes on Landscape\". Used for a fork's pull request."
+    tech: [TypeScript]
+    path: archnemesis:shared/diff.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts
+  diff-ts-catof-vzymq:
+    kind: function
+    name: catOf()
+    in: shared-diff-ts-g9qyj
+    signature: "catOf: (kind: string | undefined) => Cat"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:94
+  diff-ts-changeheadline-1yf8c:
+    kind: function
+    name: changeHeadline()
+    in: shared-diff-ts-g9qyj
+    context: "The headline of a change list: how many of each, with the views' and flows' names."
+    signature: "changeHeadline(list: { cat: Cat; added: boolean; name?: string | undefined; }[]): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:308
+  diff-ts-changelist-1olke:
+    kind: function
+    name: changeList()
+    in: shared-diff-ts-g9qyj
+    context: The changes, each with what it's about (and the view or flow's name), most important first.
+    signature: "changeList(a: ModelState, b: ModelState, protect?: string[]): { t: string; cat: Cat; added: boolean; name?: string | undefined; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:98
+  diff-ts-describechanges-1aml6:
+    kind: function
+    name: describeChanges()
+    in: shared-diff-ts-g9qyj
+    context: The changes from `a` to `b`, most important first, one line each.
+    signature: "describeChanges(a: ModelState, b: ModelState, protect?: string[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:62
+  diff-ts-plural-1m81g:
+    kind: function
+    name: plural()
+    in: shared-diff-ts-g9qyj
+    signature: "plural: (n: number, one: string, many?: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:59
+  diff-ts-same-1hfzp:
+    kind: function
+    name: same()
+    in: shared-diff-ts-g9qyj
+    signature: "same: (a: unknown, b: unknown) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:58
+  diff-ts-statefromfiles-oqdnu:
+    kind: function
+    name: stateFromFiles()
+    in: shared-diff-ts-g9qyj
+    context: "A design's state from its files (ids are keys). Files with problems still give a state: whatever can't be applied (a view scoped to something missing, say) is left out, so a pull request on a half-broken folder can still be described."
+    signature: "stateFromFiles(files: Map<string, string>): ModelState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/diff.ts:17
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: diff-ts-changelist-1olke, to: diff-ts-catof-vzymq}
+  - {from: diff-ts-changelist-1olke, to: diff-ts-plural-1m81g}
+  - {from: diff-ts-changelist-1olke, to: diff-ts-same-1hfzp}
+  - {from: diff-ts-describechanges-1aml6, to: diff-ts-changelist-1olke}
+  - {from: diff-ts-statefromfiles-oqdnu, to: doc-ts-applyops-7k6hw}
+  - {from: diff-ts-statefromfiles-oqdnu, to: doc-ts-emptystate-1a3cm}
+  - {from: diff-ts-statefromfiles-oqdnu, to: doc-ts-fill-dwqka}
+  - {from: diff-ts-statefromfiles-oqdnu, to: doc-ts-mirror-1k3af}
+  - {from: diff-ts-statefromfiles-oqdnu, to: doc-ts-readstate-1orda}
+  - {from: diff-ts-statefromfiles-oqdnu, to: files-ts-readfiles-1ttso}
+  - {from: diff-ts-statefromfiles-oqdnu, to: files-ts-toops-1d908}

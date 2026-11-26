@@ -1,0 +1,14 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Server
+scope: server
+arrows: elbow
+tidy: down
+hide_lines:
+  - between: neighbours
+  - ids: [shared]
+include:
+  - children: server
+  - neighbours: server
+exclude:
+  - ids: [build, cli, design-files, object-storage, shared, srv-test]
+  - kind: library

@@ -1,0 +1,24 @@
+# archnemesis:server/auth/providers/tokens.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  providers-tokens-ts-1y6hp:
+    kind: module
+    name: tokens.ts
+    in: srv-auth
+    context: "tokens: nobody signs in as themselves; each person or agent holds a token from ARCHNM_TOKENS. The core checks those tokens (they work beside every provider), so this one only says what the sign-in page shows."
+    tech: [TypeScript]
+    path: archnemesis:server/auth/providers/tokens.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/tokens.ts
+  tokens-ts-tokensprovider-1526u:
+    kind: function
+    name: tokensProvider()
+    in: providers-tokens-ts-1y6hp
+    signature: "tokensProvider(): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/tokens.ts:6
+connections:
+  - {from: tokens-ts-tokensprovider-1526u, to: provider-ts-authprovider-describe-cepor}
+  - {from: tokens-ts-tokensprovider-1526u, to: provider-ts-authprovider-identify-3u74p}

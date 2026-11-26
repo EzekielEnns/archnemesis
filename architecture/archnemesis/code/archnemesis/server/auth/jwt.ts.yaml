@@ -1,0 +1,120 @@
+# archnemesis:server/auth/jwt.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  auth-jwt-ts-z0a0d:
+    kind: module
+    name: jwt.ts
+    in: srv-auth
+    context: "One JWT verifier for everything that signs people in with a token a third party issued: an OpenID Connect ID token, a proxy's header (Cloudflare Access, Google IAP), Firebase's ID token. Dependency-free: node:crypto only. It checks, in this order: the shape, the algorithm (RS256 or ES256, never \"none\", and the key must be of the matching type), the signature against the issuer's published keys,…"
+    tech: [TypeScript]
+    path: archnemesis:server/auth/jwt.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts
+  jwt-ts-decode-a4zr7:
+    kind: function
+    name: decode()
+    in: auth-jwt-ts-z0a0d
+    signature: "decode: (s: string) => Buffer<ArrayBuffer>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:27
+  jwt-ts-getjson-1srey:
+    kind: function
+    name: getJson()
+    in: auth-jwt-ts-z0a0d
+    signature: "getJson(fetchFn: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }, url: string, what: string): Prom…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:29
+  jwt-ts-jwksloader-j3e9y:
+    kind: function
+    name: jwksLoader()
+    in: auth-jwt-ts-z0a0d
+    context: Keys from a JWK Set (RSA, or EC on P-256), by kid. A key without a kid is kept as "" (a set of one).
+    signature: "jwksLoader(url: string, fetchFn?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }): KeyLoader"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:36
+  jwt-ts-jwtverifier-claimsok-h9xlk:
+    kind: function
+    name: JwtVerifier.claimsOk()
+    in: auth-jwt-ts-z0a0d
+    tech: [method of JwtVerifier]
+    signature: "claimsOk(c: JwtClaims, nonce: string | undefined): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:146
+  jwt-ts-jwtverifier-constructor-1xxtg:
+    kind: function
+    name: JwtVerifier.<constructor>()
+    in: auth-jwt-ts-z0a0d
+    tech: [method of JwtVerifier]
+    signature: "constructor(rules: JwtRules): JwtVerifier"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:91
+  jwt-ts-jwtverifier-keyfor-gmeap:
+    kind: function
+    name: JwtVerifier.keyFor()
+    in: auth-jwt-ts-z0a0d
+    tech: [method of JwtVerifier]
+    signature: "keyFor(kid: string | undefined): KeyObject | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:137
+  jwt-ts-jwtverifier-ready-16m7a:
+    kind: function
+    name: JwtVerifier.ready()
+    in: auth-jwt-ts-z0a0d
+    context: "Load the keys (at start: a failure stops the server with the reason), and again every few hours."
+    tech: [method of JwtVerifier]
+    signature: "ready(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:98
+  jwt-ts-jwtverifier-refresh-1s3mz:
+    kind: function
+    name: JwtVerifier.refresh()
+    in: auth-jwt-ts-z0a0d
+    tech: [method of JwtVerifier]
+    signature: "refresh(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:106
+  jwt-ts-jwtverifier-verify-ko999:
+    kind: function
+    name: JwtVerifier.verify()
+    in: auth-jwt-ts-z0a0d
+    context: "The token's claims if it checks out, else null. `nonce`: the one the sign-in started with."
+    tech: [method of JwtVerifier]
+    signature: "verify(token: string | null | undefined, opts?: { nonce?: string | undefined; }): JwtClaims | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:120
+  jwt-ts-signatureok-1vj68:
+    kind: function
+    name: signatureOk()
+    in: auth-jwt-ts-z0a0d
+    signature: "signatureOk(alg: JwtAlgorithm, data: string, key: KeyObject, sig: Buffer<ArrayBufferLike>): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:159
+  jwt-ts-x509loader-147ns:
+    kind: function
+    name: x509Loader()
+    in: auth-jwt-ts-z0a0d
+    context: "Keys from a { kid: PEM certificate } document (Firebase's securetoken certificates)."
+    signature: "x509Loader(url: string, fetchFn?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }): KeyLoader"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/jwt.ts:58
+connections:
+  - {from: jwt-ts-jwksloader-j3e9y, to: jwt-ts-getjson-1srey}
+  - {from: jwt-ts-jwtverifier-keyfor-gmeap, to: jwt-ts-jwtverifier-refresh-1s3mz}
+  - {from: jwt-ts-jwtverifier-ready-16m7a, to: jwt-ts-jwtverifier-refresh-1s3mz}
+  - {from: jwt-ts-jwtverifier-verify-ko999, to: jwt-ts-decode-a4zr7}
+  - {from: jwt-ts-jwtverifier-verify-ko999, to: jwt-ts-jwtverifier-claimsok-h9xlk}
+  - {from: jwt-ts-jwtverifier-verify-ko999, to: jwt-ts-jwtverifier-keyfor-gmeap}
+  - {from: jwt-ts-jwtverifier-verify-ko999, to: jwt-ts-signatureok-1vj68}
+  - {from: jwt-ts-x509loader-147ns, to: jwt-ts-getjson-1srey}

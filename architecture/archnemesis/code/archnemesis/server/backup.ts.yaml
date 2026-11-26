@@ -1,0 +1,34 @@
+# archnemesis:server/backup.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-backup-ts-5fzj6:
+    kind: module
+    name: backup.ts
+    in: srv-live
+    context: "Copies of the database, so a dead disk or a bad edit isn't the end: the files hold the architecture (and git holds the files), but comment threads, history, forks and GitHub sign-ins only live here."
+    tech: [TypeScript]
+    path: archnemesis:server/backup.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/backup.ts
+  backup-ts-backupnow-t35qv:
+    kind: function
+    name: backupNow()
+    in: server-backup-ts-5fzj6
+    context: Take one backup now, then drop the oldest beyond `keep`. Returns its path.
+    signature: "backupNow(store: DocStore, o: BackupOptions, at?: Date): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/backup.ts:26
+  backup-ts-startbackups-1k5pa:
+    kind: function
+    name: startBackups()
+    in: server-backup-ts-5fzj6
+    context: Back up a minute after start, then on the interval. A failed backup is logged, not fatal.
+    signature: "startBackups(store: DocStore, o: BackupOptions): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/backup.ts:46
+connections:
+  - {from: backup-ts-backupnow-t35qv, to: store-ts-docstore-backupto-1wert}
+  - {from: backup-ts-startbackups-1k5pa, to: backup-ts-backupnow-t35qv}

@@ -1,0 +1,40 @@
+# archnemesis:shared/ghlink.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-ghlink-ts-1o63x:
+    kind: module
+    name: ghlink.ts
+    in: shared-support
+    context: "What a link to a design in a public GitHub repository says, and how it is written: `owner/repo[@ref][:folder]`, e.g. `acme/designs@archnm/shop/zeek-11-26:shop`. Pure text; the loader that fetches it is src/backend/github-public.ts. Everything here is untrusted input from a link, so each part is checked against what GitHub itself allows."
+    tech: [TypeScript]
+    path: archnemesis:shared/ghlink.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ghlink.ts
+  ghlink-ts-forkof-yf87o:
+    kind: function
+    name: forkOf()
+    in: shared-ghlink-ts-1o63x
+    context: A fork's branch is `archnm/<design>/<fork>` (or `atlas/...`, from before the rename).
+    signature: "forkOf(ref: string | null): { design: string; fork: string; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ghlink.ts:53
+  ghlink-ts-ghtext-3legk:
+    kind: function
+    name: ghText()
+    in: shared-ghlink-ts-1o63x
+    context: A spec as the fragment text that opens it (without `#~gh=`).
+    signature: "ghText(s: GhSpec): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ghlink.ts:48
+  ghlink-ts-parseghspec-1h073:
+    kind: function
+    name: parseGhSpec()
+    in: shared-ghlink-ts-1o63x
+    context: "`owner/repo[@ref][:folder]` as a spec (null when it isn't one)."
+    signature: "parseGhSpec(text: string): GhSpec | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/ghlink.ts:21

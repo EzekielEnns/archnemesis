@@ -1,0 +1,178 @@
+# archnemesis:src/backend/local.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-ts-1xpqs:
+    kind: module
+    name: local.ts
+    in: web-backend
+    context: "The backend with no server: every design lives in this browser. Each design's document is kept in IndexedDB (y-indexeddb), the list of designs in localStorage, and there is one person, you, who can edit everything. Forks and history are kept here too (local-git.ts), and GitHub is reached with a token the person pastes (github-token.ts). There's no server, so no sign-in, sharing, live co-editing,…"
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts
+  local-ts-createlocalbackend-1oirl:
+    kind: function
+    name: createLocalBackend()
+    in: backend-local-ts-1xpqs
+    signature: "createLocalBackend(listStore?: ListStore, deps?: LocalDeps): Backend"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:251
+    references:
+      - dependency: lib-yjs-1y6wn
+      - dependency: lib-y-indexeddb-1afq8
+  local-ts-dbname-nxhq6:
+    kind: function
+    name: dbName()
+    in: backend-local-ts-1xpqs
+    signature: "dbName: (doc: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:69
+  local-ts-designlist-1ol7g:
+    kind: function
+    name: designList()
+    in: backend-local-ts-1xpqs
+    context: The list of designs, kept in `list` (and in memory, where that can't keep it).
+    signature: "designList(list: ListStore): { all: () => DesignRecord[]; save: (next: DesignRecord[]) => void; find: (key: string) => DesignRecord | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:100
+  local-ts-freekey-ierna:
+    kind: function
+    name: freeKey()
+    in: backend-local-ts-1xpqs
+    context: "A key for a new design: its name as a slug, with a number when that's taken."
+    signature: "freeKey(designs: { all: () => DesignRecord[]; save: (next: DesignRecord[]) => void; find: (key: string) => DesignRecord | undefined; }, name: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:233
+  local-ts-liststore-read-ohayq:
+    kind: function
+    name: ListStore.read()
+    in: backend-local-ts-1xpqs
+    tech: [method of ListStore]
+    signature: "read(): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:36
+  local-ts-liststore-write-h43sd:
+    kind: function
+    name: ListStore.write()
+    in: backend-local-ts-1xpqs
+    tech: [method of ListStore]
+    signature: "write(value: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:37
+  local-ts-opendocument-10mhy:
+    kind: function
+    name: openDocument()
+    in: backend-local-ts-1xpqs
+    context: "Open a design's document: cached in IndexedDB, shared with other tabs, kept tidy."
+    signature: "openDocument(info: DesignDoc, ydoc: Doc, handlers: DocHandlers, designs: { all: () => DesignRecord[]; save: (next: DesignRecord[]) => void; find: (key: string) => DesignRecord | undefined; }, open: OpenDocs, watch: (key: string, ydoc: Doc) => () => void): DocConnection"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:130
+    references:
+      - dependency: lib-yjs-1y6wn
+      - dependency: lib-y-indexeddb-1afq8
+  local-ts-sharebetweentabs-ozu0o:
+    kind: function
+    name: shareBetweenTabs()
+    in: backend-local-ts-1xpqs
+    context: Tabs on the same design share edits as they happen (IndexedDB alone only merges on load).
+    signature: "shareBetweenTabs(doc: string, ydoc: Doc): () => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:84
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-ts-startops-1mz5y:
+    kind: function
+    name: startOps()
+    in: backend-local-ts-1xpqs
+    context: A new design starts with one view that follows the model, so what's written shows up.
+    signature: "startOps: () => Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:72
+  local-ts-stateof-ouq3y:
+    kind: function
+    name: stateOf()
+    in: backend-local-ts-1xpqs
+    context: "The design's model as JSON: from the open document, else loaded for a moment."
+    signature: "stateOf(rec: { key: string; doc: string; }, open: OpenDocs): Promise<StateJson>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:199
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-ts-withdoc-22uq9:
+    kind: function
+    name: withDoc()
+    in: backend-local-ts-1xpqs
+    context: "A design's document for a moment: the open one, or one read from (and written back to) storage."
+    signature: "withDoc<T>(rec: { key: string; doc: string; }, open: OpenDocs, fn: (ydoc: Doc) => T): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local.ts:215
+    references:
+      - dependency: lib-yjs-1y6wn
+      - dependency: lib-y-indexeddb-1afq8
+connections:
+  - {from: local-ts-createlocalbackend-1oirl, to: icons-ts-iconsvg-1n5by}
+  - {from: local-ts-createlocalbackend-1oirl, to: icons-ts-searchicons-9c1mt}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-core-ts-githost-clone-dy5qh}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-core-ts-githost-who-6wh42}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-core-ts-githost-wipe-v7ina}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-git-ts-createlocalgit-12knx}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-dbname-nxhq6}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-designlist-1ol7g}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-freekey-ierna}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-opendocument-10mhy}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-stateof-ouq3y}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-ts-withdoc-22uq9}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-versions-ts-browserversions-1elab}
+  - {from: local-ts-createlocalbackend-1oirl, to: local-versions-ts-memoryversions-hc2l3}
+  - {from: local-ts-createlocalbackend-1oirl, to: portable-ts-createportable-13255}
+  - {from: local-ts-createlocalbackend-1oirl, to: portable-ts-portablehost-add-rwh2e}
+  - {from: local-ts-createlocalbackend-1oirl, to: portable-ts-portablehost-adopt-s2twd}
+  - {from: local-ts-createlocalbackend-1oirl, to: portable-ts-portablehost-withdoc-3bpm9}
+  - {from: local-ts-createlocalbackend-1oirl, to: storage-ts-stored-3h0kp}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-backend-config-1rscx}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-backend-me-ci4a3}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-dochandlers-onevent-1my7r}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-create-1sko1}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-info-7i2ig}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-open-9v861}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-remove-1pfvs}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral34-state-z99us}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral59-search-iz06g}
+  - {from: local-ts-createlocalbackend-1oirl, to: types-ts-typeliteral59-svg-1t2qk}
+  - {from: local-ts-designlist-1ol7g, to: local-ts-liststore-read-ohayq}
+  - {from: local-ts-designlist-1ol7g, to: local-ts-liststore-write-h43sd}
+  - {from: local-ts-designlist-1ol7g, to: model-ts-slug-1nu4f}
+  - {from: local-ts-freekey-ierna, to: model-ts-slug-1nu4f}
+  - {from: local-ts-liststore-write-h43sd, to: local-ts-liststore-read-ohayq}
+  - {from: local-ts-liststore-write-h43sd, to: storage-ts-setstored-9bk3c}
+  - {from: local-ts-liststore-write-h43sd, to: storage-ts-stored-3h0kp}
+  - {from: local-ts-opendocument-10mhy, to: doc-ts-applyops-7k6hw}
+  - {from: local-ts-opendocument-10mhy, to: doc-ts-emptystate-1a3cm}
+  - {from: local-ts-opendocument-10mhy, to: doc-ts-tables-14dtu}
+  - {from: local-ts-opendocument-10mhy, to: local-ts-dbname-nxhq6}
+  - {from: local-ts-opendocument-10mhy, to: local-ts-sharebetweentabs-ozu0o}
+  - {from: local-ts-opendocument-10mhy, to: local-ts-startops-1mz5y}
+  - {from: local-ts-opendocument-10mhy, to: rules-ts-followrules-vcfl3}
+  - {from: local-ts-opendocument-10mhy, to: seed-ts-seedops-1s1it}
+  - {from: local-ts-opendocument-10mhy, to: types-ts-docconnection-close-e5j69}
+  - {from: local-ts-opendocument-10mhy, to: types-ts-dochandlers-onstatus-1tui3}
+  - {from: local-ts-sharebetweentabs-ozu0o, to: local-ts-dbname-nxhq6}
+  - {from: local-ts-startops-1mz5y, to: model-ts-makediagram-8ks8b}
+  - {from: local-ts-stateof-ouq3y, to: doc-ts-readstate-1orda}
+  - {from: local-ts-stateof-ouq3y, to: local-ts-withdoc-22uq9}
+  - {from: local-ts-withdoc-22uq9, to: local-ts-dbname-nxhq6}

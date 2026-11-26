@@ -1,0 +1,109 @@
+# archnemesis:src/ui/ShareDialog.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-sharedialog-tsx-we475:
+    kind: module
+    name: ShareDialog.tsx
+    in: web-ui
+    context: "Share one design: with the team (a private design becomes the team's, or goes back), and by link. A link lets whoever opens it look at the design and make their own copy, never change it; who it reaches (people who can sign in here, or anyone, for a public repo) is what the server says, said here in one line. A link's address is shown once, when it's made."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/ShareDialog.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx
+  sharedialog-tsx-fresh-oo4zp:
+    kind: function
+    name: Fresh()
+    in: ui-sharedialog-tsx-we475
+    context: "The address of a link just made: shown here, once."
+    signature: "Fresh({ url, onError }: { url: string; onError: (e: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:108
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  sharedialog-tsx-linkrow-19p4g:
+    kind: function
+    name: LinkRow()
+    in: ui-sharedialog-tsx-we475
+    signature: "LinkRow({ l, doc, busy, run, reload, }: SectionProps & { l: ShareLink; reload: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:131
+    references:
+      - dependency: lib-types-react-1i7zx
+  sharedialog-tsx-reachline-vhsnx:
+    kind: function
+    name: reachLine()
+    in: ui-sharedialog-tsx-we475
+    context: "Who a link reaches: said plainly, from what the server reports."
+    signature: "reachLine(r: ShareReach): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:26
+  sharedialog-tsx-sharedialog-18nl6:
+    kind: function
+    name: ShareDialog()
+    in: ui-sharedialog-tsx-we475
+    signature: "ShareDialog({ doc, name, onClose }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:166
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  sharedialog-tsx-state-oigjv:
+    kind: function
+    name: state()
+    in: ui-sharedialog-tsx-we475
+    signature: "state(l: ShareLink): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:36
+  sharedialog-tsx-teamsection-vxq7l:
+    kind: function
+    name: TeamSection()
+    in: ui-sharedialog-tsx-we475
+    context: "With the team: a design's owner makes it theirs alone, or the team's."
+    signature: "TeamSection({ doc, busy, run }: SectionProps): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:66
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  sharedialog-tsx-userun-1dwkz:
+    kind: function
+    name: useRun()
+    in: ui-sharedialog-tsx-we475
+    context: Run a call as busy, showing why when it's refused.
+    signature: "useRun(setError: (e: string | null) => void): { busy: boolean; run: (fn: () => Promise<void>) => Promise<void>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:43
+    references:
+      - dependency: lib-types-react-1i7zx
+  sharedialog-tsx-when-s77ff:
+    kind: function
+    name: when()
+    in: ui-sharedialog-tsx-we475
+    signature: "when: (iso: string | null) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/ShareDialog.tsx:34
+connections:
+  - {from: sharedialog-tsx-linkrow-19p4g, to: sharedialog-tsx-state-oigjv}
+  - {from: sharedialog-tsx-linkrow-19p4g, to: sharedialog-tsx-when-s77ff}
+  - {from: sharedialog-tsx-linkrow-19p4g, to: types-ts-typeliteral40-revoke-cs0io}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: dialog-tsx-dialog-39zlh}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: sharedialog-tsx-fresh-oo4zp}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: sharedialog-tsx-linkrow-19p4g}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: sharedialog-tsx-reachline-vhsnx}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: sharedialog-tsx-teamsection-vxq7l}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: sharedialog-tsx-userun-1dwkz}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: types-ts-typeliteral40-create-gtwp7}
+  - {from: sharedialog-tsx-sharedialog-18nl6, to: types-ts-typeliteral40-list-1058d}
+  - {from: sharedialog-tsx-state-oigjv, to: sharedialog-tsx-when-s77ff}
+  - {from: sharedialog-tsx-teamsection-vxq7l, to: types-ts-typeliteral34-list-1e2bc}
+  - {from: sharedialog-tsx-teamsection-vxq7l, to: types-ts-typeliteral34-share-3rhm1}

@@ -1,0 +1,290 @@
+# archnemesis:src/ui/Layers.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-layers-tsx-gmqbq:
+    kind: module
+    name: Layers.tsx
+    in: web-ui
+    context: "Layers, as in Photoshop: what's drawn over the boxes, each one turned on and off from the panel at the bottom right. Tech and notes draw a compact row under each box; references draw as small nodes of their own beside it (a link you can open, an image's picture, a doc, a line of code, a library), and so do entities (the shapes it uses: Order, PaymentProvider). None of them can be placed or…"
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Layers.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx
+  layers-tsx-boxrow-ypjtn:
+    kind: function
+    name: BoxRow()
+    in: ui-layers-tsx-gmqbq
+    context: "A box in the card's lists: its kind's dot, its name, and where it is when it's not drawn here."
+    signature: "BoxRow(p: { idx: ModelIndex; o: ModelObject; here: Set<string>; me?: boolean | undefined; onGo: (id: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:677
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-codeparts-hmr5v:
+    kind: function
+    name: codeParts()
+    in: ui-layers-tsx-gmqbq
+    context: '"orbit:services/orders/src/payments.rs#L30" → repo, file, place.'
+    signature: "codeParts(to: string): { repo: string; file: string; place: string; path: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:467
+  layers-tsx-drawnrefs-13sf0:
+    kind: function
+    name: drawnRefs()
+    in: ui-layers-tsx-gmqbq
+    context: "What's drawn beside a box (or a connection) with these layers on: its references, then its entities."
+    signature: 'drawnRefs(idx: ModelIndex, o: Pick<ModelObject, "links" | "references">, layers: LayerState): RefRow[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:265
+  layers-tsx-edgerefs-74qek:
+    kind: function
+    name: edgeRefs()
+    in: ui-layers-tsx-gmqbq
+    context: What an arrow's connections carry and point at, once each (`at` numbers them for picking).
+    signature: "edgeRefs(idx: ModelIndex, edge: CanvasEdge, layers: LayerState): RefRow[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:362
+  layers-tsx-entitypop-1mhpf:
+    kind: function
+    name: EntityPop()
+    in: ui-layers-tsx-gmqbq
+    context: "An entity's card: what it is, its fields (what it inherits first), where it's defined and who uses it. Types and parents are links to theirs."
+    signature: "EntityPop(p: { idx: ModelIndex; r: RefRow; trail?: string[] | undefined; onEntity?: ((id: string) => void) | undefined; onBack?: (() => void) | undefined; users: ModelObject[]; ... 6 more ...; onClose: () => void; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:715
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-grow-1z0k3:
+    kind: function
+    name: grow()
+    in: ui-layers-tsx-gmqbq
+    signature: "grow: (r: Rect, by: number) => Rect"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:279
+  layers-tsx-growframes-zjgtf:
+    kind: function
+    name: growFrames()
+    in: ui-layers-tsx-gmqbq
+    context: "Frames grow to hold their boxes' references: each frame (smallest first, so a frame inside another grows before it) takes in the references of every box inside it, and any frame inside it as grown, with room to spare."
+    signature: "growFrames<G extends Rect & { lane?: boolean; }>(groups: G[], nodes: CanvasNode[], layout: RefLayout): G[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:422
+  layers-tsx-hasrow-1xiyo:
+    kind: function
+    name: hasRow()
+    in: ui-layers-tsx-gmqbq
+    context: Whether this box shows a row under it with these layers on.
+    signature: "hasRow(idx: ModelIndex, n: CanvasNode, layers: LayerState): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:191
+  layers-tsx-layercounts-1kgmb:
+    kind: function
+    name: layerCounts()
+    in: ui-layers-tsx-gmqbq
+    context: How many of each part the boxes on this diagram have.
+    signature: 'layerCounts(idx: ModelIndex, nodes: CanvasNode[]): Partial<Record<"groups" | "references" | "notes" | "entities" | "tech" | "comments", number>>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:198
+  layers-tsx-layersbutton-8e4v5:
+    kind: function
+    name: LayersButton()
+    in: ui-layers-tsx-gmqbq
+    signature: "LayersButton(p: { open: boolean; active: number; onClick: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:174
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-layerspanel-161m5:
+    kind: function
+    name: LayersPanel()
+    in: ui-layers-tsx-gmqbq
+    context: "The panel: one row per layer with its eye, and a count of what it would show here."
+    signature: 'LayersPanel(p: { layers: LayerState; counts: Partial<Record<"groups" | "references" | "notes" | "entities" | "tech" | "comments", number>>; onToggle: (id: "groups" | ... 4 more ... | "comments") => void; onAll: (on: boolean) => void; onClose: () => void; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:119
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-layoutparts-c71m1:
+    kind: function
+    name: layoutParts()
+    in: ui-layers-tsx-gmqbq
+    signature: "layoutParts(idx: ModelIndex, nodes: CanvasNode[], layers: LayerState, rectOf?: (n: CanvasNode) => Rect, spotOf?: (id: string) => { x: number; y: number; } | undefined, edges?: { ...; }[]): RefLayout"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:381
+  layers-tsx-layoutrefs-qd2mb:
+    kind: function
+    name: layoutRefs()
+    in: ui-layers-tsx-gmqbq
+    context: "Where each box's references go: a stack (two columns past four) beside the box, searched in widening rings around it. Covering a box costs most, covering another box's references less, and distance a little, so they sit close when there's room and move out when there isn't."
+    signature: "layoutRefs(boxes: { id: string; r: Rect; refs: RefRow[]; spot?: { x: number; y: number; } | undefined; }[], solid: Rect[]): Map<string, { group: Rect; items: { ref: RefRow; at: Rect; }[]; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:291
+  layers-tsx-nearest-ogi1g:
+    kind: function
+    name: nearest()
+    in: ui-layers-tsx-gmqbq
+    context: The point on r's border nearest p.
+    signature: "nearest(r: Rect, p: { x: number; y: number; }): { x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:459
+  layers-tsx-notelines-2ndui:
+    kind: function
+    name: noteLines()
+    in: ui-layers-tsx-gmqbq
+    context: "A note's lines as checklist rows: \"- [x] Done\" → done."
+    signature: "noteLines(text: string): { text: string; done: boolean | null; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:218
+  layers-tsx-openref-1rcn5:
+    kind: function
+    name: openRef()
+    in: ui-layers-tsx-gmqbq
+    context: "Open a reference: a web address in a new tab; anything else opens its box's card."
+    signature: "openRef(r: RefRow, idx: ModelIndex, card: () => void): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:479
+  layers-tsx-overlap-d7y39:
+    kind: function
+    name: overlap()
+    in: ui-layers-tsx-gmqbq
+    signature: "overlap: (a: Rect, b: Rect) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:276
+  layers-tsx-partslayer-1t7z1:
+    kind: function
+    name: PartsLayer()
+    in: ui-layers-tsx-gmqbq
+    context: "What's drawn over the boxes: a row under each (tech, notes) and its references as nodes."
+    signature: "PartsLayer(p: PartsProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:957
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-refcard-17482:
+    kind: function
+    name: RefCard()
+    in: ui-layers-tsx-gmqbq
+    context: "The card beside a picked reference: what it is, how to open it, and everything that shares it."
+    signature: "RefCard(p: { idx: ModelIndex; r: RefRow; trail?: string[] | undefined; onEntity?: ((id: string) => void) | undefined; onBack?: (() => void) | undefined; onGoEdge?: ((connectionId: string) => void) | undefined; ... 6 more ...; onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:880
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-refheight-1ey3o:
+    kind: function
+    name: refHeight()
+    in: ui-layers-tsx-gmqbq
+    signature: "refHeight: (r: RefRow) => 44 | 112"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:262
+  layers-tsx-refnode-gwl9y:
+    kind: function
+    name: RefNode()
+    in: ui-layers-tsx-gmqbq
+    context: One reference, drawn as a node of its kind. A click picks it (what shares it lights up); a double-click opens it.
+    signature: "RefNode(p: { idx: ModelIndex; r: RefRow; box: string; on: boolean; onEntity?: ((id: string) => void) | undefined; shared: number; onPick: () => void; onOpen: () => void; onHot: (on: boolean) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:491
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  layers-tsx-typelinks-1kq9u:
+    kind: function
+    name: TypeLinks()
+    in: ui-layers-tsx-gmqbq
+    context: "A field's type with the entities it names as links: \"[Topping]\" → [, Topping, ]."
+    signature: "TypeLinks(p: { idx: ModelIndex; type: string; onEntity: (id: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:654
+    references:
+      - dependency: lib-types-react-1i7zx
+  layers-tsx-uselayers-9fbdr:
+    kind: function
+    name: useLayers()
+    in: ui-layers-tsx-gmqbq
+    context: Which layers are on, kept per browser.
+    signature: 'useLayers(): [LayerState, (id: "groups" | "references" | "notes" | "entities" | "tech" | "comments") => void, (all: boolean) => void]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Layers.tsx:93
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: layers-tsx-drawnrefs-13sf0, to: entities-ts-entityrows-yx0fk}
+  - {from: layers-tsx-drawnrefs-13sf0, to: references-ts-referencesof-aox32}
+  - {from: layers-tsx-edgerefs-74qek, to: layers-tsx-drawnrefs-13sf0}
+  - {from: layers-tsx-edgerefs-74qek, to: references-ts-refkey-1oigp}
+  - {from: layers-tsx-entitypop-1mhpf, to: entities-ts-carriersof-143g0}
+  - {from: layers-tsx-entitypop-1mhpf, to: entities-ts-entitysummary-i5oax}
+  - {from: layers-tsx-entitypop-1mhpf, to: entities-ts-splitfield-1rel7}
+  - {from: layers-tsx-entitypop-1mhpf, to: layers-tsx-boxrow-ypjtn}
+  - {from: layers-tsx-entitypop-1mhpf, to: layers-tsx-typelinks-1kq9u}
+  - {from: layers-tsx-entitypop-1mhpf, to: model-ts-istbd-m1dzw}
+  - {from: layers-tsx-hasrow-1xiyo, to: references-ts-techsof-5vts4}
+  - {from: layers-tsx-layercounts-1kgmb, to: entities-ts-entityrows-yx0fk}
+  - {from: layers-tsx-layercounts-1kgmb, to: references-ts-referencesof-aox32}
+  - {from: layers-tsx-layercounts-1kgmb, to: references-ts-techsof-5vts4}
+  - {from: layers-tsx-layoutparts-c71m1, to: layers-tsx-drawnrefs-13sf0}
+  - {from: layers-tsx-layoutparts-c71m1, to: layers-tsx-edgerefs-74qek}
+  - {from: layers-tsx-layoutparts-c71m1, to: layers-tsx-hasrow-1xiyo}
+  - {from: layers-tsx-layoutparts-c71m1, to: layers-tsx-layoutrefs-qd2mb}
+  - {from: layers-tsx-layoutrefs-qd2mb, to: layers-tsx-grow-1z0k3}
+  - {from: layers-tsx-layoutrefs-qd2mb, to: layers-tsx-overlap-d7y39}
+  - {from: layers-tsx-layoutrefs-qd2mb, to: layers-tsx-refheight-1ey3o}
+  - {from: layers-tsx-openref-1rcn5, to: references-ts-librarydocs-18mxp}
+  - {from: layers-tsx-partslayer-1t7z1, to: camera-ts-worldtoscreen-1hyxf}
+  - {from: layers-tsx-partslayer-1t7z1, to: entities-ts-entityrows-yx0fk}
+  - {from: layers-tsx-partslayer-1t7z1, to: entities-ts-usersof-9ihpt}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-edgerefs-74qek}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-layoutparts-c71m1}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-nearest-ogi1g}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-notelines-2ndui}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-openref-1rcn5}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-refcard-17482}
+  - {from: layers-tsx-partslayer-1t7z1, to: layers-tsx-refnode-gwl9y}
+  - {from: layers-tsx-partslayer-1t7z1, to: references-ts-referencesof-aox32}
+  - {from: layers-tsx-partslayer-1t7z1, to: references-ts-refkey-1oigp}
+  - {from: layers-tsx-partslayer-1t7z1, to: references-ts-sharingref-styjy}
+  - {from: layers-tsx-partslayer-1t7z1, to: references-ts-techsof-5vts4}
+  - {from: layers-tsx-partslayer-1t7z1, to: scene-ts-scene-centerat-11u77}
+  - {from: layers-tsx-partslayer-1t7z1, to: scene-ts-scene-edgelabelat-eivj5}
+  - {from: layers-tsx-partslayer-1t7z1, to: scene-ts-scene-forwardwheel-sina5}
+  - {from: layers-tsx-partslayer-1t7z1, to: scene-ts-scene-watch-v2a0b}
+  - {from: layers-tsx-refcard-17482, to: layers-tsx-entitypop-1mhpf}
+  - {from: layers-tsx-refcard-17482, to: references-ts-librarydocs-18mxp}
+  - {from: layers-tsx-refnode-gwl9y, to: entities-ts-entitysummary-i5oax}
+  - {from: layers-tsx-refnode-gwl9y, to: layers-tsx-codeparts-hmr5v}
+  - {from: layers-tsx-refnode-gwl9y, to: model-ts-istbd-m1dzw}
+  - {from: layers-tsx-refnode-gwl9y, to: notes-ts-hostof-f2rw6}
+  - {from: layers-tsx-refnode-gwl9y, to: notes-tsx-linkicon-xuqj8}
+  - {from: layers-tsx-refnode-gwl9y, to: references-ts-librarydocs-18mxp}
+  - {from: layers-tsx-typelinks-1kq9u, to: model-ts-istbd-m1dzw}

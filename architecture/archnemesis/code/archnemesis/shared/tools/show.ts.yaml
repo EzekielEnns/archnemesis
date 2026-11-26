@@ -1,0 +1,50 @@
+# archnemesis:shared/tools/show.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-show-ts-1lwqi:
+    kind: module
+    name: show.ts
+    in: shared-tools-1cbb9
+    context: "show: drive what the person sees. Open a view or a box, spotlight several, walk them through a tour (the call holds while they read and press Next), or render a view as a picture. It changes nothing in the design."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/show.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/show.ts
+  show-ts-show-n5mcc:
+    kind: function
+    name: show()
+    in: tools-show-ts-1lwqi
+    signature: "show(host: Host, a: ShowArgs, signal?: AbortSignal | undefined): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/show.ts:105
+  show-ts-stopfor-2heaz:
+    kind: function
+    name: stopFor()
+    in: tools-show-ts-1lwqi
+    context: "Where a step points: the view, the box or boxes, a flow step."
+    signature: "stopFor(idx: ModelIndex, s: TourStep): Stop"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/show.ts:40
+connections:
+  - {from: show-ts-show-n5mcc, to: agent-ts-findview-bfne5}
+  - {from: show-ts-show-n5mcc, to: host-ts-canvas-end-v0f0s}
+  - {from: show-ts-show-n5mcc, to: host-ts-canvas-show-gmybw}
+  - {from: show-ts-show-n5mcc, to: host-ts-canvas-watching-uzme0}
+  - {from: show-ts-show-n5mcc, to: host-ts-fail-15k5p}
+  - {from: show-ts-show-n5mcc, to: host-ts-host-index-23rxl}
+  - {from: show-ts-show-n5mcc, to: host-ts-host-render-1c1pn}
+  - {from: show-ts-show-n5mcc, to: host-ts-host-url-6ll81}
+  - {from: show-ts-show-n5mcc, to: host-ts-ok-1qtxz}
+  - {from: show-ts-show-n5mcc, to: refs-ts-ambiguity-h5jnn}
+  - {from: show-ts-show-n5mcc, to: refs-ts-idof-1erbh}
+  - {from: show-ts-show-n5mcc, to: refs-ts-resolve-1kqf4}
+  - {from: show-ts-show-n5mcc, to: refs-ts-viewid-jf4mm}
+  - {from: show-ts-show-n5mcc, to: show-ts-stopfor-2heaz}
+  - {from: show-ts-stopfor-2heaz, to: agent-ts-findview-bfne5}
+  - {from: show-ts-stopfor-2heaz, to: refs-ts-refof-yj811}
+  - {from: show-ts-stopfor-2heaz, to: refs-ts-resolve-1kqf4}
+  - {from: show-ts-stopfor-2heaz, to: refs-ts-viewfor-mdkcu}
+  - {from: show-ts-stopfor-2heaz, to: refs-ts-viewid-jf4mm}

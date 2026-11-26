@@ -1,0 +1,396 @@
+# archnemesis:src/ui/Inspector.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-inspector-tsx-fz8ew:
+    kind: module
+    name: Inspector.tsx
+    in: web-ui
+    context: "The panel for what's selected: one object (every field, where else it's drawn), an arrow (the connections under it), or several boxes."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Inspector.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx
+  inspector-tsx-act-1ifvw:
+    kind: function
+    name: Act()
+    in: ui-inspector-tsx-fz8ew
+    context: A small button with an icon in front of its words.
+    signature: "Act({ icon, children, ...rest }: { icon: ReactNode; children: ReactNode; } & ButtonHTMLAttributes<HTMLButtonElement>): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:232
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-boundaryform-nxw8o:
+    kind: function
+    name: BoundaryForm()
+    in: ui-inspector-tsx-fz8ew
+    context: "A boundary (a project, a network…): what it is, what's in it and why, and its rules. The frame follows its boxes, so it isn't moved here: its boxes are, or its rules change."
+    signature: "BoundaryForm({ b, idx, graph, run, onRemove: _ }: Props & { b: Boundary; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1328
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-codefacts-pnag6:
+    kind: function
+    name: CodeFacts()
+    in: ui-inspector-tsx-fz8ew
+    signature: "CodeFacts({ o, idx, owner, canEdit, save, onPick, insights, }: { o: ModelObject; idx: ModelIndex; owner?: string | undefined; canEdit: boolean; save: (patch: Partial<ModelObject>, label: string) => void; onPick?: ((c: Connection) => void) | undefined; insights?: DocInsights | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1779
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-columnform-1b1n3:
+    kind: function
+    name: ColumnForm()
+    in: ui-inspector-tsx-fz8ew
+    context: 'Add or change one column: its name and type ("uuid?" for nullable), and what it is.'
+    signature: "ColumnForm({ value, onSave, onCancel, }: { value?: Column | undefined; onSave: (c: Column) => string; onCancel: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2081
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-connectionform-1slom:
+    kind: function
+    name: ConnectionForm()
+    in: ui-inspector-tsx-fz8ew
+    signature: "ConnectionForm({ c, idx, config, run, canEdit }: Props & { c: Connection; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2218
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-connections-1im5j:
+    kind: function
+    name: Connections()
+    in: ui-inspector-tsx-fz8ew
+    context: Its connections (its own and its insides'), searchable once there are many, and what's off this diagram.
+    signature: "Connections({ idx, o, inside, links, hidden, addable, onAdd, onAddOne, onPick, onHover, impact, onImpact, }: { idx: ModelIndex; o: ModelObject; inside: Set<string>; links: Connection[]; hidden: HiddenLink[]; addable: string[]; onAdd: () => void; ... 4 more ...; onHover?: ((c: Connection | null) =…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1169
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-copylinkbutton-kmdg7:
+    kind: function
+    name: CopyLinkButton()
+    in: ui-inspector-tsx-fz8ew
+    context: "Copy a link to it: the same link for a person and an agent (the MCP's open and context read it). A tick says it's on the clipboard."
+    signature: "CopyLinkButton({ to, what }: { to: { diagramId: string; objectId?: string | null | undefined; noteId?: string | null | undefined; }; what: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2200
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-decisiondialog-1e63r:
+    kind: function
+    name: DecisionDialog()
+    in: ui-inspector-tsx-fz8ew
+    context: "Record a decision about a box, or change one: what was decided, where it stands, and a link to the write-up (an RFC in Notion). Kept as an ADR-style file under decisions/."
+    signature: "DecisionDialog({ d, make, onSave, onCancel, }: { d: Decision | null; make: (title: string) => Decision; onSave: (d: Decision, label: string) => void; onCancel: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2326
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-description-1o90i:
+    kind: function
+    name: Description()
+    in: ui-inspector-tsx-fz8ew
+    context: "The description as text: click to edit. Long ones fold to a few lines."
+    signature: "Description({ text, onSave }: { text: string; onSave: (t: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1130
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-docinsights-libstats-14s8w:
+    kind: function
+    name: DocInsights.libstats()
+    in: ui-inspector-tsx-fz8ew
+    tech: [method of DocInsights]
+    signature: "libstats(): Promise<{ enabled: boolean; stats: Record<string, LibStats | null>; }>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1579
+  inspector-tsx-docinsights-touched-1gl1c:
+    kind: function
+    name: DocInsights.touched()
+    in: ui-inspector-tsx-fz8ew
+    tech: [method of DocInsights]
+    signature: "touched(id: string): Promise<TouchedInfo>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1578
+  inspector-tsx-foldback-1chfk:
+    kind: function
+    name: foldBack()
+    in: ui-inspector-tsx-fz8ew
+    context: Fold an unfolded group back into one box on this view.
+    signature: "foldBack(view: Diagram, key: string): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:159
+  inspector-tsx-fullobject-1yzes:
+    kind: function
+    name: FullObject()
+    in: ui-inspector-tsx-fz8ew
+    signature: "FullObject({ o, idx, config, diagramId, insights, run, log, onNavigate, onRemove, onShowConnection, onHoverConnection, impact, onImpact, canEdit, }: Props & { o: ModelObject; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:639
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-headicon-sjq3v:
+    kind: function
+    name: HeadIcon()
+    in: ui-inspector-tsx-fz8ew
+    context: The tech's logo by the name, else the kind's dot.
+    signature: "HeadIcon({ tech, fallback }: { tech?: string | undefined; fallback: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1076
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-hostof-112un:
+    kind: function
+    name: hostOf()
+    in: ui-inspector-tsx-fz8ew
+    signature: "hostOf: (url: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2314
+  inspector-tsx-inspector-xu8ve:
+    kind: function
+    name: Inspector()
+    in: ui-inspector-tsx-fz8ew
+    signature: "Inspector(p: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:245
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-inspectorbody-xela3:
+    kind: function
+    name: InspectorBody()
+    in: ui-inspector-tsx-fz8ew
+    signature: "InspectorBody(p: Props): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:257
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-linkin-13t14:
+    kind: function
+    name: linkIn()
+    in: ui-inspector-tsx-fz8ew
+    context: "The first link in a decision's text: its RFC, usually (ours are in Notion)."
+    signature: "linkIn(text: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2309
+  inspector-tsx-objectform-654fp:
+    kind: function
+    name: ObjectForm()
+    in: ui-inspector-tsx-fz8ew
+    signature: "ObjectForm(p: Props & { o: ModelObject; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:604
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-packagestats-4omcq:
+    kind: function
+    name: PackageStats()
+    in: ui-inspector-tsx-fz8ew
+    context: "What the stats job knows about a package: people, licence, releases, and why to look twice."
+    signature: "PackageStats({ pkg, insights }: { pkg: Package; insights: DocInsights; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1664
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-panel-82jeo:
+    kind: function
+    name: Panel()
+    in: ui-inspector-tsx-fz8ew
+    context: "The panel's frame: a body that scrolls, and a footer of actions that stays put."
+    signature: "Panel({ children, footer }: { children: ReactNode; footer: ReactNode; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:175
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-runsin-15aun:
+    kind: function
+    name: RunsIn()
+    in: ui-inspector-tsx-fz8ew
+    context: "Where boxes run: their boundary, picked from a list, or a new one. The boundaries' rules are edited to match, so boundaries.yaml stays the truth."
+    signature: "RunsIn({ ids, idx, run }: { ids: string[]; idx: ModelIndex; run: (ops: Op[], label: string) => Promise<unknown>; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1477
+    references:
+      - dependency: lib-types-react-1i7zx
+  inspector-tsx-showobjecttab-9clwt:
+    kind: function
+    name: showObjectTab()
+    in: ui-inspector-tsx-fz8ew
+    context: Turn the object panel to a tab from outside it ("⇄ N off diagram" on the canvas).
+    signature: "showObjectTab(t: ObjTab): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1091
+  inspector-tsx-sources-1xfse:
+    kind: function
+    name: Sources()
+    in: ui-inspector-tsx-fz8ew
+    signature: "Sources({ sources, owner }: { sources?: string[] | undefined; owner?: string | undefined; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:2154
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-tablefacts-rxds9:
+    kind: function
+    name: TableFacts()
+    in: ui-inspector-tsx-fz8ew
+    context: "A table's panel: its columns, one line each like its links (name, type, the keys that apply, where a key points), then what points at it and what reads or writes it. It shows what the files say; edit in the YAML, or right-click a column here."
+    signature: "TableFacts({ o, idx, canEdit, save, onPick, }: { o: ModelObject; idx: ModelIndex; canEdit: boolean; save: (patch: Partial<ModelObject>, label: string) => void; onPick?: ((c: Connection) => void) | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1926
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-touched-1in24:
+    kind: function
+    name: Touched()
+    in: ui-inspector-tsx-fz8ew
+    context: "Who's touched it: the authors of recent commits on its sources, read from git when asked (it costs GitHub calls). Instead of an owner field nobody keeps up to date."
+    signature: "Touched({ id, insights }: { id: string; insights: DocInsights; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1586
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  inspector-tsx-usestoredtab-yu7wq:
+    kind: function
+    name: useStoredTab()
+    in: ui-inspector-tsx-fz8ew
+    context: Which tab the object panel is on, remembered between selections.
+    signature: "useStoredTab(): [ObjTab, (t: ObjTab) => void]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Inspector.tsx:1101
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: inspector-tsx-boundaryform-nxw8o, to: boundaries-ts-boundarychain-11jhx}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: boundaries-ts-whyin-en8rr}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: inspector-tsx-act-1ifvw}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: inspector-tsx-panel-82jeo}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: model-ts-now-1lkd5}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: textfield-tsx-textfield-1hdfe}
+  - {from: inspector-tsx-boundaryform-nxw8o, to: views-ts-describeselector-aqh3b}
+  - {from: inspector-tsx-codefacts-pnag6, to: context-ts-callsof-19rzg}
+  - {from: inspector-tsx-codefacts-pnag6, to: context-ts-codehome-v1gfs}
+  - {from: inspector-tsx-codefacts-pnag6, to: inspector-tsx-packagestats-4omcq}
+  - {from: inspector-tsx-codefacts-pnag6, to: inspector-tsx-sources-1xfse}
+  - {from: inspector-tsx-codefacts-pnag6, to: textfield-tsx-textfield-1hdfe}
+  - {from: inspector-tsx-connectionform-1slom, to: actions-ts-updateconnection-msz2q}
+  - {from: inspector-tsx-connectionform-1slom, to: agentcontext-tsx-agentcontext-12odu}
+  - {from: inspector-tsx-connectionform-1slom, to: inspector-tsx-sources-1xfse}
+  - {from: inspector-tsx-connectionform-1slom, to: textfield-tsx-textfield-1hdfe}
+  - {from: inspector-tsx-connections-1im5j, to: project-ts-hiddenlinks-12ohh}
+  - {from: inspector-tsx-copylinkbutton-kmdg7, to: route-ts-copylink-qbc5s}
+  - {from: inspector-tsx-decisiondialog-1e63r, to: dialog-tsx-dialog-39zlh}
+  - {from: inspector-tsx-decisiondialog-1e63r, to: inspector-tsx-linkin-13t14}
+  - {from: inspector-tsx-decisiondialog-1e63r, to: model-ts-now-1lkd5}
+  - {from: inspector-tsx-decisiondialog-1e63r, to: model-ts-safeurl-f4wjp}
+  - {from: inspector-tsx-description-1o90i, to: textfield-tsx-textfield-1hdfe}
+  - {from: inspector-tsx-foldback-1chfk, to: model-ts-now-1lkd5}
+  - {from: inspector-tsx-fullobject-1yzes, to: actions-ts-freespot-dpuji}
+  - {from: inspector-tsx-fullobject-1yzes, to: actions-ts-place-q3fp0}
+  - {from: inspector-tsx-fullobject-1yzes, to: actions-ts-updateobject-b8yrs}
+  - {from: inspector-tsx-fullobject-1yzes, to: agentcontext-tsx-agentcontext-12odu}
+  - {from: inspector-tsx-fullobject-1yzes, to: context-ts-packagelinks-1s1vy}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-act-1ifvw}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-codefacts-pnag6}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-connections-1im5j}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-copylinkbutton-kmdg7}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-decisiondialog-1e63r}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-description-1o90i}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-headicon-sjq3v}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-hostof-112un}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-linkin-13t14}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-panel-82jeo}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-runsin-15aun}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-sources-1xfse}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-tablefacts-rxds9}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-touched-1in24}
+  - {from: inspector-tsx-fullobject-1yzes, to: inspector-tsx-usestoredtab-yu7wq}
+  - {from: inspector-tsx-fullobject-1yzes, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: inspector-tsx-fullobject-1yzes, to: links-tsx-linksfield-rvlf4}
+  - {from: inspector-tsx-fullobject-1yzes, to: model-ts-cleantags-oavfv}
+  - {from: inspector-tsx-fullobject-1yzes, to: model-ts-iscodekind-1jl6v}
+  - {from: inspector-tsx-fullobject-1yzes, to: model-ts-nextdecisionid-9m0vr}
+  - {from: inspector-tsx-fullobject-1yzes, to: model-ts-now-1lkd5}
+  - {from: inspector-tsx-fullobject-1yzes, to: notes-tsx-ago-1jt5i}
+  - {from: inspector-tsx-fullobject-1yzes, to: pickers-tsx-tagsfield-tblwz}
+  - {from: inspector-tsx-fullobject-1yzes, to: pickers-tsx-techfield-1xf7l}
+  - {from: inspector-tsx-fullobject-1yzes, to: pickers-tsx-techlist-3xrfb}
+  - {from: inspector-tsx-fullobject-1yzes, to: project-ts-descendants-121jc}
+  - {from: inspector-tsx-fullobject-1yzes, to: project-ts-hiddenlinks-12ohh}
+  - {from: inspector-tsx-fullobject-1yzes, to: textfield-tsx-textfield-1hdfe}
+  - {from: inspector-tsx-headicon-sjq3v, to: techimg-tsx-techimg-158vq}
+  - {from: inspector-tsx-inspector-xu8ve, to: inspector-tsx-inspectorbody-xela3}
+  - {from: inspector-tsx-inspectorbody-xela3, to: actions-ts-opengroup-vwfdb}
+  - {from: inspector-tsx-inspectorbody-xela3, to: actions-ts-updateconnection-msz2q}
+  - {from: inspector-tsx-inspectorbody-xela3, to: agentcontext-tsx-agentcontext-12odu}
+  - {from: inspector-tsx-inspectorbody-xela3, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-act-1ifvw}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-boundaryform-nxw8o}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-connectionform-1slom}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-foldback-1chfk}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-objectform-654fp}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-panel-82jeo}
+  - {from: inspector-tsx-inspectorbody-xela3, to: inspector-tsx-runsin-15aun}
+  - {from: inspector-tsx-inspectorbody-xela3, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: inspector-tsx-inspectorbody-xela3, to: links-tsx-linksfield-rvlf4}
+  - {from: inspector-tsx-inspectorbody-xela3, to: model-ts-now-1lkd5}
+  - {from: inspector-tsx-inspectorbody-xela3, to: nodecard-tsx-connectioncard-19x0b}
+  - {from: inspector-tsx-inspectorbody-xela3, to: project-ts-foldkey-3yl0z}
+  - {from: inspector-tsx-inspectorbody-xela3, to: project-ts-grouplabel-xcj20}
+  - {from: inspector-tsx-inspectorbody-xela3, to: story-tsx-story-j4ajd}
+  - {from: inspector-tsx-linkin-13t14, to: model-ts-safeurl-f4wjp}
+  - {from: inspector-tsx-objectform-654fp, to: explode-ts-canexplode-1f2ro}
+  - {from: inspector-tsx-objectform-654fp, to: inspector-tsx-fullobject-1yzes}
+  - {from: inspector-tsx-objectform-654fp, to: nodecard-tsx-nodecard-196f0}
+  - {from: inspector-tsx-packagestats-4omcq, to: inspector-tsx-docinsights-libstats-14s8w}
+  - {from: inspector-tsx-packagestats-4omcq, to: libstats-ts-statskey-wm4ub}
+  - {from: inspector-tsx-runsin-15aun, to: boundaries-ts-boundarychain-11jhx}
+  - {from: inspector-tsx-runsin-15aun, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: inspector-tsx-runsin-15aun, to: boundaries-ts-movemanytoboundaryops-wkz4y}
+  - {from: inspector-tsx-runsin-15aun, to: boundaries-ts-newboundaryops-kxdwt}
+  - {from: inspector-tsx-runsin-15aun, to: dialog-tsx-dialog-39zlh}
+  - {from: inspector-tsx-sources-1xfse, to: files-ts-sourcelink-e4dna}
+  - {from: inspector-tsx-tablefacts-rxds9, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: inspector-tsx-tablefacts-rxds9, to: inspector-tsx-columnform-1b1n3}
+  - {from: inspector-tsx-tablefacts-rxds9, to: tables-ts-columnref-1yc18}
+  - {from: inspector-tsx-tablefacts-rxds9, to: tables-ts-keysof-13zex}
+  - {from: inspector-tsx-touched-1in24, to: inspector-tsx-docinsights-touched-1gl1c}

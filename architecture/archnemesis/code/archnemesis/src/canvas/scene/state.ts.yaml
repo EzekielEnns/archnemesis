@@ -1,0 +1,32 @@
+# archnemesis:src/canvas/scene/state.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-state-ts-mv3vf:
+    kind: module
+    name: state.ts
+    in: canvas-scene-iaxtu
+    context: "What the canvas keeps while it runs, in one place: the Pixi layers, the views of boxes and arrows, the camera, the selection, and the state of a drag. Scene owns one of these and hands it to the modules next to it, which are plain functions over it; nothing else keeps state of its own."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/state.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/state.ts
+  state-ts-scenestate-constructor-4i8m5:
+    kind: function
+    name: SceneState.<constructor>()
+    in: scene-state-ts-mv3vf
+    tech: [method of SceneState]
+    signature: "constructor(callbacks: SceneCallbacks): SceneState"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/state.ts:153
+  state-ts-scenestate-fetchicon-116nm:
+    kind: function
+    name: SceneState.fetchIcon()
+    in: scene-state-ts-mv3vf
+    context: Fetch a technology's logo.
+    tech: [method of SceneState]
+    signature: "fetchIcon: IconLoader"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/state.ts:151

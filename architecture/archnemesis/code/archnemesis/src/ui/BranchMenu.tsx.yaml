@@ -1,0 +1,161 @@
+# archnemesis:src/ui/BranchMenu.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-branchmenu-tsx-3dug6:
+    kind: module
+    name: BranchMenu.tsx
+    in: web-ui
+    context: "Top left, next to the design: which version of it you're looking at."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/BranchMenu.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx
+  branchmenu-tsx-ago-12leb:
+    kind: function
+    name: ago()
+    in: ui-branchmenu-tsx-3dug6
+    signature: "ago: (iso: string | null) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:116
+  branchmenu-tsx-branchmenu-13gye:
+    kind: function
+    name: BranchMenu()
+    in: ui-branchmenu-tsx-3dug6
+    signature: "BranchMenu({ store, toast }: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:215
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-dom-1pvn2
+  branchmenu-tsx-followform-1qh53:
+    kind: function
+    name: FollowForm()
+    in: ui-branchmenu-tsx-3dug6
+    signature: 'FollowForm(p: { store: Store; moving?: boolean | undefined; busy: string | null; act: Act; onDone: () => void; onForget: () => void; toast: (text: string, tone?: "error" | "info" | undefined) => void; }): Element'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:668
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  branchmenu-tsx-forkicons-1tins:
+    kind: function
+    name: ForkIcons()
+    in: ui-branchmenu-tsx-3dug6
+    context: "A fork's state as small icons: saving, its pull request, behind main. Nothing when it's all quiet."
+    signature: "ForkIcons({ f }: { f: ForkInfo; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:174
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  branchmenu-tsx-github-1tlqc:
+    kind: function
+    name: Github()
+    in: ui-branchmenu-tsx-3dug6
+    context: GitHub's mark (from Simple Icons, CC0); lucide has no brand icons.
+    signature: "Github({ size }: { size?: number | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:142
+    references:
+      - dependency: lib-types-react-1i7zx
+  branchmenu-tsx-githubline-nresz:
+    kind: function
+    name: GitHubLine()
+    in: ui-branchmenu-tsx-3dug6
+    context: "The one GitHub step that's missing, or who you're signed in as: a quiet line in the footer."
+    signature: "GitHubLine(p: { store: Store; app: { configured: boolean; installed: boolean; installUrl: string | null; } | null; act: Act; busy: string | null; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:954
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  branchmenu-tsx-gitstatus-18sj9:
+    kind: function
+    name: gitStatus()
+    in: ui-branchmenu-tsx-3dug6
+    context: "Where the design is saved, as a save icon coloured by how far it's got: on the server only, in Archnemesis's own repo (not in a remote), saving, synced with a remote, or can't reach it."
+    signature: "gitStatus(store: Store): { icon: ReactNode; tone: string; title: string; label: string; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:55
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  branchmenu-tsx-mainmeta-1aoi0:
+    kind: function
+    name: mainMeta()
+    in: ui-branchmenu-tsx-3dug6
+    context: "The line under main: its latest version, and when it was last synced with the repo."
+    signature: "mainMeta: (git: GitInfo) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:130
+  branchmenu-tsx-mainnote-nkbr6:
+    kind: function
+    name: mainNote()
+    in: ui-branchmenu-tsx-3dug6
+    context: "What main is, in a sentence: a mirror of a repo (edits fork), or yours to edit (in the browser)."
+    signature: 'mainNote: (git: GitInfo) => "Main is yours to edit. Start a fork to try a change on the side, then merge it." | "Main mirrors the repo. Edit to start a fork."'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:136
+  branchmenu-tsx-prstate-rldm9:
+    kind: function
+    name: prState()
+    in: ui-branchmenu-tsx-3dug6
+    signature: "prState: (pr: PullState) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:170
+  branchmenu-tsx-reponame-1recg:
+    kind: function
+    name: repoName()
+    in: ui-branchmenu-tsx-3dug6
+    context: "The repo in a few words: \"owner/name\" on a forge, else the path's last part."
+    signature: "repoName(git: GitInfo): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:151
+  branchmenu-tsx-short-j7vcb:
+    kind: function
+    name: short()
+    in: ui-branchmenu-tsx-3dug6
+    signature: "short: (sha: string | null) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/BranchMenu.tsx:127
+connections:
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-ago-12leb}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-followform-1qh53}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-forkicons-1tins}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-github-1tlqc}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-githubline-nresz}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-mainmeta-1aoi0}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-mainnote-nkbr6}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-prstate-rldm9}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-reponame-1recg}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: branchmenu-tsx-short-j7vcb}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: dialog-tsx-dialog-39zlh}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: route-ts-carrytoast-10tze}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: route-ts-godoc-1q44f}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: store-ts-store-refreshgit-q9sbw}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: store-ts-store-versions-162kz}
+  - {from: branchmenu-tsx-branchmenu-13gye, to: store-ts-store-viewat-uj4b0}
+  - {from: branchmenu-tsx-followform-1qh53, to: branchmenu-tsx-github-1tlqc}
+  - {from: branchmenu-tsx-followform-1qh53, to: store-ts-store-githubbranches-rkj3b}
+  - {from: branchmenu-tsx-followform-1qh53, to: store-ts-store-githubrepos-1uvjl}
+  - {from: branchmenu-tsx-followform-1qh53, to: store-ts-store-refreshgithub-1a985}
+  - {from: branchmenu-tsx-forkicons-1tins, to: branchmenu-tsx-prstate-rldm9}
+  - {from: branchmenu-tsx-githubline-nresz, to: branchmenu-tsx-github-1tlqc}
+  - {from: branchmenu-tsx-gitstatus-18sj9, to: branchmenu-tsx-ago-12leb}
+  - {from: branchmenu-tsx-gitstatus-18sj9, to: branchmenu-tsx-reponame-1recg}
+  - {from: branchmenu-tsx-mainmeta-1aoi0, to: branchmenu-tsx-ago-12leb}
+  - {from: branchmenu-tsx-mainmeta-1aoi0, to: branchmenu-tsx-short-j7vcb}

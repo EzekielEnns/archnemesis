@@ -1,0 +1,11 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Landscape
+tidy: right
+include:
+  - top: true
+exclude:
+  - kind: module
+  - kind: function
+  - kind: library
+  - kind: table
+  - status: removed

@@ -1,0 +1,52 @@
+# archnemesis:shared/whatsnew.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-whatsnew-ts-1hlbj:
+    kind: module
+    name: whatsnew.ts
+    in: shared-support
+    context: "What a fork changes, and where it slots in: the things added or changed, plus the existing things they plug into (what they call, what calls them, what they're inside) and the lines between them, so a reviewer can follow how the change fits."
+    tech: [TypeScript]
+    path: archnemesis:shared/whatsnew.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/whatsnew.ts
+  whatsnew-ts-changedwithcontext-1yvpv:
+    kind: function
+    name: changedWithContext()
+    in: shared-whatsnew-ts-1hlbj
+    signature: "changedWithContext(base: ModelState, now: ModelState): WhatsNew"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/whatsnew.ts:89
+  whatsnew-ts-keyof-qvjdc:
+    kind: function
+    name: keyOf()
+    in: shared-whatsnew-ts-1hlbj
+    signature: "keyOf: (o: { id: string; key?: string | undefined; }) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/whatsnew.ts:10
+  whatsnew-ts-linediff-iq0b5:
+    kind: function
+    name: lineDiff()
+    in: shared-whatsnew-ts-1hlbj
+    context: Two texts' lines, -/+ for what went and came (in order), the unchanged ones left out.
+    signature: "lineDiff(a: string[], b: string[]): DiffLine[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/whatsnew.ts:68
+  whatsnew-ts-linesof-1cdj0:
+    kind: function
+    name: linesOf()
+    in: shared-whatsnew-ts-1hlbj
+    signature: "linesOf: (t: string) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/whatsnew.ts:87
+connections:
+  - {from: whatsnew-ts-changedwithcontext-1yvpv, to: files-ts-connectionyaml-li441}
+  - {from: whatsnew-ts-changedwithcontext-1yvpv, to: files-ts-objectyaml-bv5f4}
+  - {from: whatsnew-ts-changedwithcontext-1yvpv, to: whatsnew-ts-keyof-qvjdc}
+  - {from: whatsnew-ts-changedwithcontext-1yvpv, to: whatsnew-ts-linediff-iq0b5}
+  - {from: whatsnew-ts-changedwithcontext-1yvpv, to: whatsnew-ts-linesof-1cdj0}

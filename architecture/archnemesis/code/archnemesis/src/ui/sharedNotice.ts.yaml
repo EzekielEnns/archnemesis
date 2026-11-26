@@ -1,0 +1,31 @@
+# archnemesis:src/ui/sharedNotice.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-sharednotice-ts-roejd:
+    kind: module
+    name: sharedNotice.ts
+    in: web-ui
+    context: 'One line shown above a design for a moment after a shared link opened a copy that was already here: which design it is, and the link, so "Make another copy" can run it again.'
+    tech: [TypeScript]
+    path: archnemesis:src/ui/sharedNotice.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/sharedNotice.ts
+  sharednotice-ts-setsharednotice-yaa45:
+    kind: function
+    name: setSharedNotice()
+    in: ui-sharednotice-ts-roejd
+    signature: "setSharedNotice(n: Notice | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/sharedNotice.ts:13
+  sharednotice-ts-usesharednotice-zojv8:
+    kind: function
+    name: useSharedNotice()
+    in: ui-sharednotice-ts-roejd
+    signature: "useSharedNotice(): Notice | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/sharedNotice.ts:18
+    references:
+      - dependency: lib-types-react-1i7zx

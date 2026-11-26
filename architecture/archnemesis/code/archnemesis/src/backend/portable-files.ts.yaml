@@ -1,0 +1,90 @@
+# archnemesis:src/backend/portable-files.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-portable-files-ts-1xq7u:
+    kind: module
+    name: portable-files.ts
+    in: web-backend
+    context: "What a shared design needs of its files: a name that is safe to show, files read with their problems said plainly, a model put into a document, and a document written back as files."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/portable-files.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts
+  portable-files-ts-applymodel-1scrp:
+    kind: function
+    name: applyModel()
+    in: backend-portable-files-ts-1xq7u
+    context: "Make a document match a model read from files (a pull): what the files don't have goes."
+    signature: "applyModel(ydoc: Doc, model: FileModel, label: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:68
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-files-ts-cleanname-ul6qc:
+    kind: function
+    name: cleanName()
+    in: backend-portable-files-ts-1xq7u
+    context: A name as a plain, bounded line.
+    signature: "cleanName(raw: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:18
+  portable-files-ts-filesofdoc-lk8af:
+    kind: function
+    name: filesOfDoc()
+    in: backend-portable-files-ts-1xq7u
+    context: A design's files, as they go in git (keys given, layout included).
+    signature: "filesOfDoc(ydoc: Doc): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:76
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-files-ts-givekeys-2jjm3:
+    kind: function
+    name: giveKeys()
+    in: backend-portable-files-ts-1xq7u
+    context: "Give every box a key in the document itself (files match boxes by key): before a pull or a push."
+    signature: "giveKeys(ydoc: Doc): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:61
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-files-ts-loadmodel-1tf3r:
+    kind: function
+    name: loadModel()
+    in: backend-portable-files-ts-1xq7u
+    context: "Put a design's model into a document: its name, settings, and everything in it."
+    signature: "loadModel(ydoc: Doc, model: FileModel, id: string, name: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:41
+    references:
+      - dependency: lib-yjs-1y6wn
+  portable-files-ts-readwithproblems-1j7zz:
+    kind: function
+    name: readWithProblems()
+    in: backend-portable-files-ts-1xq7u
+    signature: "readWithProblems(files: Map<string, string>): { model: FileModel; error: string | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/portable-files.ts:23
+connections:
+  - {from: portable-files-ts-applymodel-1scrp, to: doc-ts-applyops-7k6hw}
+  - {from: portable-files-ts-applymodel-1scrp, to: doc-ts-readstate-1orda}
+  - {from: portable-files-ts-applymodel-1scrp, to: files-ts-toops-1d908}
+  - {from: portable-files-ts-filesofdoc-lk8af, to: doc-ts-applyops-7k6hw}
+  - {from: portable-files-ts-filesofdoc-lk8af, to: doc-ts-readstate-1orda}
+  - {from: portable-files-ts-filesofdoc-lk8af, to: files-ts-keyops-hk86o}
+  - {from: portable-files-ts-filesofdoc-lk8af, to: files-ts-writefiles-dumd7}
+  - {from: portable-files-ts-givekeys-2jjm3, to: doc-ts-applyops-7k6hw}
+  - {from: portable-files-ts-givekeys-2jjm3, to: doc-ts-readstate-1orda}
+  - {from: portable-files-ts-givekeys-2jjm3, to: files-ts-keyops-hk86o}
+  - {from: portable-files-ts-loadmodel-1tf3r, to: doc-ts-applyops-7k6hw}
+  - {from: portable-files-ts-loadmodel-1tf3r, to: doc-ts-emptystate-1a3cm}
+  - {from: portable-files-ts-loadmodel-1tf3r, to: doc-ts-mirror-1k3af}
+  - {from: portable-files-ts-loadmodel-1tf3r, to: files-ts-toops-1d908}
+  - {from: portable-files-ts-readwithproblems-1j7zz, to: files-ts-readfiles-1ttso}

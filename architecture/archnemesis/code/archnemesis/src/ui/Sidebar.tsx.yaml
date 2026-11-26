@@ -1,0 +1,58 @@
+# archnemesis:src/ui/Sidebar.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-sidebar-tsx-1iat1:
+    kind: module
+    name: Sidebar.tsx
+    in: web-ui
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Sidebar.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Sidebar.tsx
+  sidebar-tsx-guides-15mtw:
+    kind: function
+    name: Guides()
+    in: ui-sidebar-tsx-1iat1
+    context: "The tree's guide lines, like `lsd --tree`: a bar for each open ancestor, an elbow for the row."
+    signature: "Guides({ row }: { row: NavRow; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Sidebar.tsx:682
+    references:
+      - dependency: lib-types-react-1i7zx
+  sidebar-tsx-navicon-i4jy2:
+    kind: function
+    name: NavIcon()
+    in: ui-sidebar-tsx-1iat1
+    signature: "NavIcon({ row }: { row: NavRow; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Sidebar.tsx:694
+    references:
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-1i7zx
+  sidebar-tsx-sidebar-1120m:
+    kind: function
+    name: Sidebar()
+    in: ui-sidebar-tsx-1iat1
+    signature: "Sidebar(props: Props): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Sidebar.tsx:87
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: sidebar-tsx-navicon-i4jy2, to: kinddot-tsx-kinddot-1tqsu}
+  - {from: sidebar-tsx-sidebar-1120m, to: actions-ts-deleteobjects-1cccc}
+  - {from: sidebar-tsx-sidebar-1120m, to: actions-ts-updateobject-b8yrs}
+  - {from: sidebar-tsx-sidebar-1120m, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: sidebar-tsx-sidebar-1120m, to: model-ts-iscodekind-1jl6v}
+  - {from: sidebar-tsx-sidebar-1120m, to: model-ts-now-1lkd5}
+  - {from: sidebar-tsx-sidebar-1120m, to: navtree-ts-navrows-p5q6e}
+  - {from: sidebar-tsx-sidebar-1120m, to: navtree-ts-rowlabel-1alx2}
+  - {from: sidebar-tsx-sidebar-1120m, to: project-ts-ancestors-lfs25}
+  - {from: sidebar-tsx-sidebar-1120m, to: project-ts-diagramforscope-1ff5x}
+  - {from: sidebar-tsx-sidebar-1120m, to: sidebar-tsx-guides-15mtw}
+  - {from: sidebar-tsx-sidebar-1120m, to: sidebar-tsx-navicon-i4jy2}

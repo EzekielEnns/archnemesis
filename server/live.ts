@@ -84,7 +84,7 @@ import { projectDiagram } from "../shared/project.ts";
 import { seedOps } from "../shared/seed.ts";
 import { codeSeedOps } from "./seed.ts";
 import { DocStore, type ForkRow } from "./store.ts";
-import { FileSync, hasDesignFolder } from "./files.ts";
+import { FileSync, FolderCopy, hasDesignFolder } from "./files.ts";
 import { GitSync } from "./gitsync.ts";
 import type { GitHub } from "./github.ts";
 import { stopAwarenessTimer } from "../shared/presence-link.ts";
@@ -773,9 +773,23 @@ export class Live {
     this.files.start();
   }
 
+  private copy: FolderCopy | null = null;
+  /**
+   * Whether the design's own folder keeps a copy of main. Yes while main follows a repo
+   * Archnemesis keeps itself, so the files people commit with their code stay current; no
+   * for a real remote, where the repo is the place to look.
+   */
+  keepCopy(on: boolean): void {
+    if (on === !!this.copy) return;
+    this.copy?.close();
+    this.copy = on && this.ownDir ? new FolderCopy(this, this.ownDir) : null;
+    this.copy?.start();
+  }
+
   /** Connecting to git failed: back to the design's own folder, edited directly again. */
   unfollow(): void {
     this.followsGit = false;
+    this.keepCopy(false);
     if (!this.files?.mirror) return;
     this.files.close();
     this.files = this.ownDir ? new FileSync(this, this.ownDir) : null;
@@ -1011,6 +1025,8 @@ export class Live {
 
   close(): void {
     this.files?.close();
+    this.copy?.close();
+    this.copy = null;
     if (this.sweepTimer) clearTimeout(this.sweepTimer);
     if (this.agentTimer) clearTimeout(this.agentTimer);
     // Let Hocuspocus unload the document once its tabs are gone too (a closed fork).

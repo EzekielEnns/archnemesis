@@ -1,0 +1,159 @@
+# archnemesis:shared/entities.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-entities-ts-xlnac:
+    kind: module
+    name: entities.ts
+    in: shared-model
+    context: "Entities: the shapes nodes point at (DTOs, interfaces, enums). A node uses one through an entity reference; a function's signature makes those by itself, and a type nobody has defined yet becomes a TBD entity (just a name) without stopping anyone. See docs/entities-plan.md."
+    tech: [TypeScript]
+    path: archnemesis:shared/entities.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts
+  entities-ts-carriersof-143g0:
+    kind: function
+    name: carriersOf()
+    in: shared-entities-ts-xlnac
+    context: Every connection that carries an entity (has it in its references).
+    signature: "carriersOf(idx: ModelIndex, entityId: string): Connection[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:38
+  entities-ts-completetype-1cyj4:
+    kind: function
+    name: completeType()
+    in: shared-entities-ts-xlnac
+    context: Put a picked name in place of the word being typed; the cursor goes after it.
+    signature: "completeType(text: string, at: { word: string; start: number; }, name: string): { text: string; cursor: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:215
+  entities-ts-entitiesof-ya3q2:
+    kind: function
+    name: entitiesOf()
+    in: shared-entities-ts-xlnac
+    context: The entities a node points at, in the order it lists them.
+    signature: "entitiesOf(idx: ModelIndex, o: ModelObject): Entity[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:23
+  entities-ts-entitynamed-1sxmn:
+    kind: function
+    name: entityNamed()
+    in: shared-entities-ts-xlnac
+    context: The entity with this name, if there is one.
+    signature: "entityNamed: (idx: ModelIndex, name: string) => Entity | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:85
+  entities-ts-entityrows-yx0fk:
+    kind: function
+    name: entityRows()
+    in: shared-entities-ts-xlnac
+    context: A node's entities as rows to draw beside it with its references (kind "entity", `at` its place in references).
+    signature: 'entityRows(idx: ModelIndex, o: Pick<ModelObject, "references">): RefRow[]'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:172
+  entities-ts-entityshape-1fqs8:
+    kind: function
+    name: entityShape()
+    in: shared-entities-ts-xlnac
+    context: "What kind of shape it is, from what it has: values make an enum, a method an interface."
+    signature: 'entityShape(e: Pick<Entity, "fields" | "values">): "type" | "enum" | "TBD" | "interface"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:155
+  entities-ts-entitysummary-i5oax:
+    kind: function
+    name: entitySummary()
+    in: shared-entities-ts-xlnac
+    context: 'What an entity is, in a few words: "TBD", "type · 3 fields", "enum · 2 values".'
+    signature: 'entitySummary(e: Pick<Entity, "fields" | "values">): string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:180
+  entities-ts-makeentity-146sj:
+    kind: function
+    name: makeEntity()
+    in: shared-entities-ts-xlnac
+    context: "A new entity: just a name until it gets fields (TBD), defined in `sourceId` if it's given. The name is a type name (PaidOrder); anything else throws, with the rule."
+    signature: "makeEntity(name: string, sourceId?: string | null, fields?: string[]): Entity"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:66
+  entities-ts-parseentityname-gq8p9:
+    kind: function
+    name: parseEntityName()
+    in: shared-entities-ts-xlnac
+    context: "\"PaidOrder : Order, Auditable\" → its name and what it extends; `error` when a name isn't a type name."
+    signature: "parseEntityName(raw: string): { name: string; extends: string[]; error?: string | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:137
+  entities-ts-signatureops-2mqcz:
+    kind: function
+    name: signatureOps()
+    in: shared-entities-ts-xlnac
+    context: "A node's new signature, with its links: an entity reference for each type it names (a TBD entity made for a name nothing has yet), and the ones only the old signature named let go. Entities it points at for other reasons are kept."
+    signature: "signatureOps(idx: ModelIndex, o: ModelObject, signature: string | undefined): { ops: Op[]; references: Reference[] | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:93
+  entities-ts-signaturetypes-698iu:
+    kind: function
+    name: signatureTypes()
+    in: shared-entities-ts-xlnac
+    context: 'The design types a signature names: "(cart: Cart, UserId) -> Result<Order, ApiError>" → Cart, UserId, Order, ApiError.'
+    signature: "signatureTypes(sig: string | undefined): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:53
+  entities-ts-splitfield-1rel7:
+    kind: function
+    name: splitField()
+    in: shared-entities-ts-xlnac
+    context: 'A field line as name and type, for the grid: "items [OrderItem]" → ["items", "[OrderItem]"]; a method (name( with no space) stays whole.'
+    signature: "splitField(line: string): [string, string]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:164
+  entities-ts-suggesttypes-vfr7k:
+    kind: function
+    name: suggestTypes()
+    in: shared-entities-ts-xlnac
+    context: "Entities to suggest for a half-typed type: names starting with it first, then containing it; the most used first."
+    signature: "suggestTypes(idx: ModelIndex, word: string, limit?: number): Entity[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:201
+  entities-ts-typeat-tuhjc:
+    kind: function
+    name: typeAt()
+    in: shared-entities-ts-xlnac
+    context: "The type being typed at the cursor in a signature: a capitalised word the cursor is at the end of, after the \"(\" (so a name like Cart::total isn't one). \"(cart: Ca|\" → {word: \"Ca\", start: 12}."
+    signature: "typeAt(text: string, cursor: number): { word: string; start: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:191
+  entities-ts-usersof-9ihpt:
+    kind: function
+    name: usersOf()
+    in: shared-entities-ts-xlnac
+    context: Every node that points at an entity.
+    signature: "usersOf(idx: ModelIndex, entityId: string): ModelObject[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/entities.ts:30
+connections:
+  - {from: entities-ts-entityshape-1fqs8, to: model-ts-istbd-m1dzw}
+  - {from: entities-ts-entitysummary-i5oax, to: entities-ts-entityshape-1fqs8}
+  - {from: entities-ts-makeentity-146sj, to: model-ts-newid-wokej}
+  - {from: entities-ts-makeentity-146sj, to: model-ts-now-1lkd5}
+  - {from: entities-ts-signatureops-2mqcz, to: entities-ts-entitynamed-1sxmn}
+  - {from: entities-ts-signatureops-2mqcz, to: entities-ts-makeentity-146sj}
+  - {from: entities-ts-signatureops-2mqcz, to: entities-ts-signaturetypes-698iu}
+  - {from: entities-ts-signatureops-2mqcz, to: entities-ts-usersof-9ihpt}
+  - {from: entities-ts-signatureops-2mqcz, to: model-ts-istbd-m1dzw}
+  - {from: entities-ts-suggesttypes-vfr7k, to: entities-ts-usersof-9ihpt}

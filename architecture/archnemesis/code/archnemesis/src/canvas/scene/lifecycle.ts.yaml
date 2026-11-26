@@ -1,0 +1,50 @@
+# archnemesis:src/canvas/scene/lifecycle.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-lifecycle-ts-1bsfv:
+    kind: module
+    name: lifecycle.ts
+    in: canvas-scene-iaxtu
+    context: "Starting and stopping the canvas: Pixi, the dot grid, the layers, and tearing it all down."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/lifecycle.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lifecycle.ts
+  lifecycle-ts-destroy-ow6gu:
+    kind: function
+    name: destroy()
+    in: scene-lifecycle-ts-1bsfv
+    signature: "destroy(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lifecycle.ts:76
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  lifecycle-ts-init-38t9x:
+    kind: function
+    name: init()
+    in: scene-lifecycle-ts-1bsfv
+    context: Resolves false if the scene was destroyed while Pixi was starting.
+    signature: "init(state: SceneState, host: HTMLElement): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lifecycle.ts:9
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-pixi-js-ng0nj
+  lifecycle-ts-makegrid-1otwi:
+    kind: function
+    name: makeGrid()
+    in: scene-lifecycle-ts-1bsfv
+    signature: "makeGrid(state: SceneState): TilingSprite"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/lifecycle.ts:91
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: lifecycle-ts-destroy-ow6gu, to: avoid-ts-asyncrouter-destroy-p155u}
+  - {from: lifecycle-ts-init-38t9x, to: input-ts-bindinput-16w89}
+  - {from: lifecycle-ts-init-38t9x, to: lifecycle-ts-makegrid-1otwi}
+  - {from: lifecycle-ts-init-38t9x, to: view-ts-setcamera-re09j}

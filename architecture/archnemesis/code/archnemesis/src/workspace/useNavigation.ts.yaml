@@ -1,0 +1,35 @@
+# archnemesis:src/workspace/useNavigation.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usenavigation-ts-efd6l:
+    kind: module
+    name: useNavigation.ts
+    in: web-workspace
+    context: 'Moving between diagrams: every move says how it was made (for the navigation trail), and "open" goes into a box (its own view, the code it runs, a folded group).'
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useNavigation.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useNavigation.ts
+  usenavigation-ts-usenavigation-rtxhu:
+    kind: function
+    name: useNavigation()
+    in: workspace-usenavigation-ts-efd6l
+    signature: 'useNavigation({ latest, toast }: { latest: LatestRef; toast: (text: string, toneOrAction?: "error" | "info" | { label: string; run: () => void; } | undefined) => void; }): { navigate: (id: string, objectId?: string | null | undefined, how?: How, created?: boolean | undefined) => void; open: (obje…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useNavigation.ts:14
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: actions-ts-codefor-16of1}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: actions-ts-insideaction-pw824}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: actions-ts-opencode-x8xn4}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: actions-ts-opengroup-vwfdb}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: actions-ts-openinside-vw1xh}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: project-ts-diagramforscope-1ff5x}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: project-ts-grouplabel-xcj20}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: route-ts-go-1cual}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: trail-ts-note-1tgcq}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: trail-ts-via-1jfvt}
+  - {from: usenavigation-ts-usenavigation-rtxhu, to: trail-ts-wiretrail-1pjjr}

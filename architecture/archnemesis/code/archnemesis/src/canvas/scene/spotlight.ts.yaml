@@ -1,0 +1,72 @@
+# archnemesis:src/canvas/scene/spotlight.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-spotlight-ts-i67c9:
+    kind: module
+    name: spotlight.ts
+    in: canvas-scene-iaxtu
+    context: "Focus: light up a flow step or a selection and dim what isn't connected to it."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/spotlight.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts
+  spotlight-ts-focusonselection-1jpsy:
+    kind: function
+    name: focusOnSelection()
+    in: scene-spotlight-ts-i67c9
+    context: The selected boxes, their neighbours and the arrows between.
+    signature: "focusOnSelection(state: SceneState): Focus"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts:45
+  spotlight-ts-focusonspot-wfvg9:
+    kind: function
+    name: focusOnSpot()
+    in: scene-spotlight-ts-i67c9
+    context: "A spotlit step: its boxes, and the arrows between each pair."
+    signature: "focusOnSpot(state: SceneState, spot: Spotlight): Focus"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts:35
+  spotlight-ts-openedpicked-12hf7:
+    kind: function
+    name: openedPicked()
+    in: scene-spotlight-ts-i67c9
+    context: The selected frame, when it's a box opened here or a group unfolded here.
+    signature: "openedPicked(state: SceneState): CanvasGroup | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts:23
+  spotlight-ts-refocus-19wys:
+    kind: function
+    name: refocus()
+    in: scene-spotlight-ts-i67c9
+    context: Dim everything the selection isn't connected to.
+    signature: "refocus(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts:75
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  spotlight-ts-spotlight-1gcaa:
+    kind: function
+    name: spotlight()
+    in: scene-spotlight-ts-i67c9
+    context: "Light up a flow step (or a tag): overrides the selection's focus until cleared."
+    signature: "spotlight(state: SceneState, spec: Spotlight | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/spotlight.ts:13
+connections:
+  - {from: spotlight-ts-focusonselection-1jpsy, to: spotlight-ts-openedpicked-12hf7}
+  - {from: spotlight-ts-refocus-19wys, to: edges-ts-drawstaticedges-1a491}
+  - {from: spotlight-ts-refocus-19wys, to: groups-ts-drawgroups-1o8a4}
+  - {from: spotlight-ts-refocus-19wys, to: measure-ts-basealpha-crz7b}
+  - {from: spotlight-ts-refocus-19wys, to: minimap-ts-drawmininodes-12y88}
+  - {from: spotlight-ts-refocus-19wys, to: spotlight-ts-focusonselection-1jpsy}
+  - {from: spotlight-ts-refocus-19wys, to: spotlight-ts-focusonspot-wfvg9}
+  - {from: spotlight-ts-refocus-19wys, to: spotlight-ts-openedpicked-12hf7}
+  - {from: spotlight-ts-spotlight-1gcaa, to: frame-ts-requestrender-sstrq}
+  - {from: spotlight-ts-spotlight-1gcaa, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: spotlight-ts-spotlight-1gcaa, to: spotlight-ts-refocus-19wys}

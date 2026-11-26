@@ -1,6 +1,6 @@
 // A design can start in a repo of its own on the Archnemesis server (forks and history with no
 // GitHub), and move to a real repo later, once its forks are merged or discarded.
-import { mkdtempSync, renameSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -146,5 +146,36 @@ describe("stacked forks", () => {
     expect(g.info().local).toBe(true);
     expect(g.info().error ?? null).toBeNull();
     expect(g.info().forks.map((f) => f.name)).toEqual(["try"]);
+  });
+
+  it("keeps the design's own folder a copy of main, for committing with your code", async () => {
+    const live = await hub.create("Shop", "shop", "example", alice);
+    await bindDesign(hub, live, { local: true });
+    const own = join(hub.root, "shop");
+    const all = () =>
+      readdirSync(join(own, "model"))
+        .map((f) => readFileSync(join(own, "model", f), "utf8"))
+        .join("\n");
+    expect(all()).toContain("checkout");
+    expect(all()).not.toContain("loyalty points");
+
+    // An edit lands on a fork, not in the folder, until it's merged.
+    const g = hub.git.get("shop")!;
+    const fork = await g.fork(alice, "try");
+    const checkout = [...fork.state.objects.values()].find((o) => o.key === "checkout")!;
+    fork.commit(
+      alice,
+      [
+        {
+          op: "object.put",
+          object: { ...checkout, description: "Takes the order, then pays with loyalty points." },
+        },
+      ],
+      "describe checkout",
+    );
+    await g.merge(fork.key, alice);
+    // Main takes the merge, and the copy follows a moment later.
+    await expect.poll(all, { timeout: 5000 }).toContain("loyalty points");
+    expect(existsSync(join(own, "archnm.yaml"))).toBe(true);
   });
 });

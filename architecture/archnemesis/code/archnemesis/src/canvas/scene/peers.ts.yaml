@@ -1,0 +1,35 @@
+# archnemesis:src/canvas/scene/peers.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-peers-ts-eoikh:
+    kind: module
+    name: peers.ts
+    in: canvas-scene-iaxtu
+    context: "Other people here: their cursors, their selections and the boxes they are dragging."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/peers.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/peers.ts
+  peers-ts-drawpeers-80nqe:
+    kind: function
+    name: drawPeers()
+    in: scene-peers-ts-eoikh
+    signature: "drawPeers(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/peers.ts:16
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  peers-ts-setpeers-1kw7b:
+    kind: function
+    name: setPeers()
+    in: scene-peers-ts-eoikh
+    context: "Show who else is here. Cheap: one Graphics and a label per person."
+    signature: "setPeers(state: SceneState, peers: Peer[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/peers.ts:9
+connections:
+  - {from: peers-ts-setpeers-1kw7b, to: frame-ts-requestrender-sstrq}
+  - {from: peers-ts-setpeers-1kw7b, to: peers-ts-drawpeers-80nqe}

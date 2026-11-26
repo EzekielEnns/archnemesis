@@ -1,0 +1,16 @@
+# archnemesis:src/backend/index.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-index-ts-p87wr:
+    kind: module
+    name: index.ts
+    in: web-backend
+    context: "The backend this build talks to, picked when it's built: VITE_BACKEND=server (the default, the Node server) or VITE_BACKEND=local (everything in this browser, no server at all). The other one isn't bundled."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/index.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/index.ts
+connections:
+  - {from: backend-index-ts-p87wr, to: local-ts-createlocalbackend-1oirl}
+  - {from: backend-index-ts-p87wr, to: server-ts-createserverbackend-gr0x7}

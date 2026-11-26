@@ -1,0 +1,41 @@
+# archnemesis:shared/filesFromOps.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-filesfromops-ts-1g3ml:
+    kind: module
+    name: filesFromOps.ts
+    in: shared-model
+    context: "A design written as files, from a batch of ops: how tests (and anything else with ops in hand) get what writeFiles gives for them, keys and layout included."
+    tech: [TypeScript]
+    path: archnemesis:shared/filesFromOps.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/filesFromOps.ts
+  filesfromops-ts-filesfromops-1teyf:
+    kind: function
+    name: filesFromOps()
+    in: shared-filesfromops-ts-1g3ml
+    signature: "filesFromOps(ops: Op[], config?: FConfig): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/filesFromOps.ts:8
+    references:
+      - dependency: lib-yjs-1y6wn
+  filesfromops-ts-smallops-hng7j:
+    kind: function
+    name: smallOps()
+    in: shared-filesfromops-ts-1g3ml
+    context: A small design (a landscape with a few boxes, one with parts inside, and connections) for tests that sit outside the server.
+    signature: "smallOps(): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/filesFromOps.ts:19
+connections:
+  - {from: filesfromops-ts-filesfromops-1teyf, to: doc-ts-applyops-7k6hw}
+  - {from: filesfromops-ts-filesfromops-1teyf, to: doc-ts-emptystate-1a3cm}
+  - {from: filesfromops-ts-filesfromops-1teyf, to: doc-ts-mirror-1k3af}
+  - {from: filesfromops-ts-filesfromops-1teyf, to: files-ts-keyops-hk86o}
+  - {from: filesfromops-ts-filesfromops-1teyf, to: files-ts-writefiles-dumd7}
+  - {from: filesfromops-ts-smallops-hng7j, to: model-ts-makeconnection-22l8u}
+  - {from: filesfromops-ts-smallops-hng7j, to: model-ts-makediagram-8ks8b}
+  - {from: filesfromops-ts-smallops-hng7j, to: model-ts-makeobject-ojdfc}

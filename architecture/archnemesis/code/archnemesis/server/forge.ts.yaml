@@ -1,0 +1,50 @@
+# archnemesis:server/forge.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-forge-ts-16q0l:
+    kind: module
+    name: forge.ts
+    in: srv-git
+    context: "Where a repo lives, as far as pull requests go. Everything else Archnemesis does is plain git; only proposing a change is forge-specific, and for now that's a link: the forge's own \"new pull request\" page, filled in, opened in the person's browser. The pull request is theirs (their account, their review flow) and Archnemesis holds no forge credentials."
+    tech: [TypeScript]
+    path: archnemesis:server/forge.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/forge.ts
+  forge-ts-forgename-1509t:
+    kind: function
+    name: forgeName()
+    in: server-forge-ts-16q0l
+    signature: "forgeName: (k: ForgeKind) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/forge.ts:20
+  forge-ts-forgeof-17ig4:
+    kind: function
+    name: forgeOf()
+    in: server-forge-ts-16q0l
+    context: The forge a remote is on, or null (a plain repo, a local one, an unknown host).
+    signature: "forgeOf(remote: string, forges: Map<string, ForgeKind>): Forge | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/forge.ts:23
+  forge-ts-proposeurl-l5o6u:
+    kind: function
+    name: proposeUrl()
+    in: server-forge-ts-16q0l
+    context: The forge's page for opening a pull request from `branch` into `base`, filled in.
+    signature: "proposeUrl(f: Forge, o: { branch: string; base: string; title: string; body: string; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/forge.ts:39
+  forge-ts-ref-ffjye:
+    kind: function
+    name: ref()
+    in: server-forge-ts-16q0l
+    context: "A branch name in a URL path: escaped, but its slashes kept (forges route on them)."
+    signature: "ref: (b: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/forge.ts:36
+connections:
+  - {from: forge-ts-proposeurl-l5o6u, to: forge-ts-ref-ffjye}

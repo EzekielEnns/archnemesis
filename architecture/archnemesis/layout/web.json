@@ -1,0 +1,14 @@
+{
+  "agent": {"x": 632, "y": 0},
+  "browser-storage": {"x": 520, "y": 1104},
+  "github": {"x": 552, "y": 1544},
+  "person": {"x": 376, "y": 0},
+  "server": {"x": 808, "y": 1544},
+  "shared": {"x": 168, "y": 1544},
+  "web-backend": {"x": 536, "y": 808},
+  "web-canvas": {"x": 0, "y": 1296},
+  "web-shell": {"x": 320, "y": 1104},
+  "web-ui": {"x": 216, "y": 520},
+  "web-webmcp": {"x": 480, "y": 520},
+  "web-workspace": {"x": 56, "y": 240}
+}

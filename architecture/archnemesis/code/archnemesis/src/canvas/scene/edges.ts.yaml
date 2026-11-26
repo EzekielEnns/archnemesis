@@ -1,0 +1,139 @@
+# archnemesis:src/canvas/scene/edges.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-edges-ts-1k8jo:
+    kind: module
+    name: edges.ts
+    in: canvas-scene-iaxtu
+    context: "Drawing arrows: each arrow's route, its label placed clear of boxes and other labels, the strokes and arrowheads grouped by look."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/edges.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts
+  edges-ts-drawedges-1ordb:
+    kind: function
+    name: drawEdges()
+    in: scene-edges-ts-1k8jo
+    signature: "drawEdges(state: SceneState, g: Graphics, edges: Iterable<EdgeView>, live: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:204
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  edges-ts-drawstaticedges-1a491:
+    kind: function
+    name: drawStaticEdges()
+    in: scene-edges-ts-1k8jo
+    signature: "drawStaticEdges(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:247
+  edges-ts-edgewidth-n8c4b:
+    kind: function
+    name: edgeWidth()
+    in: scene-edges-ts-1k8jo
+    context: 1.5 world units, but never thinner than about a pixel on screen.
+    signature: "edgeWidth(state: SceneState): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:243
+  edges-ts-linecolor-1xgwz:
+    kind: function
+    name: lineColor()
+    in: scene-edges-ts-1k8jo
+    context: "An arrow's colour: by its status, then by whether the selection (or a lit step) is about it."
+    signature: "lineColor(state: SceneState, ev: EdgeView, live: boolean, focused: boolean): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:124
+  edges-ts-makeedgelabel-nct5i:
+    kind: function
+    name: makeEdgeLabel()
+    in: scene-edges-ts-1k8jo
+    signature: "makeEdgeLabel(state: SceneState, text: string): Container<ContainerChild>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:48
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  edges-ts-placeedgelabel-9th8g:
+    kind: function
+    name: placeEdgeLabel()
+    in: scene-edges-ts-1k8jo
+    context: Put an arrow's label where its shape says, or else on the best spot on its line that's clear of boxes and of labels already placed (placeLabel), on curves and routed arrows alike.
+    signature: "placeEdgeLabel(state: SceneState, ev: EdgeView, label: Container<ContainerChild>, look: { dim: boolean; focused: boolean; live: boolean; }, spots: { ...; }): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:149
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  edges-ts-portoffsets-1x781:
+    kind: function
+    name: portOffsets()
+    in: scene-edges-ts-1k8jo
+    context: "How far along its sides an arrow leaves and arrives: spread among its neighbours on the side it was spread for; a key on an open table leaves from (or arrives at) its column's row."
+    signature: "portOffsets(state: SceneState, e: CanvasEdge, a: Rect, b: Rect, via: { from: Side; to: Side; }, chosen: { from: Side; to: Side; }): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:67
+  edges-ts-routeof-1m9z4:
+    kind: function
+    name: routeOf()
+    in: scene-edges-ts-1k8jo
+    signature: "routeOf(state: SceneState, e: CanvasEdge): Route"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:92
+  edges-ts-setedgelabel-13g3l:
+    kind: function
+    name: setEdgeLabel()
+    in: scene-edges-ts-1k8jo
+    context: Redraw an edge's label whole or shortened (to keep off a box).
+    signature: "setEdgeLabel(ev: EdgeView, short: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:33
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  edges-ts-strokegroups-1tydv:
+    kind: function
+    name: strokeGroups()
+    in: scene-edges-ts-1k8jo
+    context: Stroke each group of arrows that look alike in one go, then their arrowheads.
+    signature: "strokeGroups(g: Graphics, groups: Map<string, LineGroup>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/edges.ts:191
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: edges-ts-drawedges-1ordb, to: edges-ts-edgewidth-n8c4b}
+  - {from: edges-ts-drawedges-1ordb, to: edges-ts-linecolor-1xgwz}
+  - {from: edges-ts-drawedges-1ordb, to: edges-ts-placeedgelabel-9th8g}
+  - {from: edges-ts-drawedges-1ordb, to: edges-ts-routeof-1m9z4}
+  - {from: edges-ts-drawedges-1ordb, to: edges-ts-strokegroups-1tydv}
+  - {from: edges-ts-drawedges-1ordb, to: watch-ts-tellwatcherssoon-wwgab}
+  - {from: edges-ts-drawstaticedges-1a491, to: edges-ts-drawedges-1ordb}
+  - {from: edges-ts-makeedgelabel-nct5i, to: measure-ts-clip-103pb}
+  - {from: edges-ts-placeedgelabel-9th8g, to: edges-ts-setedgelabel-13g3l}
+  - {from: edges-ts-placeedgelabel-9th8g, to: geometry-ts-placelabel-zxld1}
+  - {from: edges-ts-placeedgelabel-9th8g, to: geometry-ts-placelabelon-5ntzp}
+  - {from: edges-ts-placeedgelabel-9th8g, to: geometry-ts-routepoint-vghoc}
+  - {from: edges-ts-placeedgelabel-9th8g, to: lookup-ts-shapeof-18bgx}
+  - {from: edges-ts-portoffsets-1x781, to: measure-ts-rowoffset-n2ye3}
+  - {from: edges-ts-routeof-1m9z4, to: avoid-ts-asyncrouter-path-9jqnu}
+  - {from: edges-ts-routeof-1m9z4, to: edges-ts-portoffsets-1x781}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-bentroute-ojpwi}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-cliptoboxes-109zs}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-curvearound-104cj}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-lineroute-1f1dz}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-route-26rwn}
+  - {from: edges-ts-routeof-1m9z4, to: geometry-ts-sides-1t0b8}
+  - {from: edges-ts-routeof-1m9z4, to: lookup-ts-endrect-10url}
+  - {from: edges-ts-routeof-1m9z4, to: lookup-ts-shapeof-18bgx}
+  - {from: edges-ts-routeof-1m9z4, to: routing-ts-routed-1cp8r}
+  - {from: edges-ts-setedgelabel-13g3l, to: measure-ts-clip-103pb}
+  - {from: edges-ts-strokegroups-1tydv, to: geometry-ts-arrowhead-hmfce}
+  - {from: edges-ts-strokegroups-1tydv, to: geometry-ts-tracedashed-15631}
+  - {from: edges-ts-strokegroups-1tydv, to: geometry-ts-traceroute-1obmx}

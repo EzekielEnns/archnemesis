@@ -1,0 +1,33 @@
+# archnemesis:shared/flags.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-flags-ts-1jcu0:
+    kind: module
+    name: flags.ts
+    in: shared-support
+    context: "Flags waiting on an agent: open notes left for agents whose last word is from a person. The channel (cli `archnm channel`) polls these and pushes each new one into the person's running Claude Code session, so an @agent (or the older @Claude) gets an answer without anyone asking twice."
+    tech: [TypeScript]
+    path: archnemesis:shared/flags.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/flags.ts
+  flags-ts-waitingflags-ztsms:
+    kind: function
+    name: waitingFlags()
+    in: shared-flags-ts-1jcu0
+    context: The open flags in a design whose last message is a person's, optionally only this agent's person.
+    signature: "waitingFlags(idx: ModelIndex, doc: string, agentFor?: string | undefined): WaitingFlag[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/flags.ts:30
+  flags-ts-worksfor-o4ya1:
+    kind: function
+    name: worksFor()
+    in: shared-flags-ts-1jcu0
+    context: Is this person the one this agent works for? An agent on a machine with no sign-in works for whoever's on it (for "local:*"); a signed-in agent, for the person whose token it holds.
+    signature: "worksFor: (agentFor: string | undefined, person: Author) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/flags.ts:24
+connections:
+  - {from: flags-ts-waitingflags-ztsms, to: flags-ts-worksfor-o4ya1}

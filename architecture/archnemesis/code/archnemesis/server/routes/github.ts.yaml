@@ -1,0 +1,72 @@
+# archnemesis:server/routes/github.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-github-ts-u78vn:
+    kind: module
+    name: github.ts
+    in: srv-edge
+    context: "GitHub: the app's setup and sign-in round trips, who is connected, and which repos and branches can be followed. The credentials and the API calls are server/github.ts."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/github.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/github.ts
+  github-ts-actionroutes-ftzv0:
+    kind: function
+    name: actionRoutes()
+    in: routes-github-ts-u78vn
+    context: Connect, disconnect, sign in and out of GitHub (POSTs, by someone signed in).
+    signature: "actionRoutes(ctx: Ctx, { req, res, path, who }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/github.ts:87
+  github-ts-githubreturnroutes-yh4nw:
+    kind: function
+    name: githubReturnRoutes()
+    in: routes-github-ts-u78vn
+    context: "GitHub sends the browser back here, without our sign-in: the one-time state in the URL says who started it, so these two don't need it."
+    signature: "githubReturnRoutes(ctx: Ctx, { req, res, path }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/github.ts:13
+  github-ts-githubroutes-xmqo3:
+    kind: function
+    name: githubRoutes()
+    in: routes-github-ts-u78vn
+    context: "/api/github...: signed-in people only. Anything under it that isn't a route is a 404."
+    signature: "githubRoutes(ctx: Ctx, call: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/github.ts:126
+  github-ts-listroutes-39urj:
+    kind: function
+    name: listRoutes()
+    in: routes-github-ts-u78vn
+    context: The repos and branches an editor may pick from; each is one GitHub API call.
+    signature: "listRoutes(ctx: Ctx, { req, res, path, who }: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/github.ts:59
+connections:
+  - {from: github-ts-actionroutes-ftzv0, to: auth-ts-auth-authorize-hqj8x}
+  - {from: github-ts-actionroutes-ftzv0, to: github-ts-github-disconnect-a6utx}
+  - {from: github-ts-actionroutes-ftzv0, to: github-ts-github-loginurl-2dsvm}
+  - {from: github-ts-actionroutes-ftzv0, to: github-ts-github-setup-jqatx}
+  - {from: github-ts-actionroutes-ftzv0, to: github-ts-github-signout-1a1aq}
+  - {from: github-ts-actionroutes-ftzv0, to: http-ts-body-14i98}
+  - {from: github-ts-actionroutes-ftzv0, to: http-ts-json-3ycbr}
+  - {from: github-ts-githubreturnroutes-yh4nw, to: github-ts-github-finishlogin-p87l0}
+  - {from: github-ts-githubreturnroutes-yh4nw, to: github-ts-github-finishsetup-1x9c6}
+  - {from: github-ts-githubreturnroutes-yh4nw, to: github-ts-githuberror-constructor-79gmz}
+  - {from: github-ts-githubreturnroutes-yh4nw, to: provider-ts-typeliteral3-signin-xakfv}
+  - {from: github-ts-githubreturnroutes-yh4nw, to: session-ts-cookie-1row8}
+  - {from: github-ts-githubroutes-xmqo3, to: github-ts-actionroutes-ftzv0}
+  - {from: github-ts-githubroutes-xmqo3, to: github-ts-github-creds-1lmhr}
+  - {from: github-ts-githubroutes-xmqo3, to: github-ts-github-installurl-17nhc}
+  - {from: github-ts-githubroutes-xmqo3, to: github-ts-github-userlogin-mx7sf}
+  - {from: github-ts-githubroutes-xmqo3, to: github-ts-listroutes-39urj}
+  - {from: github-ts-githubroutes-xmqo3, to: http-ts-json-3ycbr}
+  - {from: github-ts-listroutes-39urj, to: auth-ts-auth-authorize-hqj8x}
+  - {from: github-ts-listroutes-39urj, to: github-ts-github-branches-1pnj3}
+  - {from: github-ts-listroutes-39urj, to: github-ts-github-repos-1wv40}
+  - {from: github-ts-listroutes-39urj, to: http-ts-json-3ycbr}

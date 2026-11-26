@@ -1,0 +1,74 @@
+# archnemesis:server/routes/telemetry.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  routes-telemetry-ts-br77w:
+    kind: module
+    name: telemetry.ts
+    in: srv-edge
+    context: "What agents did and what people reported: the summary for admins, the page's agent posting its calls and feedback, and a person's bug report or feature request from the app."
+    tech: [TypeScript]
+    path: archnemesis:server/routes/telemetry.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts
+  telemetry-ts-recordcall-e9xav:
+    kind: function
+    name: recordCall()
+    in: routes-telemetry-ts-br77w
+    context: One tool call the page's agent made.
+    signature: "recordCall(t: Telemetry, b: Record<string, unknown>, actor: string, res: ServerResponse<IncomingMessage>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts:11
+  telemetry-ts-recordfeedback-ah68l:
+    kind: function
+    name: recordFeedback()
+    in: routes-telemetry-ts-br77w
+    context: Feedback from the page's agent.
+    signature: "recordFeedback(t: Telemetry, b: Record<string, unknown>, actor: string, res: ServerResponse<IncomingMessage>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts:44
+  telemetry-ts-report-plix4:
+    kind: function
+    name: report()
+    in: routes-telemetry-ts-br77w
+    context: "A person's bug report or feature request from the app (Report a bug / Request a feature): kept with agents' feedback, so `archnm telemetry feedback` lists them together."
+    signature: "report(ctx: Ctx, { req, res, who }: Call): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts:67
+  telemetry-ts-str-nxuos:
+    kind: function
+    name: str()
+    in: routes-telemetry-ts-br77w
+    signature: "str: (x: unknown, n?: number) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts:8
+  telemetry-ts-telemetryroutes-hd5yu:
+    kind: function
+    name: telemetryRoutes()
+    in: routes-telemetry-ts-br77w
+    signature: "telemetryRoutes(ctx: Ctx, call: Call): Promise<boolean>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/routes/telemetry.ts:94
+connections:
+  - {from: telemetry-ts-recordcall-e9xav, to: http-ts-json-3ycbr}
+  - {from: telemetry-ts-recordcall-e9xav, to: judge-ts-modeof-qiht5}
+  - {from: telemetry-ts-recordcall-e9xav, to: telemetry-ts-str-nxuos}
+  - {from: telemetry-ts-recordcall-e9xav, to: telemetry-ts-telemetry-call-1311c}
+  - {from: telemetry-ts-recordfeedback-ah68l, to: http-ts-json-3ycbr}
+  - {from: telemetry-ts-recordfeedback-ah68l, to: telemetry-ts-str-nxuos}
+  - {from: telemetry-ts-recordfeedback-ah68l, to: telemetry-ts-telemetry-feedback-13why}
+  - {from: telemetry-ts-report-plix4, to: http-ts-body-14i98}
+  - {from: telemetry-ts-report-plix4, to: http-ts-json-3ycbr}
+  - {from: telemetry-ts-report-plix4, to: telemetry-ts-telemetry-feedback-13why}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: auth-ts-auth-authorize-hqj8x}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: http-ts-body-14i98}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: http-ts-json-3ycbr}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: telemetry-ts-recordcall-e9xav}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: telemetry-ts-recordfeedback-ah68l}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: telemetry-ts-report-plix4}
+  - {from: telemetry-ts-telemetryroutes-hd5yu, to: telemetry-ts-telemetry-summary-3i5ti}

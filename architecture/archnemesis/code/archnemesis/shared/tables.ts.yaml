@@ -1,0 +1,64 @@
+# archnemesis:shared/tables.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-tables-ts-jbggl:
+    kind: module
+    name: tables.ts
+    in: shared-model
+    context: "Tables: one box per table, its columns a field on it. A foreign key, or a pointer to a row in another store or region, is a connection between tables that names its column (`column`, and `toColumn` on the other side, its primary key when left out; in the files and in write, `column` and `to_column`). These read the columns and keys back the same way for the side panel, agents' context and check."
+    tech: [TypeScript]
+    path: archnemesis:shared/tables.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts
+  tables-ts-columnline-bno37:
+    kind: function
+    name: columnLine()
+    in: shared-tables-ts-jbggl
+    context: "\"uuid · pk · nullable\": a column's type and what it is, in one line."
+    signature: "columnLine(c: Column): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts:61
+  tables-ts-columnref-1yc18:
+    kind: function
+    name: columnRef()
+    in: shared-tables-ts-jbggl
+    context: "\"UK Postgres › faces.id\": a table's column, with the store it's in (two tables can share a name)."
+    signature: "columnRef(idx: ModelIndex, table: ModelObject, column: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts:55
+  tables-ts-columnstext-duau1:
+    kind: function
+    name: columnsText()
+    in: shared-tables-ts-jbggl
+    context: "A table's columns as lines an agent reads: each with its key, where it points and across what."
+    signature: "columnsText(idx: ModelIndex, table: ModelObject): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts:74
+  tables-ts-keysof-13zex:
+    kind: function
+    name: keysOf()
+    in: shared-tables-ts-jbggl
+    context: "A table's keys: the ones its columns hold (out) and the ones pointing at it (in)."
+    signature: "keysOf(idx: ModelIndex, tableId: string): { out: Key[]; in: Key[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts:30
+  tables-ts-targetcolumn-e2kzc:
+    kind: function
+    name: targetColumn()
+    in: shared-tables-ts-jbggl
+    context: "The column a key points at: the one named, else the table's primary key, else \"id\"."
+    signature: "targetColumn(to: ModelObject | undefined, toColumn?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tables.ts:25
+connections:
+  - {from: tables-ts-columnstext-duau1, to: tables-ts-columnline-bno37}
+  - {from: tables-ts-columnstext-duau1, to: tables-ts-keysof-13zex}
+  - {from: tables-ts-keysof-13zex, to: boundaries-ts-crossesregions-13w8p}
+  - {from: tables-ts-keysof-13zex, to: boundaries-ts-crossesregionsshort-1c2mk}
+  - {from: tables-ts-keysof-13zex, to: tables-ts-targetcolumn-e2kzc}

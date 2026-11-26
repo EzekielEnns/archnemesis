@@ -1,0 +1,74 @@
+# archnemesis:src/canvas/scene/sync.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-sync-ts-olx3a:
+    kind: module
+    name: sync.ts
+    in: canvas-scene-iaxtu
+    context: "Bringing the canvas in line with a new projection of the diagram: only what changed is rebuilt, and only the arrows near it are routed again."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/sync.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/sync.ts
+  sync-ts-rebuildedges-1fepa:
+    kind: function
+    name: rebuildEdges()
+    in: scene-sync-ts-olx3a
+    context: Build every arrow again from the graph. Returns what each one connected before.
+    signature: "rebuildEdges(state: SceneState, graph: CanvasGraph): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/sync.ts:53
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  sync-ts-settleselection-8upho:
+    kind: function
+    name: settleSelection()
+    in: scene-sync-ts-olx3a
+    context: Drop what's picked or hovered that's no longer here; say so if the selection changed.
+    signature: "settleSelection(state: SceneState): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/sync.ts:82
+  sync-ts-sync-sbewp:
+    kind: function
+    name: sync()
+    in: scene-sync-ts-olx3a
+    context: "Bring the canvas in line with a new projection: only what changed is rebuilt."
+    signature: "sync(state: SceneState, graph: CanvasGraph): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/sync.ts:93
+  sync-ts-syncnodes-ytcjc:
+    kind: function
+    name: syncNodes()
+    in: scene-sync-ts-olx3a
+    context: Add, update and remove the boxes to match the graph, noting what moved, appeared or went.
+    signature: "syncNodes(state: SceneState, graph: CanvasGraph, dirty: Dirty): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/sync.ts:20
+    references:
+      - dependency: lib-pixi-js-ng0nj
+connections:
+  - {from: sync-ts-rebuildedges-1fepa, to: edges-ts-makeedgelabel-nct5i}
+  - {from: sync-ts-rebuildedges-1fepa, to: edges-ts-routeof-1m9z4}
+  - {from: sync-ts-rebuildedges-1fepa, to: lookup-ts-endrect-10url}
+  - {from: sync-ts-rebuildedges-1fepa, to: project-ts-lineends-1d5fx}
+  - {from: sync-ts-settleselection-8upho, to: lookup-ts-pickable-820r6}
+  - {from: sync-ts-settleselection-8upho, to: selection-ts-emitselect-1yos5}
+  - {from: sync-ts-settleselection-8upho, to: spotlight-ts-refocus-19wys}
+  - {from: sync-ts-sync-sbewp, to: frame-ts-applylabelvisibility-1nods}
+  - {from: sync-ts-sync-sbewp, to: frame-ts-cull-v3bfc}
+  - {from: sync-ts-sync-sbewp, to: frame-ts-requestrender-sstrq}
+  - {from: sync-ts-sync-sbewp, to: groups-ts-drawgroups-1o8a4}
+  - {from: sync-ts-sync-sbewp, to: minimap-ts-drawminimap-6jl4a}
+  - {from: sync-ts-sync-sbewp, to: overlay-ts-drawoverlay-1dyr1}
+  - {from: sync-ts-sync-sbewp, to: routing-ts-recomputeroutes-drbw5}
+  - {from: sync-ts-sync-sbewp, to: routing-ts-syncavoid-xlxxg}
+  - {from: sync-ts-sync-sbewp, to: sync-ts-rebuildedges-1fepa}
+  - {from: sync-ts-sync-sbewp, to: sync-ts-settleselection-8upho}
+  - {from: sync-ts-sync-sbewp, to: sync-ts-syncnodes-ytcjc}
+  - {from: sync-ts-syncnodes-ytcjc, to: measure-ts-signature-m4t0y}
+  - {from: sync-ts-syncnodes-ytcjc, to: nodes-ts-makeview-gzt5w}

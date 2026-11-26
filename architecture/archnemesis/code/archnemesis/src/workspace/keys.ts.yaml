@@ -1,0 +1,101 @@
+# archnemesis:src/workspace/keys.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-keys-ts-1oij1:
+    kind: module
+    name: keys.ts
+    in: web-workspace
+    context: "The keys for the model (the canvas handles its own: F, Esc, ⌘A), in the order they're tried: the first group that takes the key wins."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/keys.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts
+  keys-ts-escapekeys-m9wlz:
+    kind: function
+    name: escapeKeys()
+    in: workspace-keys-ts-1oij1
+    context: "!, Esc on the sheet or a tool, C."
+    signature: "escapeKeys(e: KeyboardEvent, mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:176
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-flowkeys-y37tc:
+    kind: function
+    name: flowKeys()
+    in: workspace-keys-ts-1oij1
+    context: Arrows through a flow, Esc out of it or a tag.
+    signature: "flowKeys(e: KeyboardEvent, _mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:239
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-modelkeys-1kkid:
+    kind: function
+    name: modelKeys()
+    in: workspace-keys-ts-1oij1
+    context: ⌘K, undo, delete, copy a link, group.
+    signature: "modelKeys(e: KeyboardEvent, mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:81
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-notekeys-s8scu:
+    kind: function
+    name: noteKeys()
+    in: workspace-keys-ts-1oij1
+    context: "A note selected: Esc closes it, ⌫ deletes it."
+    signature: "noteKeys(e: KeyboardEvent, _mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:61
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-onkey-k6t8e:
+    kind: function
+    name: onKey()
+    in: workspace-keys-ts-1oij1
+    context: "One key press: the first group that takes it."
+    signature: "onKey(e: KeyboardEvent, k: KeyCtx): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:265
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-togglekeys-papun:
+    kind: function
+    name: toggleKeys()
+    in: workspace-keys-ts-1oij1
+    context: M, D, A, [, Esc on the card, ?.
+    signature: "toggleKeys(e: KeyboardEvent, mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:134
+    references:
+      - dependency: lib-types-react-1i7zx
+  keys-ts-toolkeys-1ffcy:
+    kind: function
+    name: toolKeys()
+    in: workspace-keys-ts-1oij1
+    context: Tool keys, zoom, Enter, duplicate, export, up.
+    signature: "toolKeys(e: KeyboardEvent, mod: boolean, k: KeyCtx): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/keys.ts:201
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: keys-ts-modelkeys-1kkid, to: route-ts-copylink-qbc5s}
+  - {from: keys-ts-modelkeys-1kkid, to: store-ts-store-redo-1zfjr}
+  - {from: keys-ts-modelkeys-1kkid, to: store-ts-store-undo-10r8q}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-escapekeys-m9wlz}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-flowkeys-y37tc}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-modelkeys-1kkid}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-notekeys-s8scu}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-togglekeys-papun}
+  - {from: keys-ts-onkey-k6t8e, to: keys-ts-toolkeys-1ffcy}
+  - {from: keys-ts-toolkeys-1ffcy, to: scene-ts-scene-zoomby-t4f6i}

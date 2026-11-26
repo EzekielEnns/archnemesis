@@ -1,0 +1,29 @@
+# archnemesis:src/workspace/useDiagramActions.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usediagramactions-ts-1cxzc:
+    kind: module
+    name: useDiagramActions.ts
+    in: web-workspace
+    context: "Whole-diagram actions: export the diagram (PNG) or the model (JSON), delete a view."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDiagramActions.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagramActions.ts
+  usediagramactions-ts-usediagramactions-odcs1:
+    kind: function
+    name: useDiagramActions()
+    in: workspace-usediagramactions-ts-1cxzc
+    signature: 'useDiagramActions({ store, idx, diagramId, toast, navigate, scene, }: { store: Store; idx: ModelIndex; diagramId: string | null; toast: (text: string, toneOrAction?: "error" | "info" | { label: string; run: () => void; } | undefined) => void; navigate: Navigate; scene: SceneRef; }): { ...; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDiagramActions.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usediagramactions-ts-usediagramactions-odcs1, to: project-ts-diagramforscope-1ff5x}
+  - {from: usediagramactions-ts-usediagramactions-odcs1, to: scene-ts-scene-exportpng-1no4y}
+  - {from: usediagramactions-ts-usediagramactions-odcs1, to: store-ts-store-send-v1x64}
+  - {from: usediagramactions-ts-usediagramactions-odcs1, to: store-ts-store-undo-10r8q}
+  - {from: usediagramactions-ts-usediagramactions-odcs1, to: types-ts-typeliteral34-state-z99us}

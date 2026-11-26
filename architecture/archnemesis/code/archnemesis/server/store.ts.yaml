@@ -1,0 +1,352 @@
+# archnemesis:server/store.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-store-ts-1rztl:
+    kind: module
+    name: store.ts
+    in: srv-store
+    context: "Where the live document is kept on disk: an append-only log of Yjs updates plus a periodic snapshot, in SQLite (node:sqlite, one file)."
+    tech: [TypeScript]
+    path: archnemesis:server/store.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts
+  store-ts-docstore-addfork-14kva:
+    kind: function
+    name: DocStore.addFork()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "addFork(f: ForkRow): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:392
+  store-ts-docstore-addlink-1k4o6:
+    kind: function
+    name: DocStore.addLink()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: 'addLink(l: Omit<LinkRecord, "revokedAt" | "lastUsedAt">): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:466
+  store-ts-docstore-addtrail-1ixnl:
+    kind: function
+    name: DocStore.addTrail()
+    in: server-store-ts-1rztl
+    context: Moves someone made in a design (opt-in in their browser), for `trail`.
+    tech: [method of DocStore]
+    signature: "addTrail(design: string, doc: string, session: string, user: string, events: { at: string; }[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:202
+  store-ts-docstore-append-gsep2:
+    kind: function
+    name: DocStore.append()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "append(name: string, update: Uint8Array<ArrayBufferLike>, actor: string | null): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:267
+  store-ts-docstore-backupto-1wert:
+    kind: function
+    name: DocStore.backupTo()
+    in: server-store-ts-1rztl
+    context: A consistent copy of the whole database at `path`, taken while it's in use.
+    tech: [method of DocStore]
+    signature: "backupTo(path: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:197
+  store-ts-docstore-bindings-voxl1:
+    kind: function
+    name: DocStore.bindings()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "bindings(): Binding[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:332
+  store-ts-docstore-cleartrail-69wwx:
+    kind: function
+    name: DocStore.clearTrail()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "clearTrail(design: string, user: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:237
+  store-ts-docstore-close-19yo8:
+    kind: function
+    name: DocStore.close()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:192
+  store-ts-docstore-compact-926kr:
+    kind: function
+    name: DocStore.compact()
+    in: server-store-ts-1rztl
+    context: Merge the snapshot and the updates after it into a new snapshot.
+    tech: [method of DocStore]
+    signature: "compact(name: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:296
+    references:
+      - dependency: lib-yjs-1y6wn
+  store-ts-docstore-constructor-fehae:
+    kind: function
+    name: DocStore.<constructor>()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "constructor(path: string): DocStore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:150
+  store-ts-docstore-count-xsz9t:
+    kind: function
+    name: DocStore.count()
+    in: server-store-ts-1rztl
+    context: Updates stored since the last snapshot.
+    tech: [method of DocStore]
+    signature: "count(name: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:291
+  store-ts-docstore-deletesetting-1ene3:
+    kind: function
+    name: DocStore.deleteSetting()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "deleteSetting(key: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:446
+  store-ts-docstore-deletesettings-o5s24:
+    kind: function
+    name: DocStore.deleteSettings()
+    in: server-store-ts-1rztl
+    context: Remove every setting whose key starts with `prefix`.
+    tech: [method of DocStore]
+    signature: "deleteSettings(prefix: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:460
+  store-ts-docstore-docs-ee7d9:
+    kind: function
+    name: DocStore.docs()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "docs(): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:283
+  store-ts-docstore-dropbinding-12781:
+    kind: function
+    name: DocStore.dropBinding()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "dropBinding(design: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:345
+  store-ts-docstore-dropdoc-1kk6u:
+    kind: function
+    name: DocStore.dropDoc()
+    in: server-store-ts-1rztl
+    context: "Forget a document: its updates and snapshot."
+    tech: [method of DocStore]
+    signature: "dropDoc(name: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:278
+  store-ts-docstore-droplinks-1xv3g:
+    kind: function
+    name: DocStore.dropLinks()
+    in: server-store-ts-1rztl
+    context: Every link to a design and its forks goes (it was deleted, or the fork closed).
+    tech: [method of DocStore]
+    signature: "dropLinks(doc: string, withForks: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:500
+  store-ts-docstore-forknametaken-kw493:
+    kind: function
+    name: DocStore.forkNameTaken()
+    in: server-store-ts-1rztl
+    context: Every fork ever made of this design under `name`, open or not (names aren't reused).
+    tech: [method of DocStore]
+    signature: "forkNameTaken(design: string, name: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:385
+  store-ts-docstore-forks-b3wdv:
+    kind: function
+    name: DocStore.forks()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "forks(design: string, status?: ForkStatus | null): ForkRow[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:358
+  store-ts-docstore-heal-18php:
+    kind: function
+    name: DocStore.heal()
+    in: server-store-ts-1rztl
+    context: "A database restored from its replica can come back with an index out of step with its table (seen with litestream 0.5: \"row missing from index\", which SQLite reports as \"database disk image is malformed\" on the first read). The rows are the truth and an index is rebuilt from them, so: check, rebuild the indexes if that's all it is, and refuse to start only if the database is still broken."
+    tech: [method of DocStore]
+    signature: "heal(path: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:173
+  store-ts-docstore-isnew-16pxj:
+    kind: function
+    name: DocStore.isNew()
+    in: server-store-ts-1rztl
+    context: True when nothing has ever been stored for this document.
+    tech: [method of DocStore]
+    signature: "isNew(doc: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:245
+  store-ts-docstore-legacyrows-xvb4k:
+    kind: function
+    name: DocStore.legacyRows()
+    in: server-store-ts-1rztl
+    context: The old table-per-record database, if this file has one with data in it.
+    tech: [method of DocStore]
+    signature: "legacyRows(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:511
+  store-ts-docstore-linkrow-1cdkx:
+    kind: function
+    name: DocStore.linkRow()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: 'linkRow(where: "id" | "hash", value: string): LinkRecord | null'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:474
+  store-ts-docstore-linksof-tpe3g:
+    kind: function
+    name: DocStore.linksOf()
+    in: server-store-ts-1rztl
+    context: A document's links, newest first.
+    tech: [method of DocStore]
+    signature: "linksOf(doc: string): LinkRecord[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:481
+  store-ts-docstore-load-10vh9:
+    kind: function
+    name: DocStore.load()
+    in: server-store-ts-1rztl
+    context: Apply everything stored for `name` to `doc`.
+    tech: [method of DocStore]
+    signature: "load(name: string, doc: Doc): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:252
+    references:
+      - dependency: lib-yjs-1y6wn
+  store-ts-docstore-revokelink-n2t7j:
+    kind: function
+    name: DocStore.revokeLink()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "revokeLink(id: string, at: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:489
+  store-ts-docstore-setbinding-s640z:
+    kind: function
+    name: DocStore.setBinding()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "setBinding(b: Binding): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:349
+  store-ts-docstore-setsetting-ong2u:
+    kind: function
+    name: DocStore.setSetting()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "setSetting(key: string, value: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:438
+  store-ts-docstore-setting-se7db:
+    kind: function
+    name: DocStore.setting()
+    in: server-store-ts-1rztl
+    context: Small server settings (the GitHub App's credentials, people's GitHub sign-ins).
+    tech: [method of DocStore]
+    signature: "setting(key: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:432
+  store-ts-docstore-settings-t2gy5:
+    kind: function
+    name: DocStore.settings()
+    in: server-store-ts-1rztl
+    context: Every setting whose key starts with `prefix`.
+    tech: [method of DocStore]
+    signature: "settings(prefix: string): { key: string; value: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:451
+  store-ts-docstore-touchlink-1cz0o:
+    kind: function
+    name: DocStore.touchLink()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "touchLink(id: string, at: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:495
+  store-ts-docstore-trail-x1v9a:
+    kind: function
+    name: DocStore.trail()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: "trail(design: string, opts?: { since?: string | undefined; session?: string | undefined; user?: string | undefined; limit?: number | undefined; }): { session: string; user: string; doc: string; event: unknown; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:215
+  store-ts-docstore-updatefork-aw0rl:
+    kind: function
+    name: DocStore.updateFork()
+    in: server-store-ts-1rztl
+    tech: [method of DocStore]
+    signature: 'updateFork(doc: string, set: Partial<Pick<ForkRow, "status" | "base" | "proposedAt" | "head" | "prNumber">>): void'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:413
+  store-ts-linkof-1aqmi:
+    kind: function
+    name: linkOf()
+    in: server-store-ts-1rztl
+    signature: "linkOf: (r: Row) => LinkRecord"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:134
+  store-ts-ornull-jpz80:
+    kind: function
+    name: orNull()
+    in: server-store-ts-1rztl
+    signature: "orNull: (v: unknown) => number | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/store.ts:133
+connections:
+  - {from: store-ts-docstore-append-gsep2, to: store-ts-docstore-compact-926kr}
+  - {from: store-ts-docstore-constructor-fehae, to: store-ts-docstore-heal-18php}
+  - {from: store-ts-docstore-forknametaken-kw493, to: store-ts-docstore-isnew-16pxj}
+  - {from: store-ts-docstore-linkrow-1cdkx, to: store-ts-linkof-1aqmi}
+  - {from: store-ts-docstore-linksof-tpe3g, to: store-ts-linkof-1aqmi}
+  - {from: store-ts-linkof-1aqmi, to: store-ts-ornull-jpz80}

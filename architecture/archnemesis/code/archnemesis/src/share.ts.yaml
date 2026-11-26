@@ -1,0 +1,52 @@
+# archnemesis:src/share.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  src-share-ts-10ce7:
+    kind: module
+    name: share.ts
+    in: web-shell
+    context: "Share links in this browser. A link is an address with the token after the #: https://archnm.example/#/<design>~share=<token> The part after the # is never sent to a server by the browser (so it stays out of logs and Referer), and this takes it out of the address bar at once. The token is kept for that one design in session storage (this tab only, gone when it closes, never local storage) and…"
+    tech: [TypeScript]
+    path: archnemesis:src/share.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/share.ts
+  share-ts-forgetshare-wthq2:
+    kind: function
+    name: forgetShare()
+    in: src-share-ts-10ce7
+    context: Let go of the token held for this document (the link was revoked, or it stopped working).
+    signature: "forgetShare(doc: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/share.ts:50
+  share-ts-session-zs8ov:
+    kind: function
+    name: session()
+    in: src-share-ts-10ce7
+    signature: "session(): Storage | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/share.ts:11
+  share-ts-sharetokenfor-1jti7:
+    kind: function
+    name: shareTokenFor()
+    in: src-share-ts-10ce7
+    context: "The token held for this document (or, for a design, for one of its forks: a fork's link also reads its base)."
+    signature: "shareTokenFor(doc: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/share.ts:33
+  share-ts-takesharefromhash-4psnr:
+    kind: function
+    name: takeShareFromHash()
+    in: src-share-ts-10ce7
+    context: "If the address is a share link: keep its token for that design, and leave the address without it."
+    signature: "takeShareFromHash(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/share.ts:20
+connections:
+  - {from: share-ts-forgetshare-wthq2, to: share-ts-session-zs8ov}
+  - {from: share-ts-sharetokenfor-1jti7, to: share-ts-session-zs8ov}
+  - {from: share-ts-takesharefromhash-4psnr, to: share-ts-session-zs8ov}

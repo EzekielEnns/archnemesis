@@ -1,0 +1,65 @@
+# archnemesis:cli/convert.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  cli-convert-ts-1mpnx:
+    kind: module
+    name: convert.ts
+    in: cli
+    context: "One-off: a version 1 folder rewritten as version 2 (docs/grammar-v2.md). `archnm convert [dir]`. It reshapes the v1 files into the v2 grammar (objects by id, entities into their box's file by name, uses/carries, guess, named layout fields), reads that back the way Archnemesis reads any folder, and writes it out canonically. Delete this once the designs that follow git have moved."
+    tech: [TypeScript]
+    path: archnemesis:cli/convert.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/convert.ts
+  convert-ts-convert-68qem:
+    kind: function
+    name: convert()
+    in: cli-convert-ts-1mpnx
+    context: A v1 folder's files as v2's canonical files, or the problems that stop it.
+    signature: "convert(files: Map<string, string>): { files: Map<string, string>; problems: Problem[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/convert.ts:146
+    references:
+      - dependency: lib-yjs-1y6wn
+  convert-ts-isrec-j2tbg:
+    kind: function
+    name: isRec()
+    in: cli-convert-ts-1mpnx
+    signature: "isRec: (v: unknown) => v is Rec"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/convert.ts:15
+  convert-ts-list-8rrd8:
+    kind: function
+    name: list()
+    in: cli-convert-ts-1mpnx
+    signature: "list: (v: unknown) => unknown[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/convert.ts:16
+  convert-ts-reshape-1erln:
+    kind: function
+    name: reshape()
+    in: cli-convert-ts-1mpnx
+    context: "The v1 files as v2 files (loose: readFiles normalises them), before the canonical rewrite."
+    signature: "reshape(files: Map<string, string>): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:cli/convert.ts:19
+    references:
+      - dependency: lib-yaml-1wm54
+connections:
+  - {from: convert-ts-convert-68qem, to: agentsmd-ts-isgeneratedagents-h0c04}
+  - {from: convert-ts-convert-68qem, to: convert-ts-reshape-1erln}
+  - {from: convert-ts-convert-68qem, to: doc-ts-applyops-7k6hw}
+  - {from: convert-ts-convert-68qem, to: doc-ts-emptystate-1a3cm}
+  - {from: convert-ts-convert-68qem, to: doc-ts-mirror-1k3af}
+  - {from: convert-ts-convert-68qem, to: files-ts-check-toyfi}
+  - {from: convert-ts-convert-68qem, to: files-ts-readfiles-1ttso}
+  - {from: convert-ts-convert-68qem, to: files-ts-toops-1d908}
+  - {from: convert-ts-convert-68qem, to: files-ts-writefiles-dumd7}
+  - {from: convert-ts-reshape-1erln, to: convert-ts-isrec-j2tbg}
+  - {from: convert-ts-reshape-1erln, to: convert-ts-list-8rrd8}
+  - {from: convert-ts-reshape-1erln, to: model-ts-mergedcontext-d55w6}
+  - {from: convert-ts-reshape-1erln, to: model-ts-typename-mljz8}

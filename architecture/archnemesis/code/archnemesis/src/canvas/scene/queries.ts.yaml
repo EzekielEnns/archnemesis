@@ -1,0 +1,122 @@
+# archnemesis:src/canvas/scene/queries.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-queries-ts-1exae:
+    kind: module
+    name: queries.ts
+    in: canvas-scene-iaxtu
+    context: "Questions the app asks the canvas: which box or arrow is here, where an arrow's label sits, where a box is on the page. They change nothing."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/queries.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts
+  queries-ts-clientrectof-1p2do:
+    kind: function
+    name: clientRectOf()
+    in: scene-queries-ts-1exae
+    context: A box's rect in page coordinates, for editing its name in place.
+    signature: "clientRectOf(state: SceneState, id: string): { x: number; y: number; w: number; h: number; scale: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:95
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-clientrectofgroup-8zfg6:
+    kind: function
+    name: clientRectOfGroup()
+    in: scene-queries-ts-1exae
+    context: A frame's rectangle on the page (a boundary is "boundary:<id>").
+    signature: "clientRectOfGroup(state: SceneState, id: string): { x: number; y: number; w: number; h: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:78
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-clienttoworld-14hrz:
+    kind: function
+    name: clientToWorld()
+    in: scene-queries-ts-1exae
+    context: Where a page point (a drop, say) lands in the diagram.
+    signature: "clientToWorld(state: SceneState, clientX: number, clientY: number): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:15
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-connectionanchor-10yka:
+    kind: function
+    name: connectionAnchor()
+    in: scene-queries-ts-1exae
+    context: The middle of the arrow a connection is drawn on here (where its label sits), live.
+    signature: "connectionAnchor(state: SceneState, connectionId: string): Point | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:49
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-edgeat-1uvm7:
+    kind: function
+    name: edgeAt()
+    in: scene-queries-ts-1exae
+    context: "The arrow at a diagram point, if any: its connections."
+    signature: "edgeAt(state: SceneState, world: Point): { id: string; connectionIds: string[]; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:40
+  queries-ts-edgelabelat-5jk4x:
+    kind: function
+    name: edgeLabelAt()
+    in: scene-queries-ts-1exae
+    context: Where an arrow's label sits on the diagram (its middle, when it has no label), and its size.
+    signature: "edgeLabelAt(state: SceneState, id: string): { x: number; y: number; w: number; h: number; } | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:25
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-edgelabelclient-cmsmn:
+    kind: function
+    name: edgeLabelClient()
+    in: scene-queries-ts-1exae
+    context: Where an arrow's label sits on the page.
+    signature: "edgeLabelClient(state: SceneState, id: string): Point | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:60
+    references:
+      - dependency: lib-pixi-js-ng0nj
+  queries-ts-isempty-i0cq7:
+    kind: function
+    name: isEmpty()
+    in: scene-queries-ts-1exae
+    signature: "isEmpty(state: SceneState): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:73
+  queries-ts-nodeat-1f9k0:
+    kind: function
+    name: nodeAt()
+    in: scene-queries-ts-1exae
+    context: The box at a diagram point, if any.
+    signature: "nodeAt(state: SceneState, world: Point): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:10
+  queries-ts-viewcenter-1vo3o:
+    kind: function
+    name: viewCenter()
+    in: scene-queries-ts-1exae
+    signature: "viewCenter(state: SceneState): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/queries.ts:20
+connections:
+  - {from: queries-ts-clienttoworld-14hrz, to: camera-ts-screentoworld-1ot24}
+  - {from: queries-ts-connectionanchor-10yka, to: geometry-ts-routepoint-vghoc}
+  - {from: queries-ts-edgeat-1uvm7, to: hit-ts-hitedge-zauf5}
+  - {from: queries-ts-edgelabelat-5jk4x, to: geometry-ts-routepoint-vghoc}
+  - {from: queries-ts-edgelabelclient-cmsmn, to: geometry-ts-routepoint-vghoc}
+  - {from: queries-ts-nodeat-1f9k0, to: hit-ts-hitnode-1f6df}
+  - {from: queries-ts-viewcenter-1vo3o, to: camera-ts-screentoworld-1ot24}
+  - {from: queries-ts-viewcenter-1vo3o, to: lookup-ts-viewmid-6obpa}

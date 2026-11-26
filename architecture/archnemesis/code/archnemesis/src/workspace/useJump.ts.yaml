@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/useJump.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usejump-ts-13wjt:
+    kind: module
+    name: useJump.ts
+    in: web-workspace
+    context: "Jumping to where someone is or to a thing in the tree: the quiet \"back to …\" crumb it leaves, following a person, and the tree's click on an object (select it here, or go to a diagram that shows it, round them all)."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useJump.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useJump.ts
+  usejump-ts-usejump-bukbq:
+    kind: function
+    name: useJump()
+    in: workspace-usejump-ts-13wjt
+    signature: 'useJump({ diagramId, sel, idx, navigate, scene, toast, }: { diagramId: string | null; sel: Selection; idx: ModelIndex; navigate: Navigate; scene: SceneRef; toast: (text: string, toneOrAction?: "error" | "info" | { ...; } | undefined) => void; }): { ...; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useJump.ts:12
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usejump-ts-usejump-bukbq, to: scene-ts-scene-centeron-12ft8}
+  - {from: usejump-ts-usejump-bukbq, to: scene-ts-scene-select-1g1o3}

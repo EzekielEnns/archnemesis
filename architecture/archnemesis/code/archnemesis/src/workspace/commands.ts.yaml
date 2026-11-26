@@ -1,0 +1,164 @@
+# archnemesis:src/workspace/commands.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-commands-ts-1ofed:
+    kind: module
+    name: commands.ts
+    in: web-workspace
+    context: "The commands in ⌘K: the ones without a button of their own, in the order they're listed."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/commands.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts
+  commands-ts-arrowcommands-195wz:
+    kind: function
+    name: arrowCommands()
+    in: workspace-commands-ts-1ofed
+    context: "Arrow style: for this diagram or every diagram (saved in their files, so it's in the repo, one undo step), or just for you (this browser)."
+    signature: "arrowCommands(c: CommandCtx): Command[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:71
+  commands-ts-buildcommands-1q1iu:
+    kind: function
+    name: buildCommands()
+    in: workspace-commands-ts-1ofed
+    context: Everything without a button of its own lives in ⌘K.
+    signature: "buildCommands(c: CommandCtx): Command[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:569
+  commands-ts-diagramcommands-nq7t9:
+    kind: function
+    name: diagramCommands()
+    in: workspace-commands-ts-1ofed
+    context: A new diagram, and whether this one follows the model.
+    signature: "diagramCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:216
+  commands-ts-diagramviewcommands-195vt:
+    kind: function
+    name: diagramViewCommands()
+    in: workspace-commands-ts-1ofed
+    context: The commands that depend on this diagram's own settings.
+    signature: "diagramViewCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:476
+  commands-ts-jointcommands-kv75g:
+    kind: function
+    name: jointCommands()
+    in: workspace-commands-ts-1ofed
+    context: Reset joints.
+    signature: "jointCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:485
+  commands-ts-layoutdirectioncommands-264de:
+    kind: function
+    name: layoutDirectionCommands()
+    in: workspace-commands-ts-1ofed
+    context: Lay out left to right or top to bottom.
+    signature: "layoutDirectionCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:293
+    references:
+      - dependency: lib-types-react-1i7zx
+  commands-ts-lookcommands-f0bza:
+    kind: function
+    name: lookCommands()
+    in: workspace-commands-ts-1ofed
+    context: Colour by a tag group, fold externals, lanes, a story.
+    signature: "lookCommands(c: CommandCtx, d: Diagram): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:385
+    references:
+      - dependency: lib-types-react-1i7zx
+  commands-ts-reportcommands-imjwl:
+    kind: function
+    name: reportCommands()
+    in: workspace-commands-ts-1ofed
+    context: Marking confusion, reports, the performance meter, recording the trail.
+    signature: "reportCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:161
+  commands-ts-straightencommands-1phcj:
+    kind: function
+    name: straightenCommands()
+    in: workspace-commands-ts-1ofed
+    context: Straighten the diagram or the picked boxes.
+    signature: "straightenCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:261
+  commands-ts-tailcommands-1o3ur:
+    kind: function
+    name: tailCommands()
+    in: workspace-commands-ts-1ofed
+    context: Up, undo, redo, export, minimap, animation, shortcuts, diff.
+    signature: "tailCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:521
+  commands-ts-tidycommands-9l428:
+    kind: function
+    name: tidyCommands()
+    in: workspace-commands-ts-1ofed
+    context: Keep tidy, boundaries.
+    signature: "tidyCommands(c: CommandCtx, d: Diagram): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:317
+    references:
+      - dependency: lib-types-react-1i7zx
+  commands-ts-viewcommands-2liq0:
+    kind: function
+    name: viewCommands()
+    in: workspace-commands-ts-1ofed
+    context: Fit, centre, zoom, place a kind, connect, a new flow.
+    signature: "viewCommands(c: CommandCtx): (Command | null)[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/commands.ts:143
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: commands-ts-arrowcommands-195wz, to: model-ts-now-1lkd5}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-arrowcommands-195wz}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-diagramcommands-nq7t9}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-diagramviewcommands-195vt}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-jointcommands-kv75g}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-layoutdirectioncommands-264de}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-reportcommands-imjwl}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-straightencommands-1phcj}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-tailcommands-1o3ur}
+  - {from: commands-ts-buildcommands-1q1iu, to: commands-ts-viewcommands-2liq0}
+  - {from: commands-ts-diagramcommands-nq7t9, to: actions-ts-newdiagram-fj5lx}
+  - {from: commands-ts-diagramcommands-nq7t9, to: model-ts-now-1lkd5}
+  - {from: commands-ts-diagramcommands-nq7t9, to: views-ts-adoptrules-nsc9c}
+  - {from: commands-ts-diagramviewcommands-195vt, to: commands-ts-lookcommands-f0bza}
+  - {from: commands-ts-diagramviewcommands-195vt, to: commands-ts-tidycommands-9l428}
+  - {from: commands-ts-layoutdirectioncommands-264de, to: layout-ts-layoutops-1r6pk}
+  - {from: commands-ts-layoutdirectioncommands-264de, to: scene-ts-scene-fit-klilw}
+  - {from: commands-ts-lookcommands-f0bza, to: model-ts-now-1lkd5}
+  - {from: commands-ts-lookcommands-f0bza, to: project-ts-foldmode-d18vi}
+  - {from: commands-ts-lookcommands-f0bza, to: scene-ts-scene-select-1g1o3}
+  - {from: commands-ts-reportcommands-imjwl, to: perf-tsx-setperfmeteron-4r68n}
+  - {from: commands-ts-reportcommands-imjwl, to: trail-ts-recording-10bnq}
+  - {from: commands-ts-reportcommands-imjwl, to: trail-ts-setrecording-fzv50}
+  - {from: commands-ts-straightencommands-1phcj, to: actions-ts-moveops-8dtw8}
+  - {from: commands-ts-straightencommands-1phcj, to: align-ts-shiftbends-vb5ym}
+  - {from: commands-ts-straightencommands-1phcj, to: align-ts-straighten-qq21h}
+  - {from: commands-ts-tailcommands-1o3ur, to: store-ts-store-redo-1zfjr}
+  - {from: commands-ts-tailcommands-1o3ur, to: store-ts-store-undo-10r8q}
+  - {from: commands-ts-tidycommands-9l428, to: layout-ts-layoutops-1r6pk}
+  - {from: commands-ts-tidycommands-9l428, to: model-ts-now-1lkd5}
+  - {from: commands-ts-tidycommands-9l428, to: scene-ts-scene-fit-klilw}
+  - {from: commands-ts-viewcommands-2liq0, to: scene-ts-scene-center-1flrk}
+  - {from: commands-ts-viewcommands-2liq0, to: scene-ts-scene-fit-klilw}
+  - {from: commands-ts-viewcommands-2liq0, to: scene-ts-scene-zoomto-1tsiw}

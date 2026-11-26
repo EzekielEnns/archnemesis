@@ -1,0 +1,73 @@
+# archnemesis:src/workspace/Corners.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-corners-tsx-w6wzn:
+    kind: module
+    name: Corners.tsx
+    in: web-workspace
+    context: "The corners of the page: zoom and minimap bottom left, help and layers bottom right, the people island top right, and the bug report."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/workspace/Corners.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Corners.tsx
+  corners-tsx-bottomcorner-rr87r:
+    kind: function
+    name: BottomCorner()
+    in: workspace-corners-tsx-w6wzn
+    context: Zoom, the minimap and animation switches, and the performance meter.
+    signature: 'BottomCorner({ zoom, minimap, setMinimap, animate, setAnimate, scene, perfOn, setPerfOn, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "m…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Corners.tsx:17
+    references:
+      - dependency: lib-types-react-1i7zx
+  corners-tsx-helpcorner-jdlk4:
+    kind: function
+    name: HelpCorner()
+    in: workspace-corners-tsx-w6wzn
+    context: The help button, the report button, and the layers panel.
+    signature: "HelpCorner({ graph, help, setHelp, setReport, layersOpen, setLayersOpen, idx, diagramId, layers, toggleLayer, setAllLayers, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLa…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Corners.tsx:96
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  corners-tsx-peersisland-7rufp:
+    kind: function
+    name: PeersIsland()
+    in: workspace-corners-tsx-w6wzn
+    context: Running jobs, then who else is here and the notes list.
+    signature: 'PeersIsland({ follow, openNote, setSettings, store, idx, diagramId, peers, ownTabs, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store"…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Corners.tsx:160
+    references:
+      - dependency: lib-types-react-1i7zx
+  corners-tsx-reporthost-zyfi9:
+    kind: function
+    name: ReportHost()
+    in: workspace-corners-tsx-w6wzn
+    context: The bug or feature report being written.
+    signature: 'ReportHost({ report, setReport, toast, store, idx, sel, diagramId, }: Pick<{ floatRef: RefObject<HTMLDivElement | null>; menuCtx: MenuCtx; diffChanges: Change[]; commands: Command[]; viewSettings: { ...; } | null; ... 159 more ...; setAllLayers: (all: boolean) => void; }, "store" | ... 5 more ...…'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/Corners.tsx:57
+connections:
+  - {from: corners-tsx-bottomcorner-rr87r, to: chrome-tsx-bottomleft-wm5hr}
+  - {from: corners-tsx-bottomcorner-rr87r, to: perf-tsx-perfmeter-uz8vj}
+  - {from: corners-tsx-bottomcorner-rr87r, to: perf-tsx-setperfmeteron-4r68n}
+  - {from: corners-tsx-bottomcorner-rr87r, to: scene-ts-scene-center-1flrk}
+  - {from: corners-tsx-bottomcorner-rr87r, to: scene-ts-scene-fit-klilw}
+  - {from: corners-tsx-bottomcorner-rr87r, to: scene-ts-scene-zoomby-t4f6i}
+  - {from: corners-tsx-bottomcorner-rr87r, to: scene-ts-scene-zoomto-1tsiw}
+  - {from: corners-tsx-helpcorner-jdlk4, to: chrome-tsx-helpbutton-1bg84}
+  - {from: corners-tsx-helpcorner-jdlk4, to: layers-tsx-layercounts-1kgmb}
+  - {from: corners-tsx-helpcorner-jdlk4, to: layers-tsx-layersbutton-8e4v5}
+  - {from: corners-tsx-helpcorner-jdlk4, to: layers-tsx-layerspanel-161m5}
+  - {from: corners-tsx-helpcorner-jdlk4, to: project-ts-noteson-1sqc1}
+  - {from: corners-tsx-peersisland-7rufp, to: jobbanner-tsx-jobbanner-5rkck}
+  - {from: corners-tsx-peersisland-7rufp, to: notes-tsx-notesmenu-11ood}
+  - {from: corners-tsx-peersisland-7rufp, to: peers-tsx-peers-1kz7n}
+  - {from: corners-tsx-reporthost-zyfi9, to: report-tsx-reportdialog-kah0s}

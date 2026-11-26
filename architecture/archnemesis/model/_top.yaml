@@ -1,0 +1,31 @@
+# Top-level objects with nothing inside them, and entities nothing defines yet.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  agent:
+    kind: actor
+    name: AI agent
+    context: Claude Code or any MCP client. Reads the model, writes YAML fragments to its own fork, and shows the person around.
+  github:
+    kind: system
+    name: GitHub
+    context: Hosts the repos designs follow, their pull requests, and optionally sign-in through a GitHub App.
+    tags: [external]
+  identity-provider:
+    kind: system
+    name: Identity provider
+    context: "Whatever the hoster signs people in with: an OIDC provider, a proxy that adds identity headers, or GitHub."
+    tags: [external]
+  object-storage:
+    kind: system
+    name: Object storage
+    context: A bucket Litestream replicates the database to, when ARCHNM_LITESTREAM_URL is set.
+    tags: [external]
+  person:
+    kind: actor
+    name: Person
+    context: Draws and reads the architecture on the canvas, reviews forks, and merges what an agent proposes.
+connections:
+  - {from: agent, to: cli, label: "checks files, indexes a repo"}
+  - {from: agent, to: srv-mcp, label: reads and writes the model, tech: MCP over HTTP}
+  - {from: agent, to: web-webmcp, label: drives the open page, tech: WebMCP}
+  - {from: person, to: web, label: "draws, reads and reviews"}

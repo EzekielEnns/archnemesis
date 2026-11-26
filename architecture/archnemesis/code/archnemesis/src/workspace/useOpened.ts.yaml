@@ -1,0 +1,26 @@
+# archnemesis:src/workspace/useOpened.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-useopened-ts-hkqjk:
+    kind: module
+    name: useOpened.ts
+    in: web-workspace
+    context: "Boxes opened in place on a diagram (this browser only: looking, not editing), and opening and closing them."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useOpened.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useOpened.ts
+  useopened-ts-useopened-1m98d:
+    kind: function
+    name: useOpened()
+    in: workspace-useopened-ts-hkqjk
+    signature: "useOpened({ diagramId, latest, scene, setPanel, }: { diagramId: string | null; latest: LatestRef; scene: SceneRef; setPanel: Dispatch<SetStateAction<boolean>>; }): { opened: Record<...>; openHere: (id: string, on: boolean) => void; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useOpened.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: useopened-ts-useopened-1m98d, to: project-ts-isinside-xwe16}
+  - {from: useopened-ts-useopened-1m98d, to: scene-ts-scene-select-1g1o3}

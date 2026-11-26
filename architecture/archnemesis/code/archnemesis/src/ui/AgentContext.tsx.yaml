@@ -1,0 +1,27 @@
+# archnemesis:src/ui/AgentContext.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-agentcontext-tsx-15ia3:
+    kind: module
+    name: AgentContext.tsx
+    in: web-ui
+    context: "An agent's context on a view or a box: markdown written for agents (examples, data, decisions), not for people reading the diagram. So the panel shows only that it's there; a person who wants to read or change it opens it in a dialog."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/AgentContext.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/AgentContext.tsx
+  agentcontext-tsx-agentcontext-12odu:
+    kind: function
+    name: AgentContext()
+    in: ui-agentcontext-tsx-15ia3
+    signature: "AgentContext({ text, of, canEdit, onSave, }: { text: string; of: string; canEdit?: boolean | undefined; onSave: (text: string) => void; }): Element | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/AgentContext.tsx:9
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: agentcontext-tsx-agentcontext-12odu, to: dialog-tsx-dialog-39zlh}
+  - {from: agentcontext-tsx-agentcontext-12odu, to: markdown-tsx-markdown-amm8z}

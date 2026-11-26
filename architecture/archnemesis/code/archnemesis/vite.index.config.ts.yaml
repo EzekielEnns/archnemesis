@@ -1,0 +1,13 @@
+# archnemesis:vite.index.config.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  vite-index-config-ts-1otfh:
+    kind: module
+    name: vite.index.config.ts
+    in: build
+    context: The repo script (cli/index-main.ts) as one CommonJS file, so `curl … | node -` runs it.
+    tech: [TypeScript]
+    path: archnemesis:vite.index.config.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:vite.index.config.ts

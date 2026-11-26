@@ -1,0 +1,60 @@
+# archnemesis:server/personal.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-personal-ts-kot7y:
+    kind: module
+    name: personal.ts
+    in: srv-files
+    context: "`npx archnemesis`: the arguments and the settings for personal mode, as pure functions (the entry, server/personal-main.ts, reads the process and calls these). Personal mode is one person on their own machine: loopback only, no sign-in, designs saved as YAML in the folder the command was run in, the database and the git data kept in a per-user folder."
+    tech: [TypeScript]
+    path: archnemesis:server/personal.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts
+  personal-ts-datafolder-107ff:
+    kind: function
+    name: dataFolder()
+    in: server-personal-ts-kot7y
+    context: "A per-user folder for this project's database, backups and git data, outside the project (so nothing needs to go in .gitignore): <data home>/archnemesis/<folder name>-<hash of its path>. The hash keeps two folders called \"app\" apart."
+    signature: "dataFolder(cwd: string, env: Record<string, string | undefined>, home: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts:91
+  personal-ts-missing-1u8y9:
+    kind: function
+    name: MISSING()
+    in: server-personal-ts-kot7y
+    signature: "MISSING: (flag: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts:48
+  personal-ts-parselaunch-1m0ud:
+    kind: function
+    name: parseLaunch()
+    in: server-personal-ts-kot7y
+    context: Read the arguments after the program name.
+    signature: "parseLaunch(argv: readonly string[]): Launch"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts:51
+  personal-ts-personalsettings-74p1t:
+    kind: function
+    name: personalSettings()
+    in: server-personal-ts-kot7y
+    context: The settings for personal mode. A flag beats the variable that is already set, and a variable beats the default. ARCHNM_AUTH is local unless set (loopback is the default listen address, so no sign-in is safe); NODE_ENV is production, so the built app is served, not Vite.
+    signature: 'personalSettings(launch: { kind: "start"; port: number | undefined; dir: string | undefined; data: string | undefined; }, env: Record<string, string | undefined>, cwd: string, home: string): Personal'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts:115
+  personal-ts-startuptext-105dy:
+    kind: function
+    name: startupText()
+    in: server-personal-ts-kot7y
+    context: What to tell the person once it is running.
+    signature: "startupText(p: Personal, mcpName: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/personal.ts:138
+connections:
+  - {from: personal-ts-parselaunch-1m0ud, to: personal-ts-missing-1u8y9}
+  - {from: personal-ts-personalsettings-74p1t, to: personal-ts-datafolder-107ff}

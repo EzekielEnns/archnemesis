@@ -1,0 +1,56 @@
+# archnemesis:src/canvas/spread.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-spread-ts-bjo4s:
+    kind: module
+    name: spread.ts
+    in: web-canvas
+    context: "Making room on the canvas for what a layer draws under boxes, without moving anything for real. Under each box that shows a row there's a cut: everything below it is drawn lower by the row's height, frames grow to keep what's in them, and a drop or a new box is mapped back before it's saved. Like inserting a row in a spreadsheet: whole bands move, so what was lined up stays lined up, and nothing…"
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/spread.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/spread.ts
+  spread-ts-makespread-10247:
+    kind: function
+    name: makeSpread()
+    in: canvas-spread-ts-bjo4s
+    context: Cuts at these heights, each opening a gap of `by`; cuts within a few units merge.
+    signature: "makeSpread(cuts: { y: number; by: number; }[]): Spread"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/spread.ts:20
+  spread-ts-spread-down-1po5p:
+    kind: function
+    name: Spread.down()
+    in: canvas-spread-ts-bjo4s
+    context: Saved → drawn.
+    tech: [method of Spread]
+    signature: "down(y: number): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/spread.ts:10
+  spread-ts-spread-up-1n409:
+    kind: function
+    name: Spread.up()
+    in: canvas-spread-ts-bjo4s
+    context: Drawn → saved (a point inside an inserted gap goes to the cut).
+    tech: [method of Spread]
+    signature: "up(y: number): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/spread.ts:12
+  spread-ts-spreadgraph-18ztw:
+    kind: function
+    name: spreadGraph()
+    in: canvas-spread-ts-bjo4s
+    context: "The graph as drawn: boxes moved down past the cuts above them, frames stretched to match."
+    signature: "spreadGraph(g: CanvasGraph, s: Spread): CanvasGraph"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/spread.ts:50
+connections:
+  - {from: spread-ts-makespread-10247, to: spread-ts-spread-down-1po5p}
+  - {from: spread-ts-makespread-10247, to: spread-ts-spread-up-1n409}
+  - {from: spread-ts-spread-up-1n409, to: spread-ts-spread-down-1po5p}
+  - {from: spread-ts-spreadgraph-18ztw, to: spread-ts-spread-down-1po5p}

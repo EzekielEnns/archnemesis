@@ -1,0 +1,116 @@
+# archnemesis:src/ui/Pickers.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-pickers-tsx-cqyls:
+    kind: module
+    name: Pickers.tsx
+    in: web-ui
+    context: "Tags and technology: chips on the panel, and a searchable picker that opens beside it (checkboxes, logos, colours). The model doesn't change: tags are still \"group:value\" strings, technology is still \"Go, Postgres\"."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Pickers.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx
+  pickers-tsx-groupform-n5ty0:
+    kind: function
+    name: GroupForm()
+    in: ui-pickers-tsx-cqyls
+    context: A group's name and values (comma-separated), for a new group or more values.
+    signature: "GroupForm({ value, fixedName, err, onSave, onCancel, }: { value: { name: string; values: string; }; fixedName?: boolean | undefined; err: string; onSave: (g: { name: string; values: string[]; }) => void; onCancel: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:487
+    references:
+      - dependency: lib-types-react-1i7zx
+  pickers-tsx-popover-1yglv:
+    kind: function
+    name: Popover()
+    in: ui-pickers-tsx-cqyls
+    context: A panel that opens to the left of the inspector, level with what opened it.
+    signature: "Popover({ anchor, title, onClose, children, }: { anchor: HTMLElement; title: ReactNode; onClose: () => void; children: ReactNode; }): ReactPortal"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:26
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-types-react-dom-1pvn2
+  pickers-tsx-tagchip-s5yjr:
+    kind: function
+    name: TagChip()
+    in: ui-pickers-tsx-cqyls
+    context: "A tag as a chip: a group's value in its colour, a free tag with a #."
+    signature: "TagChip({ tag, groups }: { tag: string; groups: Groups; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:72
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  pickers-tsx-tagpicker-vxjeh:
+    kind: function
+    name: TagPicker()
+    in: ui-pickers-tsx-cqyls
+    signature: "TagPicker({ anchor, tags, groups, idx, onChange, onGroup, onClose, }: { anchor: HTMLElement; tags: string[]; groups: Groups; idx: ModelIndex; onChange: (tags: string[], label: string) => void; onGroup?: ((name: string, group: TagGroupDef, label: string) => Promise<...>) | undefined; onClose: () =…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:152
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  pickers-tsx-tagsfield-tblwz:
+    kind: function
+    name: TagsField()
+    in: ui-pickers-tsx-cqyls
+    context: "An object's tags: chips, and \"+ Add tags\" opens the picker."
+    signature: "TagsField({ tags, groups, idx, onChange, onGroup, }: { tags: string[]; groups: Groups; idx: ModelIndex; onChange: (tags: string[], label: string) => void; onGroup?: ((name: string, group: TagGroupDef, label: string) => Promise<...>) | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:91
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  pickers-tsx-techfield-1xf7l:
+    kind: function
+    name: TechField()
+    in: ui-pickers-tsx-cqyls
+    context: "An object's technology: a logo chip per tech, and \"+ Add technology\" opens the picker."
+    signature: "TechField({ value, idx, onChange, }: { value: string; idx: ModelIndex; onChange: (v: string, label: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:335
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  pickers-tsx-techlist-3xrfb:
+    kind: function
+    name: techList()
+    in: ui-pickers-tsx-cqyls
+    signature: "techList: (s: string) => string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:19
+  pickers-tsx-techpicker-1kncb:
+    kind: function
+    name: TechPicker()
+    in: ui-pickers-tsx-cqyls
+    signature: "TechPicker({ anchor, list, idx, onChange, onClose, }: { anchor: HTMLElement; list: string[]; idx: ModelIndex; onChange: (v: string, label: string) => void; onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Pickers.tsx:376
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+connections:
+  - {from: pickers-tsx-tagchip-s5yjr, to: project-ts-tagcolor-1ynfd}
+  - {from: pickers-tsx-tagpicker-vxjeh, to: pickers-tsx-groupform-n5ty0}
+  - {from: pickers-tsx-tagpicker-vxjeh, to: pickers-tsx-popover-1yglv}
+  - {from: pickers-tsx-tagpicker-vxjeh, to: pickers-tsx-tagchip-s5yjr}
+  - {from: pickers-tsx-tagsfield-tblwz, to: pickers-tsx-tagchip-s5yjr}
+  - {from: pickers-tsx-tagsfield-tblwz, to: pickers-tsx-tagpicker-vxjeh}
+  - {from: pickers-tsx-techfield-1xf7l, to: pickers-tsx-techlist-3xrfb}
+  - {from: pickers-tsx-techfield-1xf7l, to: pickers-tsx-techpicker-1kncb}
+  - {from: pickers-tsx-techfield-1xf7l, to: techimg-tsx-techimg-158vq}
+  - {from: pickers-tsx-techpicker-1kncb, to: pickers-tsx-popover-1yglv}
+  - {from: pickers-tsx-techpicker-1kncb, to: pickers-tsx-techlist-3xrfb}
+  - {from: pickers-tsx-techpicker-1kncb, to: techimg-tsx-techimg-158vq}
+  - {from: pickers-tsx-techpicker-1kncb, to: types-ts-typeliteral59-search-iz06g}

@@ -1,0 +1,183 @@
+# archnemesis:server/telemetry.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-telemetry-ts-17x3m:
+    kind: module
+    name: telemetry.ts
+    in: srv-telemetry
+    context: "Telemetry: every agent tool call as a row in the server's own sqlite (nothing leaves the machine), and the reports agents send with the feedback tool. It's how tool problems are found: which calls get refused, which errors repeat, how many tries a write takes before it's valid. `archnm telemetry` reads it; /api/telemetry gives admins the same summary. ARCHNM_TELEMETRY=off stops the call log…"
+    tech: [TypeScript]
+    path: archnemesis:server/telemetry.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts
+  telemetry-ts-capargs-1h0tf:
+    kind: function
+    name: capArgs()
+    in: server-telemetry-ts-17x3m
+    context: The JSON of a call's arguments, at most ARGS_CAP bytes (a long yaml is cut, and says so).
+    signature: "capArgs(args: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:77
+  telemetry-ts-normalise-1nygg:
+    kind: function
+    name: normalise()
+    in: server-telemetry-ts-17x3m
+    context: An error line with the specifics taken out, so the same mistake counts as one.
+    signature: "normalise(line: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:91
+  telemetry-ts-opentelemetry-tze99:
+    kind: function
+    name: openTelemetry()
+    in: server-telemetry-ts-17x3m
+    context: "The server's telemetry, on its own database file (calls false: no call log)."
+    signature: "openTelemetry(path: string, calls: boolean): Telemetry | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:429
+  telemetry-ts-pct-imlr9:
+    kind: function
+    name: pct()
+    in: server-telemetry-ts-17x3m
+    signature: "pct: (xs: number[], p: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:103
+  telemetry-ts-summarytext-6d0gi:
+    kind: function
+    name: summaryText()
+    in: server-telemetry-ts-17x3m
+    context: The summary as text, for the CLI.
+    signature: "summaryText(s: Summary): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:439
+  telemetry-ts-telemetry-call-1311c:
+    kind: function
+    name: Telemetry.call()
+    in: server-telemetry-ts-17x3m
+    context: "Store one call. Never throws: a call doesn't fail because its row couldn't be written. Returns the row's id, or null."
+    tech: [method of Telemetry]
+    signature: "call(r: CallRow): number | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:162
+  telemetry-ts-telemetry-close-154vg:
+    kind: function
+    name: Telemetry.close()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "close(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:153
+  telemetry-ts-telemetry-constructor-at1w0:
+    kind: function
+    name: Telemetry.<constructor>()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "constructor(path: string, o?: { calls?: boolean | undefined; keepDays?: number | undefined; keepRows?: number | undefined; }): Telemetry"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:143
+  telemetry-ts-telemetry-feedback-13why:
+    kind: function
+    name: Telemetry.feedback()
+    in: server-telemetry-ts-17x3m
+    context: A report from an agent, with its session's last 20 calls attached. Returns its id.
+    tech: [method of Telemetry]
+    signature: "feedback(f: { session?: string | null | undefined; client?: string | null | undefined; actor?: string | null | undefined; design?: string | null | undefined; kind: string; tool?: string | null | undefined; text: string; }): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:261
+  telemetry-ts-telemetry-feedbacklist-182xz:
+    kind: function
+    name: Telemetry.feedbackList()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "feedbackList(o?: { open?: boolean | undefined; }): Feedback[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:303
+  telemetry-ts-telemetry-get-1k5lw:
+    kind: function
+    name: Telemetry.get()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "get(id: number): Stored | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:245
+  telemetry-ts-telemetry-prune-1yxe4:
+    kind: function
+    name: Telemetry.prune()
+    in: server-telemetry-ts-17x3m
+    context: Keep 30 days and at most 100k rows.
+    tech: [method of Telemetry]
+    signature: "prune(now?: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:197
+  telemetry-ts-telemetry-resolvefeedback-lobvu:
+    kind: function
+    name: Telemetry.resolveFeedback()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "resolveFeedback(id: number, resolution?: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:325
+  telemetry-ts-telemetry-row-m0rmr:
+    kind: function
+    name: Telemetry.row()
+    in: server-telemetry-ts-17x3m
+    tech: [method of Telemetry]
+    signature: "row(r: Record<string, unknown>): Stored"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:214
+  telemetry-ts-telemetry-session-162to:
+    kind: function
+    name: Telemetry.session()
+    in: server-telemetry-ts-17x3m
+    context: A session's calls in order (the last `limit`).
+    tech: [method of Telemetry]
+    signature: "session(id: string, limit?: number): Stored[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:238
+  telemetry-ts-telemetry-sessionslike-1h3q3:
+    kind: function
+    name: Telemetry.sessionsLike()
+    in: server-telemetry-ts-17x3m
+    context: Sessions whose id starts with this (for typing a short one).
+    tech: [method of Telemetry]
+    signature: "sessionsLike(prefix: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:252
+  telemetry-ts-telemetry-summary-3i5ti:
+    kind: function
+    name: Telemetry.summary()
+    in: server-telemetry-ts-17x3m
+    context: "Where the tools hurt: per tool and mode, writes to valid, the errors that repeat, open feedback."
+    tech: [method of Telemetry]
+    signature: "summary(o?: { since?: string | undefined; }): Summary"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/telemetry.ts:338
+connections:
+  - {from: telemetry-ts-opentelemetry-tze99, to: telemetry-ts-telemetry-constructor-at1w0}
+  - {from: telemetry-ts-telemetry-call-1311c, to: telemetry-ts-capargs-1h0tf}
+  - {from: telemetry-ts-telemetry-call-1311c, to: telemetry-ts-telemetry-prune-1yxe4}
+  - {from: telemetry-ts-telemetry-constructor-at1w0, to: telemetry-ts-telemetry-prune-1yxe4}
+  - {from: telemetry-ts-telemetry-feedback-13why, to: telemetry-ts-telemetry-session-162to}
+  - {from: telemetry-ts-telemetry-get-1k5lw, to: telemetry-ts-telemetry-row-m0rmr}
+  - {from: telemetry-ts-telemetry-session-162to, to: telemetry-ts-telemetry-row-m0rmr}
+  - {from: telemetry-ts-telemetry-summary-3i5ti, to: telemetry-ts-normalise-1nygg}
+  - {from: telemetry-ts-telemetry-summary-3i5ti, to: telemetry-ts-pct-imlr9}
+  - {from: telemetry-ts-telemetry-summary-3i5ti, to: telemetry-ts-telemetry-feedbacklist-182xz}
+  - {from: telemetry-ts-telemetry-summary-3i5ti, to: telemetry-ts-telemetry-row-m0rmr}

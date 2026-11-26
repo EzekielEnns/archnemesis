@@ -1,0 +1,42 @@
+# archnemesis:src/canvas/scene/snap.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  scene-snap-ts-1iqrj:
+    kind: module
+    name: snap.ts
+    in: canvas-scene-iaxtu
+    context: "Snapping a dragged box: to the grid, then to the lines of its neighbours."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/scene/snap.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/snap.ts
+  snap-ts-gridsnap-18na5:
+    kind: function
+    name: gridSnap()
+    in: scene-snap-ts-1iqrj
+    context: Snap the grabbed box to the grid (the move that puts its corner on it); the rest move with it.
+    signature: "gridSnap(lead: Point, dx: number, dy: number): { dx: number; dy: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/snap.ts:7
+  snap-ts-neighboursnap-1nmjc:
+    kind: function
+    name: neighbourSnap()
+    in: scene-snap-ts-1iqrj
+    context: Line up with nearby boxes (edges, centres, equal gaps), which beats the grid. `moving` is the bounds of what's dragged; only boxes within reach, and not themselves dragged, are looked at.
+    signature: "neighbourSnap(moving: Rect, dragged: Set<string>, order: { node: Rect & { id: string; }; }[], scale: number): { dx: number; dy: number; guides: Guide[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/snap.ts:18
+  snap-ts-resizedsize-kdbmo:
+    kind: function
+    name: resizedSize()
+    in: scene-snap-ts-1iqrj
+    context: "A box's size while its corner is dragged: on the grid, and never smaller than the minimum."
+    signature: "resizedSize(origin: { w: number; h: number; }, start: Point, world: Point): { w: number; h: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/scene/snap.ts:37
+connections:
+  - {from: snap-ts-neighboursnap-1nmjc, to: align-ts-snaptoneighbours-1v37y}

@@ -1,0 +1,13 @@
+# archnemesis:shared/landscape.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-landscape-ts-dnjwq:
+    kind: module
+    name: landscape.ts
+    in: shared-model
+    context: "The rules a new design's Landscape view follows: everything at the top level, so whatever is drawn first shows up, whatever kind it is. Code (files, functions, libraries, tables) has its own views and stays off."
+    tech: [TypeScript]
+    path: archnemesis:shared/landscape.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/landscape.ts

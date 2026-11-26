@@ -1,0 +1,23 @@
+# archnemesis:src/workspace/useSceneRefs.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usescenerefs-ts-gr2kb:
+    kind: module
+    name: useSceneRefs.ts
+    in: web-workspace
+    context: The canvas's host element, the Scene made for it, the cameras kept per diagram, and whether it's ready. useScene (below) is what makes and drives the Scene; these are shared before it exists.
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useSceneRefs.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useSceneRefs.ts
+  usescenerefs-ts-usescenerefs-1xwq3:
+    kind: function
+    name: useSceneRefs()
+    in: workspace-usescenerefs-ts-gr2kb
+    signature: "useSceneRefs(): { host: RefObject<HTMLDivElement | null>; scene: RefObject<Scene | null>; cameras: RefObject<Map<string, Camera>>; shown: RefObject<...>; ready: boolean; setReady: Dispatch<...>; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useSceneRefs.ts:7
+    references:
+      - dependency: lib-types-react-1i7zx

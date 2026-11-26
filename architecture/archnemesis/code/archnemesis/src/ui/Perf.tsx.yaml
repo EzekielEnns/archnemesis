@@ -1,0 +1,96 @@
+# archnemesis:src/ui/Perf.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-perf-tsx-1fh3q:
+    kind: module
+    name: Perf.tsx
+    in: web-ui
+    context: "The performance meter (⌘K → Show performance meter) and what a bug report carries about the page: the canvas's frame rate and frame time, React's re-renders, main-thread stalls, memory, and the page's recent errors. A small react-scan of our own, with no dependency."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Perf.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx
+  perf-tsx-countcommit-c8xg5:
+    kind: function
+    name: countCommit()
+    in: ui-perf-tsx-1fh3q
+    context: "React's Profiler callback: one entry per commit of the app."
+    signature: "countCommit: ProfilerOnRenderCallback"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:18
+    references:
+      - dependency: lib-types-react-1i7zx
+  perf-tsx-installperf-w3xm7:
+    kind: function
+    name: installPerf()
+    in: ui-perf-tsx-1fh3q
+    context: Start listening for main-thread stalls and page errors (once).
+    signature: "installPerf(): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:29
+  perf-tsx-noteperf-1ov6y:
+    kind: function
+    name: notePerf()
+    in: ui-perf-tsx-1fh3q
+    context: The canvas's numbers, as it reports them (every 250 ms while drawing).
+    signature: "notePerf(s: SceneStats): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:12
+  perf-tsx-perfmeter-uz8vj:
+    kind: function
+    name: PerfMeter()
+    in: ui-perf-tsx-1fh3q
+    signature: "PerfMeter({ onClose }: { onClose: () => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:135
+    references:
+      - dependency: lib-types-react-1i7zx
+  perf-tsx-perfmeteron-zll55:
+    kind: function
+    name: perfMeterOn()
+    in: ui-perf-tsx-1fh3q
+    signature: "perfMeterOn(): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:105
+  perf-tsx-perfsnapshot-zbie0:
+    kind: function
+    name: perfSnapshot()
+    in: ui-perf-tsx-1fh3q
+    signature: "perfSnapshot(): PerfSnapshot"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:79
+  perf-tsx-recenterrors-13878:
+    kind: function
+    name: recentErrors()
+    in: ui-perf-tsx-1fh3q
+    signature: "recentErrors(): { at: string; text: string; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:98
+  perf-tsx-setperfmeteron-4r68n:
+    kind: function
+    name: setPerfMeterOn()
+    in: ui-perf-tsx-1fh3q
+    signature: "setPerfMeterOn(on: boolean): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:112
+  perf-tsx-tone-8vapb:
+    kind: function
+    name: tone()
+    in: ui-perf-tsx-1fh3q
+    context: "Colour a number by how it feels: fine, noticeable, bad."
+    signature: 'tone: (v: number, warn: number, bad: number, higherIsBetter?: boolean) => "ok" | "bad" | "warn"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Perf.tsx:122
+connections:
+  - {from: perf-tsx-perfmeter-uz8vj, to: perf-tsx-perfsnapshot-zbie0}
+  - {from: perf-tsx-perfmeter-uz8vj, to: perf-tsx-tone-8vapb}

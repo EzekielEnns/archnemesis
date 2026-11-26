@@ -1,0 +1,90 @@
+# archnemesis:shared/notes.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-notes-ts-1q08p:
+    kind: module
+    name: notes.ts
+    in: shared-support
+    context: "Notes and links for agents and the app alike: where a new one goes when nobody says (agents never send coordinates), titles from addresses, and a thread as plain text."
+    tech: [TypeScript]
+    path: archnemesis:shared/notes.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts
+  notes-ts-dockunder-agv3z:
+    kind: function
+    name: dockUnder()
+    in: shared-notes-ts-1q08p
+    context: "Where a link pinned to a box goes: under it, below the links already there."
+    signature: "dockUnder(idx: ModelIndex, diagramId: string, objectId: string, except?: string | undefined): { objectId: string; x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:34
+  notes-ts-hostof-f2rw6:
+    kind: function
+    name: hostOf()
+    in: shared-notes-ts-1q08p
+    signature: "hostOf(url?: string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:7
+  notes-ts-lastactivity-1e5da:
+    kind: function
+    name: lastActivity()
+    in: shared-notes-ts-1q08p
+    context: "When a note last changed hands: written, or last replied to."
+    signature: "lastActivity(idx: ModelIndex, n: Note): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:87
+  notes-ts-linknoteops-1xfe6:
+    kind: function
+    name: linkNoteOps()
+    in: shared-notes-ts-1q08p
+    context: Links used to be notes on the canvas. Each one moves to its box's links (or, loose, its diagram's), and the note goes. Empty when there's nothing left to move.
+    signature: "linkNoteOps(state: ModelState): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:182
+  notes-ts-newnotes-9ixt9:
+    kind: function
+    name: newNotes()
+    in: shared-notes-ts-1q08p
+    context: "Notes (and replies) others wrote after `since`: what an agent hasn't seen yet."
+    signature: "newNotes(idx: ModelIndex, since: string, me: string): { notes: number; replies: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:93
+  notes-ts-notestext-e6nd9:
+    kind: function
+    name: notesText()
+    in: shared-notes-ts-1q08p
+    signature: "notesText(idx: ModelIndex, opts: { diagramId?: string | undefined; objectId?: string | undefined; forAgent?: boolean | undefined; resolved?: boolean | undefined; since?: string | undefined; url: (diagramId: string) => string; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:108
+  notes-ts-spotfor-h80i6:
+    kind: function
+    name: spotFor()
+    in: shared-notes-ts-1q08p
+    context: "Where a new note or link goes when no one says: a note on a box sits at its top-right corner (fanned out if there are several), a link docks under the box; loose ones go in a column to the right of everything on the diagram."
+    signature: 'spotFor(idx: ModelIndex, diagramId: string, kind: "note" | "link", objectId: string | null): { objectId: string | null; x: number; y: number; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:58
+  notes-ts-titlefromurl-1wamb:
+    kind: function
+    name: titleFromUrl()
+    in: shared-notes-ts-1q08p
+    context: 'A readable title from an address: "notion.so/RFC-12-Payment-retries-1a2b…" → "RFC 12 Payment retries".'
+    signature: "titleFromUrl(url: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/notes.ts:16
+connections:
+  - {from: notes-ts-linknoteops-1xfe6, to: notes-ts-titlefromurl-1wamb}
+  - {from: notes-ts-notestext-e6nd9, to: notes-ts-hostof-f2rw6}
+  - {from: notes-ts-notestext-e6nd9, to: notes-ts-lastactivity-1e5da}
+  - {from: notes-ts-notestext-e6nd9, to: project-ts-descendants-121jc}
+  - {from: notes-ts-spotfor-h80i6, to: notes-ts-dockunder-agv3z}
+  - {from: notes-ts-spotfor-h80i6, to: project-ts-noteson-1sqc1}

@@ -1,0 +1,48 @@
+# archnemesis:shared/tools/problems.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-problems-ts-1q1tq:
+    kind: module
+    name: problems.ts
+    in: shared-tools-1cbb9
+    context: What `archnm check` would say about a design held live, and the index of a state.
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/problems.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/problems.ts
+  problems-ts-filesof-1ncq9:
+    kind: function
+    name: filesOf()
+    in: tools-problems-ts-1q1tq
+    context: The design as files, read back and checked; with `idx` (this state's index), kept until the next change.
+    signature: "filesOf(state: ModelState, config?: FConfig, idx?: ModelIndex | undefined): FilesRead"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/problems.ts:34
+  problems-ts-indexof-zj098:
+    kind: function
+    name: indexOf()
+    in: tools-problems-ts-1q1tq
+    signature: "indexOf: (s: ModelState) => ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/problems.ts:7
+  problems-ts-problemsof-1w2qm:
+    kind: function
+    name: problemsOf()
+    in: tools-problems-ts-1q1tq
+    context: Problems with a model, as `archnm check` would report them on its files.
+    signature: "problemsOf(state: ModelState, config?: FConfig, index?: ModelIndex | undefined): Problem[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/problems.ts:46
+connections:
+  - {from: problems-ts-filesof-1ncq9, to: files-ts-check-toyfi}
+  - {from: problems-ts-filesof-1ncq9, to: files-ts-readfiles-1ttso}
+  - {from: problems-ts-filesof-1ncq9, to: files-ts-writefiles-dumd7}
+  - {from: problems-ts-indexof-zj098, to: project-ts-buildindex-dkcy4}
+  - {from: problems-ts-problemsof-1w2qm, to: problems-ts-filesof-1ncq9}
+  - {from: problems-ts-problemsof-1w2qm, to: problems-ts-indexof-zj098}
+  - {from: problems-ts-problemsof-1w2qm, to: project-ts-projectdiagram-1p3dd}
+  - {from: problems-ts-problemsof-1w2qm, to: score-ts-viewproblems-d4f00}

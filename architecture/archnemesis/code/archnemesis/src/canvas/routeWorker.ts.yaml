@@ -1,0 +1,18 @@
+# archnemesis:src/canvas/routeWorker.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-routeworker-ts-1wmjt:
+    kind: module
+    name: routeWorker.ts
+    in: web-canvas
+    context: "The arrow router, off the main thread. libavoid's cost climbs steeply with arrows (57 arrows on a tall diagram: seconds), and on the page that froze every jump to a big view. Here it routes while the canvas stays live; curves show until the routes come back."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/routeWorker.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/routeWorker.ts
+connections:
+  - {from: canvas-routeworker-ts-1wmjt, to: router-ts-edgerouter-constructor-10edv}
+  - {from: canvas-routeworker-ts-1wmjt, to: router-ts-edgerouter-destroy-k0vux}
+  - {from: canvas-routeworker-ts-1wmjt, to: router-ts-edgerouter-path-1rnnq}
+  - {from: canvas-routeworker-ts-1wmjt, to: router-ts-edgerouter-sync-m5k0t}

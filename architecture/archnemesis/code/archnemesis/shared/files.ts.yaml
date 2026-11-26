@@ -1,0 +1,646 @@
+# archnemesis:shared/files.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-files-ts-vq0cd:
+    kind: module
+    name: files.ts
+    in: shared-model
+    context: "The architecture as files: what goes in git, what agents edit in a pull request, what people review. The live document is written out to these a moment after edits settle, and edits to the files (a pull, a merged PR, an agent) are read back in as ordinary edits."
+    tech: [TypeScript]
+    path: archnemesis:shared/files.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts
+  files-ts-allentities-1qx0u:
+    kind: function
+    name: allEntities()
+    in: shared-files-ts-vq0cd
+    context: "Every entity: the ones the files define, then a TBD one for each name that's used (in uses, carries, extends) and defined nowhere, unless it's a typo of one that is (check says which)."
+    signature: "allEntities(model: FileModel): FEntity[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2297
+  files-ts-boxrect-82ei4:
+    kind: function
+    name: boxRect()
+    in: shared-files-ts-vq0cd
+    context: "A layout box with its size filled in: its kind's when the file leaves it out."
+    signature: 'boxRect(b: Box, kind: "function" | "actor" | "system" | "app" | "store" | "component" | "module" | "library" | "table"): { x: number; y: number; w: number; h: number; parts?: { x: number; y: number; } | undefined; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2870
+  files-ts-bykey-18dc4:
+    kind: function
+    name: byKey()
+    in: shared-files-ts-vq0cd
+    signature: "byKey: <T>(get: (x: T) => string) => (a: T, b: T) => 0 | 1 | -1"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:836
+  files-ts-canonical-cje58:
+    kind: function
+    name: canonical()
+    in: shared-files-ts-vq0cd
+    context: JSON with keys sorted and undefined (or empty text) dropped, for comparing records whatever their field order.
+    signature: "canonical(v: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2885
+  files-ts-check-toyfi:
+    kind: function
+    name: check()
+    in: shared-files-ts-vq0cd
+    context: "Everything that's wrong with a model, beyond what reading it found: the graph (ids, ends, entities resolve) as errors, then what's still to do (TBD, guesses, gaps) as warnings."
+    signature: "check(model: FileModel): Problem[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2345
+  files-ts-closest-g256y:
+    kind: function
+    name: closest()
+    in: shared-files-ts-vq0cd
+    context: The one of `among` that `word` is a typo of (a letter or two off, or another case), if any.
+    signature: "closest(word: string, among: Iterable<string>): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:98
+  files-ts-codefile-1atlm:
+    kind: function
+    name: codeFile()
+    in: shared-files-ts-vq0cd
+    context: code/<repo>/<path>.yaml for a source file, code/<repo>/<path>/_.yaml for a folder or package.
+    signature: "codeFile(path: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:254
+  files-ts-columnfix-uaeal:
+    kind: function
+    name: columnFix()
+    in: shared-files-ts-vq0cd
+    context: 'A column written as a line ("id uuid pk") or a one-key map ({id: uuid}), as the map it should be.'
+    signature: "columnFix(raw: unknown): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:955
+  files-ts-commentline-jajrq:
+    kind: function
+    name: commentLine()
+    in: shared-files-ts-vq0cd
+    context: The first line with a comment that isn't the file's heading (the comment block it opens with).
+    signature: "commentLine(text: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:111
+    references:
+      - dependency: lib-yaml-1wm54
+  files-ts-connectionyaml-li441:
+    kind: function
+    name: connectionYaml()
+    in: shared-files-ts-vq0cd
+    context: One connection as it's written in the design's files.
+    signature: "connectionYaml(c: Connection, key: (id: string) => string, entityName?: (id: string) => string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:735
+  files-ts-diskconnection-3vapr:
+    kind: function
+    name: diskConnection()
+    in: shared-files-ts-vq0cd
+    signature: "diskConnection(f: FConnection): Record<string, unknown>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:816
+  files-ts-diskentity-glrkb:
+    kind: function
+    name: diskEntity()
+    in: shared-files-ts-vq0cd
+    context: "An entity as its file has it: keyed by name, its fields as name → type."
+    signature: "diskEntity(f: FEntity): Record<string, unknown> | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:821
+  files-ts-diskobject-1ihfs:
+    kind: function
+    name: diskObject()
+    in: shared-files-ts-vq0cd
+    context: "An object as its file has it: keyed by id, its name only when that differs, what its signature names left to the signature."
+    signature: "diskObject(f: FObject): Record<string, unknown>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:790
+  files-ts-editdistance-1w5l8:
+    kind: function
+    name: editDistance()
+    in: shared-files-ts-vq0cd
+    context: How many single-letter edits turn a into b (case ignored).
+    signature: "editDistance(a: string, b: string): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:80
+  files-ts-entityrefs-c0ah1:
+    kind: function
+    name: entityRefs()
+    in: shared-files-ts-vq0cd
+    context: "The entities a box or a connection points at, by name, once each (never an id: one that isn't known is left out)."
+    signature: "entityRefs(o: { references?: Reference[] | undefined; }, entityName: (id: string) => string | undefined): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:900
+  files-ts-fcolumn-gommg:
+    kind: function
+    name: fColumn()
+    in: shared-files-ts-vq0cd
+    context: A column with only what it says, flags after the type.
+    signature: "fColumn(c: Column): Column"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:940
+  files-ts-fconnection-fk06l:
+    kind: function
+    name: fConnection()
+    in: shared-files-ts-vq0cd
+    signature: "fConnection(c: Connection, key: (id: string) => string, entityName: (id: string) => string | undefined): FConnection"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:911
+  files-ts-fieldline-7nauj:
+    kind: function
+    name: fieldLine()
+    in: shared-files-ts-vq0cd
+    context: 'Back to the line the model keeps: a method "charge(a: Money) -> Receipt", a field "items [OrderItem]".'
+    signature: "fieldLine(key: string, type: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:782
+  files-ts-fieldpair-11am2:
+    kind: function
+    name: fieldPair()
+    in: shared-files-ts-vq0cd
+    context: "A field line as its key and type in an entity's fields map: \"items [OrderItem]\" → [\"items\", \"[OrderItem]\"]; \"charge(a: Money) -> Receipt\" → [\"charge(a: Money)\", \"Receipt\"]. A method is name( with no space: \"pair (int, int)?\" is a field named pair."
+    signature: "fieldPair(line: string): [string, string]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:765
+  files-ts-fitsoneline-1c0vr:
+    kind: function
+    name: fitsOneLine()
+    in: shared-files-ts-vq0cd
+    context: Short enough, and with no text that needs lines of its own, to sit on one line.
+    signature: "fitsOneLine: (v: unknown, max: number) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:691
+  files-ts-fobject-15dk5:
+    kind: function
+    name: fObject()
+    in: shared-files-ts-vq0cd
+    signature: "fObject(o: ModelObject, key: (id: string) => string, entityName: (id: string) => string | undefined): FObject"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:841
+  files-ts-forbiderror-g7s5w:
+    kind: function
+    name: forbidError()
+    in: shared-files-ts-vq0cd
+    context: "Why a forbid pattern won't be used, or null. Patterns run over every name and description on every check, so one that can take forever (a repeated group that repeats, like (a+)+) would freeze the server: refused, along with very long ones."
+    signature: "forbidError(p: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2272
+  files-ts-freferences-1qds2:
+    kind: function
+    name: fReferences()
+    in: shared-files-ts-vq0cd
+    context: A box's or a connection's links and references (not its entities), as one list for its file.
+    signature: "fReferences(o: { links?: DocLink[] | undefined; references?: Reference[] | undefined; }, key: (id: string) => string): FReference[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:878
+  files-ts-hasdesignfile-2ild3:
+    kind: function
+    name: hasDesignFile()
+    in: shared-files-ts-vq0cd
+    context: Does this folder (or tree listing) have a design file, under either name?
+    signature: "hasDesignFile: (files: { has(path: string): boolean; }) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:47
+  files-ts-keyof-18ntf:
+    kind: function
+    name: keyOf()
+    in: shared-files-ts-vq0cd
+    signature: "keyOf: (o: { id: string; key?: string | undefined; }) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:631
+  files-ts-keyops-hk86o:
+    kind: function
+    name: keyOps()
+    in: shared-files-ts-vq0cd
+    context: Keys for objects and diagrams that don't have one yet (and have a real name).
+    signature: "keyOps(state: ModelState): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:634
+  files-ts-laidentities-1ymn1:
+    kind: function
+    name: laidEntities()
+    in: shared-files-ts-vq0cd
+    context: "The entities once `written` is laid over `base`: one written replaces the one with its name; the ones defined in a box that was written again are exactly the ones written with it (the file owns them, as it owns its connections); the ones defined in a box that's gone stay, with no home, as when the app deletes a box. Entities are named apart from objects: an object id never removes an entity."
+    signature: "laidEntities(base: FEntity[], written: FEntity[], rewritten: Set<string>, gone: Set<string>): FEntity[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:3407
+  files-ts-layoutjson-1biae:
+    kind: function
+    name: layoutJson()
+    in: shared-files-ts-vq0cd
+    context: "One box per line: easy to read in a diff, and only moved boxes change."
+    signature: "layoutJson(layout: Record<string, Box>, arrows?: Record<string, FArrow>, links?: Record<string, [number, number]>): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1362
+  files-ts-lineofdoc-116gf:
+    kind: function
+    name: lineOfDoc()
+    in: shared-files-ts-vq0cd
+    context: '"file:line" for a path into a document: where each thing starts (a list item, a map entry).'
+    signature: "lineOfDoc(file: string, doc: Parsed<ParsedNode, true>, lc: LineCounter): (...path: (string | number)[]) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1469
+    references:
+      - dependency: lib-yaml-1wm54
+  files-ts-mapselector-1f37w:
+    kind: function
+    name: mapSelector()
+    in: shared-files-ts-vq0cd
+    signature: "mapSelector: (s: Selector, key: (id: string) => string) => Selector"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1045
+  files-ts-normalizedesignfile-wlcla:
+    kind: function
+    name: normalizeDesignFile()
+    in: shared-files-ts-vq0cd
+    context: "Reads the old name: a folder's atlas.yaml counts as archnm.yaml (the new name wins if both exist)."
+    signature: "normalizeDesignFile(files: Map<string, string>): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:37
+  files-ts-objectrefs-o2kv7:
+    kind: function
+    name: objectRefs()
+    in: shared-files-ts-vq0cd
+    context: An object's links and references from its file.
+    signature: "objectRefs(f: { references?: FReference[] | undefined; }, id: (key: string) => string): { links?: DocLink[] | undefined; references?: Reference[] | undefined; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2323
+  files-ts-objectyaml-bv5f4:
+    kind: function
+    name: objectYaml()
+    in: shared-files-ts-vq0cd
+    context: One object as it's written in the design's files (for showing it, or diffing two versions); entities by name (one `entityName` doesn't know is left out).
+    signature: "objectYaml(o: ModelObject, key: (id: string) => string, entityName?: (id: string) => string | undefined): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:725
+  files-ts-onelinejson-1yjj9:
+    kind: function
+    name: oneLineJson()
+    in: shared-files-ts-vq0cd
+    context: '{"x": 1, "y": 2}: JSON on one line, spaced to read.'
+    signature: "oneLineJson: (v: unknown) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1355
+  files-ts-overlay-dp4v5:
+    kind: function
+    name: overlay()
+    in: shared-files-ts-vq0cd
+    context: "Lay files written by an agent over a design, by id rather than by file: each object, boundary, decision and view in them replaces the one with the same id wherever it lives, and the connections from an object they define are exactly the ones they list (as are the entities defined in it: an entity is replaced by name). So an agent can keep rewriting its own file (Archnemesis files things back in…"
+    signature: "overlay(base: FileModel, written: FileModel, remove?: string[]): FileModel"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:3458
+  files-ts-prose-681ty:
+    kind: function
+    name: prose()
+    in: shared-files-ts-vq0cd
+    context: "Prose (context, notes, a description) as the files keep it: trimmed, and ending in a newline when it has lines of its own (a block)."
+    signature: "prose(s: string | undefined): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:744
+  files-ts-readarrows-1u8gk:
+    kind: function
+    name: readArrows()
+    in: shared-files-ts-vq0cd
+    signature: "readArrows(file: string, raw: unknown, err: (file: string, message: string) => void): Record<string, FArrow>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1384
+  files-ts-readbox-1ut8m:
+    kind: function
+    name: readBox()
+    in: shared-files-ts-vq0cd
+    context: A box in a layout file, or null when it isn't one.
+    signature: "readBox(v: unknown): Box | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:227
+  files-ts-readcolumns-p4in1:
+    kind: function
+    name: readColumns()
+    in: shared-files-ts-vq0cd
+    signature: "readColumns(file: string, where: string, kind: string, v: unknown, err: (file: string, message: string) => void): Column[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:980
+  files-ts-readenum-45nhf:
+    kind: function
+    name: readEnum()
+    in: shared-files-ts-vq0cd
+    context: "One of `values`, in any case: Kind: App reads as app. A near miss says what was meant."
+    signature: "readEnum(file: string, where: string, field: string, v: unknown, values: readonly string[], err: Err): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:134
+  files-ts-readfields-11rx9:
+    kind: function
+    name: readFields()
+    in: shared-files-ts-vq0cd
+    context: "An entity's fields: a map name → type (a key with ( ) is a method), or older \"name type\" lines."
+    signature: "readFields(file: string, where: string, v: unknown, err: Err): string[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:206
+  files-ts-readfiles-1ttso:
+    kind: function
+    name: readFiles()
+    in: shared-files-ts-vq0cd
+    context: Parse a folder's files (path -> text). Problems come back rather than being thrown.
+    signature: "readFiles(raw: Map<string, string>): { model: FileModel; problems: Problem[]; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1507
+    references:
+      - dependency: lib-yaml-1wm54
+  files-ts-readflag-z3i47:
+    kind: function
+    name: readFlag()
+    in: shared-files-ts-vq0cd
+    context: true, or left out.
+    signature: "readFlag(file: string, where: string, field: string, v: unknown, err: Err): true | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:191
+  files-ts-readnames-1fr96:
+    kind: function
+    name: readNames()
+    in: shared-files-ts-vq0cd
+    context: "Entity names: a list of type names (one on its own is the list)."
+    signature: "readNames(file: string, where: string, field: string, v: unknown, err: Err): string[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:173
+  files-ts-readpackage-g92vm:
+    kind: function
+    name: readPackage()
+    in: shared-files-ts-vq0cd
+    signature: "readPackage(file: string, where: string, kind: string, v: unknown, err: (file: string, message: string) => void): Package | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:287
+  files-ts-readpath-6pl8s:
+    kind: function
+    name: readPath()
+    in: shared-files-ts-vq0cd
+    signature: "readPath(file: string, where: string, kind: string, v: unknown, err: (file: string, message: string) => void): string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:264
+  files-ts-readrefs-lfm0a:
+    kind: function
+    name: readRefs()
+    in: shared-files-ts-vq0cd
+    signature: "readRefs(file: string, where: string, v: unknown, err: (file: string, message: string) => void): Record<string, string> | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:55
+  files-ts-readsources-17038:
+    kind: function
+    name: readSources()
+    in: shared-files-ts-vq0cd
+    signature: "readSources(file: string, where: string, v: unknown, err: (file: string, message: string) => void): string[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:320
+  files-ts-readwords-1xx8j:
+    kind: function
+    name: readWords()
+    in: shared-files-ts-vq0cd
+    context: A list of words; one on its own, or "a, b", reads as the list.
+    signature: "readWords(file: string, where: string, field: string, v: unknown, err: Err): string[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:154
+  files-ts-reftarget-ddnkt:
+    kind: function
+    name: refTarget()
+    in: shared-files-ts-vq0cd
+    context: A reference's kind and target, from its one key.
+    signature: 'refTarget(r: FReference): { kind: "image" | "doc" | "code" | "dependency" | "entity" | "link"; to: string; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:442
+  files-ts-replaced-fgwwv:
+    kind: function
+    name: replaced()
+    in: shared-files-ts-vq0cd
+    context: "Files that are the whole design (write's replace): their objects and connections are all there is; views, boundaries and decisions too when they were sent. Entities by name, as `laidEntities` lays them: the ones in a box written again are the ones written with it, and the ones in a box the rewrite leaves out stay, with no home."
+    signature: "replaced(base: FileModel, mine: FileModel, sent: { views: boolean; boundaries: boolean; decisions: boolean; }): FileModel"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:3424
+  files-ts-samerules-i0bb5:
+    kind: function
+    name: sameRules()
+    in: shared-files-ts-vq0cd
+    context: Two rule sets alike but for the order of ids in an ids rule.
+    signature: "sameRules(a: Rules, b: Rules): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1451
+  files-ts-sourcelink-e4dna:
+    kind: function
+    name: sourceLink()
+    in: shared-files-ts-vq0cd
+    context: "Where a source points: an address as is, or repo@sha:path:line on GitHub under `owner`."
+    signature: "sourceLink(owner: string | undefined, s: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:342
+  files-ts-techlist-b6km6:
+    kind: function
+    name: techList()
+    in: shared-files-ts-vq0cd
+    context: "\"Rust, Axum\" ↔ [Rust, Axum]: split at commas that aren't inside brackets (\"TypeScript (browser, server)\" is one)."
+    signature: "techList(tech: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:750
+  files-ts-toops-1d908:
+    kind: function
+    name: toOps()
+    in: shared-files-ts-vq0cd
+    context: The edits that make the live document match the files. Everything the files don't mention is removed; anything unchanged produces no edit at all.
+    signature: "toOps(state: ModelState, model: FileModel): Op[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2903
+  files-ts-usesof-1hs2g:
+    kind: function
+    name: usesOf()
+    in: shared-files-ts-vq0cd
+    context: "The entities a box points at, by name: its uses, and the ones its signature names that exist."
+    signature: "usesOf(o: FObject, entityNames: Set<string>): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:2313
+  files-ts-writefiles-dumd7:
+    kind: function
+    name: writeFiles()
+    in: shared-files-ts-vq0cd
+    context: "The whole model as files: path -> contents."
+    signature: "writeFiles(state: ModelState, config?: FConfig): Map<string, string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:1054
+  files-ts-yaml-17vvn:
+    kind: function
+    name: yaml()
+    in: shared-files-ts-vq0cd
+    signature: "yaml(header: string, value: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:673
+  files-ts-yamlbody-12gim:
+    kind: function
+    name: yamlBody()
+    in: shared-files-ts-vq0cd
+    signature: "yamlBody(value: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:696
+    references:
+      - dependency: lib-yaml-1wm54
+  files-ts-yamlfresh-1u25r:
+    kind: function
+    name: yamlFresh()
+    in: shared-files-ts-vq0cd
+    signature: "yamlFresh(header: string, value: unknown): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/files.ts:682
+connections:
+  - {from: files-ts-allentities-1qx0u, to: files-ts-closest-g256y}
+  - {from: files-ts-boxrect-82ei4, to: model-ts-boxsize-1fd2o}
+  - {from: files-ts-check-toyfi, to: files-ts-allentities-1qx0u}
+  - {from: files-ts-check-toyfi, to: files-ts-boxrect-82ei4}
+  - {from: files-ts-check-toyfi, to: files-ts-closest-g256y}
+  - {from: files-ts-check-toyfi, to: files-ts-forbiderror-g7s5w}
+  - {from: files-ts-check-toyfi, to: files-ts-usesof-1hs2g}
+  - {from: files-ts-check-toyfi, to: views-ts-selectorerror-geuez}
+  - {from: files-ts-closest-g256y, to: files-ts-editdistance-1w5l8}
+  - {from: files-ts-connectionyaml-li441, to: files-ts-diskconnection-3vapr}
+  - {from: files-ts-connectionyaml-li441, to: files-ts-fconnection-fk06l}
+  - {from: files-ts-connectionyaml-li441, to: files-ts-yamlbody-12gim}
+  - {from: files-ts-diskentity-glrkb, to: files-ts-fieldpair-11am2}
+  - {from: files-ts-diskobject-1ihfs, to: entities-ts-signaturetypes-698iu}
+  - {from: files-ts-diskobject-1ihfs, to: files-ts-techlist-b6km6}
+  - {from: files-ts-fconnection-fk06l, to: files-ts-entityrefs-c0ah1}
+  - {from: files-ts-fconnection-fk06l, to: files-ts-freferences-1qds2}
+  - {from: files-ts-fconnection-fk06l, to: files-ts-prose-681ty}
+  - {from: files-ts-fobject-15dk5, to: files-ts-entityrefs-c0ah1}
+  - {from: files-ts-fobject-15dk5, to: files-ts-fcolumn-gommg}
+  - {from: files-ts-fobject-15dk5, to: files-ts-freferences-1qds2}
+  - {from: files-ts-fobject-15dk5, to: files-ts-keyof-18ntf}
+  - {from: files-ts-fobject-15dk5, to: files-ts-prose-681ty}
+  - {from: files-ts-fobject-15dk5, to: model-ts-mergedcontext-d55w6}
+  - {from: files-ts-freferences-1qds2, to: notes-ts-titlefromurl-1wamb}
+  - {from: files-ts-keyops-hk86o, to: model-ts-isplaceholdername-8d59w}
+  - {from: files-ts-keyops-hk86o, to: model-ts-slug-1nu4f}
+  - {from: files-ts-layoutjson-1biae, to: files-ts-onelinejson-1yjj9}
+  - {from: files-ts-objectrefs-o2kv7, to: files-ts-reftarget-ddnkt}
+  - {from: files-ts-objectrefs-o2kv7, to: notes-ts-titlefromurl-1wamb}
+  - {from: files-ts-objectyaml-bv5f4, to: files-ts-diskobject-1ihfs}
+  - {from: files-ts-objectyaml-bv5f4, to: files-ts-fobject-15dk5}
+  - {from: files-ts-objectyaml-bv5f4, to: files-ts-yamlbody-12gim}
+  - {from: files-ts-overlay-dp4v5, to: files-ts-laidentities-1ymn1}
+  - {from: files-ts-readcolumns-p4in1, to: files-ts-columnfix-uaeal}
+  - {from: files-ts-readcolumns-p4in1, to: files-ts-fcolumn-gommg}
+  - {from: files-ts-readenum-45nhf, to: files-ts-closest-g256y}
+  - {from: files-ts-readfields-11rx9, to: files-ts-fieldline-7nauj}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-bykey-18dc4}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-closest-g256y}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-commentline-jajrq}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-forbiderror-g7s5w}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-lineofdoc-116gf}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-normalizedesignfile-wlcla}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readarrows-1u8gk}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readbox-1ut8m}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readcolumns-p4in1}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readenum-45nhf}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readfields-11rx9}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readflag-z3i47}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readnames-1fr96}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readpackage-g92vm}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readpath-6pl8s}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readrefs-lfm0a}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readsources-17038}
+  - {from: files-ts-readfiles-1ttso, to: files-ts-readwords-1xx8j}
+  - {from: files-ts-readfiles-1ttso, to: model-ts-safeurl-f4wjp}
+  - {from: files-ts-readfiles-1ttso, to: model-ts-slug-1nu4f}
+  - {from: files-ts-readfiles-1ttso, to: notes-ts-titlefromurl-1wamb}
+  - {from: files-ts-readfiles-1ttso, to: views-ts-selectorerror-geuez}
+  - {from: files-ts-readnames-1fr96, to: files-ts-readwords-1xx8j}
+  - {from: files-ts-readsources-17038, to: files-ts-sourcelink-e4dna}
+  - {from: files-ts-readwords-1xx8j, to: files-ts-techlist-b6km6}
+  - {from: files-ts-replaced-fgwwv, to: files-ts-laidentities-1ymn1}
+  - {from: files-ts-sourcelink-e4dna, to: model-ts-safeurl-f4wjp}
+  - {from: files-ts-toops-1d908, to: doc-ts-akey-97egr}
+  - {from: files-ts-toops-1d908, to: doc-ts-pkey-1l7v4}
+  - {from: files-ts-toops-1d908, to: entities-ts-signaturetypes-698iu}
+  - {from: files-ts-toops-1d908, to: files-ts-allentities-1qx0u}
+  - {from: files-ts-toops-1d908, to: files-ts-boxrect-82ei4}
+  - {from: files-ts-toops-1d908, to: files-ts-canonical-cje58}
+  - {from: files-ts-toops-1d908, to: files-ts-keyof-18ntf}
+  - {from: files-ts-toops-1d908, to: files-ts-objectrefs-o2kv7}
+  - {from: files-ts-toops-1d908, to: files-ts-samerules-i0bb5}
+  - {from: files-ts-toops-1d908, to: files-ts-usesof-1hs2g}
+  - {from: files-ts-toops-1d908, to: model-ts-boxsize-1fd2o}
+  - {from: files-ts-toops-1d908, to: model-ts-makestep-16ytd}
+  - {from: files-ts-toops-1d908, to: model-ts-mergedcontext-d55w6}
+  - {from: files-ts-toops-1d908, to: model-ts-slug-1nu4f}
+  - {from: files-ts-usesof-1hs2g, to: entities-ts-signaturetypes-698iu}
+  - {from: files-ts-writefiles-dumd7, to: agentsmd-ts-agentsguide-1xxl7}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-bykey-18dc4}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-closest-g256y}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-codefile-1atlm}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-diskconnection-3vapr}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-diskentity-glrkb}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-diskobject-1ihfs}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-fconnection-fk06l}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-fobject-15dk5}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-keyof-18ntf}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-layoutjson-1biae}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-mapselector-1f37w}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-prose-681ty}
+  - {from: files-ts-writefiles-dumd7, to: files-ts-yaml-17vvn}
+  - {from: files-ts-writefiles-dumd7, to: model-ts-boxsize-1fd2o}
+  - {from: files-ts-writefiles-dumd7, to: model-ts-istbd-m1dzw}
+  - {from: files-ts-yaml-17vvn, to: files-ts-yamlfresh-1u25r}
+  - {from: files-ts-yamlbody-12gim, to: files-ts-fitsoneline-1c0vr}
+  - {from: files-ts-yamlfresh-1u25r, to: files-ts-yamlbody-12gim}

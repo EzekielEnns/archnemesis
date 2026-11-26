@@ -1,0 +1,72 @@
+# archnemesis:server/signin/session.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  signin-session-ts-1vg9t:
+    kind: module
+    name: session.ts
+    in: srv-auth
+    context: Archnemesis's own sign-in cookie, for providers where the browser signs in once (a button on the sign-in page) rather than carrying proof on every request. It holds who you are and when it runs out, signed (HMAC-SHA256) with a key made from ARCHNM_TOKEN_KEY, so a restart keeps everyone signed in. Without that key a random one is made at start, and a restart signs everyone out.
+    tech: [TypeScript]
+    path: archnemesis:server/signin/session.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts
+  session-ts-cookie-1row8:
+    kind: function
+    name: cookie()
+    in: signin-session-ts-1vg9t
+    context: One cookie's value from a Cookie header.
+    signature: "cookie(header: string | string[] | null | undefined, name: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:81
+  session-ts-sessioncookie-1u4xk:
+    kind: function
+    name: sessionCookie()
+    in: signin-session-ts-1vg9t
+    context: Set-Cookie for a session (or, with null, to sign out). Secure when Archnemesis is on https.
+    signature: "sessionCookie(value: string | null, secure: boolean): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:98
+  session-ts-sessions-constructor-13hhp:
+    kind: function
+    name: Sessions.<constructor>()
+    in: signin-session-ts-1vg9t
+    tech: [method of Sessions]
+    signature: "constructor(opts?: { secret?: string | undefined; now?: (() => number) | undefined; }): Sessions"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:26
+  session-ts-sessions-make-4l07d:
+    kind: function
+    name: Sessions.make()
+    in: signin-session-ts-1vg9t
+    context: The cookie value for someone who just signed in.
+    tech: [method of Sessions]
+    signature: "make(s: Session): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:36
+  session-ts-sessions-read-4hhog:
+    kind: function
+    name: Sessions.read()
+    in: signin-session-ts-1vg9t
+    context: Who a cookie value belongs to, or null if it's forged or has run out.
+    tech: [method of Sessions]
+    signature: "read(value: string | null | undefined): Session | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:50
+  session-ts-sessions-sign-scqzl:
+    kind: function
+    name: Sessions.sign()
+    in: signin-session-ts-1vg9t
+    tech: [method of Sessions]
+    signature: "sign(body: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/signin/session.ts:75
+connections:
+  - {from: session-ts-sessions-make-4l07d, to: session-ts-sessions-sign-scqzl}
+  - {from: session-ts-sessions-read-4hhog, to: session-ts-sessions-sign-scqzl}

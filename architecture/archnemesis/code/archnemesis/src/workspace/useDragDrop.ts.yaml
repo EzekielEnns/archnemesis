@@ -1,0 +1,28 @@
+# archnemesis:src/workspace/useDragDrop.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usedragdrop-ts-14tb1:
+    kind: module
+    name: useDragDrop.ts
+    in: web-workspace
+    context: Dropping a box dragged in from the tree onto the canvas places it where it was let go.
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useDragDrop.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDragDrop.ts
+  usedragdrop-ts-usedragdrop-w8w6n:
+    kind: function
+    name: useDragDrop()
+    in: workspace-usedragdrop-ts-14tb1
+    signature: "useDragDrop({ scene, idx, diagramId, run, spread, }: { scene: SceneRef; idx: ModelIndex; diagramId: string | null; run: (ops: Op[], label: string) => Promise<void>; spread: Spread; }): (e: DragEvent<...>) => void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useDragDrop.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usedragdrop-ts-usedragdrop-w8w6n, to: actions-ts-place-q3fp0}
+  - {from: usedragdrop-ts-usedragdrop-w8w6n, to: scene-ts-scene-clienttoworld-wve5e}
+  - {from: usedragdrop-ts-usedragdrop-w8w6n, to: scene-ts-scene-select-1g1o3}
+  - {from: usedragdrop-ts-usedragdrop-w8w6n, to: spread-ts-spread-up-1n409}

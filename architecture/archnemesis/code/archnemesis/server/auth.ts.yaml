@@ -1,0 +1,207 @@
+# archnemesis:server/auth.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  server-auth-ts-1kjek:
+    kind: module
+    name: auth.ts
+    in: srv-auth
+    context: Who is asking, and may they? The one place in Archnemesis that decides what a request may do.
+    tech: [TypeScript]
+    path: archnemesis:server/auth.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts
+  auth-ts-auth-askprovider-1n2md:
+    kind: function
+    name: Auth.askProvider()
+    in: server-auth-ts-1kjek
+    context: "The provider's answer, or null: whatever it does wrong (throws, answers nonsense) signs no one in."
+    tech: [method of Auth]
+    signature: "askProvider(creds: ProviderCredentials): Identity | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:188
+  auth-ts-auth-authorize-hqj8x:
+    kind: function
+    name: Auth.authorize()
+    in: server-auth-ts-1kjek
+    tech: [method of Auth]
+    signature: "authorize(p: Principal | null, action: Action): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:246
+  auth-ts-auth-bytoken-1u4gz:
+    kind: function
+    name: Auth.byToken()
+    in: server-auth-ts-1kjek
+    tech: [method of Auth]
+    signature: "byToken(token?: string | null | undefined): Principal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:238
+  auth-ts-auth-constructor-15660:
+    kind: function
+    name: Auth.<constructor>()
+    in: server-auth-ts-1kjek
+    tech: [method of Auth]
+    signature: 'constructor(cfg: { mode: string; builtin: "github" | "local" | "header" | "tokens" | "tailscale" | "iap" | "cloudflare-access" | "oidc" | null; module: string | null; publicUrl: string; loopback: boolean; ... 11 more ...; tokenKey: string | undefined; }, opts?: { ...; }): Auth'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:85
+  auth-ts-auth-describe-1o8n9:
+    kind: function
+    name: Auth.describe()
+    in: server-auth-ts-1kjek
+    context: For the startup line.
+    tech: [method of Auth]
+    signature: "describe(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:128
+  auth-ts-auth-get-browsersignin-apbwa:
+    kind: function
+    name: Auth.<get>browserSignIn()
+    in: server-auth-ts-1kjek
+    context: "Whether people here sign in with a browser (a button on the sign-in page): the MCP OAuth server and the session cookie apply."
+    tech: [method of Auth]
+    signature: "get browserSignIn: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:144
+  auth-ts-auth-get-personaltokens-1trr2:
+    kind: function
+    name: Auth.<get>personalTokens()
+    in: server-auth-ts-1kjek
+    context: "Whether people here can make personal tokens: they sign in as themselves some other way."
+    tech: [method of Auth]
+    signature: "get personalTokens: boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:139
+  auth-ts-auth-identify-1293d:
+    kind: function
+    name: Auth.identify()
+    in: server-auth-ts-1kjek
+    context: The caller, or null if they aren't signed in. An agent is at most an editor, whoever it works for.
+    tech: [method of Auth]
+    signature: "identify(c: Credentials): Principal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:152
+  auth-ts-auth-machine-1wha7:
+    kind: function
+    name: Auth.machine()
+    in: server-auth-ts-1kjek
+    context: "The machine itself (local, or Tailscale with no tailnet user): its role, whatever the lists say."
+    tech: [method of Auth]
+    signature: "machine(who: Identity, agent?: boolean | undefined): Principal"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:210
+  auth-ts-auth-person-1xtfz:
+    kind: function
+    name: Auth.person()
+    in: server-auth-ts-1kjek
+    context: Someone signed in, with the roles the lists give them; none, no entry.
+    tech: [method of Auth]
+    signature: "person(id: string, login: string, name: string, agent?: boolean | undefined): Principal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:223
+  auth-ts-auth-ready-10qec:
+    kind: function
+    name: Auth.ready()
+    in: server-auth-ts-1kjek
+    context: Anything to load before taking requests (keys, discovery). A failure stops the server.
+    tech: [method of Auth]
+    signature: "ready(): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:117
+  auth-ts-auth-signinpage-154y8:
+    kind: function
+    name: Auth.signInPage()
+    in: server-auth-ts-1kjek
+    context: What the app's sign-in page shows.
+    tech: [method of Auth]
+    signature: "signInPage(): SignInPage"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:123
+  auth-ts-auth-warnonce-hyvsq:
+    kind: function
+    name: Auth.warnOnce()
+    in: server-auth-ts-1kjek
+    tech: [method of Auth]
+    signature: "warnOnce(message: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:203
+  auth-ts-auth-who-1fidq:
+    kind: function
+    name: Auth.who()
+    in: server-auth-ts-1kjek
+    tech: [method of Auth]
+    signature: "who(c: Credentials): Principal | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:157
+  auth-ts-bearer-s5fzd:
+    kind: function
+    name: bearer()
+    in: server-auth-ts-1kjek
+    signature: "bearer(header: string | string[] | undefined): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:261
+  auth-ts-credentialsof-1g0nz:
+    kind: function
+    name: credentialsOf()
+    in: server-auth-ts-1kjek
+    context: What a provider sees of a request.
+    signature: "credentialsOf(c: Credentials): ProviderCredentials"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:58
+  auth-ts-same-sk5z0:
+    kind: function
+    name: same()
+    in: server-auth-ts-1kjek
+    signature: "same(a: string, b: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth.ts:255
+connections:
+  - {from: auth-ts-auth-askprovider-1n2md, to: auth-ts-auth-warnonce-hyvsq}
+  - {from: auth-ts-auth-askprovider-1n2md, to: gate-ts-identityproblem-14m9g}
+  - {from: auth-ts-auth-askprovider-1n2md, to: provider-ts-authprovider-identify-3u74p}
+  - {from: auth-ts-auth-bytoken-1u4gz, to: auth-ts-same-sk5z0}
+  - {from: auth-ts-auth-constructor-15660, to: builtin-ts-builtinprovider-1iy59}
+  - {from: auth-ts-auth-constructor-15660, to: gate-ts-gate-constructor-2932c}
+  - {from: auth-ts-auth-constructor-15660, to: provider-ts-authprovider-describe-cepor}
+  - {from: auth-ts-auth-constructor-15660, to: provider-ts-checkpage-7tgz8}
+  - {from: auth-ts-auth-constructor-15660, to: roles-ts-roles-constructor-1u9ut}
+  - {from: auth-ts-auth-constructor-15660, to: roles-ts-roles-open-9zlka}
+  - {from: auth-ts-auth-constructor-15660, to: session-ts-sessions-constructor-13hhp}
+  - {from: auth-ts-auth-describe-1o8n9, to: roles-ts-roles-describe-nwtty}
+  - {from: auth-ts-auth-identify-1293d, to: auth-ts-auth-who-1fidq}
+  - {from: auth-ts-auth-person-1xtfz, to: roles-ts-roles-of-1mwqe}
+  - {from: auth-ts-auth-ready-10qec, to: provider-ts-authprovider-describe-cepor}
+  - {from: auth-ts-auth-ready-10qec, to: provider-ts-authprovider-ready-9e0rm}
+  - {from: auth-ts-auth-ready-10qec, to: provider-ts-checkpage-7tgz8}
+  - {from: auth-ts-auth-warnonce-hyvsq, to: provider-ts-typeliteral5-warn-4ybl7}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-askprovider-1n2md}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-bytoken-1u4gz}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-get-browsersignin-apbwa}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-get-personaltokens-1trr2}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-machine-1wha7}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-auth-person-1xtfz}
+  - {from: auth-ts-auth-who-1fidq, to: auth-ts-credentialsof-1g0nz}
+  - {from: auth-ts-auth-who-1fidq, to: names-ts-namefromemail-11dmo}
+  - {from: auth-ts-auth-who-1fidq, to: personal-ts-ispersonaltoken-1dq52}
+  - {from: auth-ts-auth-who-1fidq, to: personal-ts-personaltokens-check-1dxcl}
+  - {from: auth-ts-auth-who-1fidq, to: provider-ts-providercredentials-cookie-2o437}
+  - {from: auth-ts-auth-who-1fidq, to: session-ts-sessions-read-4hhog}
+  - {from: auth-ts-credentialsof-1g0nz, to: provider-ts-providercredentials-cookie-2o437}
+  - {from: auth-ts-credentialsof-1g0nz, to: provider-ts-providercredentials-header-4prbx}
+  - {from: auth-ts-credentialsof-1g0nz, to: session-ts-cookie-1row8}

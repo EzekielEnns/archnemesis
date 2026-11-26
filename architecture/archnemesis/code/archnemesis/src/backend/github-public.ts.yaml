@@ -1,0 +1,109 @@
+# archnemesis:src/backend/github-public.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-github-public-ts-1lg9o:
+    kind: module
+    name: github-public.ts
+    in: web-backend
+    context: "Opening a design from a public GitHub repository, with no account and no server of ours. Requests go only to api.github.com (the list of files in the repository) and raw.githubusercontent.com (each file), only when someone opens a `#~gh=` link or asks to open from GitHub, and carry nothing about the visitor: no cookies, no token, no referrer, no identifier. Both hosts answer cross-origin browser…"
+    tech: [TypeScript]
+    path: archnemesis:src/backend/github-public.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts
+  github-public-ts-choosefolder-pe1zq:
+    kind: function
+    name: chooseFolder()
+    in: backend-github-public-ts-1lg9o
+    signature: "chooseFolder(blobs: TreeEntry[], s: GhSpec): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:98
+  github-public-ts-encodepath-pa9o2:
+    kind: function
+    name: encodePath()
+    in: backend-github-public-ts-1lg9o
+    signature: "encodePath: (p: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:24
+  github-public-ts-fetchghdesign-1evxg:
+    kind: function
+    name: fetchGhDesign()
+    in: backend-github-public-ts-1lg9o
+    context: The design a link names; for a fork's branch, also the design as it is on the default branch.
+    signature: "fetchGhDesign(s: GhSpec, f?: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }): Promise<...>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:182
+  github-public-ts-filesat-cwhd1:
+    kind: function
+    name: filesAt()
+    in: backend-github-public-ts-1lg9o
+    context: "One design's files at one ref: listed, filtered to the design's own, capped, and read."
+    signature: "filesAt(f: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }, s: GhSpec, ref: string, folder?: strin…"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:134
+  github-public-ts-get-17awt:
+    kind: function
+    name: get()
+    in: backend-github-public-ts-1lg9o
+    signature: "get(f: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }, url: string, accept: string): Promise<...>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:54
+  github-public-ts-inbatches-1cwa8:
+    kind: function
+    name: inBatches()
+    in: backend-github-public-ts-1lg9o
+    context: Fetch with a few at a time.
+    signature: "inBatches<T, R>(items: T[], work: (item: T) => Promise<R>): Promise<R[]>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:120
+  github-public-ts-listtree-1rxhy:
+    kind: function
+    name: listTree()
+    in: backend-github-public-ts-1lg9o
+    signature: "listTree(f: { (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<Response>; (input: URL | RequestInfo, init?: RequestInit | undefined): Promise<...>; (input: string | ... 1 more ... | Request, init?: RequestInit | undefined): Promise<...>; }, s: GhSpec, ref: string): Promise<...>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:76
+  github-public-ts-refused-pnfnt:
+    kind: function
+    name: refused()
+    in: backend-github-public-ts-1lg9o
+    context: A plain sentence for a response GitHub refused.
+    signature: "refused(r: Response, what: string): BackendError"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:34
+  github-public-ts-resetwords-1i2bj:
+    kind: function
+    name: resetWords()
+    in: backend-github-public-ts-1lg9o
+    signature: "resetWords(h: Headers): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/github-public.ts:26
+connections:
+  - {from: github-public-ts-choosefolder-pe1zq, to: ours-ts-designfolders-mfne6}
+  - {from: github-public-ts-choosefolder-pe1zq, to: types-ts-backenderror-constructor-trfnp}
+  - {from: github-public-ts-fetchghdesign-1evxg, to: ghlink-ts-forkof-yf87o}
+  - {from: github-public-ts-fetchghdesign-1evxg, to: github-public-ts-filesat-cwhd1}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-choosefolder-pe1zq}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-encodepath-pa9o2}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-get-17awt}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-inbatches-1cwa8}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-listtree-1rxhy}
+  - {from: github-public-ts-filesat-cwhd1, to: github-public-ts-refused-pnfnt}
+  - {from: github-public-ts-filesat-cwhd1, to: ours-ts-filesunder-1kr9b}
+  - {from: github-public-ts-filesat-cwhd1, to: types-ts-backenderror-constructor-trfnp}
+  - {from: github-public-ts-get-17awt, to: types-ts-backenderror-constructor-trfnp}
+  - {from: github-public-ts-listtree-1rxhy, to: github-public-ts-encodepath-pa9o2}
+  - {from: github-public-ts-listtree-1rxhy, to: github-public-ts-get-17awt}
+  - {from: github-public-ts-listtree-1rxhy, to: github-public-ts-refused-pnfnt}
+  - {from: github-public-ts-listtree-1rxhy, to: types-ts-backenderror-constructor-trfnp}
+  - {from: github-public-ts-refused-pnfnt, to: github-public-ts-resetwords-1i2bj}
+  - {from: github-public-ts-refused-pnfnt, to: types-ts-backenderror-constructor-trfnp}

@@ -1,0 +1,27 @@
+# archnemesis:src/workspace/useHighlights.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-usehighlights-ts-l8j78:
+    kind: module
+    name: useHighlights.ts
+    in: web-workspace
+    context: "What's lit by hovering or picking in the box panel: a connection, the arrows carrying an entity, or \"what depends on it\" for the selected box."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/useHighlights.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useHighlights.ts
+  usehighlights-ts-usehighlights-vpxee:
+    kind: function
+    name: useHighlights()
+    in: workspace-usehighlights-ts-l8j78
+    signature: "useHighlights({ sel, idx, diagramId, scene, }: { sel: Selection; idx: ModelIndex; diagramId: string | null; scene: SceneRef; }): { hoverPair: [string, string] | null; setHoverPair: Dispatch<SetStateAction<[...] | null>>; ... 4 more ...; impactNow: { ...; } | null; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/useHighlights.ts:10
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: usehighlights-ts-usehighlights-vpxee, to: impact-ts-impact-7mpl1}
+  - {from: usehighlights-ts-usehighlights-vpxee, to: project-ts-placedfor-15d7e}
+  - {from: usehighlights-ts-usehighlights-vpxee, to: scene-ts-scene-frameboxes-1ps2g}

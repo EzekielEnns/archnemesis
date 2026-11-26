@@ -1,0 +1,287 @@
+# archnemesis:src/ui/Notes.tsx: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-notes-tsx-1jc35:
+    kind: module
+    name: Notes.tsx
+    in: web-ui
+    context: "Notes and links, drawn over the canvas (HTML, not Pixi: they're few, they're text, and a thread wants real inputs). A note is a pin that stays the same size at any zoom, like Figma's comments; a link is a small card that zooms with the boxes. Either can be pinned to a box and moves with it, live while the box is dragged."
+    tech: [TypeScriptReact]
+    path: archnemesis:src/ui/Notes.tsx
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx
+  notes-tsx-ago-1jt5i:
+    kind: function
+    name: ago()
+    in: ui-notes-tsx-1jc35
+    context: '"just now", "5m", "3h", "2d", then the date.'
+    signature: "ago(iso: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:367
+  notes-tsx-avatar-9w4pf:
+    kind: function
+    name: Avatar()
+    in: ui-notes-tsx-1jc35
+    signature: "Avatar({ who }: { who: Author; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:378
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-clip-1ulrv:
+    kind: function
+    name: clip()
+    in: ui-notes-tsx-1jc35
+    signature: "clip: (s: string, n: number) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:1034
+  notes-tsx-closestpoints-1qh4c:
+    kind: function
+    name: closestPoints()
+    in: ui-notes-tsx-1jc35
+    context: The nearest points of two rectangles (for the tether from a link to its box).
+    signature: "closestPoints(a: { x: number; y: number; w: number; h: number; }, b: { x: number; y: number; w: number; h: number; }): readonly [{ x: number; y: number; }, { x: number; y: number; }]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:332
+  notes-tsx-composer-1hpf9:
+    kind: function
+    name: Composer()
+    in: ui-notes-tsx-1jc35
+    context: "Write something: Enter sends, Shift+Enter is a new line, @ mentions someone (or an agent). The box grows with the text; the buttons sit under it, out of its way."
+    signature: "Composer(p: { placeholder: string; onSend: (text: string) => void; people: Mentionable[]; sendLabel: string; onCancel?: (() => void) | undefined; autoFocus?: boolean | undefined; disabled?: boolean | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:474
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-connname-rjd3w:
+    kind: function
+    name: connName()
+    in: ui-notes-tsx-1jc35
+    context: "A connection as people say it: its label, else its ends."
+    signature: "connName(idx: ModelIndex, id: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:281
+  notes-tsx-draftpanel-18avv:
+    kind: function
+    name: DraftPanel()
+    in: ui-notes-tsx-1jc35
+    context: A note or link being written. Nothing's saved until it's posted.
+    signature: "DraftPanel(p: PanelProps & { draft: NoteDraft; onPosted: (id: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:848
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-escape-15vib:
+    kind: function
+    name: escape()
+    in: ui-notes-tsx-1jc35
+    signature: "escape: (x: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:390
+  notes-tsx-linked-1knjd:
+    kind: function
+    name: Linked()
+    in: ui-notes-tsx-1jc35
+    context: Text with its web addresses made into links, and its
+    signature: "Linked({ text, people }: { text: string; people?: Mentionable[] | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:393
+    references:
+      - dependency: lib-types-react-1i7zx
+  notes-tsx-linkicon-xuqj8:
+    kind: function
+    name: LinkIcon()
+    in: ui-notes-tsx-1jc35
+    context: The site's logo when Archnemesis has one (notion, github, linear …), else a link icon. No outside requests.
+    signature: "LinkIcon({ url }: { url?: string | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:346
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-linkpanel-dewwx:
+    kind: function
+    name: LinkPanel()
+    in: ui-notes-tsx-1jc35
+    context: "A link: its title and address, what it's pinned to; open it or delete it."
+    signature: "LinkPanel(p: PanelProps & { note: Note; diagramId: string; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:761
+    references:
+      - dependency: lib-lucide-react-1fcqz
+      - dependency: lib-types-react-1i7zx
+  notes-tsx-message-j5i65:
+    kind: function
+    name: Message()
+    in: ui-notes-tsx-1jc35
+    signature: "Message({ who, at, text, people, onDelete, }: { who: Author; at: string; text: string; people?: Mentionable[] | undefined; onDelete?: (() => void) | undefined; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:424
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-notepanel-1dwpl:
+    kind: function
+    name: NotePanel()
+    in: ui-notes-tsx-1jc35
+    context: "A note's thread: the note, its replies, a reply box; resolve or delete it."
+    signature: "NotePanel(p: PanelProps & { note: Note; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:662
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-noteslayer-1a8jv:
+    kind: function
+    name: NotesLayer()
+    in: ui-notes-tsx-1jc35
+    signature: "NotesLayer(p: LayerProps): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:81
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-notesmenu-11ood:
+    kind: function
+    name: NotesMenu()
+    in: ui-notes-tsx-1jc35
+    context: "The notes button by the people at the top right: every thread and link in the design."
+    signature: "NotesMenu(p: { idx: ModelIndex; diagramId: string | null; onOpen: (id: string) => void; }): Element"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:929
+    references:
+      - dependency: lib-types-react-1i7zx
+      - dependency: lib-lucide-react-1fcqz
+  notes-tsx-pinlink-rr1l3:
+    kind: function
+    name: pinLink()
+    in: ui-notes-tsx-1jc35
+    context: A link dropped on a box docks under it (below its other links); moved near its own box it stays pinned there; dropped further off it's loose.
+    signature: "pinLink(idx: ModelIndex, n: Note, to: { x: number; y: number; }, over: string | null, boxOf: BoxAt): { objectId: string; x: number; y: number; } | { objectId: null; x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:303
+  notes-tsx-pinnote-dpa0t:
+    kind: function
+    name: pinNote()
+    in: ui-notes-tsx-1jc35
+    context: A note dropped on a box pins to it; anywhere else it's loose.
+    signature: "pinNote(to: { x: number; y: number; }, over: string | null, boxOf: BoxAt): { objectId: string | null; x: number; y: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:292
+  notes-tsx-rectonscreen-7pmk8:
+    kind: function
+    name: rectOnScreen()
+    in: ui-notes-tsx-1jc35
+    signature: "rectOnScreen(c: Camera, r: { x: number; y: number; w: number; h: number; }): { x: number; y: number; w: number; h: number; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:326
+  notes-tsx-uselaterfocus-bcrat:
+    kind: function
+    name: useLaterFocus()
+    in: ui-notes-tsx-1jc35
+    context: "Focus once mounted, a moment later: a panel opened by a click on the canvas mounts during that press, and the press's own mousedown would take the focus straight back."
+    signature: "useLaterFocus<T extends HTMLElement>(on: boolean): RefObject<T | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:631
+    references:
+      - dependency: lib-types-react-1i7zx
+  notes-tsx-where-ep8as:
+    kind: function
+    name: where()
+    in: ui-notes-tsx-1jc35
+    signature: "where: (idx: ModelIndex, n: { objectId: string | null; about?: string | undefined; connectionId?: string | undefined; }) => string | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/Notes.tsx:652
+connections:
+  - {from: notes-tsx-avatar-9w4pf, to: peers-tsx-initials-lrk43}
+  - {from: notes-tsx-avatar-9w4pf, to: presence-ts-colorfor-1fa9e}
+  - {from: notes-tsx-composer-1hpf9, to: mentions-ts-mentionsagent-16j00}
+  - {from: notes-tsx-composer-1hpf9, to: notes-tsx-uselaterfocus-bcrat}
+  - {from: notes-tsx-composer-1hpf9, to: peers-tsx-initials-lrk43}
+  - {from: notes-tsx-composer-1hpf9, to: presence-ts-colorfor-1fa9e}
+  - {from: notes-tsx-draftpanel-18avv, to: inspector-tsx-act-1ifvw}
+  - {from: notes-tsx-draftpanel-18avv, to: inspector-tsx-panel-82jeo}
+  - {from: notes-tsx-draftpanel-18avv, to: mentions-ts-mentionsagent-16j00}
+  - {from: notes-tsx-draftpanel-18avv, to: model-ts-makenote-1kpn6}
+  - {from: notes-tsx-draftpanel-18avv, to: model-ts-safeurl-f4wjp}
+  - {from: notes-tsx-draftpanel-18avv, to: notes-ts-titlefromurl-1wamb}
+  - {from: notes-tsx-draftpanel-18avv, to: notes-tsx-composer-1hpf9}
+  - {from: notes-tsx-draftpanel-18avv, to: notes-tsx-uselaterfocus-bcrat}
+  - {from: notes-tsx-draftpanel-18avv, to: notes-tsx-where-ep8as}
+  - {from: notes-tsx-linked-1knjd, to: model-ts-safeurl-f4wjp}
+  - {from: notes-tsx-linked-1knjd, to: notes-tsx-escape-15vib}
+  - {from: notes-tsx-linkicon-xuqj8, to: notes-ts-hostof-f2rw6}
+  - {from: notes-tsx-linkicon-xuqj8, to: techimg-tsx-techimg-158vq}
+  - {from: notes-tsx-linkpanel-dewwx, to: inspector-tsx-act-1ifvw}
+  - {from: notes-tsx-linkpanel-dewwx, to: inspector-tsx-panel-82jeo}
+  - {from: notes-tsx-linkpanel-dewwx, to: model-ts-now-1lkd5}
+  - {from: notes-tsx-linkpanel-dewwx, to: model-ts-safeurl-f4wjp}
+  - {from: notes-tsx-linkpanel-dewwx, to: notes-ts-dockunder-agv3z}
+  - {from: notes-tsx-linkpanel-dewwx, to: notes-ts-hostof-f2rw6}
+  - {from: notes-tsx-linkpanel-dewwx, to: notes-ts-titlefromurl-1wamb}
+  - {from: notes-tsx-linkpanel-dewwx, to: textfield-tsx-textfield-1hdfe}
+  - {from: notes-tsx-message-j5i65, to: contextmenu-tsx-usemenu-rw61o}
+  - {from: notes-tsx-message-j5i65, to: notes-tsx-ago-1jt5i}
+  - {from: notes-tsx-message-j5i65, to: notes-tsx-avatar-9w4pf}
+  - {from: notes-tsx-message-j5i65, to: notes-tsx-linked-1knjd}
+  - {from: notes-tsx-notepanel-1dwpl, to: inspector-tsx-act-1ifvw}
+  - {from: notes-tsx-notepanel-1dwpl, to: inspector-tsx-copylinkbutton-kmdg7}
+  - {from: notes-tsx-notepanel-1dwpl, to: inspector-tsx-panel-82jeo}
+  - {from: notes-tsx-notepanel-1dwpl, to: mentions-ts-mentionsagent-16j00}
+  - {from: notes-tsx-notepanel-1dwpl, to: model-ts-makereply-1jfpi}
+  - {from: notes-tsx-notepanel-1dwpl, to: model-ts-now-1lkd5}
+  - {from: notes-tsx-notepanel-1dwpl, to: notes-tsx-clip-1ulrv}
+  - {from: notes-tsx-notepanel-1dwpl, to: notes-tsx-composer-1hpf9}
+  - {from: notes-tsx-notepanel-1dwpl, to: notes-tsx-message-j5i65}
+  - {from: notes-tsx-notepanel-1dwpl, to: notes-tsx-where-ep8as}
+  - {from: notes-tsx-noteslayer-1a8jv, to: camera-ts-worldtoscreen-1hyxf}
+  - {from: notes-tsx-noteslayer-1a8jv, to: model-ts-makenote-1kpn6}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-ts-hostof-f2rw6}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-ago-1jt5i}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-closestpoints-1qh4c}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-connname-rjd3w}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-linkicon-xuqj8}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-pinlink-rr1l3}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-pinnote-dpa0t}
+  - {from: notes-tsx-noteslayer-1a8jv, to: notes-tsx-rectonscreen-7pmk8}
+  - {from: notes-tsx-noteslayer-1a8jv, to: peers-tsx-initials-lrk43}
+  - {from: notes-tsx-noteslayer-1a8jv, to: presence-ts-colorfor-1fa9e}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-clienttoworld-wve5e}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-connectionanchor-tgimu}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-edgeat-omiqw}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-forwardwheel-sina5}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-nodeat-vu5oy}
+  - {from: notes-tsx-noteslayer-1a8jv, to: scene-ts-scene-watch-v2a0b}
+  - {from: notes-tsx-noteslayer-1a8jv, to: spread-ts-spread-down-1po5p}
+  - {from: notes-tsx-noteslayer-1a8jv, to: spread-ts-spread-up-1n409}
+  - {from: notes-tsx-notesmenu-11ood, to: notes-ts-hostof-f2rw6}
+  - {from: notes-tsx-notesmenu-11ood, to: notes-tsx-ago-1jt5i}
+  - {from: notes-tsx-notesmenu-11ood, to: notes-tsx-avatar-9w4pf}
+  - {from: notes-tsx-notesmenu-11ood, to: notes-tsx-linkicon-xuqj8}
+  - {from: notes-tsx-notesmenu-11ood, to: notes-tsx-where-ep8as}
+  - {from: notes-tsx-pinlink-rr1l3, to: notes-ts-dockunder-agv3z}
+  - {from: notes-tsx-rectonscreen-7pmk8, to: camera-ts-worldtoscreen-1hyxf}
+  - {from: notes-tsx-where-ep8as, to: notes-tsx-connname-rjd3w}

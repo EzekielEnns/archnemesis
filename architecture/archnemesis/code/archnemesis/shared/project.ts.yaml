@@ -1,0 +1,331 @@
+# archnemesis:shared/project.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-project-ts-1vc4j:
+    kind: module
+    name: project.ts
+    in: shared-model
+    context: "From the model to one diagram: which boxes, which arrows, which boundary."
+    tech: [TypeScript]
+    path: archnemesis:shared/project.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts
+  project-ts-addablefor-10me8:
+    kind: function
+    name: addableFor()
+    in: shared-project-ts-1vc4j
+    context: "What would show an object on a diagram: the highest ancestor-or-self that isn't the diagram's scope or above it (a system on the landscape; an app inside the scope)."
+    signature: "addableFor(idx: ModelIndex, diagramId: string, id: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:925
+  project-ts-alltags-174gm:
+    kind: function
+    name: allTags()
+    in: shared-project-ts-1vc4j
+    signature: "allTags(idx: ModelIndex): { tag: string; count: number; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:986
+  project-ts-ancestors-lfs25:
+    kind: function
+    name: ancestors()
+    in: shared-project-ts-1vc4j
+    context: Parent, grandparent, ... up to the top.
+    signature: "ancestors(idx: ModelIndex, id: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:249
+  project-ts-boxeswithtag-12t1g:
+    kind: function
+    name: boxesWithTag()
+    in: shared-project-ts-1vc4j
+    context: Objects with a tag, and the boxes on a diagram that stand for them.
+    signature: "boxesWithTag(idx: ModelIndex, diagramId: string, tag: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:976
+  project-ts-buildindex-dkcy4:
+    kind: function
+    name: buildIndex()
+    in: shared-project-ts-1vc4j
+    signature: "buildIndex(m: { objects: Iterable<ModelObject>; connections: Iterable<Connection>; diagrams: Iterable<Diagram>; placements: Iterable<...>; ... 6 more ...; entities?: Iterable<...> | undefined; }): ModelIndex"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:182
+  project-ts-canvascolumns-ievsp:
+    kind: function
+    name: canvasColumns()
+    in: shared-project-ts-1vc4j
+    signature: "canvasColumns(idx: ModelIndex, o: ModelObject): CanvasColumn[] | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:78
+  project-ts-colorgraph-1yczs:
+    kind: function
+    name: colorGraph()
+    in: shared-project-ts-1vc4j
+    context: A view's boxes coloured by one tag group (personal-data:holds → its colour), and the legend for it. A box with no value in the group is grey. Unchanged without a group.
+    signature: "colorGraph(graph: CanvasGraph, idx: ModelIndex, group: string | null | undefined, groups: Record<string, { values: string[]; colors?: Record<string, string> | undefined; description?: string | undefined; }> | undefined): { ...; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1064
+  project-ts-containerframes-1vxmt:
+    kind: function
+    name: containerFrames()
+    in: shared-project-ts-1vc4j
+    context: Each container's frame around what's inside it on the diagram, outermost first.
+    signature: "containerFrames(idx: ModelIndex, nodes: CanvasNode[], containers: Map<string, CanvasNode>): CanvasGroup[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:817
+  project-ts-crossinghelp-1luhe:
+    kind: function
+    name: crossingHelp()
+    in: shared-project-ts-1vc4j
+    signature: "crossingHelp(idx: ModelIndex, diagramId: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1115
+  project-ts-descendants-121jc:
+    kind: function
+    name: descendants()
+    in: shared-project-ts-1vc4j
+    context: Every object inside `id`, at any depth.
+    signature: "descendants(idx: ModelIndex, id: string): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:266
+  project-ts-diagramforscope-1ff5x:
+    kind: function
+    name: diagramForScope()
+    in: shared-project-ts-1vc4j
+    signature: "diagramForScope(idx: ModelIndex, scopeId: string | null): Diagram | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:277
+  project-ts-flowsof-26p5a:
+    kind: function
+    name: flowsOf()
+    in: shared-project-ts-1vc4j
+    signature: "flowsOf(idx: ModelIndex, diagramId: string): Flow[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:907
+  project-ts-foldkey-3yl0z:
+    kind: function
+    name: foldKey()
+    in: shared-project-ts-1vc4j
+    context: 'The group a folded box stands for: its group: value, or "externals".'
+    signature: "foldKey: (n: { group?: string | undefined; }) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:882
+  project-ts-foldmode-d18vi:
+    kind: function
+    name: foldMode()
+    in: shared-project-ts-1vc4j
+    signature: 'foldMode(d: { fold?: string | null | undefined; scopeId: string | null; boundaries?: boolean | undefined; } | undefined): "groups" | "externals" | "none"'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:884
+  project-ts-frameof-1h6ub:
+    kind: function
+    name: frameOf()
+    in: shared-project-ts-1vc4j
+    context: "A scoped diagram's scope and its ancestors: the frame the diagram is drawn inside."
+    signature: "frameOf(idx: ModelIndex, diagramId: string): Set<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:996
+  project-ts-grouplabel-xcj20:
+    kind: function
+    name: groupLabel()
+    in: shared-project-ts-1vc4j
+    context: "A group tag's value as a name: \"third-party-services\" → \"Third party services\", \"aws\" → \"AWS\"."
+    signature: "groupLabel(v: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:893
+  project-ts-hiddenlinks-12ohh:
+    kind: function
+    name: hiddenLinks()
+    in: shared-project-ts-1vc4j
+    context: Connections of a box (and what's inside it) to things not on the diagram.
+    signature: "hiddenLinks(idx: ModelIndex, diagramId: string, boxId: string): HiddenLink[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:948
+  project-ts-isinside-xwe16:
+    kind: function
+    name: isInside()
+    in: shared-project-ts-1vc4j
+    signature: "isInside(idx: ModelIndex, id: string, ancestorId: string): boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:261
+  project-ts-laneof-dizn5:
+    kind: function
+    name: laneOf()
+    in: shared-project-ts-1vc4j
+    context: The value of a lanes tag group an object has, or null.
+    signature: "laneOf: (idx: ModelIndex, id: string, group: string) => string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:901
+  project-ts-lineends-1d5fx:
+    kind: function
+    name: lineEnds()
+    in: shared-project-ts-1vc4j
+    context: "Where each line can end: the boxes, and the frames drawn for boxes (a box whose insides are on the diagram, and the view's scope). Lanes, boundaries and opened boxes aren't line ends."
+    signature: "lineEnds(g: { nodes: CanvasNode[]; groups: CanvasGroup[]; }): Map<string, Rect>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:146
+  project-ts-logoof-1i1c5:
+    kind: function
+    name: logoOf()
+    in: shared-project-ts-1vc4j
+    context: "What a box's logo is looked up by: the one picked by hand, else its technology. \"\" for none."
+    signature: "logoOf(n: { technology: string; icon?: string | undefined; }): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1092
+  project-ts-notelanes-ye0dz:
+    kind: function
+    name: noteLanes()
+    in: shared-project-ts-1vc4j
+    context: A tidy's result, for crossingHelp to stop suggesting lanes where they made a view worse.
+    signature: "noteLanes(diagramId: string, lanes: boolean, crossings: number): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1108
+  project-ts-noteson-1sqc1:
+    kind: function
+    name: notesOn()
+    in: shared-project-ts-1vc4j
+    context: The notes and links on one diagram, oldest first; resolved notes only if asked for.
+    signature: "notesOn(idx: ModelIndex, diagramId: string, opts?: { resolved?: boolean | undefined; }): PlacedNote[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1010
+  project-ts-placedfor-15d7e:
+    kind: function
+    name: placedFor()
+    in: shared-project-ts-1vc4j
+    context: "The nearest box on a diagram that stands for an object: itself or its closest placed ancestor."
+    signature: "placedFor(idx: ModelIndex, diagramId: string, id: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:914
+  project-ts-processof-19730:
+    kind: function
+    name: processOf()
+    in: shared-project-ts-1vc4j
+    context: "The process a box runs in: the nearest boundary of kind process around it, if any."
+    signature: "processOf(idx: ModelIndex, id: string): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:808
+  project-ts-projectdiagram-1p3dd:
+    kind: function
+    name: projectDiagram()
+    in: shared-project-ts-1vc4j
+    signature: "projectDiagram(idx: ModelIndex, diagramId: string, opts?: { frames?: boolean | undefined; removedToo?: boolean | undefined; loose?: ReadonlySet<string> | undefined; }): CanvasGraph"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:334
+  project-ts-scopetrail-u5s74:
+    kind: function
+    name: scopeTrail()
+    in: shared-project-ts-1vc4j
+    context: The trail from the landscape down to a diagram's scope, for breadcrumbs.
+    signature: "scopeTrail(idx: ModelIndex, diagramId: string): { objectId: string | null; name: string; diagramId?: string | undefined; }[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:292
+  project-ts-showsremoved-1y1fe:
+    kind: function
+    name: showsRemoved()
+    in: shared-project-ts-1vc4j
+    context: A diagram shows removed things only when one of its rules asks for them by status.
+    signature: "showsRemoved: (idx: ModelIndex, diagramId: string) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:329
+  project-ts-subtitleof-7e0gt:
+    kind: function
+    name: subtitleOf()
+    in: shared-project-ts-1vc4j
+    signature: "subtitleOf(o: ModelObject): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:315
+  project-ts-tableopenheight-vmhct:
+    kind: function
+    name: tableOpenHeight()
+    in: shared-project-ts-1vc4j
+    signature: "tableOpenHeight: (cols: number) => number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:74
+  project-ts-tableshowscolumns-v1kor:
+    kind: function
+    name: tableShowsColumns()
+    in: shared-project-ts-1vc4j
+    signature: "tableShowsColumns: (h: number) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:76
+  project-ts-tagcolor-1ynfd:
+    kind: function
+    name: tagColor()
+    in: shared-project-ts-1vc4j
+    context: "A tag group value's colour: archnm.yaml's own, else the palette by its place in the group."
+    signature: "tagColor(group: { values: string[]; colors?: Record<string, string> | undefined; } | undefined, value: string): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:1045
+  project-ts-tagsof-jvet7:
+    kind: function
+    name: tagsOf()
+    in: shared-project-ts-1vc4j
+    context: What a box spells out at its bottom right. Status shows as a tag; the model keeps it a field.
+    signature: "tagsOf(o: ModelObject): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/project.ts:307
+connections:
+  - {from: project-ts-addablefor-10me8, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-boxeswithtag-12t1g, to: project-ts-placedfor-15d7e}
+  - {from: project-ts-containerframes-1vxmt, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-crossinghelp-1luhe, to: project-ts-descendants-121jc}
+  - {from: project-ts-crossinghelp-1luhe, to: project-ts-projectdiagram-1p3dd}
+  - {from: project-ts-frameof-1h6ub, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-hiddenlinks-12ohh, to: project-ts-addablefor-10me8}
+  - {from: project-ts-hiddenlinks-12ohh, to: project-ts-frameof-1h6ub}
+  - {from: project-ts-hiddenlinks-12ohh, to: project-ts-placedfor-15d7e}
+  - {from: project-ts-isinside-xwe16, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-placedfor-15d7e, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-processof-19730, to: boundaries-ts-boundarychain-11jhx}
+  - {from: project-ts-processof-19730, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: project-ts-projectdiagram-1p3dd, to: boundaries-ts-boundaryframes-17agb}
+  - {from: project-ts-projectdiagram-1p3dd, to: boundaries-ts-boundaryof-ujb2s}
+  - {from: project-ts-projectdiagram-1p3dd, to: boundaries-ts-crossesregions-13w8p}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-canvascolumns-ievsp}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-containerframes-1vxmt}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-descendants-121jc}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-flowsof-26p5a}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-foldmode-d18vi}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-frameof-1h6ub}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-grouplabel-xcj20}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-isinside-xwe16}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-processof-19730}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-showsremoved-1y1fe}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-subtitleof-7e0gt}
+  - {from: project-ts-projectdiagram-1p3dd, to: project-ts-tagsof-jvet7}
+  - {from: project-ts-projectdiagram-1p3dd, to: views-ts-matchselector-1g0mh}
+  - {from: project-ts-scopetrail-u5s74, to: project-ts-ancestors-lfs25}
+  - {from: project-ts-scopetrail-u5s74, to: project-ts-diagramforscope-1ff5x}

@@ -1,0 +1,41 @@
+# archnemesis:shared/mentions.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shared-mentions-ts-15btg:
+    kind: module
+    name: mentions.ts
+    in: shared-support
+    context: "@mentions in notes and replies: @Name for a person who's written in the design's notes or is here now, or @agent for the agents. Mentioning an agent makes a note a flag, so agents and the curator pick it up. (@Claude, what it was called before, still counts.)"
+    tech: [TypeScript]
+    path: archnemesis:shared/mentions.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/mentions.ts
+  mentions-ts-escape-17jww:
+    kind: function
+    name: escape()
+    in: shared-mentions-ts-15btg
+    signature: "escape: (s: string) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/mentions.ts:25
+  mentions-ts-mentionsagent-16j00:
+    kind: function
+    name: mentionsAgent()
+    in: shared-mentions-ts-15btg
+    signature: "mentionsAgent: (text: string, people: Mentionable[]) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/mentions.ts:33
+  mentions-ts-mentionsin-1ygin:
+    kind: function
+    name: mentionsIn()
+    in: shared-mentions-ts-15btg
+    context: "The mentions in a text:"
+    signature: "mentionsIn(text: string, people: Mentionable[]): Mentionable[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/mentions.ts:27
+connections:
+  - {from: mentions-ts-mentionsagent-16j00, to: mentions-ts-mentionsin-1ygin}
+  - {from: mentions-ts-mentionsin-1ygin, to: mentions-ts-escape-17jww}

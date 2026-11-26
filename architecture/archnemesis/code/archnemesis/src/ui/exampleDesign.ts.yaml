@@ -1,0 +1,34 @@
+# archnemesis:src/ui/exampleDesign.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  ui-exampledesign-ts-1570h:
+    kind: module
+    name: exampleDesign.ts
+    in: web-ui
+    context: "\"Open the example\": the shop as the person's own, editable design. One called Shop that is already there is opened as it is; otherwise it is made from the example."
+    tech: [TypeScript]
+    path: archnemesis:src/ui/exampleDesign.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/exampleDesign.ts
+  exampledesign-ts-exampleerror-1vhql:
+    kind: function
+    name: exampleError()
+    in: ui-exampledesign-ts-1570h
+    context: Plain words for why the example didn't open.
+    signature: "exampleError: (e: unknown) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/exampleDesign.ts:22
+  exampledesign-ts-openexample-e1642:
+    kind: function
+    name: openExample()
+    in: ui-exampledesign-ts-1570h
+    context: The design to go to, and whether this call made it.
+    signature: 'openExample(backend: Pick<Backend, "designs">): Promise<{ key: string; created: boolean; }>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/ui/exampleDesign.ts:9
+connections:
+  - {from: exampledesign-ts-openexample-e1642, to: types-ts-typeliteral34-create-1sko1}
+  - {from: exampledesign-ts-openexample-e1642, to: types-ts-typeliteral34-list-1e2bc}

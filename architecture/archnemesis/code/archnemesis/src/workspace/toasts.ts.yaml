@@ -1,0 +1,35 @@
+# archnemesis:src/workspace/toasts.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  workspace-toasts-ts-1sj66:
+    kind: module
+    name: toasts.ts
+    in: web-workspace
+    context: "Toasts: the short messages at the bottom of the page, and `run`, which sends edits to the store and toasts it when one is refused."
+    tech: [TypeScript]
+    path: archnemesis:src/workspace/toasts.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/toasts.ts
+  toasts-ts-userun-1wmly:
+    kind: function
+    name: useRun()
+    in: workspace-toasts-ts-1sj66
+    signature: 'useRun(store: Store, toast: (text: string, toneOrAction?: "error" | "info" | { label: string; run: () => void; } | undefined) => void): (ops: Op[], label: string) => Promise<void>'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/toasts.ts:35
+    references:
+      - dependency: lib-types-react-1i7zx
+  toasts-ts-usetoasts-9nb79:
+    kind: function
+    name: useToasts()
+    in: workspace-toasts-ts-1sj66
+    signature: 'useToasts(): { toasts: Toast[]; setToasts: Dispatch<SetStateAction<Toast[]>>; toast: (text: string, toneOrAction?: "error" | "info" | { label: string; run: () => void; } | undefined) => void; }'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/workspace/toasts.ts:14
+    references:
+      - dependency: lib-types-react-1i7zx
+connections:
+  - {from: toasts-ts-userun-1wmly, to: store-ts-store-send-v1x64}

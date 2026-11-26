@@ -1,0 +1,59 @@
+# archnemesis:server/auth/providers/header.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  providers-header-ts-nssc7:
+    kind: module
+    name: header.ts
+    in: srv-auth
+    context: "header: who someone is comes from a header a trusted proxy in front sets. Two shapes:"
+    tech: [TypeScript]
+    path: archnemesis:server/auth/providers/header.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/header.ts
+  header-ts-fromjwt-1taw4:
+    kind: function
+    name: fromJwt()
+    in: providers-header-ts-nssc7
+    signature: "fromJwt(cfg: { header: string; jwksUrl: string; issuer: string; audience: string; loginClaim: string; nameClaim: string | null; loginPrefix: string; }, claims: JwtClaims): Identity | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/header.ts:49
+  header-ts-fromplain-1v3gw:
+    kind: function
+    name: fromPlain()
+    in: providers-header-ts-nssc7
+    signature: "fromPlain(cfg: { loginHeader: string; nameHeader: string | null; refuseHeader: string | null; localName: string | null; allowOpen: boolean; }, creds: ProviderCredentials, prefix: string): Identity | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/header.ts:58
+  header-ts-headerprovider-1bd11:
+    kind: function
+    name: headerProvider()
+    in: providers-header-ts-nssc7
+    signature: "headerProvider(cfg: HeaderConfig, ctx: ProviderContext): AuthProvider"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/header.ts:81
+  header-ts-str-pza1t:
+    kind: function
+    name: str()
+    in: providers-header-ts-nssc7
+    signature: "str(v: unknown): string | null"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:server/auth/providers/header.ts:45
+connections:
+  - {from: header-ts-fromjwt-1taw4, to: header-ts-str-pza1t}
+  - {from: header-ts-fromjwt-1taw4, to: names-ts-namefromemail-11dmo}
+  - {from: header-ts-fromplain-1v3gw, to: provider-ts-providercredentials-header-4prbx}
+  - {from: header-ts-headerprovider-1bd11, to: header-ts-fromjwt-1taw4}
+  - {from: header-ts-headerprovider-1bd11, to: header-ts-fromplain-1v3gw}
+  - {from: header-ts-headerprovider-1bd11, to: jwt-ts-jwksloader-j3e9y}
+  - {from: header-ts-headerprovider-1bd11, to: jwt-ts-jwtverifier-constructor-1xxtg}
+  - {from: header-ts-headerprovider-1bd11, to: jwt-ts-jwtverifier-ready-16m7a}
+  - {from: header-ts-headerprovider-1bd11, to: jwt-ts-jwtverifier-verify-ko999}
+  - {from: header-ts-headerprovider-1bd11, to: provider-ts-authprovider-describe-cepor}
+  - {from: header-ts-headerprovider-1bd11, to: provider-ts-authprovider-identify-3u74p}
+  - {from: header-ts-headerprovider-1bd11, to: provider-ts-authprovider-ready-9e0rm}
+  - {from: header-ts-headerprovider-1bd11, to: provider-ts-providercredentials-header-4prbx}

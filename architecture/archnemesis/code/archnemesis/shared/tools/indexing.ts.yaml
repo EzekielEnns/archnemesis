@@ -1,0 +1,55 @@
+# archnemesis:shared/tools/indexing.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  tools-indexing-ts-yyr3r:
+    kind: module
+    name: indexing.ts
+    in: shared-tools-1cbb9
+    context: "index: the factory's static pass, run on the person's machine (the server only hands out the command and takes the upload): start, scan, import, and progress for a long job."
+    tech: [TypeScript]
+    path: archnemesis:shared/tools/indexing.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/indexing.ts
+  indexing-ts-breathe-15ife:
+    kind: function
+    name: breathe()
+    in: tools-indexing-ts-yyr3r
+    context: Let other work in (other calls, other designs) before the next long step.
+    signature: "breathe: () => Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/indexing.ts:60
+  indexing-ts-crowding-kj1uo:
+    kind: function
+    name: crowding()
+    in: tools-indexing-ts-yyr3r
+    context: "Views that follow rules and would pass the boxes that read at a glance once the import's boxes are in: said at the dry run, so the grouping is planned before the write (the warnings only came after, and views were regrouped by hand)."
+    signature: "crowding(idx: ModelIndex, ops: Op[]): string[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/indexing.ts:16
+  indexing-ts-indextool-79onf:
+    kind: function
+    name: indexTool()
+    in: tools-indexing-ts-yyr3r
+    signature: "indexTool(host: Host, a: IndexArgs, c?: { progress?: ((progress: number, total: number, message: string) => Promise<void>) | undefined; }): Promise<Out>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:shared/tools/indexing.ts:62
+connections:
+  - {from: indexing-ts-crowding-kj1uo, to: project-ts-buildindex-dkcy4}
+  - {from: indexing-ts-crowding-kj1uo, to: views-ts-resolve-17a3a}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-fail-15k5p}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-host-applyrules-f2do4}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-host-commit-j2yh7}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-host-index-23rxl}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-indexer-importplan-xkprb}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-indexer-progress-1qj6g}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-indexer-scan-v5rjy}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-indexer-start-t3q0c}
+  - {from: indexing-ts-indextool-79onf, to: host-ts-ok-1qtxz}
+  - {from: indexing-ts-indextool-79onf, to: indexing-ts-breathe-15ife}
+  - {from: indexing-ts-indextool-79onf, to: indexing-ts-crowding-kj1uo}
+  - {from: indexing-ts-indextool-79onf, to: refs-ts-idof-1erbh}
+  - {from: indexing-ts-indextool-79onf, to: refs-ts-object-1mo87}

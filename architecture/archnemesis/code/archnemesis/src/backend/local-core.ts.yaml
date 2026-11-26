@@ -1,0 +1,221 @@
+# archnemesis:src/backend/local-core.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  backend-local-core-ts-1xxev:
+    kind: module
+    name: local-core.ts
+    in: web-backend
+    context: "What the static build's forks and history share: the fork records, reading a document's files, and keeping a version of main (see local-git.ts for what is built on this)."
+    tech: [TypeScript]
+    path: archnemesis:src/backend/local-core.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts
+  local-core-ts-createcore-1kpg9:
+    kind: function
+    name: createCore()
+    in: backend-local-core-ts-1xxev
+    signature: "createCore(host: GitHost, deps: GitDeps): GitCore"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:115
+  local-core-ts-createforks-10ta6:
+    kind: function
+    name: createForks()
+    in: backend-local-core-ts-1xxev
+    context: The forks of every design, kept in `where` (and in memory).
+    signature: "createForks(where: ListStore): { all: () => ForkRecord[]; of: (design: string) => ForkRecord[]; byDoc: (doc: string) => ForkRecord | null; save(next: ForkRecord[]): void; }"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:50
+  local-core-ts-fileskey-2u01s:
+    kind: function
+    name: filesKey()
+    in: backend-local-core-ts-1xxev
+    signature: "filesKey: (f: Files) => string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:97
+  local-core-ts-forkkey-1rw56:
+    kind: function
+    name: forkKey()
+    in: backend-local-core-ts-1xxev
+    context: A fork's document name.
+    signature: 'forkKey: (f: Pick<ForkRecord, "name" | "design">) => string'
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:90
+  local-core-ts-gitcore-files-qs4q2:
+    kind: function
+    name: GitCore.files()
+    in: backend-local-core-ts-1xxev
+    tech: [method of GitCore]
+    signature: "files(at: { key: string; doc: string; }): Promise<Files>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:82
+  local-core-ts-gitcore-find-rmf0c:
+    kind: function
+    name: GitCore.find()
+    in: backend-local-core-ts-1xxev
+    tech: [method of GitCore]
+    signature: "find(key: string): DesignRecord"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:80
+  local-core-ts-gitcore-patch-445fg:
+    kind: function
+    name: GitCore.patch()
+    in: backend-local-core-ts-1xxev
+    tech: [method of GitCore]
+    signature: "patch(key: string, change: Partial<DesignRecord>): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:81
+  local-core-ts-gitcore-ping-1gagt:
+    kind: function
+    name: GitCore.ping()
+    in: backend-local-core-ts-1xxev
+    context: "Tell the tabs open on a design (and its forks) that git changed: they look again."
+    tech: [method of GitCore]
+    signature: "ping(design: string): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:86
+  local-core-ts-gitcore-record-1rjla:
+    kind: function
+    name: GitCore.record()
+    in: backend-local-core-ts-1xxev
+    context: Keep main's files as a version (skipped when nothing changed since the last, unless `force`).
+    tech: [method of GitCore]
+    signature: "record(rec: DesignRecord, subject: string, force?: boolean | undefined): Promise<VersionMeta | null>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:84
+  local-core-ts-githost-clone-dy5qh:
+    kind: function
+    name: GitHost.clone()
+    in: backend-local-core-ts-1xxev
+    context: A new document, started as a copy of another's state.
+    tech: [method of GitHost]
+    signature: "clone(from: { key: string; doc: string; }, to: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:34
+  local-core-ts-githost-who-6wh42:
+    kind: function
+    name: GitHost.who()
+    in: backend-local-core-ts-1xxev
+    tech: [method of GitHost]
+    signature: "who(): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:37
+  local-core-ts-githost-wipe-v7ina:
+    kind: function
+    name: GitHost.wipe()
+    in: backend-local-core-ts-1xxev
+    context: Delete a document's stored data.
+    tech: [method of GitHost]
+    signature: "wipe(doc: string): Promise<void>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:36
+  local-core-ts-githost-withdoc-22j07:
+    kind: function
+    name: GitHost.withDoc()
+    in: backend-local-core-ts-1xxev
+    context: A document for a moment (the open one, or loaded from storage); `fn` must not be async.
+    tech: [method of GitHost]
+    signature: "withDoc<T>(at: { key: string; doc: string; }, fn: (ydoc: Doc) => T): Promise<T>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:32
+    references:
+      - dependency: lib-yjs-1y6wn
+  local-core-ts-samefiles-eak0f:
+    kind: function
+    name: sameFiles()
+    in: backend-local-core-ts-1xxev
+    signature: "sameFiles: (a: Files, b: Files) => boolean"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:93
+  local-core-ts-sha1-1fj4v:
+    kind: function
+    name: sha1()
+    in: backend-local-core-ts-1xxev
+    signature: "sha1(text: string): Promise<string>"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:100
+  local-core-ts-subjectof-18ifc:
+    kind: function
+    name: subjectOf()
+    in: backend-local-core-ts-1xxev
+    context: "What a stretch of edits is called in the history: its first label, and how many more."
+    signature: "subjectOf(entries: LogEntry[]): string"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:106
+  local-core-ts-tofiles-165i7:
+    kind: function
+    name: toFiles()
+    in: backend-local-core-ts-1xxev
+    signature: "toFiles: (m: Map<string, string>) => Files"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:92
+  local-core-ts-typeliteral0-all-130np:
+    kind: function
+    name: typeLiteral0:all()
+    in: backend-local-core-ts-1xxev
+    signature: "all(): DesignRecord[]"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:26
+  local-core-ts-typeliteral0-find-11rrv:
+    kind: function
+    name: typeLiteral0:find()
+    in: backend-local-core-ts-1xxev
+    signature: "find(key: string): DesignRecord | undefined"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:27
+  local-core-ts-typeliteral0-save-pin46:
+    kind: function
+    name: typeLiteral0:save()
+    in: backend-local-core-ts-1xxev
+    signature: "save(next: DesignRecord[]): void"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/backend/local-core.ts:28
+    references:
+      - dependency: lib-yjs-1y6wn
+connections:
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-createforks-10ta6}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-fileskey-2u01s}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-forkkey-1rw56}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-gitcore-files-qs4q2}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-gitcore-find-rmf0c}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-gitcore-patch-445fg}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-gitcore-ping-1gagt}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-gitcore-record-1rjla}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-githost-who-6wh42}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-githost-withdoc-22j07}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-samefiles-eak0f}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-sha1-1fj4v}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-tofiles-165i7}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-typeliteral0-all-130np}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-typeliteral0-find-11rrv}
+  - {from: local-core-ts-createcore-1kpg9, to: local-core-ts-typeliteral0-save-pin46}
+  - {from: local-core-ts-createcore-1kpg9, to: local-versions-ts-versionstore-add-h8ljm}
+  - {from: local-core-ts-createcore-1kpg9, to: local-versions-ts-versionstore-files-1ts39}
+  - {from: local-core-ts-createcore-1kpg9, to: local-versions-ts-versionstore-list-1t7ms}
+  - {from: local-core-ts-createcore-1kpg9, to: local-versions-ts-versionstore-remove-90bnl}
+  - {from: local-core-ts-createcore-1kpg9, to: portable-files-ts-filesofdoc-lk8af}
+  - {from: local-core-ts-createcore-1kpg9, to: types-ts-backenderror-constructor-trfnp}
+  - {from: local-core-ts-createcore-1kpg9, to: types-ts-dochandlers-onevent-1my7r}
+  - {from: local-core-ts-createforks-10ta6, to: local-core-ts-forkkey-1rw56}
+  - {from: local-core-ts-createforks-10ta6, to: local-ts-liststore-read-ohayq}
+  - {from: local-core-ts-createforks-10ta6, to: local-ts-liststore-write-h43sd}

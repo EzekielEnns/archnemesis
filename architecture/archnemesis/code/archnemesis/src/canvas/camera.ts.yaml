@@ -1,0 +1,76 @@
+# archnemesis:src/canvas/camera.ts: the module, what's inside it, and their calls.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  canvas-camera-ts-1p8yr:
+    kind: module
+    name: camera.ts
+    in: web-canvas
+    context: "The view onto the world: screen = world * scale + (x, y). Immutable; every change returns a new camera, so the scene can tell when it moved."
+    tech: [TypeScript]
+    path: archnemesis:src/canvas/camera.ts
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts
+  camera-ts-clampscale-1hxwe:
+    kind: function
+    name: clampScale()
+    in: canvas-camera-ts-1p8yr
+    signature: "clampScale(s: number): number"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:14
+  camera-ts-fitbounds-1env6:
+    kind: function
+    name: fitBounds()
+    in: canvas-camera-ts-1p8yr
+    context: The camera that shows all of `bounds` centered in a w×h view, `padding` px at the edges.
+    signature: "fitBounds(bounds: Rect, w: number, h: number, padding?: number): Camera"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:38
+  camera-ts-panby-rrkox:
+    kind: function
+    name: panBy()
+    in: canvas-camera-ts-1p8yr
+    signature: "panBy(c: Camera, dx: number, dy: number): Camera"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:26
+  camera-ts-screentoworld-1ot24:
+    kind: function
+    name: screenToWorld()
+    in: canvas-camera-ts-1p8yr
+    signature: "screenToWorld(c: Camera, p: Point): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:18
+  camera-ts-visibleworld-1745x:
+    kind: function
+    name: visibleWorld()
+    in: canvas-camera-ts-1p8yr
+    context: The part of the world a w×h view shows.
+    signature: "visibleWorld(c: Camera, w: number, h: number): Rect"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:52
+  camera-ts-worldtoscreen-1hyxf:
+    kind: function
+    name: worldToScreen()
+    in: canvas-camera-ts-1p8yr
+    signature: "worldToScreen(c: Camera, p: Point): Point"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:22
+  camera-ts-zoomat-9psxp:
+    kind: function
+    name: zoomAt()
+    in: canvas-camera-ts-1p8yr
+    context: Zoom by `factor` keeping the world point under the screen point `at` where it is.
+    signature: "zoomAt(c: Camera, at: Point, factor: number): Camera"
+    tags: [generated]
+    sources:
+      - archnemesis@7a54ce6c9ff3:src/canvas/camera.ts:31
+connections:
+  - {from: camera-ts-fitbounds-1env6, to: camera-ts-clampscale-1hxwe}
+  - {from: camera-ts-visibleworld-1745x, to: camera-ts-screentoworld-1ot24}
+  - {from: camera-ts-zoomat-9psxp, to: camera-ts-clampscale-1hxwe}
