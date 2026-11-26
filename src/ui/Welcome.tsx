@@ -29,8 +29,8 @@ const LEAD =
 
 function statusLine(w: Where): string {
   if (w.place === "page-agent")
-    return "Agent tools are ready on this page. Your designs stay in this browser.";
-  if (w.place === "page") return "Your designs stay in this browser.";
+    return "Demo mode: an agent can work on this page. Your designs stay in this browser.";
+  if (w.place === "page") return "Demo mode: your designs stay in this browser.";
   const files = w.team
     ? "Designs are saved as files on this server, and everyone you invite sees edits as they happen."
     : "Designs are saved as files on this server.";
@@ -86,16 +86,16 @@ function waysFor(w: Where): Way[] {
         place === "server"
           ? "Give an AI agent, such as Claude Code, access to this design."
           : place === "page-agent"
-            ? "Your browser can let an agent work on this design."
-            : "This page can't take an agent. Here is what can.",
+            ? "Chrome is ready. Point your agent at this tab."
+            : "Takes one command, or one Chrome setting.",
       next:
         place === "server"
           ? w.agent
             ? "Ask it to map a repo"
             : `Add ${addr} to your agent`
           : place === "page-agent"
-            ? "Nothing to install"
-            : "See what you need",
+            ? "Ask it to use the tools on this page"
+            : "See the two ways",
       tag:
         place === "server"
           ? w.agent

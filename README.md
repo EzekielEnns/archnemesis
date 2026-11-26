@@ -83,8 +83,8 @@ claude mcp add -s user --transport http archnm http://127.0.0.1:5190/mcp
 
 On a server that needs a token add `--header "Authorization: Bearer <agent token>"`, where
 `<agent token>` is a token from the server's `ARCHNM_TOKENS` file or a personal token made in
-the app. On the server-less static build there is no `/mcp`: in a browser with WebMCP the page
-offers the same tools to an agent running there. More in
+the app. The hosted demo has no server and so no `/mcp`: see
+[Use an agent on the demo](#use-an-agent-on-the-demo). More in
 [Connecting an agent](#connecting-an-agent).
 
 **Tools** (defined in `shared/tools/tools.ts`):
@@ -278,6 +278,22 @@ With `oidc`, `github` or any provider with a button, add the server as in the co
 without a header, then run `/mcp` in Claude Code, pick the server and choose
 **Authenticate**. In a browser with WebMCP the page offers the same tools to an agent running
 there (`src/webmcp.ts`), acting for you with your rights; this also works in the static build.
+
+### Use an agent on the demo
+
+The hosted demo runs in demo mode: no server, designs kept in your browser. An agent reaches it
+through Chrome (WebMCP, a Chrome trial), and the page offers its tools whenever Chrome has it
+on, on a server install as well. With Claude Code, run the command below, open the demo in the
+Chrome it starts, and ask it to draw your system.
+
+```sh
+claude mcp add chrome-devtools --scope user -- npx -y chrome-devtools-mcp@latest --categoryExperimentalWebmcp --chromeArg=--enable-features=WebMCP
+```
+
+To use your own Chrome instead, open `chrome://flags/#enable-webmcp-testing`, set it to
+Enabled and relaunch; you then need an agent that works inside Chrome. From the page an agent
+can read and change the open design, but it cannot read files on your computer: for that, run
+Archnemesis yourself and use its MCP address.
 
 The **channel** lets a running Claude Code session answer when someone writes **@agent** in a
 note. It is a research-preview Claude Code feature (v2.1.80 or later):

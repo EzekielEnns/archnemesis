@@ -63,6 +63,13 @@ export const PLAN_ASK =
   "Plan this feature in Archnemesis: <describe the feature>. Start from what is already drawn, add what the feature needs as planned boxes and connections, and tell me what it touches.";
 
 /** The image name in the README's Docker commands. It is private and not final: change it here. */
+/** Chrome's own setting for offering a page's tools to agents (WebMCP), while it is a trial. */
+export const WEBMCP_FLAG = "chrome://flags/#enable-webmcp-testing";
+/** Claude Code, given a Chrome it can drive with WebMCP on (Chrome DevTools MCP). */
+export const WEBMCP_CLAUDE =
+  "claude mcp add chrome-devtools --scope user -- npx -y chrome-devtools-mcp@latest --categoryExperimentalWebmcp --chromeArg=--enable-features=WebMCP";
+export const WEBMCP_ASK = "Use the Archnemesis tools on this page to draw my system.";
+
 export const IMAGE_NAME = "archnm";
 /** Running Archnemesis on your own machine: README.md, "1. Docker (the default)". */
 export const RUN_LOCAL: readonly string[] = [

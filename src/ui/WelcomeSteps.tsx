@@ -8,6 +8,9 @@ import {
   MAP_ASK_PUBLIC,
   PLAN_ASK,
   RUN_LOCAL,
+  WEBMCP_ASK,
+  WEBMCP_CLAUDE,
+  WEBMCP_FLAG,
   type Detail,
   type Place,
 } from "./welcomeState";
@@ -120,6 +123,10 @@ function ConnectOnServer({ mcp, agent }: { mcp: McpSetup; agent: boolean }) {
           ? "An agent is connected."
           : "Waiting for an agent. This line changes when one connects."}
       </Ready>
+      <Note>
+        An agent inside Chrome can use this page too (WebMCP), with your rights. To switch that on:{" "}
+        <code>{WEBMCP_FLAG}</code>
+      </Note>
     </>
   );
 }
@@ -127,22 +134,15 @@ function ConnectOnServer({ mcp, agent }: { mcp: McpSetup; agent: boolean }) {
 function ConnectInPage() {
   return (
     <>
-      <p>
-        Your browser can give an agent the same tools you have on this page (WebMCP). It works on
-        the design you have open, and its edits show under an agent's name, so you can tell them
-        from yours.
-      </p>
-      <Ready on>Agent tools are ready on this page.</Ready>
-      <Step n={1}>Ask an agent that runs in this browser to use this page.</Step>
+      <Ready on>Chrome is offering this page's tools to agents.</Ready>
+      <Step n={1}>Ask your agent to use the tools on this page.</Step>
       <Step n={2}>
-        Paste one of these:
+        Try:
+        <Cmd text={WEBMCP_ASK} />
         <Cmd text={MAP_ASK_PUBLIC} />
-        <Cmd text={PLAN_ASK} />
       </Step>
-      <Note>
-        The agent can read and change this design. It can't delete designs, and it can't read files
-        on your computer.
-      </Note>
+      <Step n={3}>Watch it appear. The agent's edits carry its name, and it can undo its own.</Step>
+      <Note>It can't read files on your computer from here: give it a link, or describe it.</Note>
     </>
   );
 }
@@ -150,18 +150,27 @@ function ConnectInPage() {
 function ConnectNowhere() {
   return (
     <>
-      <p>
-        An agent gets in through an address a server gives it, or through a browser that has WebMCP.
-        This page has neither, so nothing here can take an agent yet.
-      </p>
-      <Step n={1}>Open this page in a browser that has WebMCP.</Step>
-      <Step n={2}>
-        Or run Archnemesis on your machine, which gives agents an address:
-        <RunLocal />
+      <p>Pick one.</p>
+      <h3>With Claude Code (one command)</h3>
+      <Step n={1}>
+        Run this in a terminal. It gives Claude Code a Chrome it can drive.
+        <Cmd text={WEBMCP_CLAUDE} />
       </Step>
+      <Step n={2}>In that Chrome, open this page.</Step>
+      <Step n={3}>
+        Ask:
+        <Cmd text={WEBMCP_ASK} />
+      </Step>
+      <h3>In your own Chrome</h3>
+      <Step n={1}>
+        Open this and set it to Enabled:
+        <Cmd text={WEBMCP_FLAG} />
+      </Step>
+      <Step n={2}>Relaunch Chrome and come back to this page.</Step>
+      <Step n={3}>Use an agent that works inside Chrome.</Step>
       <Note>
-        Your design here stays in this browser. To keep working on it elsewhere, use Export in the
-        design menu.
+        This is Chrome's WebMCP, still a trial. No agent? Start blank or open the example: both work
+        without one.
       </Note>
     </>
   );
@@ -187,7 +196,6 @@ export function stepsFor(
     };
   if (p.place === "server" && p.mcp)
     return { title: "Connect an agent", body: <ConnectOnServer mcp={p.mcp} agent={p.agent} /> };
-  if (p.place === "page-agent")
-    return { title: "Connect an agent: nothing to install", body: <ConnectInPage /> };
+  if (p.place === "page-agent") return { title: "Connect an agent", body: <ConnectInPage /> };
   return { title: "Connect an agent", body: <ConnectNowhere /> };
 }
