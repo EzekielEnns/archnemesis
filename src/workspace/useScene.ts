@@ -1,4 +1,4 @@
-import { DRAWER_W } from "./constants";
+import { DRAWER_W, PANEL_ROOM } from "./constants";
 // The canvas: made once, drawn whenever the model or the diagram changes (and its camera kept
 // per diagram), and the things only it needs, such as its callbacks' connection maker, the
 // minimap and arrow-animation switches, the zoom and where the pointer last was.
@@ -24,6 +24,7 @@ export function useScene({
   diagramId,
   route,
   sidebar,
+  leftPanel,
   dock,
   deps,
 }: {
@@ -36,6 +37,8 @@ export function useScene({
   diagramId: string | null;
   route: ReturnType<typeof parseHash>;
   sidebar: boolean;
+  /** The left panel is open (floating over the canvas when it isn't docked). */
+  leftPanel: boolean;
   dock: number;
   deps: Omit<SceneDeps, "store" | "latest" | "open" | "makeConnection" | "pointer" | "setZoom">;
 }) {
@@ -45,8 +48,9 @@ export function useScene({
   const pointer = useRef<{ x: number; y: number } | null>(null);
   // The canvas never resizes for the drawer; it just knows what's covered.
   useEffect(
-    () => scene.current?.setInsetLeft(sidebar ? DRAWER_W + 12 : dock),
-    [sidebar, dock, ready],
+    () =>
+      scene.current?.setInsetLeft(sidebar ? DRAWER_W + 12 : dock || (leftPanel ? PANEL_ROOM : 0)),
+    [sidebar, dock, leftPanel, ready],
   );
   const [minimap, setMinimap] = useStoredFlag("archnm.minimap.open", false);
   const [animate, setAnimate] = useStoredFlag("archnm.arrows.all", false);
