@@ -88,9 +88,8 @@ describe("what this browser remembers", () => {
 });
 
 describe("running it on your own machine", () => {
-  it("shows the README's commands, with the one image name", () => {
+  it("shows the README's commands", () => {
     const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
     for (const c of state.RUN_LOCAL) expect(readme).toContain(c);
-    for (const c of state.RUN_LOCAL) expect(c).toContain(state.IMAGE_NAME);
   });
 });

@@ -33,6 +33,10 @@ Fastest first.
 3. **Run it from source.** Needs Node 24 or newer and pnpm.
 
    ```sh
+   git clone https://github.com/EzekielEnns/archnemesis.git && cd archnemesis
+   ```
+
+   ```sh
    pnpm install
    ```
 

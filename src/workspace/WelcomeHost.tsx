@@ -1,6 +1,6 @@
 // Puts the first-run welcome on the page: which of its pieces shows (welcomeState.ts decides), where
 // the ways in lead, and the keys it listens for.
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { backend } from "../backend";
 import { carryToast, hashFor } from "../route";
 import {
@@ -60,9 +60,17 @@ export function WelcomeHost({
   }, [ui.panel, help]);
 
   // Something was drawn while the panel was up (an agent, or someone else): get out of its way.
+  const had = useRef(boxes);
   useEffect(() => {
-    if (boxes > 0 && ui.panel) tuck();
-  }, [boxes, ui.panel]);
+    if (boxes > 0 && had.current === 0) tuck();
+    had.current = boxes;
+  }, [boxes]);
+
+  // Where the top row centres (useDocking): the page, less a docked panel. The welcome lines up.
+  useEffect(() => {
+    document.body.style.setProperty("--wel-dock", `${dock}px`);
+    return () => void document.body.style.removeProperty("--wel-dock");
+  }, [dock]);
 
   // The coach has said its piece once there is a connection.
   const connected = store.connections.size > 0;

@@ -70,11 +70,12 @@ export const WEBMCP_CLAUDE =
   "claude mcp add chrome-devtools --scope user -- npx -y chrome-devtools-mcp@latest --categoryExperimentalWebmcp --chromeArg=--enable-features=WebMCP";
 export const WEBMCP_ASK = "Use the Archnemesis tools on this page to draw my system.";
 
-export const IMAGE_NAME = "archnm";
-/** Running Archnemesis on your own machine: README.md, "1. Docker (the default)". */
+export const REPO_URL = "https://github.com/EzekielEnns/archnemesis";
+/** Self-hosting at its simplest: README.md, "Run it from source". */
 export const RUN_LOCAL: readonly string[] = [
-  `docker build -t ${IMAGE_NAME} .`,
-  `docker run -p 5190:5190 -v archnm-data:/data -v "$PWD/architecture:/architecture" -v "$PWD/tokens.json:/run/archnm/tokens.json:ro" ${IMAGE_NAME}`,
+  `git clone ${REPO_URL}.git && cd archnemesis`,
+  "pnpm install",
+  "pnpm dev",
 ];
 
 // --- the state the pieces share ----------------------------------------------------------

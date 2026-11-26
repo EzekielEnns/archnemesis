@@ -8,8 +8,14 @@
 .wel-tip,
 .wel-hint {
   --wel-free: calc(100% - var(--wel-left, 12px) - 12px);
+  /* Under the tools: the middle of the page (less a docked panel), moved right only as far as
+     a floating left panel makes it. */
+  --wel-w: 0px;
   position: absolute;
-  left: calc(var(--wel-left, 12px) + var(--wel-free) / 2);
+  left: max(
+    calc(var(--wel-dock, 0px) + (100% - var(--wel-dock, 0px)) / 2),
+    calc(var(--wel-left, 12px) + var(--wel-w) / 2)
+  );
   transform: translateX(-50%);
 }
 
@@ -17,7 +23,8 @@
 .wel {
   top: 68px;
   z-index: 20;
-  width: min(660px, var(--wel-free));
+  --wel-w: min(660px, var(--wel-free));
+  width: var(--wel-w);
   max-height: calc(100% - 68px - 64px);
   overflow: auto;
   padding: 20px 22px 14px;

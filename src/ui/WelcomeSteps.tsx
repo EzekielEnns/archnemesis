@@ -7,6 +7,7 @@ import {
   MAP_ASK,
   MAP_ASK_PUBLIC,
   PLAN_ASK,
+  REPO_URL,
   RUN_LOCAL,
   WEBMCP_ASK,
   WEBMCP_CLAUDE,
@@ -31,14 +32,20 @@ const Ready = ({ on, children }: { on: boolean; children: ReactNode }) => (
   </p>
 );
 
-/** Running Archnemesis on your own machine: the README's commands. */
+/** Self-hosting at its simplest: the README's run-from-source commands. */
 function RunLocal() {
   return (
     <>
       {RUN_LOCAL.map((c) => (
         <Cmd key={c} text={c} />
       ))}
-      <p className="small muted">Needs Docker and a tokens.json first: README.md, Docker.</p>
+      <p className="small muted">
+        Needs Node 24 or newer and pnpm. Docker, sign-in and hosting it for a team are in the{" "}
+        <a href={`${REPO_URL}#readme`} target="_blank" rel="noreferrer">
+          README
+        </a>
+        .
+      </p>
     </>
   );
 }
@@ -98,18 +105,21 @@ function Local() {
   return (
     <>
       <p>
-        This page can't read a repo or take an agent. Mapping code takes Archnemesis running on your
-        own machine, with an agent started in the repo's folder.
+        Mapping a repo takes your own copy of Archnemesis (self-hosted). The demo runs only in this
+        browser, so an agent here can't read the code on your machine.
       </p>
       <Step n={1}>
-        Run Archnemesis on your machine:
+        Start it on your machine:
         <RunLocal />
       </Step>
       <Step n={2}>
-        Open <code>http://127.0.0.1:5190</code>, connect your agent, and paste “Map this repo into
-        Archnemesis”.
+        Open <code>http://127.0.0.1:5190</code> and choose Connect an agent. It is one command.
       </Step>
-      <Note>You can still start blank or open the example here. Both stay in this browser.</Note>
+      <Step n={3}>
+        Start your agent in the repo's folder and ask:
+        <Cmd text={MAP_ASK} />
+      </Step>
+      <Note>Your designs are saved as YAML files in a folder you can put in git.</Note>
     </>
   );
 }
@@ -143,7 +153,7 @@ function ThroughServer({ mcp, agent }: { mcp: McpSetup | null; agent: boolean })
   if (!mcp)
     return (
       <>
-        <p>Demo mode has no server. Run Archnemesis on your machine, then connect from there:</p>
+        <p>Demo mode has no server. Start your own (self-host), then connect from there:</p>
         <RunLocal />
       </>
     );
@@ -198,7 +208,9 @@ export function stepsFor(
   detail: Exclude<Detail, null>,
   p: { place: Place; mcp: McpSetup | null; agent: boolean; onDetail: (d: Detail) => void },
 ): { title: string; body: ReactNode } {
-  if (detail === "local") return { title: "Map a repo with an agent", body: <Local /> };
+  if (detail === "local") return { title: "Self-host to map a repo", body: <Local /> };
+  if (detail === "map" && p.place === "page")
+    return { title: "Self-host to map a repo", body: <Local /> };
   if (detail === "map")
     return {
       title: "Map a repo with an agent",
