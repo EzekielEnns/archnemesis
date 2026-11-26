@@ -61,23 +61,22 @@ describe("what this browser remembers", () => {
     state.autoOpen();
     const ui = state.getWelcomeUi();
     expect(ui.panel).toBe(false);
-    expect(ui.chip).toBe(true);
   });
   it("counts the old first-open agent card, once dismissed, as having seen it", () => {
     kept.set("archnm.agent-card.oauth", "1");
     expect(state.readMemory()).toBe("seen");
   });
-  it("hiding for good takes the chip and the panel away; ? brings the panel back", () => {
+  it("hiding for good takes the panel away; ? brings the panel back", () => {
     state.autoOpen();
     state.hideForGood();
-    expect(state.getWelcomeUi()).toMatchObject({ panel: false, chip: false });
+    expect(state.getWelcomeUi()).toMatchObject({ panel: false });
     state.openWelcome();
-    expect(state.getWelcomeUi()).toMatchObject({ panel: true, chip: false });
+    expect(state.getWelcomeUi()).toMatchObject({ panel: true });
   });
   it("Start blank tucks the panel and starts the coach", () => {
     state.autoOpen();
     state.tuck({ coach: true });
-    expect(state.getWelcomeUi()).toMatchObject({ panel: false, chip: true, coach: true });
+    expect(state.getWelcomeUi()).toMatchObject({ panel: false, coach: true });
   });
   it("knows a design that a link opened", () => {
     expect(state.isFromLink("shop", null)).toBe(false);

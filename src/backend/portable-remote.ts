@@ -6,7 +6,7 @@ import type { StateJson } from "../../shared/api.ts";
 import { stateFromFiles } from "../../shared/diff.ts";
 import { readState } from "../../shared/doc.ts";
 import type { FileModel } from "../../shared/files.ts";
-import { ghText, parseGhSpec } from "../../shared/ghlink.ts";
+import { ghText, parseGhSpec, type GhSpec } from "../../shared/ghlink.ts";
 import { slug } from "../../shared/model.ts";
 import { fingerprint } from "../../shared/sharelink.ts";
 import { changedWithContext, type WhatsNew } from "../../shared/whatsnew.ts";
@@ -39,6 +39,9 @@ interface Remote {
   base: Map<string, string> | null;
   from: string;
   name: string;
+  /** What the link named, and the folder it turned out to be in: a copy remembers them. */
+  spec: GhSpec;
+  folder: string;
 }
 
 export function createRemotes(
@@ -74,7 +77,15 @@ export function createRemotes(
       const key = found.fork ? `${main}@${slug(found.fork).slice(0, 40)}` : main;
       const from = `${spec.owner}/${spec.repo}${spec.ref ? `@${spec.ref}` : ""}`;
       const name = cleanName(model.config.name ?? "") || found.design || spec.repo;
-      remotes.set(key, { model, files: found.files, base: found.base, from, name });
+      remotes.set(key, {
+        model,
+        files: found.files,
+        base: found.base,
+        from,
+        name,
+        spec,
+        folder: found.folder,
+      });
       remember(key, norm);
       return { key, readOnly: true, from };
     },

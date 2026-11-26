@@ -27,7 +27,16 @@ import { useEffect, useState } from "react";
 import { colorFor } from "../presence";
 import { carryToast, goDoc } from "../route";
 import type { Store } from "../store";
-import { ago, ForkIcons, gitStatus, prState, repoName, short, type Act } from "./BranchMenu";
+import {
+  ago,
+  ForkIcons,
+  gitStatus,
+  mainMeta,
+  mainNote,
+  prState,
+  repoName,
+  type Act,
+} from "./BranchMenu";
 import { Dialog } from "./Dialog";
 
 type Toast = (text: string, tone?: "info" | "error") => void;
@@ -278,19 +287,27 @@ export function BranchesView({ store, toast, diff, onRepo }: Props) {
               <span className="br-cur-name">main</span>
               <span className="br-from">{repoName(git)}</span>
               <span className="grow" />
-              <button
-                className="icon-btn"
-                data-tip="Sync with the repo now"
-                aria-label="Sync"
-                disabled={!!busy}
-                onClick={() => void act("sync", () => store.gitAction.sync())}
-              >
-                <RefreshCw size={14} className={busy === "sync" || git.syncing ? "spin" : ""} />
-              </button>
+              {(!git.inBrowser || git.remote) && (
+                <button
+                  className="icon-btn"
+                  data-tip={
+                    git.inBrowser ? "Pull GitHub's changes into main" : "Sync with the repo now"
+                  }
+                  aria-label="Sync"
+                  disabled={!!busy}
+                  onClick={() => void act("sync", () => store.gitAction.sync())}
+                >
+                  <RefreshCw size={14} className={busy === "sync" || git.syncing ? "spin" : ""} />
+                </button>
+              )}
             </div>
             <p className="br-note">
-              Main mirrors the repo: editing it starts a fork. Synced {ago(git.syncedAt)}.
+              {git.inBrowser
+                ? mainNote(git)
+                : `Main mirrors the repo: editing it starts a fork. Synced ${ago(git.syncedAt)}.`}
+              {git.inBrowser && git.remote ? ` Pulled ${ago(git.syncedAt)}.` : ""}
             </p>
+            {git.inBrowser && git.error && <p className="br-note first-error">{git.error}</p>}
             {git.local && store.canEdit && (
               <button
                 className="cta wide"
@@ -328,7 +345,7 @@ export function BranchesView({ store, toast, diff, onRepo }: Props) {
           on={!store.branch}
           lane={forks.length > 0 || history.length > 0 ? "down" : "none"}
           name="main"
-          meta={`@${short(git.main)} · synced ${ago(git.syncedAt)}`}
+          meta={mainMeta(git)}
           tip={store.branch ? "Go to main" : "You're on main"}
           onClick={() => store.branch && goDoc(store.designKey)}
         />
@@ -442,7 +459,11 @@ export function BranchesView({ store, toast, diff, onRepo }: Props) {
             })
           }
         >
-          <p>This repo has no pull requests, so this goes straight to main without review.</p>
+          <p>
+            {git.inBrowser
+              ? "The fork's changes go onto main, together with anything changed on main since."
+              : "This repo has no pull requests, so this goes straight to main without review."}
+          </p>
         </Dialog>
       )}
     </div>

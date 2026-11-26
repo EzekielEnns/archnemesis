@@ -249,8 +249,13 @@ export function SharedBanner({ store }: { store: Store }) {
             <span className="muted"> · a fork: the diff shows what changed on it</span>
           )}
         </span>
-        <button className="cta" disabled={busy} onClick={() => void go(() => p.copy(store.design))}>
-          Make my own copy
+        <button
+          className="cta"
+          disabled={busy}
+          title="Make a copy here to edit on forks, see what changed and pull their updates"
+          onClick={() => void go(() => p.copy(store.design))}
+        >
+          Fork it
         </button>
         {error && <span className="first-error small">{error}</span>}
       </div>

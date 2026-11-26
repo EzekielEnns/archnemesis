@@ -12,8 +12,5 @@ export const PANEL_ROOM = 288;
 export const MENU_ROOM = 64;
 /** About how wide all the tools are; with less room than this, some go in the ⋮ menu. */
 export const TOOLS_W = 600;
-/** Narrower than this, a pinned panel floats instead of docking (Excalidraw's sidebar does the same). */
-export const DOCK_MIN = 1280;
-
 /** The drawer's width: what the canvas treats as covered while it's open. */
 export const DRAWER_W = 280;

@@ -42,7 +42,11 @@ export function modelContext(): ModelContext | null {
 /** What the page offers: not index (the server takes repos), and design without delete or discard. */
 const IN_PAGE = new Set(["read", "write", "note", "show", "guide", "design", "feedback"]);
 /** What `design` does in the page: fork and propose need git, which not every backend has. */
-const PAGE_DESIGN: [string, ...string[]] = backend.git ? ["list", "fork", "propose"] : ["list"];
+const PAGE_DESIGN: [string, ...string[]] = !backend.git
+  ? ["list"]
+  : backend.git.inBrowser
+    ? ["list", "fork"]
+    : ["list", "fork", "propose"];
 
 /** A little longer than the backend waits before applying view rules (src/backend/rules.ts). */
 const RULES_SETTLE_MS = 700;

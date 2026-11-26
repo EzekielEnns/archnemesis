@@ -26,3 +26,16 @@ export function setStored(key: string, value: string | null): void {
     /* private window: fine, just not remembered */
   }
 }
+
+/** Where you were when you left for GitHub to connect it: you come back there, at the repo settings. */
+const GH_BACK_KEY = "archnm.gh.back";
+export const leavingForGitHub = (): void => setStored(GH_BACK_KEY, location.hash || "#/");
+
+/** True once, on the page load after connecting GitHub: the address is put back where you were. */
+export function backFromGitHub(): boolean {
+  const back = stored(GH_BACK_KEY);
+  if (back === null) return false;
+  setStored(GH_BACK_KEY, null);
+  if (back !== "#/" && location.hash !== back) location.hash = back;
+  return true;
+}

@@ -184,3 +184,20 @@
 .yaml-block .dl {
   white-space: pre;
 }
+
+/* On a fork, the button that opens the panel carries the fork's name. */
+.panel-open.on-fork {
+  width: auto;
+  max-width: 220px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 0 10px;
+  color: #f59e0b;
+}
+.panel-open-fork {
+  overflow: hidden;
+  font-size: 12.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

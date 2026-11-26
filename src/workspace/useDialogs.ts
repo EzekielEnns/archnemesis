@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { type SettingsSection } from "../ui/LeftPanel";
 import { perfMeterOn } from "../ui/Perf";
+import { backFromGitHub } from "../storage";
 import { type ReportKind } from "../ui/Report";
 
 export function useDialogs() {
@@ -14,7 +15,10 @@ export function useDialogs() {
   // "This is confusing": a line about what you were trying to do, kept in your trail.
   const [marking, setMarking] = useState<string | null>(null);
   // Settings, open at a section (the save icon opens it at the repo, your avatar at the account).
-  const [settings, setSettings] = useState<SettingsSection | null>(null);
+  // Back from connecting GitHub: straight to the repo settings, to pick the repo.
+  const [settings, setSettings] = useState<SettingsSection | null>(() =>
+    backFromGitHub() ? "repo" : null,
+  );
   const [layersOpen, setLayersOpen] = useState(false);
   return {
     palette,

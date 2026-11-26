@@ -17,7 +17,7 @@ import {
   useWelcomeUi,
 } from "../ui/welcomeState";
 import { exampleError, openExample } from "../ui/exampleDesign";
-import { EmptyHint, SharedTip, WelcomeChip, WelcomeCoach, WelcomePanel } from "../ui/Welcome";
+import { EmptyHint, SharedTip, WelcomeCoach, WelcomePanel } from "../ui/Welcome";
 import { modelContext } from "../webmcp";
 import { PANEL_ROOM } from "./constants";
 import type { WorkspaceBag } from "./useInteraction";
@@ -32,10 +32,9 @@ export function WelcomeHost({
   store,
   empty,
   leftPanel,
-  dock,
   help,
   toast,
-}: Pick<WorkspaceBag, "store" | "empty" | "leftPanel" | "dock" | "help" | "toast">) {
+}: Pick<WorkspaceBag, "store" | "empty" | "leftPanel" | "help" | "toast">) {
   const ui = useWelcomeUi();
   useSyncExternalStore(store.subscribe, store.getVersion);
   const [busy, setBusy] = useState(false);
@@ -43,7 +42,7 @@ export function WelcomeHost({
   const boxes = store.objects.size;
   const fromLink = isFromLink(store.design, store.from);
   const mode = modeOf({ memory: readMemory(), empty: empty && boxes === 0, fromLink });
-  const left = dock || (leftPanel ? PANEL_ROOM : 12);
+  const left = leftPanel ? PANEL_ROOM : 12;
   const place = placeOf(store.mcp, modelContext() !== null);
   const agent = store.here.some((e) => e.user.kind === "agent");
 
@@ -51,7 +50,7 @@ export function WelcomeHost({
     if (live && mode === "welcome") autoOpen();
   }, [live, mode]);
 
-  // Esc tucks the panel into the chip (the shortcuts sheet, if open, takes the first Esc).
+  // Esc closes the panel (the shortcuts sheet, if open, takes the first Esc).
   useEffect(() => {
     if (!ui.panel || help) return;
     const esc = (e: KeyboardEvent) => e.key === "Escape" && tuck();
@@ -65,12 +64,6 @@ export function WelcomeHost({
     if (boxes > 0 && had.current === 0) tuck();
     had.current = boxes;
   }, [boxes]);
-
-  // Where the top row centres (useDocking): the page, less a docked panel. The welcome lines up.
-  useEffect(() => {
-    document.body.style.setProperty("--wel-dock", `${dock}px`);
-    return () => void document.body.style.removeProperty("--wel-dock");
-  }, [dock]);
 
   // The coach has said its piece once there is a connection.
   const connected = store.connections.size > 0;
@@ -110,7 +103,7 @@ export function WelcomeHost({
     }
   };
 
-  const quiet = !ui.panel && !ui.chip && !ui.coach;
+  const quiet = !ui.panel && !ui.coach;
   return (
     <>
       {ui.panel && (
@@ -124,9 +117,6 @@ export function WelcomeHost({
           onTuck={() => tuck()}
           onNever={never}
         />
-      )}
-      {ui.chip && !ui.panel && (
-        <WelcomeChip ui={ui} left={left} onOpen={() => openWelcome()} onNever={never} />
       )}
       {ui.coach && !ui.panel && <WelcomeCoach left={left} boxes={boxes} />}
       {quiet && mode === "hint" && <EmptyHint onOpen={() => openWelcome()} />}

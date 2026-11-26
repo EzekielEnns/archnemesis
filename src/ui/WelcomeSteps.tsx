@@ -40,8 +40,9 @@ function RunLocal() {
         <Cmd key={c} text={c} />
       ))}
       <p className="small muted">
-        Needs Docker. It answers only on your own machine, with no sign-in. Running from source,
-        sign-in and hosting it for a team are in the{" "}
+        Run it in your project's folder. Needs Docker. It answers only on your own machine, with no
+        sign-in, and saves each design as files under <code>./architecture</code> that you commit
+        with the rest of your repo. Hosting it for a team is in the{" "}
         <a href={`${REPO_URL}#readme`} target="_blank" rel="noreferrer">
           README
         </a>
@@ -120,7 +121,6 @@ function Local() {
         Start your agent in the repo's folder and ask:
         <Cmd text={MAP_ASK} />
       </Step>
-      <Note>Your designs are saved as YAML files in a folder you can put in git.</Note>
     </>
   );
 }

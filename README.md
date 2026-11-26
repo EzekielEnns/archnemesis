@@ -18,12 +18,14 @@ Fastest first.
 2. **Run it with Docker.** One command, nothing to build. Needs Docker.
 
    ```sh
-   docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -e ARCHNM_AUTH=local -e ARCHNM_ALLOW_OPEN=yes ghcr.io/ezekielenns/archnemesis:main
+   docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -v "$PWD/architecture:/architecture" -e ARCHNM_PERSONAL=yes ghcr.io/ezekielenns/archnemesis
    ```
 
-   Open http://127.0.0.1:5190. This is for you alone: it answers only on your own machine and
-   has no sign-in. Your designs are kept in the `archnm-data` volume. To host it for other
-   people, with sign-in, see [Docker](#1-docker-the-default).
+   Run it in your project's folder, then open http://127.0.0.1:5190. This is personal mode:
+   it answers only on your own machine and has no sign-in. Each design is saved as YAML files
+   under `./architecture`, so you commit and push them with the rest of your repo; forks and
+   history are kept in the `archnm-data` volume. To host it for other people, with sign-in
+   and pull requests on GitHub, see [Docker](#1-docker-the-default).
 
 3. **Run it from source.** Needs Node 24 or newer and pnpm.
 

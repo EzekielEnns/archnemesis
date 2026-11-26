@@ -71,11 +71,13 @@ export function PanelOpenButton({
     <>
       {simple && !panelOn && (
         <button
-          className="island panel-open"
+          className={`island panel-open${store.mode === "fork" ? " on-fork" : ""}`}
           onClick={() => setPanelOn(true)}
           title={`${store.branch ?? "main"}: the tree, branches and settings ([)`}
         >
           <Menu size={16} />
+          {/* On a fork, say so: with the panel closed nothing else does. */}
+          {store.mode === "fork" && <span className="panel-open-fork">{store.branch}</span>}
         </button>
       )}
     </>

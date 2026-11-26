@@ -5,7 +5,6 @@
 // This file only puts it together. The state and behaviour are hooks in src/workspace (each owns
 // one concern: see useDiagramState, useCanvasSession and useInteraction for the order they run
 // in), and each region of the page is a component there.
-import type { CSSProperties } from "react";
 import type { Store } from "./store";
 import { EmptyState } from "./ui/Chrome";
 import { Tips } from "./ui/Tips";
@@ -43,10 +42,7 @@ export function Workspace({ store }: { store: Store }) {
   const session = useCanvasSession(state);
   const w = useInteraction(state, session);
   return (
-    <div
-      className={`workspace${w.dock ? " docked" : ""}`}
-      style={{ "--dock": `${w.dock}px` } as CSSProperties}
-    >
+    <div className="workspace">
       <main
         className="stage"
         onDragOver={(e) => e.dataTransfer.types.includes(OBJECT_DRAG_TYPE) && e.preventDefault()}

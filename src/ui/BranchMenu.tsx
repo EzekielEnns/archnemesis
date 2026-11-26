@@ -75,6 +75,17 @@ export function gitStatus(store: Store): {
       label: "Can't reach the repo",
       title: `${repoName(git)}: ${git.error}. Saved here; it pushes when it's back`,
     };
+  if (git.inBrowser && !git.syncing)
+    return {
+      icon: icon(),
+      tone: git.remote ? "ok" : "ahead",
+      label: git.remote
+        ? `Kept in this browser, forked from ${git.remote}`
+        : "Kept in this browser",
+      title: git.remote
+        ? `Saved in this browser, with its forks and history. Forked from ${git.remote} on GitHub: pulled ${ago(git.syncedAt)}`
+        : "Saved in this browser only, with its forks and history",
+    };
   if (git.syncing || fork?.saving)
     return { icon: icon(), tone: "busy", label: "Syncing", title: `Saving to ${repoName(git)}…` };
   if (fork?.pending)
@@ -113,7 +124,19 @@ export const ago = (iso: string | null) => {
         ? `${Math.round(s / 3600)}h ago`
         : `${Math.round(s / 86400)}d ago`;
 };
-export const short = (sha: string | null) => sha?.slice(0, 7) ?? "";
+const short = (sha: string | null) => sha?.slice(0, 7) ?? "";
+
+/** The line under main: its latest version, and when it was last synced with the repo. */
+export const mainMeta = (git: GitInfo) =>
+  git.inBrowser && !git.remote
+    ? `@${short(git.main)} · in this browser`
+    : `@${short(git.main)} · synced ${ago(git.syncedAt)}`;
+
+/** What main is, in a sentence: a mirror of a repo (edits fork), or yours to edit (in the browser). */
+export const mainNote = (git: GitInfo) =>
+  git.inBrowser
+    ? "Main is yours to edit. Start a fork to try a change on the side, then merge it."
+    : "Main mirrors the repo. Edit to start a fork.";
 
 /** GitHub's mark (from Simple Icons, CC0); lucide has no brand icons. */
 export function Github({ size = 14 }: { size?: number }) {
@@ -126,6 +149,7 @@ export function Github({ size = 14 }: { size?: number }) {
 
 /** The repo in a few words: "owner/name" on a forge, else the path's last part. */
 export function repoName(git: GitInfo): string {
+  if (git.inBrowser && !git.remote) return "This browser";
   if (git.forge) return git.forge.web.replace(/^https?:\/\/[^/]+\//, "");
   if (git.local) return "Local repo";
   return git.remote
@@ -364,7 +388,7 @@ export function BranchMenu({ store, toast }: Props) {
                     {git.path ? `${git.path}/ · ` : ""}
                     {store.branch
                       ? `fork of main @${short(fork?.base ?? null)}`
-                      : `main @${short(git.main)} · synced ${ago(git.syncedAt)}`}
+                      : `main ${mainMeta(git)}`}
                   </div>
                   {git.error && <div className="design-error">{git.error}</div>}
                   {git.local && !store.branch && store.canEdit && (
@@ -436,9 +460,7 @@ export function BranchMenu({ store, toast }: Props) {
                     </button>
                   </div>
                 ) : (
-                  <div className="branch-note pad">
-                    Main mirrors the repo. Edit to start a fork.
-                  </div>
+                  <div className="branch-note pad">{mainNote(git)}</div>
                 )}
 
                 <div className="branch-section">Versions</div>
@@ -449,9 +471,7 @@ export function BranchMenu({ store, toast }: Props) {
                   <span className="design-name fork-row-name">
                     <GitCommitHorizontal size={13} /> main
                   </span>
-                  <span className="design-meta">
-                    @{short(git.main)} · synced {ago(git.syncedAt)}
-                  </span>
+                  <span className="design-meta">{mainMeta(git)}</span>
                 </button>
                 {git.forks.map(row)}
                 <button
@@ -502,17 +522,19 @@ export function BranchMenu({ store, toast }: Props) {
                 <div className="branch-foot">
                   <GitHubLine store={store} app={git.app} act={act} busy={busy} />
                   <span className="branch-foot-actions">
-                    <button
-                      className="icon-btn"
-                      title="Sync with the repo"
-                      disabled={!!busy}
-                      onClick={() => void act("sync", () => store.gitAction.sync())}
-                    >
-                      <RefreshCw
-                        size={13}
-                        className={busy === "sync" || git.syncing ? "spin" : ""}
-                      />
-                    </button>
+                    {(!git.inBrowser || git.remote) && (
+                      <button
+                        className="icon-btn"
+                        title="Sync with the repo"
+                        disabled={!!busy}
+                        onClick={() => void act("sync", () => store.gitAction.sync())}
+                      >
+                        <RefreshCw
+                          size={13}
+                          className={busy === "sync" || git.syncing ? "spin" : ""}
+                        />
+                      </button>
+                    )}
                     {store.branch && (
                       <button
                         className="icon-btn danger"
@@ -632,7 +654,11 @@ export function BranchMenu({ store, toast }: Props) {
             })
           }
         >
-          <p>This repo has no pull requests, so this goes straight to main without review.</p>
+          <p>
+            {git?.inBrowser
+              ? "The fork's changes go onto main, together with anything changed on main since."
+              : "This repo has no pull requests, so this goes straight to main without review."}
+          </p>
         </Dialog>
       )}
     </div>
@@ -781,8 +807,8 @@ export function FollowForm(p: {
       {gh && !gh.configured && p.store.isAdmin && (
         <>
           <p className="branch-note">
-            Private GitHub repo? Archnemesis needs a GitHub App first (once, for this Archnemesis):
-            create it, then install it where you like.
+            Connect GitHub to pick one of your repos, private ones included. GitHub asks you to
+            confirm once, then which repos Archnemesis may use, and brings you back here.
           </p>
           <button
             type="button"
@@ -790,7 +816,7 @@ export function FollowForm(p: {
             disabled={!!p.busy}
             onClick={() => void p.act("setup", () => p.store.githubAction.setup())}
           >
-            <Github size={14} /> Create Archnemesis's GitHub App
+            <Github size={14} /> Connect a GitHub repo
           </button>
         </>
       )}
@@ -801,7 +827,11 @@ export function FollowForm(p: {
       )}
       <input
         className="design-input"
-        placeholder={repos?.length ? "…or paste any git URL" : "git@github.com:you/designs.git"}
+        placeholder={
+          repos?.length
+            ? "…or paste any git URL"
+            : "…or paste any git URL (git@github.com:you/designs.git)"
+        }
         value={repos?.some((r) => r.url === remote) ? "" : remote}
         onChange={(e) => setRemote(e.target.value)}
       />

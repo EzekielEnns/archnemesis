@@ -1,5 +1,5 @@
 # The container image, built on every push to main and published to this repository's own
-# GitHub Container Registry: ghcr.io/<owner>/<repo>:main and :sha-<commit>. Nothing here
+# GitHub Container Registry: ghcr.io/<owner>/<repo> (:latest and :main) and :sha-<commit>. Nothing here
 # deploys anywhere: whoever hosts it pulls the image (see examples/deploy/).
 #
 # The checks (types, lint, tests) run on the developer's machine before a push
@@ -37,6 +37,7 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=main
+            type=raw,value=latest
             type=sha,prefix=sha-,format=long
       - uses: docker/build-push-action@v6
         with:

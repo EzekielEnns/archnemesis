@@ -12,6 +12,7 @@ import {
   Code,
   CloudOff,
   Eye,
+  History,
   GitBranch,
   ListTree,
   LoaderCircle,
@@ -26,6 +27,7 @@ import type { ArrowStyle } from "../../shared/model";
 import type { Store } from "../store";
 import { FollowForm, gitStatus, Github, repoName, type Act } from "./BranchMenu";
 import { PanelBranchHead } from "./Branches";
+import { BrowserRepoPane } from "./BrowserRepo";
 import { backend } from "../backend";
 import { DesignMenu } from "./DesignMenu";
 import { Dialog } from "./Dialog";
@@ -76,13 +78,24 @@ export function PanelHead(p: HeadProps) {
             )}
           </span>
         )}
-        {!p.store.canEdit && (
-          <span
-            className="icon-btn conn"
-            data-tip="View only: you can look around, but not change this design"
+        {/* An old version is read-only because it is old, not because of who you are. */}
+        {p.store.past ? (
+          <button
+            className="icon-btn conn past"
+            data-tip="You're looking at an old version, which can't be edited. Click to go back to now."
+            onClick={() => p.store.backToNow()}
           >
-            <Eye size={15} />
-          </span>
+            <History size={15} />
+          </button>
+        ) : (
+          !p.store.canEdit && (
+            <span
+              className="icon-btn conn"
+              data-tip="View only: you can look around, but not change this design"
+            >
+              <Eye size={15} />
+            </span>
+          )
         )}
         <button
           className="icon-btn"
@@ -128,11 +141,7 @@ export function PanelHead(p: HeadProps) {
         </button>
         <button
           className={`icon-btn ${p.pinned ? "on" : ""}`}
-          data-tip={
-            p.pinned
-              ? "Unpin: float over the canvas"
-              : "Pin: dock it, and the canvas makes room beside it"
-          }
+          data-tip={p.pinned ? "Unpin: it closes when you click away" : "Pin: keep it open"}
           onClick={p.onPin}
         >
           {p.pinned ? <PinOff size={14} /> : <Pin size={14} />}
@@ -270,7 +279,12 @@ export function SettingsDialog(p: SettingsProps) {
               />
             </>
           )}
-          {p.section === "repo" && <RepoPane store={p.store} toast={p.toast} />}
+          {p.section === "repo" &&
+            (backend.git?.inBrowser ? (
+              <BrowserRepoPane store={p.store} toast={p.toast} />
+            ) : (
+              <RepoPane store={p.store} toast={p.toast} />
+            ))}
           {p.section === "account" && (
             <>
               <h2>Account</h2>

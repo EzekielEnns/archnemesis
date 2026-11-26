@@ -387,7 +387,9 @@ function oidcOf(env: Env, mode: string): OidcConfig | null {
 }
 
 function authOf(env: Env, listen: Config["listen"]): Config["auth"] {
-  const mode = env.ARCHNM_AUTH ?? "local";
+  // Personal: one person on their own machine. It wins over an ARCHNM_AUTH the image set.
+  const personal = flag(env, "ARCHNM_PERSONAL", false);
+  const mode = personal ? "local" : (env.ARCHNM_AUTH ?? "local");
   const builtin = (BUILTIN_AUTH as readonly string[]).includes(mode) ? (mode as BuiltinAuth) : null;
   const module =
     mode === "gcip" ? GCIP_MODULE : !builtin && looksLikePath(mode) ? resolve(mode) : null;
@@ -395,7 +397,7 @@ function authOf(env: Env, listen: Config["listen"]): Config["auth"] {
     throw new ConfigError(
       `ARCHNM_AUTH must be local, tokens, tailscale, iap, cloudflare-access, header, oidc, github, gcip or the path of a provider module (./provider.js), not ${mode}`,
     );
-  const allowOpen = flag(env, "ARCHNM_ALLOW_OPEN", false);
+  const allowOpen = personal || flag(env, "ARCHNM_ALLOW_OPEN", false);
   const header = headerOf(env, mode, allowOpen);
   // Trusting a plain header (or no one at all) is only safe where nothing but the proxy reaches the port.
   if ((mode === "local" || header?.plain) && !listen.loopback && !allowOpen)

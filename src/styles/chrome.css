@@ -53,12 +53,9 @@
 }
 .top-center {
   top: 12px;
-  /* Centred in what the drawer leaves visible. */
-  /* Centred in what's free: past the drawer or the left panel's room, short of the people island. */
-  /* Centred in what the drawer or a docked panel leaves (the page, when nothing's docked). */
-  left: calc(
-    max(var(--inset, 0px), var(--dock, 0px)) + (100% - max(var(--inset, 0px), var(--dock, 0px))) / 2
-  );
+  /* Centred in what the drawer leaves (the page, when there is none). The left panel floats
+     over the canvas and moves nothing. */
+  left: calc(var(--inset, 0px) + (100% - var(--inset, 0px)) / 2);
   transition: left 160ms ease;
   transform: translateX(-50%);
   flex-direction: column;

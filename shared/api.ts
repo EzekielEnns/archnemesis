@@ -31,6 +31,8 @@ export interface GitInfo {
   remote: string;
   /** A repo Archnemesis made for itself, next to its database. */
   local: boolean;
+  /** Kept in this browser (the static build): main can be edited directly, forks are local. */
+  inBrowser?: boolean;
   path: string;
   branch: string;
   /** Where pull requests go (null: none; forks merge inside Archnemesis instead). */

@@ -1,26 +1,37 @@
 // How the page is laid out around the canvas: the drawer and the left panel (open, pinned,
-// which view), how much room a docked panel takes, and whether the tools have to fold into a menu.
+// which view), and whether the tools have to fold into a menu.
 import { useEffect, useState } from "react";
 import { type PanelView } from "../ui/LeftPanel";
 
-import { DOCK_MIN, MENU_ROOM, PANEL_ROOM, TOOLS_W } from "./constants";
+import { MENU_ROOM, PANEL_ROOM, TOOLS_W } from "./constants";
 import { useStoredFlag } from "./useStored";
 
 export function useDocking(simple: boolean) {
   /** Layout choices that stick between visits. */
   const [sidebarOpen, setSidebar] = useStoredFlag("archnm.sidebar", true);
   const sidebar = sidebarOpen && !simple;
-  // Simple mode's left panel, like Excalidraw's menu: hidden until ☰ (or [) opens it, and gone
-  // again at a click on the canvas or Esc, unless it's pinned open.
+  // The left panel, like Excalidraw's menu: closed until ☰ (or [) opens it, and gone again at a
+  // click anywhere else, unless it's pinned. Pinned, it stays open (and opens with the page).
+  // It always floats over the canvas: nothing else moves for it.
   const [panelPinned, setPanelPinned] = useStoredFlag("archnm.panel.pinned", false);
-  // Open or closed, remembered: it no longer hides itself when you click the canvas.
-  const [panelOn, setPanelOn] = useStoredFlag("archnm.panel.on", true);
+  const [panelOn, setPanelOn] = useState(panelPinned);
   const leftPanel = simple && panelOn;
+  useEffect(() => {
+    if (!leftPanel || panelPinned) return;
+    const away = (e: PointerEvent) => {
+      const at = e.target as Element | null;
+      // Its own menus and dialogs (settings, search) open outside it: those aren't "away".
+      if (at?.closest(".left-panel, .panel-open, [role=dialog], [role=menu], .modal, .popover"))
+        return;
+      setPanelOn(false);
+    };
+    document.addEventListener("pointerdown", away, true);
+    return () => document.removeEventListener("pointerdown", away, true);
+  }, [leftPanel, panelPinned]);
   const [panelView, setPanelView] = useState<PanelView>("tree");
   // Simple mode's top row, as Excalidraw does it: the tools in the middle of the page, ☰ on the
-  // left, the people island on the right. The panel floats over the canvas; pinned on a wide
-  // window it docks, and the row (tools and all) centres in what's left beside it. When the
-  // tools don't fit between what's either side, the less-used ones go in a ⋮ menu.
+  // left, the people island on the right. When the tools don't fit between what's either side
+  // (the open panel included), the less-used ones go in a ⋮ menu.
   const [rightW, setRightW] = useState(0);
   const [winW, setWinW] = useState(() => innerWidth);
   useEffect(() => {
@@ -43,11 +54,10 @@ export function useDocking(simple: boolean) {
       window.removeEventListener("resize", onResize)
     );
   }, [simple]);
-  const dock = simple && leftPanel && panelPinned && winW >= DOCK_MIN ? PANEL_ROOM : 0;
   const toolsCompact = (() => {
     if (!simple) return false;
-    const mid = dock + (winW - dock) / 2;
-    const left = dock || (leftPanel ? PANEL_ROOM : MENU_ROOM);
+    const mid = winW / 2;
+    const left = leftPanel ? PANEL_ROOM : MENU_ROOM;
     return Math.min(mid - left, winW - rightW - mid) < TOOLS_W / 2;
   })();
   const [pinned, setPinned] = useStoredFlag("archnm.drawerPinned", true);
@@ -63,7 +73,6 @@ export function useDocking(simple: boolean) {
     setPanelView,
     pinned,
     setPinned,
-    dock,
     toolsCompact,
   };
 }

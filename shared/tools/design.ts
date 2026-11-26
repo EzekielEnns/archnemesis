@@ -66,7 +66,11 @@ export async function design(
         ? `\nStacked on ${f.stackedOn}: it starts with that fork's changes, and its diff (read {diff: true}) and pull request show only what you add on top.`
         : "";
       return ok(
-        `Started ${f.key}: ${f.url}${stack}\nPass design: "${f.key}" to write on it; design {action: "propose", design: "${f.key}"} when it's ready.`,
+        `Started ${f.key}: ${f.url}${stack}\nPass design: "${f.key}" to write on it; ${
+          designs.propose
+            ? `design {action: "propose", design: "${f.key}"} when it's ready.`
+            : "when it's ready, the person merges it into main from the Branches panel (open that link to see it)."
+        }`,
         { key: f.key },
       );
     }

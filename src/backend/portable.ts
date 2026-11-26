@@ -6,6 +6,7 @@
 import type * as Y from "yjs";
 import type { StateJson } from "../../shared/api.ts";
 import { tables } from "../../shared/doc.ts";
+import type { GhSpec } from "../../shared/ghlink.ts";
 import { slug } from "../../shared/model.ts";
 import { decodeDesign, encodeDesign, fingerprint, ShareLinkError } from "../../shared/sharelink.ts";
 import { unzipDesign, zipFiles, ZipError } from "../../shared/zip.ts";
@@ -37,6 +38,8 @@ export interface PortableHost {
   add(name: string, extra?: Partial<DesignRecord>): DesignRecord;
   /** The design's document: the open one, or one loaded from storage for a moment. */
   withDoc<T>(rec: DesignRecord, fn: (ydoc: Y.Doc) => T): Promise<T>;
+  /** A design copied from GitHub remembers where it came from (so it can pull and propose). */
+  adopt(key: string, spec: GhSpec, folder: string, subject: string): Promise<void>;
 }
 
 export interface PortableDeps {
@@ -167,7 +170,11 @@ export function createPortable(
 
     async copy(key) {
       const remote = remotes.get(key);
-      if (remote) return makeCopy(remote.files, { fallback: remote.name, suffix: "(shared)" });
+      if (remote) {
+        const made = await makeCopy(remote.files, { fallback: remote.name, suffix: "(shared)" });
+        await host.adopt(made.key, remote.spec, remote.folder, `Forked from ${remote.from}`);
+        return made;
+      }
       const { files, name } = await filesFor(key);
       return makeCopy(files, { fallback: name, suffix: "(copy)" });
     },

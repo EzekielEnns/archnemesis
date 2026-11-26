@@ -147,12 +147,10 @@ describe("the local backend", () => {
     expect(await b.me()).toMatchObject({ kind: "human", admin: true });
     expect((await b.designs.info("my-design")).canEdit).toBe(true);
     for (const absent of [
-      "git",
       "github",
       "tokens",
       "signIn",
       "oauth",
-      "versions",
       "insights",
       "report",
       "telemetry",
@@ -160,6 +158,9 @@ describe("the local backend", () => {
       "guide",
     ] as const)
       expect(b[absent]).toBeUndefined();
+    // Forks and history are kept in this browser; there is no GitHub to connect to.
+    expect(b.git?.inBrowser).toBe(true);
+    expect(b.versions).toBeDefined();
     expect(b.designs.share).toBeUndefined();
     expect(b.icons.url).toBeUndefined();
   });

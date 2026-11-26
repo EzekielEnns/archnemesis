@@ -57,6 +57,21 @@ export function loadModel(ydoc: Y.Doc, model: FileModel, id: string, name: strin
   }
 }
 
+/** Give every box a key in the document itself (files match boxes by key): before a pull or a push. */
+export function giveKeys(ydoc: Y.Doc): void {
+  const state = readState(ydoc);
+  const keys = keyOps(state);
+  if (keys.length) applyOps(ydoc, state, keys, SYSTEM, "keys", SYSTEM, { pin: false });
+}
+
+/** Make a document match a model read from files (a pull): what the files don't have goes. */
+export function applyModel(ydoc: Y.Doc, model: FileModel, label: string): void {
+  const state = readState(ydoc);
+  const { name: _, ...config } = model.config;
+  ydoc.transact(() => ydoc.getMap<string>("meta").set("config", JSON.stringify(config)), SYSTEM);
+  applyOps(ydoc, state, toOps(state, model), SYSTEM, label, SYSTEM, { pin: false });
+}
+
 /** A design's files, as they go in git (keys given, layout included). */
 export function filesOfDoc(ydoc: Y.Doc): Map<string, string> {
   const copy = new Y.Doc();

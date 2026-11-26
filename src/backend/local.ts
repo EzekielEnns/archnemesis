@@ -1,7 +1,9 @@
 // The backend with no server: every design lives in this browser. Each design's document is
 // kept in IndexedDB (y-indexeddb), the list of designs in localStorage, and there is one
-// person, you, who can edit everything. There's no git, GitHub, sign-in, sharing, telemetry or
-// other people: those parts of the Backend are simply absent, and the app hides what needs them.
+// person, you, who can edit everything. Forks and history are kept here too (local-git.ts), and
+// GitHub is reached with a token the person pastes (github-token.ts). There's no server, so no
+// sign-in, sharing, live co-editing, telemetry or other people: those parts of the Backend are
+// simply absent, and the app hides what needs them.
 import { LANDSCAPE_RULES } from "../../shared/landscape.ts";
 import { IndexeddbPersistence } from "y-indexeddb";
 import * as Y from "yjs";
@@ -10,6 +12,9 @@ import { applyOps, emptyState, readState, tables } from "../../shared/doc.ts";
 import { makeDiagram, slug, type Op } from "../../shared/model.ts";
 import { seedOps } from "../../shared/seed.ts";
 import { NAME_KEY, setStored, stored } from "../storage";
+import { createLocalGit, type GitHost } from "./local-git.ts";
+import type { Upstream } from "./local-upstream.ts";
+import { browserVersions, memoryVersions, type VersionStore } from "./local-versions.ts";
 import { createPortable } from "./portable.ts";
 import { followRules, SYSTEM } from "./rules.ts";
 import {
@@ -24,6 +29,7 @@ const LIST_KEY = "archnm.local.designs";
 const FIRST_NAME = "My design";
 const KEY_MAX = 48;
 const REMOTES_KEY = "archnm.local.remotes";
+const FORKS_KEY = "archnm.local.forks";
 
 /** Where the list of designs is kept (localStorage by default; a test passes its own). */
 export interface ListStore {
@@ -40,6 +46,11 @@ const browserRemotes: ListStore = {
   write: (v) => setStored(REMOTES_KEY, v),
 };
 
+const browserForks: ListStore = {
+  read: () => stored(FORKS_KEY),
+  write: (v) => setStored(FORKS_KEY, v),
+};
+
 export interface DesignRecord {
   key: string;
   name: string;
@@ -51,6 +62,8 @@ export interface DesignRecord {
   shared?: string;
   /** Starts from the example shop: applied when its document first opens. */
   example?: boolean;
+  /** The GitHub repository it came from or was saved to (see local-upstream.ts). */
+  upstream?: Upstream;
 }
 
 const dbName = (doc: string) => `archnm-local-${doc}`;
@@ -120,11 +133,13 @@ function openDocument(
   handlers: DocHandlers,
   designs: DesignList,
   open: OpenDocs,
+  watch: (key: string, ydoc: Y.Doc) => () => void,
 ): DocConnection {
   const cache = new IndexeddbPersistence(dbName(info.doc), ydoc);
   const unshare = shareBetweenTabs(info.doc, ydoc);
   open.set(info.key, { ydoc, handlers });
   let stopRules = () => {};
+  let stopWatch = () => {};
   let closed = false;
   const meta = ydoc.getMap<string>("meta");
   // What the list shows (its name and size) follows the document.
@@ -161,6 +176,7 @@ function openDocument(
       );
     }
     stopRules = followRules(ydoc);
+    stopWatch = watch(info.key, ydoc);
     ydoc.on("update", onUpdate);
     handlers.onStatus("live");
   });
@@ -169,6 +185,7 @@ function openDocument(
     close() {
       closed = true;
       stopRules();
+      stopWatch();
       unshare();
       ydoc.off("update", onUpdate);
       if (counted) clearTimeout(counted);
@@ -179,9 +196,7 @@ function openDocument(
 }
 
 /** The design's model as JSON: from the open document, else loaded for a moment. */
-async function stateOf(key: string, designs: DesignList, open: OpenDocs): Promise<StateJson> {
-  const rec = designs.find(key);
-  if (!rec) throw new BackendError("missing", `no design "${key}"`, 404);
+async function stateOf(rec: { key: string; doc: string }, open: OpenDocs): Promise<StateJson> {
   const json = (ydoc: Y.Doc): StateJson => {
     const s = readState(ydoc);
     return {
@@ -197,7 +212,11 @@ async function stateOf(key: string, designs: DesignList, open: OpenDocs): Promis
 }
 
 /** A design's document for a moment: the open one, or one read from (and written back to) storage. */
-async function withDoc<T>(rec: DesignRecord, open: OpenDocs, fn: (ydoc: Y.Doc) => T): Promise<T> {
+async function withDoc<T>(
+  rec: { key: string; doc: string },
+  open: OpenDocs,
+  fn: (ydoc: Y.Doc) => T,
+): Promise<T> {
   const live = open.get(rec.key);
   if (live) return fn(live.ydoc);
   const ydoc = new Y.Doc();
@@ -222,6 +241,11 @@ function freeKey(designs: DesignList, name: string): string {
 export interface LocalDeps {
   fetch?: typeof fetch;
   remotes?: ListStore;
+  /** Where forks, versions and the GitHub token are kept (the browser's storage by default). */
+  forks?: ListStore;
+  versions?: VersionStore;
+  /** How long edits to main settle before a version is kept (tests shorten it). */
+  idleMs?: number;
 }
 
 export function createLocalBackend(
@@ -247,10 +271,34 @@ export function createLocalBackend(
         return rec;
       },
       withDoc: (rec, fn) => withDoc(rec, open, fn),
+      adopt: (key, spec, folder, subject) => local.adopt(key, spec, folder, subject),
     },
     { fetch: deps.fetch, remotes: deps.remotes ?? browserRemotes },
   );
   const missing = (key: string) => new BackendError("missing", `no design "${key}"`, 404);
+  const host: GitHost = {
+    designs,
+    open,
+    withDoc: (at, fn) => withDoc(at, open, fn),
+    async clone(from, to) {
+      const update = await withDoc(from, open, (y) => Y.encodeStateAsUpdate(y));
+      const ydoc = new Y.Doc();
+      const cache = new IndexeddbPersistence(dbName(to), ydoc);
+      await cache.whenSynced;
+      Y.applyUpdate(ydoc, update);
+      await cache.destroy();
+    },
+    wipe: (doc) => new IndexeddbPersistence(dbName(doc), new Y.Doc()).clearData(),
+    who: () => stored(NAME_KEY) || "You",
+  };
+  const local = createLocalGit(host, {
+    forks: deps.forks ?? browserForks,
+    versions:
+      deps.versions ?? (typeof indexedDB === "undefined" ? memoryVersions() : browserVersions()),
+    fetch: deps.fetch,
+    idleMs: deps.idleMs,
+    maxMs: deps.idleMs && deps.idleMs * 4,
+  });
 
   return {
     config: async () => ({
@@ -274,7 +322,7 @@ export function createLocalBackend(
           objects: r.objects,
           diagrams: r.diagrams,
           present: 0,
-          forks: 0,
+          forks: local.forkCount(r.key),
           git: false,
           private: false,
           mine: true,
@@ -283,11 +331,12 @@ export function createLocalBackend(
       async info(doc) {
         const r = designs.find(doc);
         if (!r) {
-          const remote = portable.info(doc);
+          const remote = portable.info(doc) ?? local.docInfo(doc);
           if (remote) return remote;
           throw missing(doc);
         }
-        return { key: r.key, name: r.name, doc: r.doc, mode: "edit", git: false, canEdit: true };
+        // Main is edited directly here (a fork is for trying a change on the side).
+        return { key: r.key, name: r.name, doc: r.doc, mode: "edit", git: true, canEdit: true };
       },
 
       async create(name, opts) {
@@ -306,16 +355,23 @@ export function createLocalBackend(
         if (!rec) throw missing(key);
         designs.save(designs.all().filter((r) => r.key !== key));
         open.get(key)?.handlers.onEvent({ type: "deleted", why: "That design was deleted" });
+        await local.removeDesign(key);
         await new IndexeddbPersistence(dbName(rec.doc), new Y.Doc()).clearData();
       },
 
       open: (info, ydoc, handlers) =>
         info.from
           ? portable.openRemote(info, ydoc, handlers)
-          : openDocument(info, ydoc, handlers, designs, open),
-      state: async (key) => portable.state(key) ?? stateOf(key, designs, open),
+          : openDocument(info, ydoc, handlers, designs, open, local.watch),
+      async state(key) {
+        const fork = local.forkByDoc(key);
+        const rec = fork ? { key, doc: fork.doc } : designs.find(key);
+        return portable.state(key) ?? (rec ? stateOf(rec, open) : Promise.reject(missing(key)));
+      },
     },
 
+    git: local.git,
+    versions: local.versions,
     portable,
 
     icons: {

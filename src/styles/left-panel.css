@@ -122,3 +122,8 @@
 body > .design-list {
   z-index: 60;
 }
+
+.panel-head .conn.past {
+  color: #f59e0b;
+  cursor: pointer;
+}

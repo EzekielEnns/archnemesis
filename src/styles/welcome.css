@@ -1,21 +1,17 @@
-/* The first-run welcome: panel, chip, coach, hint and shared-link tip (src/ui/Welcome.tsx,
+/* The first-run welcome: panel, coach, hint and shared-link tip (src/ui/Welcome.tsx,
    src/workspace/WelcomeHost.tsx). --wel-left is the room the left panel takes (set per piece);
    everything centres in what is left of the page, 12px from the right edge. */
 
 .wel,
-.wel-chip,
 .wel-coach,
 .wel-tip,
 .wel-hint {
   --wel-free: calc(100% - var(--wel-left, 12px) - 12px);
-  /* Under the tools: the middle of the page (less a docked panel), moved right only as far as
-     a floating left panel makes it. */
+  /* Under the tools: the middle of the page, moved right only as far as an open left panel
+     makes it. */
   --wel-w: 0px;
   position: absolute;
-  left: max(
-    calc(var(--wel-dock, 0px) + (100% - var(--wel-dock, 0px)) / 2),
-    calc(var(--wel-left, 12px) + var(--wel-w) / 2)
-  );
+  left: max(50%, calc(var(--wel-left, 12px) + var(--wel-w) / 2));
   transform: translateX(-50%);
 }
 
@@ -271,37 +267,7 @@
   flex: none;
 }
 
-/* --- the chip, the coach, the hint, the tip -------------------------------------------- */
-.wel-chip {
-  bottom: 14px;
-  z-index: 15;
-  display: flex;
-  align-items: center;
-  background: var(--panel);
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-.wel-chip button {
-  height: 30px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 0;
-  background: none;
-}
-.wel-chip-go {
-  padding: 0 8px 0 12px;
-  border-radius: 999px 0 0 999px;
-}
-.wel-chip-no {
-  padding: 0 9px 0 6px;
-  color: var(--muted);
-  border-radius: 0 999px 999px 0;
-}
-.wel-chip button:hover {
-  background: rgba(255, 255, 255, 0.07);
-}
+/* --- the coach, the hint, the tip -------------------------------------------- */
 .wel-coach {
   top: 64px;
   z-index: 9;
@@ -370,7 +336,6 @@
 
 /* Keyboard focus is always visible here. */
 .wel :focus-visible,
-.wel-chip :focus-visible,
 .wel-tip :focus-visible,
 .wel-hint :focus-visible {
   outline: 2px solid var(--accent);

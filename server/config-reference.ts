@@ -49,6 +49,12 @@ export const VARIABLES = [
     doc: "yes: let ARCHNM_AUTH=local, tailscale or a plain trusted header listen beyond loopback (the port then trusts whoever reaches it). Yes or no everywhere: 1/true/yes/on, 0/false/no/off.",
   },
   {
+    name: "ARCHNM_PERSONAL",
+    group: "listen",
+    default: "unset",
+    doc: "yes: for one person on their own machine: ARCHNM_AUTH=local with ARCHNM_ALLOW_OPEN=yes, whatever ARCHNM_AUTH says (the container image sets it to tokens). There is no sign-in, so publish the port to that machine only (-p 127.0.0.1:5190:5190).",
+  },
+  {
     name: "ARCHNM_MCP_NAME",
     group: "listen",
     default: "archnm",

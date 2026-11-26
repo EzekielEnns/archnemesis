@@ -9,7 +9,7 @@ import type { GitHubStatus, GitInfo, HereEntry, StateJson } from "../../shared/a
 import type { WhatsNew } from "../../shared/whatsnew.ts";
 import { linkPresence } from "../../shared/presence-link.ts";
 import { forgetShare, shareTokenFor } from "../share";
-import { NAME_KEY, setStored, stored, TOKEN_KEY } from "../storage";
+import { NAME_KEY, setStored, stored, TOKEN_KEY, leavingForGitHub } from "../storage";
 import {
   BackendError,
   type Backend,
@@ -201,6 +201,7 @@ function githubApi(): NonNullable<Backend["github"]> {
         org,
         back: location.hash,
       });
+      leavingForGitHub();
       postForm(r.action, r.manifest);
     },
     login: async () => {

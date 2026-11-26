@@ -1,17 +1,10 @@
-// The first-run welcome: a centred panel with four ways in, the "Getting started" chip it tucks
-// into, the hint on an empty design, and the tip over a shared one. State and rules are in
+// The first-run welcome: a centred panel with four ways in, the hint on an empty design, and the tip over a shared one. State and rules are in
 // welcomeState.ts; src/workspace/WelcomeHost.tsx decides which is on the page.
-import { Bot, ChevronLeft, ChevronUp, Map as MapIcon, SquarePlus, Store, X } from "lucide-react";
+import { Bot, ChevronLeft, Map as MapIcon, SquarePlus, Store, X } from "lucide-react";
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import type { McpSetup } from "../../shared/api.ts";
 import { stepsFor } from "./WelcomeSteps";
-import {
-  clearChipFocus,
-  type Detail,
-  type Place,
-  showDetail,
-  type WelcomeUi,
-} from "./welcomeState";
+import { type Detail, type Place, showDetail } from "./welcomeState";
 
 /** The facts the words depend on. */
 interface Where {
@@ -33,7 +26,7 @@ function statusLine(w: Where): string {
   if (w.place === "page") return "Demo mode: your designs stay in this browser.";
   const files = w.team
     ? "Designs are saved as files on this server, and everyone you invite sees edits as they happen."
-    : "Designs are saved as files on this server.";
+    : "Personal mode: designs are saved as files in your architecture folder, ready to commit.";
   return `${w.agent ? "An agent is connected." : "No agent connected yet."} ${files}`;
 }
 
@@ -218,41 +211,6 @@ export function WelcomePanel(p: PanelProps) {
         <X size={14} />
       </button>
     </section>
-  );
-}
-
-/** What the panel tucks into: open it again, or hide it for good. */
-export function WelcomeChip({
-  ui,
-  left,
-  onOpen,
-  onNever,
-}: {
-  ui: WelcomeUi;
-  left: number;
-  onOpen: () => void;
-  onNever: () => void;
-}) {
-  const go = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (!ui.focusChip) return;
-    go.current?.focus({ preventScroll: true });
-    clearChipFocus();
-  }, [ui.focusChip]);
-  return (
-    <div className="wel-chip" style={{ "--wel-left": `${left}px` } as CSSProperties}>
-      <button ref={go} className="wel-chip-go" onClick={onOpen}>
-        <ChevronUp size={14} /> Getting started
-      </button>
-      <button
-        className="wel-chip-no"
-        onClick={onNever}
-        aria-label="Hide Getting started for good"
-        title="Hide for good"
-      >
-        <X size={13} />
-      </button>
-    </div>
   );
 }
 

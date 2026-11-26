@@ -214,6 +214,8 @@ export interface Backend {
 
   /** A design that follows a git repo: status, forks, proposals. */
   git?: {
+    /** Forks and history are kept in this browser, and main is edited directly (no "your edit went to a fork"). */
+    inBrowser?: boolean;
     info(key: string): Promise<GitInfo | null>;
     follow(key: string, o: FollowOptions): Promise<GitInfo>;
     sync(key: string): Promise<GitInfo>;

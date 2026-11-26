@@ -73,7 +73,7 @@ export const WEBMCP_ASK = "Use the Archnemesis tools on this page to draw my sys
 export const REPO_URL = "https://github.com/EzekielEnns/archnemesis";
 /** Self-hosting at its simplest: README.md, "Try it on your machine". The published image, for you alone. */
 export const RUN_LOCAL: readonly string[] = [
-  "docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -e ARCHNM_AUTH=local -e ARCHNM_ALLOW_OPEN=yes ghcr.io/ezekielenns/archnemesis:main",
+  'docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -v "$PWD/architecture:/architecture" -e ARCHNM_PERSONAL=yes ghcr.io/ezekielenns/archnemesis',
 ];
 
 // --- the state the pieces share ----------------------------------------------------------
@@ -85,14 +85,10 @@ export interface WelcomeUi {
   /** The panel is open. */
   panel: boolean;
   detail: Detail;
-  /** The "Getting started" chip is showing (it is only ever for this visit). */
-  chip: boolean;
   /** After "Start blank": say which keys place a box, then what to do with one. */
   coach: boolean;
   /** The shared-link tip is showing. */
   tip: boolean;
-  /** The chip should take focus when it appears (the panel was tucked into it). */
-  focusChip: boolean;
   /** The panel has been opened on its own once this visit. */
   auto: boolean;
 }
@@ -100,10 +96,8 @@ export interface WelcomeUi {
 const START: WelcomeUi = {
   panel: false,
   detail: null,
-  chip: false,
   coach: false,
   tip: true,
-  focusChip: false,
   auto: false,
 };
 let ui: WelcomeUi = START;
@@ -137,24 +131,22 @@ export function autoOpen(): void {
   set({ panel: true, detail: null, auto: true });
 }
 
-/** "Getting started" under ?, or the chip: open the panel (at one of its two agent ways, or the four). */
+/** "Getting started" under ?: open the panel (at one of its two agent ways, or the four). */
 export function openWelcome(detail: Detail = null): void {
-  set({ panel: true, detail, chip: false, coach: false, auto: true });
+  set({ panel: true, detail, coach: false, auto: true });
 }
 
-/** Esc, or a way in taken: the panel goes into the chip. */
+/** Esc, or a way in taken: the panel goes away (it comes back from ? → Getting started). */
 export function tuck(o: { coach?: boolean } = {}): void {
-  set({ panel: false, detail: null, chip: true, focusChip: true, coach: o.coach ?? false });
+  set({ panel: false, detail: null, coach: o.coach ?? false });
 }
-
-export const clearChipFocus = (): void => void (ui = { ...ui, focusChip: false });
 
 export const showDetail = (detail: Detail): void => set({ detail });
 
-/** "Don't show this again", or the chip's close button. */
+/** "Don't show this again". */
 export function hideForGood(): void {
   remember("never");
-  set({ panel: false, detail: null, chip: false, coach: false, focusChip: false });
+  set({ panel: false, detail: null, coach: false });
 }
 
 export const endCoach = (): void => set({ coach: false });

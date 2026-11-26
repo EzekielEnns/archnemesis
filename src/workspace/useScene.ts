@@ -25,7 +25,6 @@ export function useScene({
   route,
   sidebar,
   leftPanel,
-  dock,
   deps,
 }: {
   store: Store;
@@ -37,9 +36,8 @@ export function useScene({
   diagramId: string | null;
   route: ReturnType<typeof parseHash>;
   sidebar: boolean;
-  /** The left panel is open (floating over the canvas when it isn't docked). */
+  /** The left panel is open (it floats over the canvas). */
   leftPanel: boolean;
-  dock: number;
   deps: Omit<SceneDeps, "store" | "latest" | "open" | "makeConnection" | "pointer" | "setZoom">;
 }) {
   const { host, scene, cameras, shown, ready, setReady } = refs;
@@ -48,9 +46,8 @@ export function useScene({
   const pointer = useRef<{ x: number; y: number } | null>(null);
   // The canvas never resizes for the drawer; it just knows what's covered.
   useEffect(
-    () =>
-      scene.current?.setInsetLeft(sidebar ? DRAWER_W + 12 : dock || (leftPanel ? PANEL_ROOM : 0)),
-    [sidebar, dock, leftPanel, ready],
+    () => scene.current?.setInsetLeft(sidebar ? DRAWER_W + 12 : leftPanel ? PANEL_ROOM : 0),
+    [sidebar, leftPanel, ready],
   );
   const [minimap, setMinimap] = useStoredFlag("archnm.minimap.open", false);
   const [animate, setAnimate] = useStoredFlag("archnm.arrows.all", false);
