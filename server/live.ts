@@ -276,6 +276,18 @@ export class Hub {
     for (const b of this.store.bindings()) {
       const main = this.designs.get(b.design);
       if (!main) continue;
+      // The state folder was moved (a new volume, the rename from atlas): a design's own
+      // repo moved with it, so follow it there instead of the path it had.
+      const moved = join(this.stateDir, "git", `${b.design}.git`);
+      if (
+        b.remote.startsWith("/") &&
+        b.remote !== moved &&
+        !existsSync(b.remote) &&
+        existsSync(moved)
+      ) {
+        b.remote = moved;
+        this.store.setBinding(b);
+      }
       const g = new GitSync(this, main, b);
       this.git.set(b.design, g);
       // Keeps retrying in the background if the repo can't be reached right now.

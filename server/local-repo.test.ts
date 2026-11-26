@@ -1,6 +1,6 @@
 // A design can start in a repo of its own on the Archnemesis server (forks and history with no
 // GitHub), and move to a real repo later, once its forks are merged or discarded.
-import { mkdtempSync } from "node:fs";
+import { mkdtempSync, renameSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
@@ -126,5 +126,25 @@ describe("stacked forks", () => {
     const m = await g.propose(map.key, "http://x");
     expect(m.stacked).toBeNull();
     expect(m.changes.join("\n")).toContain("Checkout");
+  });
+
+  it("follows its repo when the state folder moves", async () => {
+    const live = await hub.create("Shop", "shop", "example", alice);
+    await bindDesign(hub, live, { local: true });
+    await hub.git.get("shop")!.fork(alice, "try");
+    await hub.close();
+
+    const moved = `${dir}-moved`;
+    renameSync(dir, moved);
+    hub = new Hub(
+      new DocStore(join(moved, "archnm.sqlite")),
+      new Auth(testConfig(moved).auth),
+      testConfig(moved, { ARCHNM_GIT_LOCAL_REMOTES: "1" }),
+    );
+    await hub.start();
+    const g = hub.git.get("shop")!;
+    expect(g.info().local).toBe(true);
+    expect(g.info().error ?? null).toBeNull();
+    expect(g.info().forks.map((f) => f.name)).toEqual(["try"]);
   });
 });
