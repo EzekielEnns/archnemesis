@@ -6,6 +6,7 @@ import {
   bentRoute,
   clipToBoxes,
   curveAround,
+  RectIndex,
   lineRoute,
   placeLabel,
   placeLabelOn,
@@ -89,7 +90,10 @@ function portOffsets(
   };
 }
 
-export function routeOf(state: SceneState, e: CanvasEdge): Route {
+/** Past this many boxes a redraw asks an index for the boxes near each arrow, not the whole list. */
+const INDEX_FROM = 64;
+
+export function routeOf(state: SceneState, e: CanvasEdge, index?: RectIndex): Route {
   const a = endRect(state, e.from)!;
   const b = endRect(state, e.to)!;
   const s = shapeOf(state, e);
@@ -109,14 +113,7 @@ export function routeOf(state: SceneState, e: CanvasEdge): Route {
   // Curved arrows go around boxes they'd cross (as the render draws them); elbow and
   // straight ones fall back to this curve only while the router is busy or off.
   return state.arrowStyle === "curved"
-    ? curveAround(
-        r,
-        a,
-        b,
-        via,
-        state.order.map((v) => v.node),
-        off,
-      )
+    ? curveAround(r, a, b, via, index ?? state.order.map((v) => v.node), off)
     : r;
 }
 
@@ -151,7 +148,7 @@ function placeEdgeLabel(
   ev: EdgeView,
   label: Container,
   look: { dim: boolean; focused: boolean; live: boolean },
-  spots: { boxes: Rect[]; taken: Rect[]; others: Route[] },
+  spots: { boxes: Rect[] | RectIndex; taken: Rect[]; others: Route[] },
 ): void {
   const { boxes, taken, others } = spots;
   let mid: Point;
@@ -213,6 +210,8 @@ export function drawEdges(
   g: Graphics,
   edges: Iterable<EdgeView>,
   live: boolean,
+  /** Only the strokes again (their width follows the zoom): routes and labels stay as they are. */
+  strokesOnly = false,
 ): void {
   g.clear();
   const base = edgeWidth(state);
@@ -220,11 +219,18 @@ export function drawEdges(
   // Each label takes the best spot on its line that's clear of boxes and of labels
   // already placed (placeLabel), on curves and routed arrows alike.
   const taken: Rect[] = [];
-  const boxes: Rect[] = state.order.map((v) => v.node);
+  const all: Rect[] = strokesOnly ? [] : state.order.map((v) => v.node);
+  const index = all.length > INDEX_FROM ? new RectIndex(all) : undefined;
+  const boxes = index ?? all;
   // Every route first, so a label keeps off the other lines' straight runs.
   const list = [...edges];
-  for (const ev of list) ev.route = routeOf(state, ev.edge);
-  tellWatchersSoon(state);
+  if (!strokesOnly) {
+    for (const ev of list) ev.route = routeOf(state, ev.edge, index);
+    tellWatchersSoon(state);
+  } else {
+    // An arrow that hasn't been drawn yet has no route to stroke again.
+    for (const ev of list) ev.route ??= routeOf(state, ev.edge);
+  }
   const others = list.map((ev) => ev.route);
   for (const ev of list) {
     const focused = state.focus?.edges.has(ev.edge.id) ?? false;
@@ -240,7 +246,7 @@ export function drawEdges(
     const grp = groups.get(key);
     if (grp) grp.list.push(ev);
     else groups.set(key, { color, alpha, width, hop, list: [ev] });
-    if (ev.label)
+    if (ev.label && !strokesOnly)
       placeEdgeLabel(state, ev, ev.label, { dim, focused, live }, { boxes, taken, others });
   }
   strokeGroups(g, groups);
@@ -251,12 +257,13 @@ function edgeWidth(state: SceneState): number {
   return Math.max(1.5, 1 / state.camera.scale);
 }
 
-export function drawStaticEdges(state: SceneState): void {
+export function drawStaticEdges(state: SceneState, strokesOnly = false): void {
   const all = [...state.edges.values()];
   drawEdges(
     state,
     state.edgesStatic,
     state.liveEdges.size ? all.filter((e) => !state.liveEdges.has(e)) : all,
     false,
+    strokesOnly,
   );
 }

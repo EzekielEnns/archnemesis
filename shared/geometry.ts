@@ -347,7 +347,7 @@ export function placeLabel(
   r: Route,
   w: number,
   h: number,
-  boxes: Rect[],
+  boxes: Rect[] | RectIndex,
   taken: Rect[],
   others: Route[] = [],
 ): Point {
@@ -397,7 +397,7 @@ export function placeLabelOn(
   r: Route,
   w: number,
   h: number,
-  boxes: Rect[],
+  boxes: Rect[] | RectIndex,
   taken: Rect[],
   keep = true,
   others: Route[] = [],
@@ -422,7 +422,9 @@ export function placeLabelOn(
   y0 -= 2 * h + 20;
   y1 += 2 * h + 20;
   const near = (b: Rect) => b.x <= x1 && b.x + b.w >= x0 && b.y <= y1 && b.y + b.h >= y0;
-  const nearBoxes = boxes.filter(near);
+  const nearBoxes = (
+    boxes instanceof RectIndex ? boxes.near({ x: x0, y: y0, w: x1 - x0, h: y1 - y0 }) : boxes
+  ).filter(near);
   const nearTaken = taken.filter(near);
   // Other lines' straight runs: a label lying along one reads as that line's label.
   const runs = runsOf(others).filter(
@@ -584,6 +586,47 @@ export function routeBox(r: Route): Rect {
     w: Math.max(r.p0.x, r.c1.x, r.c2.x, r.p1.x) - x0,
     h: Math.max(r.p0.y, r.c1.y, r.c2.y, r.p1.y) - y0,
   };
+}
+
+/**
+ * Rects on a coarse grid, to ask which are near a place without looking at all of them.
+ * Answers come in the order the rects were given, so code that takes "the first one that..."
+ * picks the same one as it would from the whole list.
+ */
+export class RectIndex {
+  private cells = new Map<number, number[]>();
+  private rects: Rect[];
+  private cell: number;
+  constructor(rects: Rect[], cell = 512) {
+    this.rects = rects;
+    this.cell = cell;
+    rects.forEach((r, i) => {
+      const x1 = Math.floor((r.x + r.w) / cell);
+      const y1 = Math.floor((r.y + r.h) / cell);
+      for (let x = Math.floor(r.x / cell); x <= x1; x++)
+        for (let y = Math.floor(r.y / cell); y <= y1; y++) {
+          const k = cellKey(x, y);
+          const list = this.cells.get(k);
+          if (list) list.push(i);
+          else this.cells.set(k, [i]);
+        }
+    });
+  }
+
+  /** Every rect that could touch `q` (and maybe a few that don't), in the order given. */
+  near(q: Rect): Rect[] {
+    const x1 = Math.floor((q.x + q.w) / this.cell);
+    const y1 = Math.floor((q.y + q.h) / this.cell);
+    const x0 = Math.floor(q.x / this.cell);
+    const y0 = Math.floor(q.y / this.cell);
+    // A query as big as the whole drawing: the list itself is the answer.
+    if ((x1 - x0 + 1) * (y1 - y0 + 1) > this.cells.size) return this.rects;
+    const hit = new Set<number>();
+    for (let x = x0; x <= x1; x++)
+      for (let y = y0; y <= y1; y++)
+        for (const i of this.cells.get(cellKey(x, y)) ?? []) hit.add(i);
+    return [...hit].sort((a, b) => a - b).map((i) => this.rects[i]!);
+  }
 }
 
 export class BoxGrid {
@@ -935,7 +978,7 @@ export function curveAround(
   a: Rect,
   b: Rect,
   via: { from: Side; to: Side },
-  boxes: Iterable<Rect>,
+  boxes: Iterable<Rect> | RectIndex,
   off: { a?: number; b?: number } = {},
   margin = 18,
 ): Route {
@@ -947,7 +990,7 @@ export function curveAround(
   });
   const reach = pad(routeBox(r), margin * 4);
   const blockers: Rect[] = [];
-  for (const x of boxes)
+  for (const x of boxes instanceof RectIndex ? boxes.near(reach) : boxes)
     if (x !== a && x !== b && !within(a, x) && !within(b, x) && intersects(x, reach))
       blockers.push(x);
   if (!blockers.length) return r;

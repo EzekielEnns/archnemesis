@@ -16,6 +16,8 @@ export async function init(state: SceneState, host: HTMLElement): Promise<boolea
     resolution: window.devicePixelRatio || 1,
     autoDensity: true,
     autoStart: false,
+    // WebGPU was measured against this (Nov 2026, M3 Max, 2,000 and 10,000 boxes): the same
+    // frame times, a little more CPU per frame. The time goes to walking the scene, not drawing.
     preference: "webgl",
   });
   if (state.destroyed) {

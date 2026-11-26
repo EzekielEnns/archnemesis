@@ -156,7 +156,8 @@ export function setCamera(state: SceneState, c: Camera): void {
   const bucket = c.scale >= 0.66 ? 0 : Math.round(Math.log2(1 / c.scale) * 4);
   if (bucket !== state.edgeWidthBucket && state.edges.size) {
     state.edgeWidthBucket = bucket;
-    drawStaticEdges(state);
+    // Only the width changes with the zoom: the routes and labels are where they were.
+    drawStaticEdges(state, true);
   }
   cull(state);
   applyLabelVisibility(state, false);
