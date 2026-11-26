@@ -1,0 +1,110 @@
+/* The Share dialog and the view-only fork button (src/ui/ShareDialog.tsx, src/ui/Chrome.tsx). */
+.share-sec {
+  padding: 10px 0 12px;
+  border-top: 1px solid var(--line);
+}
+.share-sec:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.share-sec h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.share-reach {
+  padding: 6px 9px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+.share-make,
+.share-url {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.share-url input,
+.share-select {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: var(--field);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+}
+.share-select {
+  flex: 1;
+  width: auto;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.share-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+}
+.share-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.share-btn.danger {
+  color: #f08a8a;
+}
+.share-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.share-note,
+.share-meta {
+  font-size: 12px;
+  color: var(--muted, #8b93a1);
+}
+.share-note {
+  margin-left: 10px;
+}
+.share-fresh {
+  margin-top: 10px;
+}
+.share-links {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.share-links li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.share-links li.gone {
+  opacity: 0.55;
+}
+.share-what {
+  font-size: 12.5px;
+}
+.view-link-banner {
+  border-color: var(--accent);
+}

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+dist-static/
+.direnv/
+# The local database (phase 2 on): your diagrams, never committed.
+data/
+*.sqlite
+*.sqlite-*
+tokens.json
+result
+.bench/

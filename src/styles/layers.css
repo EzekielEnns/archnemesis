@@ -1,0 +1,284 @@
+/* Layers panel and the parts drawn under each box (src/ui/Layers.tsx). */
+
+/* --- Layers: the panel (bottom right) and the parts drawn under each box --------------- */
+.layers-btn {
+  position: relative;
+}
+.layers-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 13px;
+  height: 13px;
+  padding: 0 3px;
+  border-radius: 7px;
+  background: var(--accent-fill);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.layers-panel {
+  position: absolute;
+  right: 16px;
+  bottom: 64px;
+  z-index: 30;
+  width: 236px;
+  padding: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+}
+.layers-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.layers-all {
+  background: none;
+  border: 0;
+  color: var(--accent);
+  font-size: 11px;
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.layer-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+.layer-row:hover {
+  background: var(--field);
+}
+.layer-row.on {
+  color: var(--text);
+}
+.layer-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--field);
+}
+.layer-row.on .layer-icon {
+  background: rgba(79, 140, 255, 0.16);
+  color: var(--accent);
+}
+.layer-name {
+  flex: 1;
+}
+.layer-count {
+  font-size: 11px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.layer-eye {
+  display: grid;
+  place-items: center;
+  opacity: 0.5;
+}
+.layer-row.on .layer-eye {
+  opacity: 1;
+}
+.layers-foot {
+  padding: 6px 8px 4px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.parts-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.parts {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: opacity 0.12s;
+}
+.parts.dim {
+  opacity: 0.25;
+}
+.parts-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pchip {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 170px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 10px;
+  border: 1px solid var(--line-strong);
+  background: rgba(27, 31, 39, 0.95);
+  color: var(--text);
+  font-size: 10.5px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: default;
+}
+.pchip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pchip.tech {
+  color: #c9d1e0;
+}
+.pchip.ref {
+  cursor: pointer;
+}
+.pchip.ref:hover,
+.pchip.on {
+  border-color: var(--accent);
+  background: rgba(79, 140, 255, 0.18);
+}
+.pchip.ref-link svg {
+  color: #60a5fa;
+}
+.pchip.ref-image svg {
+  color: #f472b6;
+}
+.pchip.ref-doc svg {
+  color: #a3e635;
+}
+.pchip.ref-code svg {
+  color: #fbbf24;
+}
+.pchip.ref-dependency svg {
+  color: #c084fc;
+}
+.pnote {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  max-width: 240px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  background: rgba(48, 42, 20, 0.95);
+  color: #f5ecc8;
+  font-size: 10.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.pnote:hover {
+  border-color: rgba(250, 204, 21, 0.7);
+}
+.pnote-head {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #facc15;
+}
+.pnote-progress {
+  margin-left: auto;
+  font-weight: 500;
+  color: #d6c98a;
+  font-variant-numeric: tabular-nums;
+}
+.pnote-line {
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pnote-line.done {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+.pnote-box {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #d6c98a;
+  border-radius: 2px;
+  font-size: 8px;
+  text-decoration: none;
+}
+.pnote-more {
+  color: #d6c98a;
+  opacity: 0.8;
+}
+.parts-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  box-shadow: 0 0 0 4px rgba(79, 140, 255, 0.18);
+  pointer-events: none;
+}
+.parts.compact {
+  pointer-events: auto;
+}
+.parts-row.nowrap {
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+.parts.compact .pchip {
+  flex: none;
+  height: 18px;
+}
+.pchip.count {
+  gap: 3px;
+  padding: 0 6px;
+}
+.pchip.note-chip {
+  color: #f5ecc8;
+  border-color: rgba(250, 204, 21, 0.4);
+  background: rgba(48, 42, 20, 0.95);
+  gap: 3px;
+}
+.pchip.note-chip svg {
+  color: #facc15;
+}
+.parts.full {
+  z-index: 5;
+  padding: 6px;
+  margin: -6px;
+  border-radius: 10px;
+  background: rgba(15, 17, 21, 0.96);
+  border: 1px solid var(--line-strong);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+  pointer-events: auto;
+}

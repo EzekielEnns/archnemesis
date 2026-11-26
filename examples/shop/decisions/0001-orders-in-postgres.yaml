@@ -1,0 +1,15 @@
+# An architecture decision: what was decided, why, and what it changes.
+title: Orders live in Postgres
+status: accepted
+date: 2026-11-20
+affects:
+  - orders-db
+text: |
+  ## Context
+  Checkout needs an order and its payment to commit together.
+
+  ## Decision
+  Orders stay in one Postgres database, owned by the Shop API.
+
+  ## Consequences
+  Reporting reads a replica, never the primary.

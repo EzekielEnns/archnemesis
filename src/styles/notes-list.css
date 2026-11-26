@@ -1,0 +1,132 @@
+/* The every-note list from the top right (src/ui/Notes.tsx). */
+
+/* --- every note, from the top right ------------------------------------------------------ */
+.notes-menu {
+  position: relative;
+}
+.notes-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.notes-btn:hover,
+.notes-btn.on {
+  background: var(--field);
+  border-color: var(--line);
+  color: var(--text);
+}
+.notes-btn span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.notes-pop {
+  position: absolute;
+  right: 0;
+  top: 38px;
+  width: 320px;
+  max-height: min(520px, calc(100vh - 120px));
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 20;
+}
+.notes-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--line);
+}
+.notes-tabs button {
+  flex: 1;
+  height: 26px;
+  border-radius: 7px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.notes-tabs button.on {
+  background: var(--field);
+  border-color: var(--line);
+  color: var(--text);
+}
+.notes-list {
+  overflow-y: auto;
+  padding: 4px 6px 8px;
+}
+.notes-list .empty {
+  margin: 14px 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.notes-group {
+  padding: 10px 8px 4px;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.notes-row {
+  display: flex;
+  gap: 9px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  align-items: flex-start;
+}
+.notes-row:hover {
+  background: var(--field);
+  border-color: var(--line);
+}
+.notes-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.notes-row-head {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 12px;
+  min-width: 0;
+}
+.notes-row-head b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.notes-row-head i {
+  color: var(--muted);
+  font-style: normal;
+  flex: none;
+}
+.notes-row-text {
+  font-size: 12.5px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.notes-row-meta {
+  font-size: 11px;
+  color: var(--muted);
+}

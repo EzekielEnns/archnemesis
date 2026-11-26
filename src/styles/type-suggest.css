@@ -1,0 +1,71 @@
+/* Type suggestions and the connection card (src/ui/TypeSuggest.tsx, src/ui/NodeCard.tsx). */
+
+/* Type suggestions while typing a signature (TypeSuggest.tsx). */
+.ts-field {
+  min-width: 0;
+  position: relative;
+}
+.ts-field > input {
+  width: 100%;
+}
+.ts-field .ts-sugg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  z-index: 5;
+  min-width: 220px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+}
+.ts-sugg .nc-sugg-v.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.ts-hint {
+  padding: 4px 10px 5px;
+  border-top: 1px solid var(--line);
+  font-size: 10.5px;
+  color: var(--faint);
+}
+.ref-node-at.dragging {
+  z-index: 4;
+  transition: none;
+}
+.ref-node-at.dragging .ref-node {
+  cursor: grabbing;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+.ref-pop.ep {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* A connection's card (NodeCard ConnectionCard): the box card, with an arrow for its kind. */
+.conn-card .cc-icon {
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+}
+.conn-card .cc-select {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+.conn-card .cc-select:disabled {
+  cursor: default;
+}
+.conn-card .cc-key {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.conn-card .cc-sect {
+  cursor: default;
+}
+.conn-card .cc-dir {
+  width: 28px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

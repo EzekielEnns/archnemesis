@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>atlas call graph</title>
+<style>
+:root{--bg:#0f1115;--panel:#161a21;--card:#1b1f27;--line:#2a303b;--text:#e6e8ec;--sub:#9aa3b2;--dim:#6b7383;--acc:#7aa2f7;--dir:#7aa2f7;--rs:#f0a060;--toml:#9ece6a;--sh:#bb9af7;--fn:#7dcfcf;--lib:#c792ea;--add:#5fbf8f;--mod:#e0b04a;--run:#8fd1b8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,Inter,system-ui,sans-serif}
+header{padding:14px 16px 0;max-width:1560px;margin:0 auto}h1{font-size:18px;margin:0}p.lead{color:var(--sub);margin:2px 0 6px;font-size:13px;max-width:1100px}
+.crumb{font-size:12px;color:var(--sub);margin:2px 0 8px}.crumb b{color:var(--text)}
+.bar{display:flex;gap:6px;align-items:center;font-size:12px;flex-wrap:wrap;padding:2px 0 8px}
+.seg{border:1px solid var(--line);border-radius:7px;padding:3px 10px;color:var(--sub);cursor:pointer;background:var(--panel);font:inherit}.seg.on{background:#24314d;color:var(--text);border-color:#3a4a6b}
+select.seg{padding:3px 6px}
+.wrapc{max-width:1560px;margin:0 auto;padding:0 16px 30px;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px}
+@media (max-width:980px){.wrapc{grid-template-columns:1fr}}
+.canvas{position:relative;background:radial-gradient(circle,#1d222b 1px,transparent 1px) 0 0/22px 22px,#0f1115;border:1px solid var(--line);border-radius:10px;overflow:auto;height:760px}
+.inner{position:relative;width:1330px;height:740px}
+svg.edges{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:2}
+/* navigator */
+.nav{position:absolute;left:14px;top:14px;width:240px;background:var(--card);border:1px solid #3a4150;border-radius:12px;z-index:3}
+.head{display:flex;align-items:center;gap:6px;padding:7px 8px 7px 10px;border-bottom:1px solid var(--line)}
+.head .t{font-weight:600;font-size:13px}.head .s{color:var(--sub);font-size:11px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:#24314d;color:var(--acc);font-size:11px;flex:none}
+.ib{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:6px;border:1px solid transparent;background:none;color:var(--sub);cursor:pointer;padding:0;flex:none}
+.ib:hover{background:#222733;color:var(--text)}.ib.on{background:#24314d;color:var(--text);border-color:#3a4a6b}.ib svg{width:15px;height:15px}
+.tree{font:12px/1.75 ui-monospace,Menlo,monospace;white-space:pre;padding:6px 6px 8px;overflow:hidden;max-height:660px;overflow-y:auto}
+.row{display:block;border-radius:4px;padding:0 4px;cursor:pointer}.row:hover{background:#222733}.row.sel{background:#24314d}.row.hot{background:#1e2738}
+.g{color:#3d4452}.tw{color:var(--dim);display:inline-block;width:1em}.ic{display:inline-block;width:1.3em;text-align:center}
+.dir{color:var(--dir)}.rs{color:var(--rs)}.toml{color:var(--toml)}.sh{color:var(--sh)}.fn{color:var(--fn)}
+.ondot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--acc);margin-left:5px;vertical-align:middle;opacity:.8}
+.mk{font-weight:700;margin-right:3px}.mk.a{color:var(--add)}.mk.m{color:var(--mod)}
+/* graph */
+.proc{position:absolute;border:1.5px dashed #2d4d43;border-radius:14px;z-index:0}
+.proc .lab{position:absolute;top:-10px;left:12px;background:var(--bg);padding:0 6px;font-size:11.5px;color:var(--run);display:flex;gap:5px;align-items:center}
+.proc .lab .rt{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:4px;background:#1f3a33;font-size:9px}
+.proc.ext{border-color:#3a3a55}.proc.ext .lab{color:#b6b0e0}.proc.ext .lab .rt{background:#2a2a3e}
+.file{position:absolute;border:1px solid #2a303b;background:#141820cc;border-radius:10px;z-index:1;cursor:pointer}
+.file .lab{position:absolute;top:4px;left:9px;font:11px ui-monospace,Menlo,monospace;color:var(--rs);white-space:nowrap}
+.file.sh .lab{color:var(--sh)}.file.sel{border-color:var(--acc)}.file.hot{border-color:#4a5670}
+.fnode{position:absolute;z-index:3;height:38px;background:var(--card);border:1px solid #3a4150;border-radius:8px;padding:3px 9px;cursor:pointer;transition:opacity .15s}
+.fnode .f{font:600 12px ui-monospace,Menlo,monospace;color:var(--fn);white-space:nowrap}
+.fnode .c{display:flex;gap:4px;margin-top:0}.fnode .c span{font-size:9.5px;color:var(--lib)}
+.fnode.sel{border-color:var(--acc);box-shadow:0 0 0 2px #7aa2f744}.fnode.new{border-style:dashed;border-color:var(--add)}
+.fnode.ext{background:#1c1b26;border-color:#3a3a55}.fnode.ext .f{color:#b6b0e0;font-family:-apple-system,system-ui,sans-serif}
+.fnode.store{border-radius:8px 8px 14px 14px}.fnode.store .f{color:#b6b0e0;font-family:-apple-system,system-ui,sans-serif}
+.dim{opacity:.18}
+.lnode{position:absolute;width:170px;background:var(--card);border:1px solid #4a3a5e;border-radius:10px;padding:5px 10px;cursor:pointer;z-index:3;transition:opacity .15s}
+.lnode.proposed{border:1px dashed var(--add)}.lnode.sel{box-shadow:0 0 0 2px var(--acc)}
+.lnode .n{font:600 12px ui-monospace,Menlo,monospace;color:var(--lib)}.lnode .v{color:var(--dim);font-size:10.5px;margin-left:4px}
+.lnode .st{font-size:10.5px;color:var(--dim);display:flex;gap:8px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#f0b070;margin-left:5px;vertical-align:middle}
+.prop{display:inline-block;font-size:10px;padding:0 6px;border-radius:9px;background:#1d3328;color:var(--add);margin-left:4px;font-family:-apple-system,system-ui,sans-serif}
+.e{fill:none;stroke:#566079;stroke-width:1.4}.e.hop{stroke:#4d8a76;stroke-dasharray:5 4}.e.new{stroke:var(--add);stroke-dasharray:5 4}
+.e.lib{stroke:#7a5fa0;stroke-width:1.2}.e.hi{stroke:#7aa2f7;stroke-width:2.2}.e.hi.hop{stroke:#8fd1b8}.e.flow{stroke:#e0b04a;stroke-width:2.4}
+.el{font-size:10px;fill:#8fd1b8}.el.bg{fill:#0f1115;stroke:#0f1115;stroke-width:4}
+/* side */
+.side{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;align-self:start;position:sticky;top:10px}
+.side h2{font-size:15px;margin:0}.kind{color:var(--sub);font-size:12px;margin-bottom:8px}
+.sec{margin-top:10px}.sec h3{font-size:10.5px;letter-spacing:.06em;color:var(--dim);margin:0 0 4px;text-transform:uppercase}
+.chip{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:9px;border:1px solid var(--line);margin:2px 4px 2px 0;color:var(--sub);cursor:pointer}
+.chip.run{border-color:#2d4d43;color:var(--run)}.chip.lib{border-color:#4a3a5e;color:var(--lib)}.chip.fn{border-color:#2c4a4a;color:var(--fn);font-family:ui-monospace,Menlo,monospace}
+.warn{display:inline-block;font-size:11px;padding:0 7px;border-radius:9px;background:#3a2a1a;color:#f0b070;margin:2px 4px 0 0}
+.stat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}.stat div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 7px}.stat b{display:block;font-size:14px}.stat span{font-size:10.5px;color:var(--dim)}
+.links a{color:var(--acc);margin-right:8px;font-size:12px;text-decoration:none}
+.plan{border-left:3px solid var(--mod);padding:5px 9px;background:#1c1a14;border-radius:4px;font-size:12.5px}
+.refline{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.refline code{background:#0f1115;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:12px;word-break:break-all}
+.side button{font:inherit;font-size:12px;background:#24314d;color:var(--text);border:1px solid #3a4a6b;border-radius:6px;padding:2px 9px;cursor:pointer}
+.note{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 8px;margin-top:6px;font-size:12.5px}
+textarea{width:100%;margin-top:6px;min-height:44px;background:#0f1115;border:1px solid var(--line);border-radius:6px;color:var(--text);font:12.5px -apple-system,system-ui,sans-serif;padding:6px 8px}
+.ext{color:var(--dim);font-size:11px}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--sub);flex-wrap:wrap;margin-left:auto}
+.legend i{display:inline-block;width:18px;border-top:2px solid;vertical-align:middle;margin-right:5px}
+.notes{max-width:1560px;margin:0 auto;padding:0 16px 40px}.notes .pane{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 18px;font-size:13px;color:var(--sub)}
+.notes h3{font-size:13px;color:var(--acc);margin:0 0 6px}.notes li{margin:4px 0}.notes b{color:var(--text)}
+</style></head><body>
+<header><h1>v4: the call graph is the diagram; the file tree navigates it</h1>
+<p class="lead">Functions are ordinary atlas boxes inside their file, files sit in the process that runs them, and calls are ordinary connections, so the drawing, the nearest-box rule, tidy, notes and flows all apply as they do today. Real code is messy: one <code>main()</code> starts three different processes, the hub pulls in another crate, a shell hook and an outside harness call in. The tree on the left only finds things. Click a function to see its own calls; pick a flow to light a path.</p>
+<div class="crumb">Agent-Comms / Agent board / <b>board (code)</b></div>
+<div class="bar">Show <button class="seg on" data-m="now">Now</button><button class="seg" data-m="plan">Plan: board v1</button>
+ <span style="width:10px"></span>Flow <select class="seg" id="flow"><option value="">none</option><option>board post</option><option>hub start</option><option value="mcp">agent over MCP (plan)</option></select>
+ <div class="legend"><span><i style="border-color:#566079"></i>calls</span><span><i style="border-color:#4d8a76;border-top-style:dashed"></i>crosses a process</span><span><i style="border-color:#7a5fa0"></i>uses library (on select)</span><span><i style="border-color:#5fbf8f;border-top-style:dashed"></i>proposed</span></div></div></header>
+<div class="wrapc"><div class="canvas"><div class="inner" id="inner"><svg class="edges" id="edges"></svg></div></div><div class="side" id="side"></div></div>
+<div class="notes"><div class="pane"><h3>What this changes</h3><ul>
+<li><b>No new drawing kind for calls.</b> A function is a box (kind: function) <code>in</code> its file, a file <code>in</code> its folder; the process frame is a boundary (where it runs), like the host frames we have. A call is a connection. Everything atlas does with boxes works here.</li>
+<li><b>The tree is the model's own <code>in</code> tree</b>, shown as files. Clicking a file or folder frames those boxes; the blue dot marks what's on this view. Messy code stays honest: <code>main()</code> lives in one file but its calls reach three processes.</li>
+<li><b>Across repos and services:</b> a box from another repo or an outside caller (the Claude Code harness here) is just a box in another frame, connected the same way.</li>
+<li><b>Flows are separate:</b> atlas's existing flows, stepping over these connections. Here they only light the path; no numbers, no animation.</li>
+<li><b>Depth:</b> a view of a folder shows its files' functions; closing a file in the tree folds its functions into the file box, and the calls move to it (the nearest-box rule).</li>
+</ul></div></div>
+<script>
+const I={collapse:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6l4-3 4 3M4 10l4 3 4-3"/></svg>',expand:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 3.5l4 3 4-3M4 12.5l4-3 4 3"/></svg>',newish:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 1.8l1.5 4.2 4.3 1.6-4.3 1.6L8 13.4 6.5 9.2 2.2 7.6l4.3-1.6z"/></svg>'};
+const LIBS={
+ clap:{v:'4.6.9',what:'command-line argument parsing',repo:'clap-rs/clap',docs:'https://docs.rs/clap',stars:16903,contrib:617,sponsors:13,dl90:301.0,updated:'2026-11-20',lic:'Apache-2.0'},
+ reqwest:{v:'0.13.5',what:'HTTP client',repo:'seanmonstar/reqwest',docs:'https://docs.rs/reqwest',stars:11935,contrib:416,sponsors:58,dl90:280.4,updated:'2026-09-08',lic:'Apache-2.0'},
+ 'eventsource-stream':{v:'0.2.3',what:'server-sent events from a byte stream',repo:'jpopesculian/eventsource-stream',docs:'https://docs.rs/eventsource-stream',stars:40,contrib:2,sponsors:0,dl90:17.8,updated:'2022-02-17',lic:''},
+ axum:{v:'0.8.9',what:'HTTP routing and request handling',repo:'tokio-rs/axum',docs:'https://docs.rs/axum',stars:27900,contrib:469,sponsors:115,dl90:174.9,updated:'2026-04-14',lic:'MIT'},
+ tokio:{v:'1.54.1',what:'async runtime',repo:'tokio-rs/tokio',docs:'https://docs.rs/tokio',stars:33755,contrib:1146,sponsors:115,dl90:324.2,updated:'2026-10-21',lic:'MIT'},
+ rmcp:{v:'3.11.0',what:'MCP server (official Rust SDK)',repo:'modelcontextprotocol/rust-sdk',docs:'https://docs.rs/rmcp',stars:4134,contrib:235,sponsors:0,dl90:31.4,updated:'2026-11-17',lic:'NOASSERTION'},
+ tracing:{v:'0.1.44',what:'structured logs and spans',repo:'tokio-rs/tracing',docs:'https://docs.rs/tracing',stars:7004,contrib:321,sponsors:115,dl90:289.5,updated:'2025-12-18',lic:'MIT',proposed:'board v1'},
+ rusqlite:{v:'0.43.0',what:'SQLite bindings (bundled, WAL, FTS5)',repo:'rusqlite/rusqlite',docs:'https://docs.rs/rusqlite',stars:4500,contrib:158,sponsors:0,dl90:66.3,updated:'2026-11-15',lic:'MIT'},
+ serde:{v:'1.0.229',what:'serialising and deserialising',repo:'serde-rs/serde',docs:'https://docs.rs/serde',stars:10993,contrib:205,sponsors:0,dl90:453.7,updated:'2026-07-18',lic:'Apache-2.0'},
+};
+// processes (boundaries: where things run)
+const PROCS={cli:{n:'board CLI',x:290,y:40,w:200,h:220},harness:{n:'Claude Code (harness)',x:290,y:320,w:200,h:200,ext:1},node:{n:'Board node',x:530,y:40,w:200,h:220},hub:{n:'Board hub',x:770,y:40,w:350,h:470},db:{n:'Board database',x:880,y:580,w:200,h:90}};
+// functions: id, name, file, process, x, y (a person never places these; tidy does)
+const F=[
+ {id:'main',n:'main()',file:'crates/board/src/main.rs',p:'cli',x:310,y:84,libs:['clap'],why:'Parses the verb and starts the right part: post, hello, hub or node.'},
+ {id:'run_post',n:'run_post()',file:'crates/board/src/cli/mod.rs',p:'cli',x:310,y:176,libs:['reqwest'],why:'Sends the post to the local node.'},
+ {id:'run_hello',n:'run_hello()',file:'crates/board/src/cli/mod.rs',p:'cli',x:310,y:216,libs:['reqwest'],why:'Registers the agent with its node.'},
+ {id:'session',n:'session-start.sh',file:'hooks/claude/session-start.sh',p:'harness',x:310,y:364,why:'Claude Code runs it at session start: board hello.'},
+ {id:'cc',n:'MCP client',p:'harness',x:310,y:450,ext:1,why:'Claude Code itself, calling the hub over MCP.'},
+ {id:'forward',n:'forward()',file:'crates/board/src/node/mod.rs',p:'node',x:550,y:176,libs:['reqwest'],why:'Passes a local request on to the hub.'},
+ {id:'subscribe',n:'subscribe_loop()',file:'crates/board/src/node/mod.rs',p:'node',x:550,y:216,libs:['reqwest','eventsource-stream'],why:'Holds the hub event stream open; wakes agents.'},
+ {id:'serve',n:'serve()',file:'crates/board/src/hub/mod.rs',p:'hub',x:790,y:84,libs:['axum','tokio'],why:'Builds the router and listens.'},
+ {id:'post_message',n:'post_message()',file:'crates/board/src/hub/routes.rs',p:'hub',x:790,y:176,libs:['axum'],why:'Takes a post: checks guards, stores it, fans it out.'},
+ {id:'events',n:'events()',file:'crates/board/src/hub/routes.rs',p:'hub',x:790,y:216,libs:['axum'],why:'Server-sent events to nodes.'},
+ {id:'post_tool',n:'post_tool()',file:'crates/board/src/hub/mcp.rs',p:'hub',x:790,y:420,libs:['rmcp','tracing'],plan:'a',why:'The MCP "post" tool: same path as the HTTP route.'},
+ {id:'check',n:'check()',file:'crates/board-core/src/guards.rs',p:'hub',x:960,y:100,plan:'m',why:'Refuses loops between two agents (board-core, another crate, same process).'},
+ {id:'envelope',n:'Envelope::new()',file:'crates/board-core/src/envelope.rs',p:'hub',x:960,y:178,libs:['serde'],why:'Wraps a post with its address and id.'},
+ {id:'append',n:'append()',file:'crates/board/src/hub/store.rs',p:'hub',x:960,y:300,libs:['rusqlite'],why:'Appends the event and updates the derived tables.'},
+ {id:'index',n:'index()',file:'crates/board/src/hub/search.rs',p:'hub',x:960,y:380,libs:['rusqlite'],plan:'a',why:'Adds the post to the FTS5 index.'},
+ {id:'sqlite',n:'board.sqlite',p:'db',x:900,y:612,store:1,why:'Event log + derived tables, WAL.'},
+];
+const FN=Object.fromEntries(F.map(f=>[f.id,f]));
+// calls (connections); hop = it leaves the process
+const C=[
+ ['main','run_post'],['main','run_hello'],['main','serve',{hop:'board hub'}],['main','subscribe',{hop:'board node'}],
+ ['run_post','forward',{hop:'socket'}],['run_hello','forward',{hop:'socket'}],['forward','post_message',{hop:'HTTP'}],['subscribe','events',{hop:'SSE'}],
+ ['session','main',{hop:'exec'}],['cc','post_tool',{hop:'MCP',plan:'a'}],['post_tool','post_message',{plan:'a'}],
+ ['serve','post_message'],['serve','events'],['post_message','check'],['post_message','envelope'],['post_message','append'],
+ ['append','index',{plan:'a'}],['append','sqlite',{hop:'SQLite'}],['index','sqlite',{hop:'FTS5',plan:'a'}],
+].map(([a,b,o={}])=>({a,b,...o}));
+const FLOWS={'board post':['main','run_post','forward','post_message','check','append','sqlite'],'hub start':['main','serve','events'],mcp:['cc','post_tool','post_message','append','index','sqlite']};
+// the file tree: the model's `in` tree
+const TREE={n:'s-chan',k:'dir',c:[{n:'crates',k:'dir',c:[
+ {n:'board',k:'dir',c:[{n:'src',k:'dir',c:[{n:'main.rs',k:'rs'},{n:'cli',k:'dir',c:[{n:'mod.rs',k:'rs'}]},{n:'node',k:'dir',c:[{n:'mod.rs',k:'rs'},{n:'adapters',k:'dir',plan:'a',c:[{n:'rex.rs',k:'rs',plan:'a'}]}]},{n:'hub',k:'dir',c:[{n:'mod.rs',k:'rs'},{n:'routes.rs',k:'rs'},{n:'mcp.rs',k:'rs',plan:'a'},{n:'store.rs',k:'rs'},{n:'search.rs',k:'rs',plan:'a'}]}]},{n:'Cargo.toml',k:'toml'}]},
+ {n:'board-core',k:'dir',c:[{n:'src',k:'dir',c:[{n:'guards.rs',k:'rs',plan:'m'},{n:'envelope.rs',k:'rs'},{n:'policy.rs',k:'rs'}]}]}]},
+ {n:'hooks',k:'dir',c:[{n:'claude',k:'dir',c:[{n:'session-start.sh',k:'sh'},{n:'stop.sh',k:'sh'}]}]}]};
+const TN={};(function w(n,path,parent){n.id=parent===null?'':path?path+'/'+n.n:n.n;n.parent=parent;TN[n.id]=n;(n.c||[]).forEach(c=>w(c,n.id,n.id))})(TREE,'',null);
+// functions go under their file in the tree
+F.filter(f=>f.file).forEach(f=>{const file=TN[f.file];if(file){(file.c=file.c||[]).push({n:f.n,k:'fn',fid:f.id,plan:f.plan,id:f.file+'#'+f.id,parent:f.file});TN[f.file+'#'+f.id]=file.c[file.c.length-1]}});
+const warns=L=>{const w=[];if(L.contrib<5)w.push(`${L.contrib} contributors`);if((new Date('2026-11-21')-new Date(L.updated))/864e5>365)w.push(`no release since ${L.updated.slice(0,4)}`);if(!L.lic||L.lic==='NOASSERTION')w.push('check the licence');return w};
+const fmt=n=>n>=1000?(n/1000).toFixed(n>=10000?0:1)+'k':String(n);
+const ICON={dir:'▰',rs:'◆',toml:'⚙',sh:'$',fn:'ƒ'};
+let open=new Set(['crates','crates/board','crates/board/src']),mode='now',hl=false,sel={kind:'none'},flow='',hot=null;
+const NOTES={'fn:subscribe':[{who:'Zeek',text:'Is eventsource-stream still the right pick? It looks unmaintained.',agent:true}]};
+const show=f=>mode==='plan'||f.plan!=='a';
+const under=(path,f)=>f.file&&(f.file===path||f.file.startsWith(path+'/'));
+
+function draw(){const inner=document.getElementById('inner');inner.querySelectorAll('.proc,.file,.fnode,.lnode,.nav').forEach(x=>x.remove());const plan=mode==='plan';
+ const fl=flow?FLOWS[flow].filter(id=>show(FN[id])):[];
+ const selF=sel.kind==='fn'?sel.id:null;const selPath=sel.kind==='tree'?sel.id:null;
+ const near=new Set();if(selF){near.add(selF);C.forEach(c=>{if(c.a===selF)near.add(c.b);if(c.b===selF)near.add(c.a)})}
+ const lit=id=>{if(fl.length)return fl.includes(id);if(selF)return near.has(id);if(selPath)return under(selPath,FN[id])||(FN[id].file||'')===selPath;return true};
+ // processes
+ for(const [k,p] of Object.entries(PROCS)){const el=document.createElement('div');el.className='proc'+(p.ext?' ext':'');el.style.cssText=`left:${p.x}px;top:${p.y}px;width:${p.w}px;height:${p.h}px`;el.innerHTML=`<div class="lab"><span class="rt">${k==='db'?'S':'A'}</span>${p.n}</div>`;inner.appendChild(el)}
+ // files: a frame around their functions
+ const files={};F.filter(f=>f.file&&show(f)).forEach(f=>{(files[f.file]=files[f.file]||[]).push(f)});
+ for(const [path,fs] of Object.entries(files)){const x0=Math.min(...fs.map(f=>f.x))-10,y0=Math.min(...fs.map(f=>f.y))-24,x1=Math.max(...fs.map(f=>f.x+w(f)))+10,y1=Math.max(...fs.map(f=>f.y+38))+8;
+  const el=document.createElement('div');el.className='file'+(path.endsWith('.sh')?' sh':'')+(selPath===path?' sel':'')+(hot===path?' hot':'');el.style.cssText=`left:${x0}px;top:${y0}px;width:${x1-x0}px;height:${y1-y0}px`;
+  const dimmed=(fl.length||selF||selPath)&&!fs.some(f=>lit(f.id));if(dimmed||(hl&&!fs.some(f=>f.plan)))el.classList.add('dim');
+  el.innerHTML=`<div class="lab">${path.split('/').slice(-2).join('/')}</div>`;el.title=path;el.onclick=e=>{if(e.target!==el&&!e.target.classList.contains('lab'))return;pick({kind:'tree',id:path})};inner.appendChild(el)}
+ // functions
+ for(const f of F){if(!show(f))continue;const el=document.createElement('div');el.className='fnode'+(f.ext?' ext':'')+(f.store?' store':'')+(plan&&f.plan?' new':'')+(selF===f.id?' sel':'');
+  el.style.cssText=`left:${f.x}px;top:${f.y}px;width:${w(f)}px`;
+  if(!lit(f.id)||(hl&&!f.plan))el.classList.add('dim');
+  el.innerHTML=`<div class="f">${plan&&f.plan?`<span class="mk ${f.plan}">${f.plan==='a'?'+':'~'}</span>`:''}${f.n}${(NOTES['fn:'+f.id]||[]).length?' <span class="ext">✎</span>':''}</div><div class="c">${(f.libs||[]).filter(l=>plan||!LIBS[l].proposed).map(l=>`<span>${l}</span>`).join('')}${f.ext?'<span style="color:var(--dim)">outside caller</span>':''}${f.store?'<span style="color:var(--dim)">SQLite file</span>':''}</div>`;
+  el.onclick=()=>pick({kind:'fn',id:f.id});inner.appendChild(el)}
+ // libraries: only those of the selection (or all, faint)
+ const libsOn=selF?(FN[selF].libs||[]):selPath?[...new Set(F.filter(f=>under(selPath,f)||f.file===selPath).flatMap(f=>f.libs||[]))]:[];
+ const libList=Object.keys(LIBS).filter(l=>plan||!LIBS[l].proposed);const lpos={};
+ libList.forEach((l,i)=>{const L=LIBS[l];const el=document.createElement('div');el.className='lnode'+(L.proposed?' proposed':'')+(sel.kind==='lib'&&sel.id===l?' sel':'');const y=40+i*62;lpos[l]=y+24;el.style.cssText=`left:1150px;top:${y}px`;
+  if((selF||selPath)&&!libsOn.includes(l))el.classList.add('dim');if(hl&&!L.proposed)el.classList.add('dim');if(sel.kind==='lib'&&sel.id!==l)el.classList.add('dim');
+  const wn=warns(L);el.innerHTML=`<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span class="n">${l}</span><span class="v">${L.v}</span>${L.proposed?'<span class="prop">+ proposed</span>':''}${wn.length?`<span class="dot" title="${wn.join(', ')}"></span>`:''}</div><div class="st"><span>★ ${fmt(L.stars)}</span><span>👥 ${L.contrib}</span><span>↓ ${L.dl90.toFixed(0)}M</span></div>`;
+  el.onclick=()=>pick({kind:'lib',id:l});inner.appendChild(el)});
+ // navigator
+ const nav=document.createElement('div');nav.className='nav';
+ const rows=[];(function walk(n,pre,last,top){if(!top)rows.push({n,pre,last});if(!(top||open.has(n.id)))return;const k=(n.c||[]).filter(c=>c.k!=='fn'||show(FN[c.fid]));k.forEach((c,i)=>walk(c,top?'':pre+(last?'   ':'│  '),i===k.length-1,false))})(TREE,'',true,true);
+ const onView=id=>F.some(f=>show(f)&&f.file&&(f.file===id||f.file.startsWith(id+'/')))||(TN[id]?.k==='fn');
+ nav.innerHTML=`<div class="head"><span class="tile">▰</span><span class="t">s-chan/</span><span class="s">find in the code</span><button class="ib${hl?' on':''}" data-i="new" title="Highlight what's new">${I.newish}</button><button class="ib" data-i="all" title="${open.size>0?'Collapse all':'Expand all'}">${open.size>0?I.collapse:I.expand}</button></div>
+ <div class="tree">${rows.map(({n,pre,last})=>{const kids=(n.c||[]).length>0;const o=open.has(n.id);const isSel=(sel.kind==='tree'&&sel.id===n.id)||(sel.kind==='fn'&&n.fid===sel.id);
+  if(mode==='now'&&n.plan==='a')return `<span class="row" style="opacity:.35"><span class="g">${pre}${last?'└─ ':'├─ '}</span><span class="tw"> </span><span class="ic ${n.k}">${ICON[n.k]}</span><span class="${n.k}">${n.n}${n.k==='dir'?'/':''}</span></span>`;
+  return `<span class="row${isSel?' sel':''}${hl&&!n.plan&&!(n.c||[]).some(c=>c.plan)?' dim':''}" data-id="${n.id}"><span class="g">${pre}${last?'└─ ':'├─ '}</span><span class="tw">${kids?(o?'▾':'▸'):' '}</span><span class="ic ${n.k}">${ICON[n.k]}</span>${mode==='plan'&&n.plan?`<span class="mk ${n.plan}">${n.plan==='a'?'+':'~'}</span>`:''}<span class="${n.k}">${n.n}${n.k==='dir'?'/':''}</span>${onView(n.id)&&n.k!=='fn'?'<span class="ondot" title="on this view"></span>':''}</span>`}).join('')}</div>`;
+ inner.appendChild(nav);
+ nav.querySelectorAll('.row[data-id]').forEach(r=>{const n=TN[r.dataset.id];r.onclick=()=>{if(n.c&&n.k!=='fn')open.has(n.id)?open.delete(n.id):open.add(n.id);pick(n.k==='fn'?{kind:'fn',id:n.fid}:{kind:'tree',id:n.id})};r.onmouseenter=()=>{if(n.k!=='fn'&&hot!==n.id){hot=n.id;}};});
+ nav.querySelector('[data-i="new"]').onclick=()=>{hl=!hl;if(hl)setMode('plan');draw()};
+ nav.querySelector('[data-i="all"]').onclick=()=>{open=open.size?new Set():new Set(Object.values(TN).filter(n=>n.c&&n.k!=='fn'&&n.k!=='rs'&&n.k!=='sh'&&n.id).map(n=>n.id));draw()};
+ // edges
+ let svg='<defs>'+['m:#566079','h:#4d8a76','n:#5fbf8f','b:#7aa2f7','f:#e0b04a','l:#7a5fa0'].map(x=>{const [k,c]=x.split(':');return `<marker id="${k}" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="9" markerHeight="9" markerUnits="userSpaceOnUse" orient="auto"><path d="M0 0L8 4L0 8z" fill="${c}"/></marker>`}).join('')+'</defs>';
+ const labels=[];
+ for(const c of C){const A=FN[c.a],B=FN[c.b];if(!show(A)||!show(B)||(c.plan==='a'&&!plan))continue;
+  const inFlow=fl.length&&fl.includes(c.a)&&fl.includes(c.b)&&fl.indexOf(c.a)<fl.indexOf(c.b);
+  const hi=!fl.length&&selF&&(c.a===selF||c.b===selF);const off=(fl.length&&!inFlow)||(selF&&!hi&&!fl.length)||(selPath&&!(lit(c.a)||lit(c.b)))||(hl&&!c.plan);
+  const {d,mx,my}=route(A,B);
+  const cls='e'+(c.hop?' hop':'')+(plan&&c.plan?' new':'')+(hi?' hi':'')+(inFlow?' flow':'');
+  const mk=inFlow?'f':hi?'b':plan&&c.plan?'n':c.hop?'h':'m';
+  svg+=`<path d="${d}" class="${cls}" marker-end="url(#${mk})" opacity="${off?.12:1}"/>`;
+  if(c.hop&&!off)labels.push(`<text x="${mx}" y="${my}" class="el bg" text-anchor="middle">${c.hop}</text><text x="${mx}" y="${my}" class="el" text-anchor="middle">${c.hop}</text>`)}
+ // library lines, for the selection only
+ const libFrom=selF?[FN[selF]]:selPath?F.filter(f=>under(selPath,f)||f.file===selPath):sel.kind==='lib'?F.filter(f=>(f.libs||[]).includes(sel.id)):[];
+ for(const f of libFrom){if(!show(f))continue;for(const l of f.libs||[]){if(lpos[l]===undefined)continue;if(sel.kind==='lib'&&l!==sel.id)continue;const x1=f.x+w(f),y1=f.y+19;
+  svg+=`<path d="M${x1} ${y1} C ${x1+90} ${y1}, ${1150-90} ${lpos[l]}, 1150 ${lpos[l]}" class="e lib" marker-end="url(#l)"/>`}}
+ document.getElementById('edges').innerHTML=svg+labels.join('');
+ side();
+}
+const w=f=>Math.max(110,f.n.length*7.6+22);
+// left-to-right when the target is beside, top-to-bottom when below
+function route(A,B){const aw=w(A),bw=w(B);const ax=A.x+aw/2,ay=A.y+19,bx=B.x+bw/2,by=B.y+19;
+ if(B.x>=A.x+aw-10){const x1=A.x+aw,x2=B.x-2;const k=Math.max(30,(x2-x1)/2);return {d:`M${x1} ${ay} C ${x1+k} ${ay}, ${x2-k} ${by}, ${x2} ${by}`,mx:(x1+x2)/2,my:(ay+by)/2-4}}
+ if(B.x+bw<=A.x+10){const x1=A.x,x2=B.x+bw+2;const k=Math.max(30,(x1-x2)/2);return {d:`M${x1} ${ay} C ${x1-k} ${ay}, ${x2+k} ${by}, ${x2} ${by}`,mx:(x1+x2)/2,my:(ay+by)/2-4}}
+ if(by>ay){const y1=A.y+38,y2=B.y-2;return {d:`M${ax} ${y1} C ${ax} ${y1+24}, ${bx} ${y2-24}, ${bx} ${y2}`,mx:(ax+bx)/2+18,my:(y1+y2)/2+3}}
+ const y1=A.y,y2=B.y+40;return {d:`M${ax} ${y1} C ${ax} ${y1-24}, ${bx} ${y2+24}, ${bx} ${y2}`,mx:(ax+bx)/2+18,my:(y1+y2)/2}}
+function pick(s){sel=(sel.kind===s.kind&&sel.id===s.id)?{kind:'none'}:s;if(sel.kind==='fn'){let c=FN[sel.id].file;while(c&&c.includes('/')){c=c.split('/').slice(0,-1).join('/');open.add(c)}}draw()}
+function side(){const s=document.getElementById('side');const plan=mode==='plan';
+ if(sel.kind==='lib'){const L=LIBS[sel.id];const wn=warns(L);const by=F.filter(f=>(f.libs||[]).includes(sel.id));
+  s.innerHTML=`<h2 style="font-family:ui-monospace,Menlo,monospace;color:var(--lib)">${sel.id} <span class="ext">${L.v}</span>${L.proposed?'<span class="prop">+ proposed</span>':''}</h2><div class="kind">library · ${L.what}</div>
+  <div class="links"><a href="https://github.com/${L.repo}" target="_blank" rel="noopener">GitHub ↗</a><a href="${L.docs}" target="_blank" rel="noopener">Docs ↗</a><a href="https://crates.io/crates/${sel.id}" target="_blank" rel="noopener">crates.io ↗</a></div>
+  <div class="stat"><div><b>${fmt(L.stars)}</b><span>stars</span></div><div><b>${L.contrib}</b><span>contributors</span></div><div><b>${L.sponsors||'–'}</b><span>sponsors</span></div><div><b>${L.dl90.toFixed(0)}M</b><span>downloads 90d</span></div><div><b>${L.updated}</b><span>last release</span></div><div><b>${L.lic||'none'}</b><span>licence</span></div></div>
+  ${wn.length?`<div class="sec"><h3>Worth a look</h3>${wn.map(x=>`<span class="warn">${x}</span>`).join('')}</div>`:''}
+  <div class="sec"><h3>Called from</h3>${by.map(f=>`<span class="chip fn" data-f="${f.id}">${f.n}</span>`).join('')}</div>${talk('crate:'+sel.id,'lib:'+sel.id)}`;wire('lib:'+sel.id);return}
+ if(sel.kind==='fn'){const f=FN[sel.id];const calls=C.filter(c=>c.a===f.id&&(plan||c.plan!=='a')),callers=C.filter(c=>c.b===f.id&&(plan||c.plan!=='a'));
+  const ref=f.file?`s-chan:${f.file}#${f.n.replace('()','')}`:`${PROCS[f.p].n}`;
+  s.innerHTML=`<h2 style="font-family:ui-monospace,Menlo,monospace;color:var(--fn)">${f.n}</h2><div class="kind">${f.ext?'outside caller':f.store?'store':'function'}${f.file?' · '+f.file:''}</div><div style="font-size:13px">${f.why||''}</div>
+  <div class="sec"><h3>Runs in</h3><span class="chip run">◂ ${PROCS[f.p].n}</span></div>
+  ${calls.length?`<div class="sec"><h3>Calls</h3>${calls.map(c=>`<span class="chip fn" data-f="${c.b}">${FN[c.b].n}${c.hop?` <span class="ext">· ${c.hop}</span>`:''}</span>`).join('')}</div>`:''}
+  ${callers.length?`<div class="sec"><h3>Called by</h3>${callers.map(c=>`<span class="chip fn" data-f="${c.a}">${FN[c.a].n}${c.hop?` <span class="ext">· ${c.hop}</span>`:''}</span>`).join('')}</div>`:''}
+  ${f.libs?`<div class="sec"><h3>Libraries</h3>${f.libs.filter(l=>plan||!LIBS[l].proposed).map(l=>`<span class="chip lib" data-l="${l}">${l}</span>`).join('')}</div>`:''}
+  ${plan&&f.plan?`<div class="sec"><h3>In the plan</h3><div class="plan">${f.plan==='a'?'New. ':'Changes. '}${f.why}</div></div>`:''}${talk(ref,'fn:'+f.id)}`;wire('fn:'+f.id);return}
+ if(sel.kind==='tree'){const n=TN[sel.id];const fs=F.filter(f=>show(f)&&(under(sel.id,f)||f.file===sel.id));const libs=[...new Set(fs.flatMap(f=>f.libs||[]))];
+  s.innerHTML=`<h2>${n.n}${n.k==='dir'?'/':''}</h2><div class="kind">${n.k==='dir'?'folder':'file'} · ${sel.id}</div>
+  ${fs.length?`<div class="sec"><h3>Functions on this view</h3>${fs.map(f=>`<span class="chip fn" data-f="${f.id}">${f.n}</span>`).join('')}</div>`:'<div class="ext">Nothing from here is on this view yet.</div>'}
+  ${fs.length?`<div class="sec"><h3>Runs in</h3>${[...new Set(fs.map(f=>f.p))].map(p=>`<span class="chip run">◂ ${PROCS[p].n}</span>`).join('')}</div>`:''}
+  ${libs.length?`<div class="sec"><h3>Libraries</h3>${libs.map(l=>`<span class="chip lib" data-l="${l}">${l}</span>`).join('')}</div>`:''}${talk('s-chan:'+sel.id+(n.k==='dir'?'/':''),'t:'+sel.id)}`;wire('t:'+sel.id);return}
+ s.innerHTML=`<h2>board (code)</h2><div class="kind">view · inside Agent board</div><div style="font-size:13px">${F.filter(show).length} boxes in ${Object.keys(PROCS).length} places it runs. Click a function for its calls, a file in the tree to frame it, or pick a flow.</div>`}
+function talk(ref,key){const list=NOTES[key]||[];return `<div class="sec"><h3>Talk about it</h3><div class="refline"><code>${ref}</code><button data-copy="${ref}">Copy for an agent</button></div>
+ ${list.map(x=>`<div class="note"><b>${x.who}</b>${x.agent?' <span class="ext">· for the agent</span>':''}<div>${x.text}</div></div>`).join('')}
+ <textarea id="nt" placeholder="Leave a note the agent can read…"></textarea><div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--sub)"><label><input type="checkbox" id="na" checked> the agent should check this</label><button id="nb">Add note</button></div></div>`}
+function wire(key){const side=document.getElementById('side');
+ side.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{navigator.clipboard?.writeText(`In atlas (design agent-comms), look at ${b.dataset.copy}`).catch(()=>{});b.textContent='Copied';setTimeout(()=>b.textContent='Copy for an agent',1200)});
+ side.querySelectorAll('[data-f]').forEach(c=>c.onclick=()=>pick({kind:'fn',id:c.dataset.f}));side.querySelectorAll('[data-l]').forEach(c=>c.onclick=()=>pick({kind:'lib',id:c.dataset.l}));
+ const nb=document.getElementById('nb');if(nb)nb.onclick=()=>{const t=document.getElementById('nt').value.trim();if(!t)return;(NOTES[key]=NOTES[key]||[]).push({who:'You',text:t,agent:document.getElementById('na').checked});draw()}}
+function setMode(m){mode=m;document.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x.dataset.m===m))}
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{setMode(b.dataset.m);if(mode==='now'&&flow==='mcp'){flow='';document.getElementById('flow').value=''}draw()});
+document.getElementById('flow').onchange=e=>{flow=e.target.value;if(flow==='mcp')setMode('plan');sel={kind:'none'};draw()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){sel={kind:'none'};flow='';document.getElementById('flow').value='';draw()}});
+draw();
+</script></body></html>

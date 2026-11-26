@@ -1,0 +1,39 @@
+# An example, not used by this repository: a GitHub Actions workflow for the repository that
+# holds YOUR infrastructure, which copies the published image into Artifact Registry and
+# rolls it out to a Cloud Run service. Fill in every <placeholder>. It signs in to Google
+# Cloud through workload identity federation, so no key is stored. Check the action versions
+# and gcloud flags against their current documentation before relying on it.
+name: deploy-archnm
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The image tag to deploy (sha-<commit> or main)
+        default: main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      SOURCE: ghcr.io/<owner>/<repo>:${{ inputs.tag }}
+      IMAGE: <region>-docker.pkg.dev/<project>/<repository>/archnm:${{ inputs.tag }}
+    steps:
+      - uses: google-github-actions/auth@v2
+        id: gcp
+        with:
+          workload_identity_provider: projects/<project number>/locations/global/workloadIdentityPools/<pool>/providers/<provider>
+          service_account: <service account>@<project>.iam.gserviceaccount.com
+          token_format: access_token
+      - uses: docker/login-action@v3
+        with:
+          registry: <region>-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.gcp.outputs.access_token }}
+      - run: docker pull "$SOURCE" && docker tag "$SOURCE" "$IMAGE" && docker push "$IMAGE"
+      # Old and new overlap for a few seconds, so an edit made in that window can be lost;
+      # open browsers reconnect on their own.
+      - uses: google-github-actions/setup-gcloud@v2
+      - run: gcloud run services update <service> --project <project> --region <region> --image "$IMAGE" --quiet

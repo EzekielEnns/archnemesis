@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Archnemesis · first run</title>
+<style>
+  /* Tokens copied from src/styles/base.css and the other prototypes. */
+  :root {
+    color-scheme: dark;
+    --bg: #0f1115; --side: #12151b; --panel: rgba(22, 25, 32, 0.96); --field: #1b1f27;
+    --line: #262c36; --line-strong: #353d4a; --text: #e6e9ef; --muted: #8b93a3; --accent: #4f8cff;
+    /* White on --accent is 3.2:1, under AA for 13px text; filled buttons use this one (5.3:1). */
+    --accent-fill: #2b66d6;
+    --add: #34d399; --danger: #f87171;
+    --actor: #a78bfa; --system: #60a5fa; --app: #34d399; --store: #fbbf24; --component: #f472b6;
+    --module: #fb923c; --function: #5eead4; --table: #facc15;
+    --inset: 262px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0a0c10; color: var(--text);
+    font: 13px/1.45 Inter, -apple-system, system-ui, sans-serif; overflow: hidden; }
+  button { font: inherit; color: inherit; background: var(--field); border: 1px solid var(--line);
+    border-radius: 6px; padding: 4px 9px; cursor: pointer; }
+  button:hover { border-color: var(--line-strong); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  svg.i { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; }
+  kbd { font: 600 11px ui-monospace, Menlo, monospace; color: var(--text); background: #222834; border: 1px solid var(--line-strong);
+    border-bottom-width: 2px; border-radius: 5px; padding: 0 5px; margin: 0 1px; }
+
+  /* ---------- Prototype chrome (not part of the app) ---------- */
+  .page { display: grid; grid-template-rows: auto 1fr; height: 100vh; }
+  .proto { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 18px; padding: 8px 14px; background: #07090c;
+    border-bottom: 1px dashed #3a4150; }
+  .proto .tag { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #c9a227; font-weight: 700; }
+  .proto .grp { display: flex; align-items: center; gap: 4px; }
+  .proto .grp > span { font-size: 11px; color: var(--muted); margin-right: 4px; text-transform: uppercase; letter-spacing: .05em; }
+  .proto button { background: transparent; color: #aab2c2; border-radius: 8px; padding: 4px 9px; }
+  .proto button[aria-pressed="true"] { color: var(--text); border-color: var(--accent); background: rgba(79,140,255,.14); }
+  .proto label { display: flex; gap: 6px; align-items: center; color: #aab2c2; font-size: 12px; }
+  .stagewrap { min-height: 0; display: flex; justify-content: center; background: #0a0c10; }
+
+  /* ---------- The mock app ---------- */
+  .frame { position: relative; width: var(--fw, 100%); height: 100%; overflow: hidden; background: var(--bg);
+    container-type: inline-size; container-name: app; }
+  .canvas { position: absolute; inset: 0; background-image: radial-gradient(#232833 1px, transparent 1px); background-size: 24px 24px; cursor: default; }
+  .canvas.place { cursor: crosshair; }
+  .layer { position: absolute; inset: 0; pointer-events: none; }
+  .layer > * { pointer-events: auto; }
+
+  .island { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+  .chrome { position: absolute; display: flex; align-items: center; gap: 2px; padding: 4px; z-index: 10; }
+  .ib { width: 32px; height: 32px; display: grid; place-items: center; border: 0; background: none; padding: 0; color: var(--muted); border-radius: 8px; position: relative; }
+  .ib:hover { background: rgba(255,255,255,.06); color: var(--text); border: 0; }
+  .ib.on { background: rgba(79,140,255,.22); box-shadow: inset 0 0 0 1px rgba(79,140,255,.5); color: var(--text); }
+
+  /* Left panel */
+  .left { left: 12px; top: 12px; bottom: 64px; width: 240px; flex-direction: column; align-items: stretch; padding: 0; gap: 0; }
+  .left .lh { display: flex; align-items: center; gap: 4px; padding: 8px 8px 4px 12px; min-height: 46px; }
+  .left .lh .nm { flex: 1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .left .lh .ro { font-size: 11px; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 6px; padding: 0 5px; margin-left: 6px; font-weight: 400; }
+  .left .tools2 { display: flex; gap: 2px; padding: 0 8px 6px; border-bottom: 1px solid var(--line); }
+  .left .tree { padding: 6px; overflow: auto; flex: 1; }
+  .row { display: flex; align-items: center; gap: 7px; height: 27px; padding: 0 8px; border-radius: 7px; color: var(--muted); white-space: nowrap; }
+  .row.here { background: rgba(79,140,255,.14); color: var(--text); }
+  .row .dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
+  .row.ind { margin-left: 16px; }
+  .left .empty { margin: 10px 8px; color: var(--muted); font-size: 12px; }
+
+  /* Dock */
+  .dock { top: 12px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); gap: 2px; }
+  .dock .tool { width: 36px; height: 36px; display: grid; place-items: center; border: 0; background: transparent; padding: 0; border-radius: 8px; position: relative; }
+  .dock .tool:hover { background: rgba(255,255,255,.06); }
+  .dock .tool.on { background: rgba(79,140,255,.22); box-shadow: inset 0 0 0 1px rgba(79,140,255,.5); }
+  .dock .tool sub { position: absolute; right: 4px; bottom: 2px; font-size: 9px; line-height: 1; color: var(--muted); }
+  .dock .tool.glow { box-shadow: inset 0 0 0 1px rgba(79,140,255,.6); }
+  .dock .sep { width: 1px; height: 20px; background: var(--line); margin: 0 4px; }
+  .dock .more { display: none; }
+  @container app (max-width: 1100px) { .dock .xtra { display: none; } .dock .more { display: grid; } }
+  .people { top: 12px; right: 12px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #d6479a; color: #fff; display: grid; place-items: center; font-weight: 600; font-size: 12px; }
+  .bl { left: 12px; bottom: 12px; }
+  .zoom { min-width: 52px; text-align: center; font-variant-numeric: tabular-nums; color: var(--text); }
+  .br { right: 12px; bottom: 12px; }
+
+  /* Canvas content */
+  .cbox { position: absolute; width: 168px; height: 64px; border-radius: 32px; border: 1px solid #2a303c; background: #181c24; display: flex; align-items: center; gap: 10px; padding: 0 12px; transform: translate(-50%, -50%); z-index: 2; }
+  .cbox .ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: rgba(255,255,255,.06); flex: none; }
+  .cbox b { font-weight: 500; display: block; line-height: 1.2; }
+  .cbox small { color: var(--muted); font-size: 11px; }
+  .diagram { position: absolute; left: calc(var(--inset) + (100% - var(--inset)) / 2); top: 54%; width: 600px; height: 330px; transform: translate(-50%, -50%); }
+  .diagram > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .diagram .cbox { transform: none; }
+  .hintc { position: absolute; left: calc(var(--inset) + (100% - var(--inset)) / 2); top: 48%; transform: translate(-50%, -50%); text-align: center; color: var(--muted); max-width: 340px; pointer-events: none; }
+  .hintc b { display: block; color: var(--text); font-weight: 500; font-size: 14px; margin-bottom: 4px; }
+  .hintc button { pointer-events: auto; background: none; border: 0; color: var(--accent); padding: 0; }
+  .hintc button:hover { text-decoration: underline; }
+  .coach { top: 64px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); padding: 8px 12px; max-width: min(520px, calc(100% - var(--inset) - 24px)); text-align: center; position: absolute; z-index: 9; }
+
+  /* ---------- Welcome (layout A: centred panel) ---------- */
+  .fade { animation: fade .14s ease-out; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .fade { animation: none; } }
+  .wel { position: absolute; z-index: 20; background: #161a21; border: 1px solid var(--line-strong); border-radius: 14px; box-shadow: 0 24px 60px rgba(0,0,0,.55); padding: 20px 22px 14px; overflow: auto; }
+  .A .wel { top: 68px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); width: min(660px, calc(100% - var(--inset) - 24px)); max-height: calc(100% - 68px - 64px); }
+  .wel .x { position: absolute; right: 10px; top: 10px; width: 28px; height: 28px; padding: 0; border: 0; background: none; color: var(--muted); display: grid; place-items: center; }
+  .wel .x:hover { color: var(--text); background: rgba(255,255,255,.06); }
+  .wel h2 { margin: 0 28px 6px 0; font-size: 20px; line-height: 1.25; font-weight: 650; letter-spacing: -.005em; }
+  .wel h2:focus { outline: none; }
+  .wel .lead { margin: 0 0 8px; color: #c3cad6; font-size: 13.5px; max-width: 58ch; }
+  .wel .where { margin: 0 0 12px; color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 7px; }
+  .led { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); flex: none; }
+  .led.on { background: var(--add); }
+  .eyebrow { margin: 14px 0 8px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .ways { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .way { display: grid; grid-template-columns: 30px 1fr; grid-template-areas: "i t" "i d" "n n"; column-gap: 10px; row-gap: 1px; text-align: left; padding: 11px 12px; background: #191d25; border: 1px solid var(--line); border-radius: 10px; align-items: start; }
+  .way:hover { border-color: var(--accent); background: #1b212c; }
+  .way .wi { grid-area: i; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; background: rgba(255,255,255,.06); color: var(--c); }
+  .way .wt { grid-area: t; font-weight: 600; font-size: 13.5px; }
+  .way .wd { grid-area: d; color: var(--muted); font-size: 12px; }
+  .way .wn { grid-area: n; margin-top: 8px; font-size: 11.5px; color: #c3cad6; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 3px 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .way .tagx { grid-area: t; justify-self: end; font-size: 10.5px; color: var(--muted); border: 1px solid var(--line-strong); border-radius: 6px; padding: 0 5px; }
+  .way .tagx.ok { color: var(--add); border-color: rgba(52,211,153,.4); }
+  .wfoot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--line); }
+  .link { background: none; border: 0; padding: 2px 0; color: var(--accent); }
+  .link:hover { text-decoration: underline; border: 0; }
+  .btn { height: 30px; padding: 0 12px; border-radius: 8px; border: 1px solid var(--line-strong); background: rgba(255,255,255,.03); display: inline-flex; align-items: center; gap: 6px; }
+  .btn:hover { background: rgba(255,255,255,.08); }
+  .btn.primary { background: var(--accent-fill); border-color: var(--accent-fill); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.1); }
+
+  /* Detail views */
+  .back { display: inline-flex; align-items: center; gap: 4px; background: none; border: 0; color: var(--muted); padding: 2px 0; margin-bottom: 8px; }
+  .back:hover { color: var(--text); }
+  .dbody { display: flex; flex-direction: column; gap: 10px; }
+  .dbody p { margin: 0; color: #c3cad6; max-width: 62ch; }
+  .dbody h3 { margin: 6px 0 0; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .step { display: flex; gap: 8px; align-items: flex-start; }
+  .step .n { flex: none; width: 18px; height: 18px; border-radius: 50%; background: var(--line); color: #c3cad6; font-size: 11px; display: grid; place-items: center; margin-top: 1px; }
+  .step > div { flex: 1; min-width: 0; }
+  .cmd { display: flex; align-items: flex-start; gap: 6px; padding: 8px 8px 8px 10px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; margin-top: 6px; }
+  .cmd code { flex: 1; font-size: 12px; line-height: 1.5; word-break: break-word; user-select: all; white-space: pre-wrap; }
+  .cmd .cp { flex: none; width: 28px; height: 26px; padding: 0; border: 0; background: none; color: var(--muted); display: grid; place-items: center; }
+  .cmd .cp:hover { color: var(--text); background: rgba(255,255,255,.06); }
+  .cmd .lbl { display: block; color: var(--muted); font-size: 11px; margin-bottom: 2px; font-family: inherit; }
+  .note { border-left: 2px solid var(--line-strong); padding: 2px 0 2px 10px; color: var(--muted); font-size: 12px; max-width: 62ch; }
+  .dfoot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+
+  /* ---------- Layout B: quiet canvas, bottom strip ---------- */
+  .B .wel { left: calc(var(--inset) + 4px); right: 100px; bottom: 12px; top: auto; max-height: calc(100% - 68px - 12px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 4px 28px; padding: 16px 20px 12px; }
+  .B .wel .x { top: 8px; }
+  .B .wel .intro { grid-column: 1; }
+  .B .wel .side { grid-column: 2; grid-row: 1 / span 2; min-width: 0; padding-right: 26px; }
+  .B .wel .eyebrow { margin-top: 0; }
+  .B .wel .ways { grid-template-columns: 1fr; gap: 6px; }
+  .B .way { grid-template-columns: 30px 1fr auto; grid-template-areas: "i t n" "i d n"; align-items: center; padding: 8px 10px; }
+  .B .way .wn { margin: 0; max-width: 240px; align-self: center; }
+  .B .wel .wfoot { grid-column: 1; align-self: end; margin-top: 4px; }
+  .B .wel h2 { font-size: 18px; }
+  @container app (max-width: 1000px) {
+    .B .wel { grid-template-columns: 1fr; right: 12px; }
+    .B .wel .side { grid-column: 1; grid-row: auto; padding-right: 0; }
+    .B .way .wn { display: none; }
+    .B .wel .wfoot { grid-column: 1; }
+  }
+  .B .wel.detail { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+  @container app (max-width: 1000px) { .B .wel.detail { grid-template-columns: 1fr; } }
+
+  /* Chip, toast, sheet, banner */
+  .chipw { position: absolute; z-index: 15; bottom: 14px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); display: flex; align-items: center; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 999px; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+  .chipw button { border: 0; background: none; height: 30px; display: inline-flex; align-items: center; gap: 6px; }
+  .chipw .go { padding: 0 8px 0 12px; border-radius: 999px 0 0 999px; }
+  .chipw .no { padding: 0 9px 0 6px; color: var(--muted); border-radius: 0 999px 999px 0; }
+  .chipw button:hover { background: rgba(255,255,255,.07); border: 0; }
+  .toast { position: absolute; z-index: 30; bottom: 58px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); background: #222834; border: 1px solid var(--line-strong); border-radius: 10px; padding: 8px 14px; max-width: min(460px, calc(100% - var(--inset) - 24px)); box-shadow: 0 8px 24px rgba(0,0,0,.4); }
+  .sheet { position: absolute; z-index: 40; right: 12px; bottom: 56px; width: 310px; background: #161a21; border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 16px 40px rgba(0,0,0,.55); padding: 8px; }
+  .sheet .sh { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px 8px; font-weight: 600; }
+  .sheet .si { display: flex; width: 100%; justify-content: space-between; align-items: center; text-align: left; border: 0; background: none; border-radius: 8px; padding: 8px; }
+  .sheet .si:hover { background: var(--field); border: 0; }
+  .sheet .si small { display: block; color: var(--muted); font-size: 11.5px; }
+  .banner { position: absolute; z-index: 12; top: 64px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); display: flex; align-items: center; gap: 12px; padding: 6px 6px 6px 14px; white-space: nowrap; }
+  @container app (max-width: 1000px) { .banner { white-space: normal; max-width: calc(100% - var(--inset) - 24px); } }
+  .tip { position: absolute; z-index: 12; bottom: 14px; left: calc(var(--inset) + (100% - var(--inset)) / 2); transform: translateX(-50%); width: min(470px, calc(100% - var(--inset) - 24px)); padding: 12px 14px; display: flex; gap: 12px; align-items: flex-end; }
+  .tip p { margin: 0; color: #c3cad6; }
+  .tip b { color: var(--text); }
+  .tip .btn { white-space: nowrap; flex: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="proto" role="toolbar" aria-label="Prototype controls">
+    <span class="tag">Prototype controls</span>
+    <div class="grp" id="g-sit" role="group" aria-label="Situation"><span>Situation</span></div>
+    <div class="grp" id="g-lay" role="group" aria-label="Layout"><span>Layout</span></div>
+    <div class="grp" id="g-w" role="group" aria-label="Window width"><span>Width</span></div>
+    <label id="agentbox" hidden><input type="checkbox" id="agentchk" /> An agent has connected</label>
+    <button id="reset" type="button">Reset</button>
+  </div>
+  <div class="stagewrap"><div class="frame" id="frame"></div></div>
+</div>
+
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const P = {
+  cursor: '<path d="M5 3l14 7-6 2-2 6z"/>',
+  actor: '<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/>',
+  system: '<path d="M12 3l4 2.3v4.4L12 12 8 9.7V5.3z"/><path d="M6 12l4 2.3v4.4L6 21l-4-2.3v-4.4z"/><path d="M18 12l4 2.3v4.4L18 21l-4-2.3v-4.4z"/>',
+  app: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+  store: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+  component: '<rect x="4" y="4" width="16" height="16" rx="3"/><circle cx="12" cy="12" r="3"/>',
+  module: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/>',
+  fn: '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M14 8h-2a2 2 0 0 0-2 2v6M8 12h6"/>',
+  table: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/>',
+  connect: '<circle cx="5" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7 7c6 0 4 10 10 10"/>',
+  group: '<rect x="3" y="3" width="18" height="18" rx="2" stroke-dasharray="3 3"/>',
+  note: '<path d="M4 5h16v11H9l-5 4z"/><path d="M12 8v5M9.5 10.5h5"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+  help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/>',
+  x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
+  check: '<path d="M5 12l5 5 9-10"/>',
+  bot: '<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 13v2M15 13v2"/>',
+  map: '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  blank: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 9v6M9 12h6"/>',
+  shop: '<path d="M4 9l1.5-5h13L20 9M4 9v11h16V9M4 9h16M9 20v-6h6v6"/>',
+  more: '<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',
+  chev: '<path d="M6 15l6-6 6 6"/>',
+  left: '<path d="M15 6l-6 6 6 6"/>',
+  cog: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+  tree: '<path d="M4 6h4M4 12h4M4 18h4M12 6h8M12 12h8M12 18h8"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  layers: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>',
+  chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+};
+const ic = (k, s) => `<svg class="i" viewBox="0 0 24 24"${s ? ` style="width:${s}px;height:${s}px"` : ""} aria-hidden="true">${P[k]}</svg>`;
+const COLOR = { actor: "--actor", system: "--system", app: "--app", store: "--store", component: "--component" };
+const KINDS = ["actor", "system", "app", "store", "component"];
+const LABEL = { actor: "Actor", system: "System", app: "App", store: "Store", component: "Component" };
+
+/* ---------- the words (every string the owner can mark up lives here) ---------- */
+const MCP_URL = "http://127.0.0.1:5190/mcp";
+const CLAUDE_CMD = "claude mcp add -s user --transport http archnm " + MCP_URL;
+const MAP_ASK = "Map this repo into Archnemesis. Start with its apps, databases and the connections between them, then add the code inside each app. Tell me what you guessed.";
+const MAP_ASK_PUBLIC = "Map the repo at <link to a public repo> into Archnemesis. Read its README and main folders, then draw its apps, databases and the connections between them. Tell me what you guessed.";
+const PLAN_ASK = "Plan this feature in Archnemesis: <describe the feature>. Start from what is already drawn, add what the feature needs as planned boxes and connections, and tell me what it touches.";
+const RUN_LOCAL = "docker build -t archnm . && docker run -p 5190:5190 -v archnm-data:/data archnm";
+
+const T = {
+  headline: "A shared diagram of how your software fits together",
+  lead: "Boxes are the parts: people, systems, apps, databases, code. Connections show how they talk. You and your AI agents edit it together, live.",
+  where: {
+    static: "Your designs stay in this browser.",
+    server: "Designs are saved as files on this server, and everyone you invite sees edits as they happen.",
+  },
+  eyebrow: "Where do you want to start?",
+  foot: "Esc closes this. Find it again under ? → Getting started.",
+  never: "Don't show this again",
+  chip: "Getting started",
+};
+
+/* ---------- state ---------- */
+const SITS = [
+  { id: 1, label: "1 Demo, WebMCP" },
+  { id: 2, label: "2 Demo, no WebMCP" },
+  { id: 3, label: "3 Server" },
+  { id: 4, label: "4 Shared link" },
+  { id: 5, label: "5 Returning" },
+];
+let S;
+let layout = "A", width = "100%", agent = false;
+const fresh = (sit) => ({
+  sit, step: sit <= 3 ? "welcome" : "gone", open: null, kind: "actor", boxes: [], example: false,
+  sheet: false, copyMade: false, tipGone: false, toast: "", coach: false, force: "wh",
+});
+S = fresh(1);
+let toastTimer = 0;
+
+const isStatic = () => S.sit === 1 || S.sit === 2;
+const designName = () => S.example ? "Shop" : S.sit === 3 ? "Architecture" : S.sit === 4 ? (S.copyMade ? "Checkout (copy)" : "Checkout") : S.sit === 5 ? "My design 2" : "My design";
+const showDiagram = () => S.example || (S.sit === 4);
+
+/* ---------- pieces ---------- */
+function dock() {
+  const t = (k, key, title, xtra) =>
+    `<button class="tool${S.kind === k && S.coachTool ? " on" : ""}${S.coach && key >= 2 && key <= 6 && !S.boxes.length ? " glow" : ""}${xtra ? " xtra" : ""}" data-tool="${k}" data-key="${key}" title="${title} (${key})" aria-label="${title}, key ${key}" style="color:var(--${k === "select" ? "text" : k})">${ic(k === "select" ? "cursor" : k)}<sub>${key}</sub></button>`;
+  const plain = (k, key, title, xtra) => `<button class="tool${xtra ? " xtra" : ""}" title="${title}" aria-label="${title}">${ic(k)}${key ? `<sub>${key}</sub>` : ""}</button>`;
+  return `<div class="chrome island dock" role="toolbar" aria-label="Tools">
+    ${t("select", 1, "Select")}<span class="sep"></span>
+    ${KINDS.map((k, i) => t(k, i + 2, LABEL[k])).join("")}
+    <span class="sep xtra"></span>
+    <button class="tool xtra" style="color:var(--module)" title="Module (7)" aria-label="Module, key 7">${ic("module")}<sub>7</sub></button>
+    <button class="tool xtra" style="color:var(--function)" title="Function (8)" aria-label="Function, key 8">${ic("fn")}<sub>8</sub></button>
+    <button class="tool xtra" style="color:var(--table)" title="Table (9)" aria-label="Table, key 9">${ic("table")}<sub>9</sub></button>
+    <button class="tool more" title="More tools" aria-label="More tools">${ic("more")}</button>
+    <span class="sep"></span>
+    ${plain("connect", "C", "Connect")}${plain("group", "G", "Group", 1)}${plain("note", "N", "Note")}
+    <span class="sep"></span>${plain("search", "", "Find")}
+  </div>`;
+}
+function left() {
+  const rows = [];
+  rows.push(`<div class="row here">${ic("map", 14)}<span>Landscape</span></div>`);
+  if (S.example || S.sit === 4) {
+    [["Customer", "actor", 0], ["Staff", "actor", 0], ["Web shop", "app", 0], ["Admin", "app", 0], ["Orders", "store", 0], ["Payments", "system", 0]]
+      .forEach(([n, k]) => rows.push(`<div class="row ind"><span class="dot" style="background:var(--${k})"></span><span>${n}</span></div>`));
+  }
+  S.boxes.forEach((b) => rows.push(`<div class="row ind"><span class="dot" style="background:var(--${b.k})"></span><span>${LABEL[b.k] ? "New " + b.k : b.k}</span></div>`));
+  const emptyNote = !S.boxes.length && !showDiagram() ? `<div class="empty">Nothing in this design yet.</div>` : "";
+  return `<aside class="chrome island left" aria-label="Design">
+    <div class="lh"><span class="nm">${esc(designName())}${S.sit === 4 && !S.copyMade ? `<span class="ro">read-only</span>` : ""}</span>
+      <button class="ib" aria-label="Design settings">${ic("cog")}</button></div>
+    <div class="tools2"><button class="ib on" aria-label="Views">${ic("tree")}</button><button class="ib" aria-label="Search in design">${ic("search")}</button></div>
+    <div class="tree">${rows.join("")}${emptyNote}</div></aside>`;
+}
+function corners() {
+  return `<div class="chrome island people"><button class="ib" aria-label="Comments">${ic("chat")}</button><span class="avatar" title="You">${S.sit === 3 ? "Z" : "Y"}</span></div>
+    <div class="chrome island bl"><button class="ib" aria-label="Zoom out"><b>−</b></button><span class="zoom">100%</span><button class="ib" aria-label="Zoom in"><b>+</b></button></div>
+    <div class="chrome island br"><button class="ib" aria-label="Layers">${ic("layers")}</button><button class="ib${S.sheet ? " on" : ""}" id="helpbtn" aria-label="Help and shortcuts (?)" aria-expanded="${S.sheet}" data-act="sheet">${ic("help")}</button></div>`;
+}
+function shopDiagram() {
+  const b = (x, y, n, k, s) => `<div class="cbox" style="left:${x}px;top:${y}px"><span class="ic" style="color:var(--${k})">${ic(k)}</span><span><b>${n}</b><small>${s}</small></span></div>`;
+  const ln = (a, b2, c, d, lbl, lx, ly) => `<path d="M${a} ${b2} L${c} ${d}" stroke="#4a5466" stroke-width="1.5" fill="none" marker-end="url(#ar)"/><text x="${lx}" y="${ly}" fill="#8b93a3" font-size="11" text-anchor="middle">${lbl}</text>`;
+  return `<div class="diagram" aria-label="Example diagram">
+    <svg viewBox="0 0 600 330"><defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4a5466"/></marker></defs>
+    ${ln(172, 52, 208, 140, "browses", 170, 100)}${ln(172, 278, 208, 190, "manages", 170, 240)}
+    ${ln(368, 150, 432, 66, "charges", 420, 120)}${ln(368, 190, 432, 266, "reads and writes", 350, 232)}
+    </svg>
+    ${b(0, 20, "Customer", "actor", "Actor")}${b(0, 246, "Staff", "actor", "Actor")}
+    ${b(200, 130, "Web shop", "app", "App")}${b(430, 20, "Payments", "system", "External system")}${b(430, 232, "Orders", "store", "Store")}
+  </div>`;
+}
+function canvasContent() {
+  let h = "";
+  if (showDiagram()) h += shopDiagram();
+  h += S.boxes.map((b) => `<div class="cbox" style="left:${b.x}px;top:${b.y}px"><span class="ic" style="color:var(--${b.k})">${ic(b.k)}</span><span><b>New ${b.k}</b><small>${LABEL[b.k]}</small></span></div>`).join("");
+  if (S.sit === 5 && S.step !== "welcome" && !S.boxes.length && !S.example)
+    h += `<div class="hintc"><b>This design is empty.</b>Press <kbd>2</kbd> to <kbd>6</kbd> to place a box, or ask your agent to draw it.<br><button data-act="reopen">Getting started</button></div>`;
+  return h;
+}
+
+/* ---------- welcome ---------- */
+function ways() {
+  const a = S.sit, st = isStatic();
+  const mapNext = a === 3 ? "“Map this repo into Archnemesis”" : a === 1 ? "“Map the repo at <link>…”" : "Needs Archnemesis on your machine";
+  const connNext = a === 3 ? (agent ? "Ask it to map a repo" : `Add ${MCP_URL.replace("http://", "")} to your agent`) : a === 1 ? "Nothing to install" : "See what you need";
+  const w = [
+    ["blank", "blank", "var(--text)", "Start blank", "Place boxes yourself, then connect them.", "Press 2 to 6, click the canvas", ""],
+    ["map", "map", "var(--app)", "Map a repo with an agent",
+      a === 3 ? "An AI agent reads your code and draws it here." : a === 1 ? "An AI agent draws a system from a public repo or from what you tell it." : "Reading code needs Archnemesis on your own machine.", mapNext, ""],
+    ["connect", "bot", "var(--system)", "Connect an agent",
+      a === 3 ? "Give an AI agent, such as Claude Code, access to this design." : a === 1 ? "Your browser can let an agent work on this design." : "This page can't take an agent. Here is what can.", connNext,
+      a === 3 && agent ? "ok" : a === 1 ? "ok" : ""],
+    ["example", "shop", "var(--store)", "Open the example", "A small online shop, already drawn. Your own design stays separate.", "Opens “Shop” as its own design", ""],
+  ];
+  return w.map(([id, icon, c, t, d, n, tag]) => `<button class="way" data-act="open:${id}" data-f="way-${id}" style="--c:${c}">
+    <span class="wi">${ic(icon)}</span><span class="wt">${t}</span><span class="wd">${d}</span>
+    ${tag ? `<span class="tagx ok">${a === 1 ? "Ready" : "Connected"}</span>` : ""}
+    <code class="wn">${esc(n)}</code></button>`).join("");
+}
+function status() {
+  if (S.sit === 1) return `<p class="where"><span class="led on"></span>This browser lets agents use this page. ${T.where.static}</p>`;
+  if (S.sit === 2) return `<p class="where"><span class="led"></span>${T.where.static}</p>`;
+  return `<p class="where"><span class="led${agent ? " on" : ""}"></span>${agent ? "An agent is connected. " : "No agent connected yet. "}${T.where.server}</p>`;
+}
+const cmd = (text, label) => `<div class="cmd"><code>${label ? `<span class="lbl">${label}</span>` : ""}${esc(text)}</code><button class="cp" data-copy="${esc(text)}" aria-label="Copy${label ? " " + esc(label.toLowerCase()) : ""}">${ic("copy", 14)}</button></div>`;
+const step = (n, body) => `<div class="step"><span class="n">${n}</span><div>${body}</div></div>`;
+
+function detailMap() {
+  const a = S.sit;
+  if (a === 3) return { title: "Map a repo with an agent", body: `
+    <p>Your agent reads the repo, then draws its apps, databases and the connections between them into this design while you watch.</p>
+    ${step(1, `Connect your agent first, if you haven't. <button class="link" data-act="open:connect">Show me how</button>`)}
+    ${step(2, `Open the agent in the repo's folder. To read the code it runs one command on your machine.`)}
+    ${step(3, `Paste:${cmd(MAP_ASK)}`)}
+    <h3>Then, to plan a change</h3>${cmd(PLAN_ASK)}` };
+  if (a === 1) return { title: "Map a repo with an agent", body: `
+    <p>In the browser an agent can't open files on your computer. Give it a link to a public repo it can read, or describe your system, and it draws what it finds.</p>
+    ${step(1, `Open your browser's AI assistant with this page in front.`)}
+    ${step(2, `Paste, with a real link in place of the angle brackets:${cmd(MAP_ASK_PUBLIC)}`)}
+    <div class="note">For a repo on your own machine, run Archnemesis there. The agent can then read the code from the folder it works in. <button class="link" data-act="open:connect">What that takes</button></div>
+    <h3>Then, to plan a change</h3>${cmd(PLAN_ASK)}` };
+  return { title: "Map a repo with an agent", body: `
+    <p>This page can't read a repo or take an agent. Mapping code takes Archnemesis running on your own machine, with an agent started in the repo's folder.</p>
+    ${step(1, `Run Archnemesis on your machine:${cmd(RUN_LOCAL)}`)}
+    ${step(2, `Open <code>http://127.0.0.1:5190</code>, connect your agent, and paste “Map this repo into Archnemesis”.`)}
+    <div class="note">You can still start blank or open the example here. Both stay in this browser.</div>` };
+}
+function detailConnect() {
+  const a = S.sit;
+  if (a === 3) return { title: "Connect an agent", body: `
+    <p>Any agent that speaks MCP can connect: give it this address. MCP is the standard way agents use tools.</p>
+    ${cmd(MCP_URL, "Address")}
+    ${step(1, `Claude Code, as one example. Run this in a terminal:${cmd(CLAUDE_CMD, "Claude Code")}`)}
+    ${step(2, `In Claude Code, run <code>/mcp</code>, choose <b>archnm</b>, then <b>Authenticate</b>, and press Allow in the page that opens.`)}
+    <p class="small muted"><span class="led${agent ? " on" : ""}" style="display:inline-block;margin-right:6px"></span>${agent ? "An agent is connected." : "Waiting for an agent. This line changes when one connects."}</p>
+    <h3>Then ask it</h3>${cmd(MAP_ASK)}${cmd(PLAN_ASK)}` };
+  if (a === 1) return { title: "Connect an agent: nothing to install", body: `
+    <p>Your browser can give an agent the same tools you have on this page (WebMCP). It works on the design you have open, and its edits show under an agent's name, so you can tell them from yours.</p>
+    <p class="small muted"><span class="led on" style="display:inline-block;margin-right:6px"></span>Agent tools are ready on this page.</p>
+    ${step(1, `Open your browser's AI assistant while this page is in front.`)}
+    ${step(2, `Paste one of these:${cmd(MAP_ASK_PUBLIC)}${cmd(PLAN_ASK)}`)}
+    <div class="note">The agent can read and change this design. It can't delete designs, and it can't read files on your computer.</div>` };
+  return { title: "Connect an agent", body: `
+    <p>An agent gets in through an address a server gives it, or through a browser that has WebMCP. This page has neither, so nothing here can take an agent yet.</p>
+    ${step(1, `Open this page in a browser that has WebMCP. It connects on its own.`)}
+    ${step(2, `Or run Archnemesis on your machine, which gives agents an address:${cmd(RUN_LOCAL)}`)}
+    <div class="note">Your design here stays in this browser. To keep working on it elsewhere, use Export in the design menu.</div>` };
+}
+function detailHtml() {
+  const d = S.open === "map" ? detailMap() : detailConnect();
+  return { ...d, foot: `<div class="dfoot"><button class="btn" data-act="back">All ways in</button><button class="btn primary" data-act="tuck">${S.open === "map" ? "Got it" : "Got it, close this"}</button></div>` };
+}
+function welcome() {
+  const x = `<button class="x" data-act="tuck" aria-label="Close (Esc)" data-f="x">${ic("x", 14)}</button>`;
+  if (S.open) {
+    const d = detailHtml();
+    return `<section class="wel fade${S.open ? " detail" : ""}" role="dialog" aria-modal="false" aria-labelledby="wh">${x}
+      <div class="intro"><button class="back" data-act="back">${ic("left", 14)} All ways in</button>
+      <h2 id="wh" tabindex="-1">${d.title}</h2></div>
+      <div class="side"><div class="dbody">${d.body}</div>${d.foot}</div></section>`.replace(/<div class="side">/, layout === "B" ? '<div class="side">' : '<div class="side" style="display:contents">');
+  }
+  return `<section class="wel fade" role="dialog" aria-modal="false" aria-labelledby="wh" aria-describedby="wd">${x}
+    <div class="intro"><h2 id="wh" tabindex="-1">${T.headline}</h2><p class="lead" id="wd">${T.lead}</p>${status()}</div>
+    <div class="side"><h3 class="eyebrow">${T.eyebrow}</h3><div class="ways">${ways()}</div></div>
+    <div class="wfoot"><button class="link" data-act="never" data-f="never">${T.never}</button><span class="muted small">${T.foot}</span></div></section>`;
+}
+function chip() {
+  return `<div class="chipw fade"><button class="go" data-act="reopen" data-f="chip">${ic("chev", 14)} ${T.chip}</button><button class="no" data-act="never" aria-label="Hide Getting started for good" title="Hide for good">${ic("x", 13)}</button></div>`;
+}
+function coach() {
+  if (!S.coach) return "";
+  const txt = S.boxes.length
+    ? `Click a box to edit it. Press <kbd>C</kbd>, then click two boxes to connect them.`
+    : `Press <kbd>2</kbd> for an actor, <kbd>3</kbd> system, <kbd>4</kbd> app, <kbd>5</kbd> store or <kbd>6</kbd> component, then click the canvas.`;
+  return `<div class="island coach fade" role="status">${txt}</div>`;
+}
+function shared() {
+  let h = "";
+  if (!S.copyMade) h += `<div class="chrome island banner fade"><span>You're viewing a shared design. It's read-only.</span><button class="btn primary" data-act="copy" data-f="copy">Make my own copy</button></div>`;
+  if (!S.tipGone) h += `<div class="island tip fade" role="note"><p><b>New here?</b> This is a diagram of a software system. Boxes are its parts; connections show how they talk. Click a box to read about it.</p><button class="btn" data-act="tipgone" data-f="tip">Got it</button></div>`;
+  return h;
+}
+function sheet() {
+  if (!S.sheet) return "";
+  const rowText = S.sit === 4 ? ["What is this?", "A short note about the diagram you're looking at"] : [T.chip, "Four ways to start, and the prompts to give an agent"];
+  const conn = S.sit === 3 ? MCP_URL : isStatic() ? (S.sit === 1 ? "Agent tools are ready on this page" : "Needs a server or WebMCP") : "";
+  return `<div class="sheet fade" role="dialog" aria-label="Help"><div class="sh"><span>Help</span><button class="ib" data-act="sheet" aria-label="Close help">${ic("x", 14)}</button></div>
+    <button class="si" data-act="${S.sit === 4 ? "tip" : "reopen"}" data-f="sheet1"><span>${rowText[0]}<small>${rowText[1]}</small></span></button>
+    <button class="si" data-act="${S.sit === 3 || S.sit === 1 ? "openconn" : "openconn"}"><span>Connect your agent<small>${esc(conn)}</small></span></button>
+    <button class="si"><span>Keyboard shortcuts<small>Every key and gesture</small></span><kbd>?</kbd></button></div>`;
+}
+
+/* ---------- render ---------- */
+function render() {
+  const f = document.getElementById("frame");
+  const had = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.f : null;
+  const placing = (S.step === "chip" || S.step === "gone") && S.sit !== 4 && S.sit !== 3 ? true : S.step !== "welcome" && S.sit !== 4;
+  let overlay = "";
+  if (S.step === "welcome") overlay += welcome();
+  if (S.step === "chip") overlay += chip();
+  if (S.sit === 4) overlay += shared();
+  if (S.step !== "welcome") overlay += coach();
+  if (S.toast) overlay += `<div class="toast fade" role="status">${S.toast}</div>`;
+  f.className = "frame " + layout;
+  f.innerHTML = `<div class="canvas${placing ? " place" : ""}" id="canvas"></div>
+    <div class="layer" id="content">${canvasContent()}</div>
+    ${dock()}${left()}${corners()}
+    <div class="layer" id="over">${overlay}${sheet()}</div>`;
+  const want = S.force || had;
+  S.force = null;
+  if (want) {
+    const el = f.querySelector(`#${CSS.escape(want)}`) || f.querySelector(`[data-f="${want}"]`);
+    if (el) el.focus({ preventScroll: true });
+  }
+}
+function toast(t) {
+  S.toast = t; clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { S.toast = ""; render(); }, 5000);
+}
+
+/* ---------- actions ---------- */
+function act(a, el) {
+  if (a.startsWith("open:")) {
+    const w = a.slice(5);
+    if (w === "blank") { S.step = "chip"; S.coach = true; S.open = null; S.force = "chip"; }
+    else if (w === "example") { S.example = true; S.step = "chip"; S.open = null; S.coach = false; S.force = "chip";
+      toast("Opened “Shop” as its own design. Your blank design is still in the design menu."); }
+    else { S.open = w; S.force = "wh"; }
+  } else if (a === "back") { S.open = null; S.force = "wh"; }
+  else if (a === "tuck") { S.open = null; S.step = "chip"; S.force = "chip"; }
+  else if (a === "reopen") { S.step = "welcome"; S.open = null; S.sheet = false; S.force = "wh"; }
+  else if (a === "openconn") { S.step = "welcome"; S.open = "connect"; S.sheet = false; S.force = "wh"; }
+  else if (a === "never") { S.step = "gone"; S.open = null; S.sheet = false; S.force = "helpbtn";
+    toast("Hidden. You can find it again under ? → Getting started."); }
+  else if (a === "sheet") { S.sheet = !S.sheet; S.force = S.sheet ? "sheet1" : "helpbtn"; }
+  else if (a === "copy") { S.copyMade = true; S.force = null; toast("Made your own copy, “Checkout (copy)”. You can edit it."); }
+  else if (a === "tipgone") { S.tipGone = true; S.force = null; }
+  else if (a === "tip") { S.tipGone = false; S.sheet = false; S.force = "tip"; }
+  render();
+}
+document.addEventListener("click", (e) => {
+  const cp = e.target.closest("[data-copy]");
+  if (cp) {
+    try { navigator.clipboard && navigator.clipboard.writeText(cp.dataset.copy); } catch (_) {}
+    cp.innerHTML = ic("check", 14); setTimeout(() => { if (cp.isConnected) cp.innerHTML = ic("copy", 14); }, 1400);
+    return;
+  }
+  const a = e.target.closest("[data-act]");
+  if (a) return act(a.dataset.act, a);
+  const t = e.target.closest("[data-tool]");
+  if (t) { pick(t.dataset.tool); return; }
+  const c = e.target.closest("#canvas");
+  if (c && (S.step !== "welcome" || S.sit === 5) && S.sit !== 4 && S.step !== undefined) {
+    if (S.step === "welcome") return;
+    const r = document.getElementById("frame").getBoundingClientRect();
+    S.boxes.push({ k: S.kind === "select" ? "actor" : S.kind, x: e.clientX - r.left, y: e.clientY - r.top });
+    S.coach = S.sit !== 5 ? true : false;
+    S.force = null; render();
+  } else if (c && S.sheet) { S.sheet = false; render(); }
+});
+function pick(k) { S.kind = k; S.coachTool = k !== "select"; render(); }
+document.addEventListener("keydown", (e) => {
+  const tag = (e.target.tagName || "").toLowerCase();
+  if (e.key === "Escape") {
+    if (S.sheet) { S.sheet = false; S.force = "helpbtn"; return render(); }
+    if (S.step === "welcome") { S.open = null; S.step = "chip"; S.force = "chip"; return render(); }
+    if (S.sit === 4 && !S.tipGone) { S.tipGone = true; return render(); }
+  } else if (e.key === "?" && tag !== "input") { S.sheet = !S.sheet; S.force = S.sheet ? "sheet1" : null; render(); }
+  else if (/^[1-6]$/.test(e.key) && !e.metaKey && !e.ctrlKey && tag !== "input" && S.sit !== 4 && S.step !== "welcome") {
+    pick(e.key === "1" ? "select" : KINDS[+e.key - 2]);
+  }
+});
+
+/* ---------- prototype controls ---------- */
+function controls() {
+  const mk = (id, items, cur, fn) => {
+    const g = document.getElementById(id);
+    [...g.querySelectorAll("button")].forEach((b) => b.remove());
+    items.forEach(([v, l]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = l; b.setAttribute("aria-pressed", String(v === cur)); b.onclick = () => { fn(v); controls(); }; g.appendChild(b); });
+  };
+  mk("g-sit", SITS.map((s) => [s.id, s.label]), S.sit, (v) => { S = fresh(v); S.force = null; render(); });
+  mk("g-lay", [["A", "A  Centred panel"], ["B", "B  Bottom strip"]], layout, (v) => { layout = v; render(); });
+  mk("g-w", [["100%", "Full"], ["900px", "900 px"]], width, (v) => { width = v; document.getElementById("frame").style.setProperty("--fw", v); });
+  document.getElementById("agentbox").hidden = S.sit !== 3;
+}
+document.getElementById("agentchk").onchange = (e) => { agent = e.target.checked; render(); };
+document.getElementById("reset").onclick = () => { S = fresh(S.sit); S.force = null; render(); };
+controls(); render();
+</script>
+</body>
+</html>

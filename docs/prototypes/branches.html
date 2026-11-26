@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>atlas · branches, repo state, settings</title>
+<style>
+  :root {
+    --bg: #0f1115; --side: #12151b; --panel: rgba(22, 25, 32, 0.97); --field: #1b1f27; --field2: #222733;
+    --line: #262c36; --line-strong: #353d4a; --text: #e6e9ef; --muted: #8b93a3; --faint: #5d6576; --accent: #4f8cff;
+    --add: #34d399; --mod: #fbbf24; --del: #f87171; --busy: #60a5fa;
+    --actor: #a78bfa; --system: #60a5fa; --app: #34d399; --store: #fbbf24;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 13px/1.4 Inter, ui-sans-serif, system-ui, -apple-system, sans-serif; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  svg.i { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  .app { display: grid; grid-template-rows: 44px 1fr; height: 100vh; }
+  .proto { display: flex; align-items: center; gap: 8px; padding: 0 14px; border-bottom: 1px solid var(--line); background: #0c0e12; }
+  .proto b { font-weight: 600; margin-right: 6px; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .proto button { border: 1px solid var(--line); background: var(--field); border-radius: 8px; padding: 5px 10px; cursor: pointer; color: var(--muted); }
+  .proto button.on { color: var(--text); border-color: var(--accent); background: rgba(79,140,255,.12); }
+  .proto .sp { flex: 1; }
+  .proto .note { color: var(--faint); font-size: 12px; }
+  .page { display: none; min-height: 0; overflow: auto; }
+  .page.on { display: block; }
+
+  .row3 { display: flex; gap: 28px; padding: 24px; align-items: flex-start; flex-wrap: wrap; }
+  .col { display: flex; flex-direction: column; gap: 10px; }
+  .col h3 { margin: 0; font-size: 13px; }
+  .col p.why { margin: 0; color: var(--muted); font-size: 12px; max-width: 300px; }
+  .pick { color: var(--add); font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+
+  /* panel */
+  .panel { width: 280px; height: 640px; display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .p-top { display: flex; align-items: center; gap: 4px; padding: 10px 8px 6px 10px; }
+  .branch { display: flex; align-items: center; gap: 7px; padding: 5px 8px; border-radius: 8px; border: 0; background: none; cursor: pointer; flex: 1; min-width: 0; text-align: left; }
+  .branch:hover { background: var(--field); }
+  .branch .nm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ib { width: 28px; height: 28px; display: grid; place-items: center; border: 0; background: none; border-radius: 7px; color: var(--muted); cursor: pointer; position: relative; }
+  .ib:hover { background: var(--field); color: var(--text); }
+  .ib.on { background: rgba(79,140,255,.16); color: #9cc0ff; }
+  .tools { display: flex; align-items: center; gap: 2px; padding: 0 8px 8px; border-bottom: 1px solid var(--line); }
+  .tools .sp { flex: 1; }
+  .body { flex: 1; overflow: auto; padding: 6px 0; }
+  .tree div { padding: 4px 14px; display: flex; gap: 8px; align-items: center; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .sect { padding: 10px 14px 4px; font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--faint); display: flex; align-items: center; gap: 6px; }
+  .sect .sp { flex: 1; }
+  .sect button { border: 0; background: none; color: var(--muted); cursor: pointer; padding: 0; }
+
+  /* A: branches as a view in the panel */
+  .cur { margin: 6px 10px 8px; padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--field); }
+  .cur .t { display: flex; align-items: center; gap: 7px; font-weight: 600; }
+  .cur .s { color: var(--muted); font-size: 12px; margin: 4px 0 8px; display: flex; gap: 10px; }
+  .ab { display: inline-flex; gap: 3px; align-items: center; font-variant-numeric: tabular-nums; }
+  .ab.up { color: var(--add); } .ab.dn { color: var(--mod); }
+  .acts { display: flex; gap: 6px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--field2); border-radius: 7px; padding: 5px 9px; cursor: pointer; font-size: 12px; }
+  .btn.pri { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn.ghost { background: none; }
+  .brow { position: relative; display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 34px; cursor: pointer; }
+  .brow:hover { background: rgba(255,255,255,.04); }
+  .brow.on { background: rgba(79,140,255,.1); }
+  .brow .lane { position: absolute; left: 18px; top: 0; bottom: 0; width: 2px; background: var(--line-strong); }
+  .brow .lane.end { bottom: 50%; }
+  .brow .knee { position: absolute; left: 18px; top: 50%; width: 10px; height: 2px; background: var(--line-strong); }
+  .brow .bdot { position: absolute; left: 14px; top: 50%; margin-top: -5px; width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: var(--panel); }
+  .brow .meta { color: var(--faint); font-size: 11.5px; }
+  .brow .grow { flex: 1; min-width: 0; }
+  .brow .nm { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .av { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; color: #111; flex: none; }
+  .hov { display: none; gap: 2px; }
+  .brow:hover .hov { display: flex; }
+  .brow:hover .ab-wrap { display: none; }
+  .mini { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 6px; border: 0; background: none; color: var(--muted); cursor: pointer; }
+  .mini:hover { background: var(--field2); color: var(--text); }
+
+  /* B: switcher popover */
+  .pop { width: 320px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 18px 40px rgba(0,0,0,.45); overflow: hidden; }
+  .pop .search { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line); color: var(--muted); }
+  .pop .search input { flex: 1; background: none; border: 0; outline: 0; }
+  .pop .tabs { display: flex; gap: 2px; padding: 6px 8px 0; border-bottom: 1px solid var(--line); }
+  .pop .tabs span { padding: 6px 10px; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  .pop .tabs span.on { color: var(--text); border-color: var(--accent); }
+  .opt { display: flex; align-items: center; gap: 9px; padding: 7px 12px; cursor: pointer; }
+  .opt:hover { background: rgba(255,255,255,.04); }
+  .opt .grow { flex: 1; min-width: 0; }
+  .opt small { display: block; color: var(--faint); font-size: 11.5px; }
+  .opt .chk { width: 15px; color: var(--accent); }
+  .pop .foot { border-top: 1px solid var(--line); padding: 6px; }
+
+  /* C: graph */
+  .graph { position: relative; }
+  .gc { display: flex; align-items: center; height: 34px; padding-right: 10px; cursor: pointer; }
+  .gc:hover { background: rgba(255,255,255,.04); }
+  .gc svg.g { width: 64px; height: 34px; flex: none; }
+  .gc .msg { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gc .when { color: var(--faint); font-size: 11px; margin-left: 6px; }
+  .tag { font-size: 10.5px; padding: 1px 6px; border-radius: 5px; border: 1px solid; margin-right: 6px; white-space: nowrap; }
+  .tag.main { color: #9cc0ff; border-color: rgba(79,140,255,.45); }
+  .tag.fork { color: var(--add); border-color: rgba(52,211,153,.45); }
+  .tag.fork2 { color: #f0abfc; border-color: rgba(240,171,252,.45); }
+
+  /* repo state */
+  .states { display: grid; grid-template-columns: repeat(3, minmax(280px, 1fr)); gap: 18px; padding: 24px; }
+  .card { border: 1px solid var(--line); border-radius: 12px; background: var(--side); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .card h4 { margin: 0; font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .srow { display: flex; align-items: center; gap: 12px; padding: 6px 0; border-top: 1px solid var(--line); }
+  .srow:first-of-type { border-top: 0; }
+  .srow .lbl { flex: 1; }
+  .srow .lbl small { display: block; color: var(--faint); font-size: 11.5px; }
+  .gi { position: relative; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 7px; background: var(--field); }
+  .gi .badge { position: absolute; right: 2px; bottom: 2px; width: 9px; height: 9px; border-radius: 50%; border: 2px solid var(--side); }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 11.5px; border: 1px solid var(--line-strong); background: var(--field); white-space: nowrap; }
+  .t-ok { color: var(--add); } .t-ahead { color: var(--mod); } .t-server { color: var(--busy); } .t-local { color: var(--muted); } .t-bad { color: var(--del); }
+  .b-ok { background: var(--add); } .b-ahead { background: var(--mod); } .b-server { background: var(--busy); } .b-local { background: var(--faint); } .b-bad { background: var(--del); }
+  .ladder { padding: 0 24px 24px; color: var(--muted); max-width: 980px; }
+  .ladder ol { padding-left: 18px; margin: 6px 0; }
+  .ladder li { margin: 3px 0; }
+
+  /* settings */
+  .dlg-wrap { padding: 28px; display: flex; justify-content: center; }
+  .dlg { width: 820px; height: 600px; display: grid; grid-template-columns: 200px 1fr; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.5); }
+  .nav { background: #10131a; border-right: 1px solid var(--line); padding: 14px 8px; display: flex; flex-direction: column; gap: 2px; }
+  .nav .h { font-weight: 700; padding: 2px 10px 12px; font-size: 14px; }
+  .nav button { display: flex; align-items: center; gap: 9px; border: 0; background: none; padding: 7px 10px; border-radius: 8px; color: var(--muted); cursor: pointer; text-align: left; }
+  .nav button:hover { background: var(--field); color: var(--text); }
+  .nav button.on { background: rgba(79,140,255,.14); color: var(--text); }
+  .pane { padding: 20px 24px; overflow: auto; }
+  .pane h2 { margin: 0 0 4px; font-size: 16px; }
+  .pane .sub { color: var(--muted); margin: 0 0 18px; }
+  .set { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .set .grow { flex: 1; }
+  .set small { display: block; color: var(--faint); font-size: 12px; margin-top: 2px; }
+  .sw { width: 32px; height: 18px; border-radius: 999px; background: var(--line-strong); position: relative; flex: none; cursor: pointer; }
+  .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #cfd5df; transition: left .15s; }
+  .sw.on { background: var(--accent); } .sw.on::after { left: 16px; }
+  .seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 8px; overflow: hidden; }
+  .seg span { padding: 4px 10px; color: var(--muted); cursor: pointer; }
+  .seg span.on { background: var(--field2); color: var(--text); }
+  .repo-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center; background: var(--field); margin-bottom: 14px; }
+  .code { background: #0b0d11; border: 1px solid var(--line); border-radius: 10px; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; padding: 10px 12px; white-space: pre; color: #c9d1d9; overflow: auto; }
+  .code .k { color: #ff7b72; } .code .f { color: #d2a8ff; } .code .s { color: #a5d6ff; } .code .c { color: #6e7681; }
+  .tabbar { display: flex; gap: 6px; margin: 4px 0 10px; }
+  .tabbar span { padding: 3px 9px; border-radius: 6px; border: 1px solid var(--line); color: var(--muted); font-size: 12px; cursor: pointer; }
+  .tabbar span.on { color: var(--text); border-color: var(--accent); }
+  .gone { margin-top: 18px; padding: 10px 12px; border: 1px dashed var(--line-strong); border-radius: 10px; color: var(--muted); font-size: 12px; }
+  .gone b { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="proto">
+    <b>atlas prototype</b>
+    <button data-p="branches" class="on">1 · Branches</button>
+    <button data-p="state">2 · Repo state icon</button>
+    <button data-p="settings">3 · Settings</button>
+    <span class="sp"></span>
+    <span class="note">Hover rows for their actions · pick a letter per page</span>
+  </div>
+
+  <!-- 1 BRANCHES -->
+  <div class="page on" id="branches">
+    <div class="row3">
+      <div class="col">
+        <span class="pick">A · recommended</span>
+        <h3>Branches as a view in the panel</h3>
+        <p class="why">A third icon in the panel's row (tree · code · <b>branches</b>). The branch you're on sits on top with what it's ahead and behind by and its actions. Forks hang off main like a git graph. Hover a fork to switch, diff or delete it. No dropdown.</p>
+        <div class="panel">
+          <div class="p-top">
+            <button class="branch"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="9" r="3"/><path d="M6 9v6M18 12c0 3-3 4-6 4H9"/></svg><span class="nm">test</span></button>
+            <button class="ib" title="Repo state"><svg class="i t-ahead" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M3 12h6M15 12h6"/></svg></button>
+            <button class="ib" title="Settings"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 14H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.2-2.9l-.1-.1A2 2 0 1 1 7 4.2l.1.1A1.7 1.7 0 0 0 10 3V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 2.9 1.2l.1-.1A2 2 0 1 1 19.8 7l-.1.1A1.7 1.7 0 0 0 21 10h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1z"/></svg></button>
+          </div>
+          <div class="tools">
+            <button class="ib" title="Tree"><svg class="i" viewBox="0 0 24 24"><path d="M3 5h4M3 12h4M3 19h4M11 5h10M11 12h10M11 19h10"/></svg></button>
+            <button class="ib" title="Code"><svg class="i" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></svg></button>
+            <button class="ib on" title="Branches"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="9" r="3"/><path d="M6 9v6M18 12c0 3-3 4-6 4H9"/></svg></button>
+            <span class="sp"></span>
+            <button class="ib" title="Search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+          </div>
+          <div class="body">
+            <div class="cur">
+              <div class="t"><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="9" r="3"/><path d="M6 9v6M18 12c0 3-3 4-6 4H9"/></svg>test <span style="color:var(--faint);font-weight:400">from main</span></div>
+              <div class="s"><span class="ab up">↑ 21 changes</span><span class="ab dn">↓ 2 behind main</span></div>
+              <div class="acts">
+                <button class="btn pri">Merge into main</button>
+                <button class="btn">Diff</button>
+                <button class="btn ghost">Update</button>
+              </div>
+            </div>
+            <div class="sect">Branches <span class="sp"></span><button title="New fork">+ New</button></div>
+            <div class="brow"><span class="lane"></span><span class="bdot" style="border-color:#9cc0ff"></span><span class="grow"><span class="nm">main</span><div class="meta">synced 2m ago · @500513c</div></span></div>
+            <div class="brow on"><span class="lane"></span><span class="knee"></span><span class="av" style="background:#f9a8d4;margin-left:6px">Z</span><span class="grow"><span class="nm">test</span><div class="meta">you · 14h ago</div></span><span class="ab-wrap"><span class="ab up">+21</span></span><span class="hov"><button class="mini" title="Diff">±</button></span></div>
+            <div class="brow"><span class="lane"></span><span class="knee"></span><span class="av" style="background:#f9a8d4;margin-left:6px">Z</span><span class="grow"><span class="nm">test-2</span><div class="meta">you · 14h ago</div></span><span class="ab-wrap"><span class="ab up">+3</span></span><span class="hov"><button class="mini" title="Switch">⇄</button><button class="mini" title="Diff">±</button><button class="mini" title="Delete">✕</button></span></div>
+            <div class="brow"><span class="lane end"></span><span class="knee"></span><span class="av" style="background:#c4b5fd;margin-left:6px">C</span><span class="grow"><span class="nm">claude-menu-cache</span><div class="meta">Claude · 2d ago · proposed</div></span><span class="ab-wrap"><span class="ab up">+8</span></span><span class="hov"><button class="mini" title="Switch">⇄</button><button class="mini" title="Diff">±</button><button class="mini" title="Delete">✕</button></span></div>
+            <div class="sect">History</div>
+            <div class="brow"><span class="grow"><span class="nm" style="color:var(--muted)">Look back at an earlier version…</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <span class="pick">B</span>
+        <h3>A switcher, like GitHub's or VS Code's</h3>
+        <p class="why">The branch button opens a search box: type to find a branch, or type a new name to create one. Recent branches first. Merge and diff go on the panel row instead, not in the menu. Compact, and works with lots of forks.</p>
+        <div class="pop">
+          <div class="search"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Find or create a branch…" /></div>
+          <div class="tabs"><span class="on">Branches</span><span>History</span></div>
+          <div class="sect">Current</div>
+          <div class="opt"><span class="chk">✓</span><span class="grow">test<small>from main · 21 changes · 2 behind</small></span></div>
+          <div class="sect">Default</div>
+          <div class="opt"><span class="chk"></span><span class="grow">main<small>synced 2m ago</small></span></div>
+          <div class="sect">Others</div>
+          <div class="opt"><span class="chk"></span><span class="av" style="background:#f9a8d4">Z</span><span class="grow">test-2<small>you · 14h ago · 3 changes</small></span></div>
+          <div class="opt"><span class="chk"></span><span class="av" style="background:#c4b5fd">C</span><span class="grow">claude-menu-cache<small>Claude · 2d ago · proposed</small></span></div>
+          <div class="foot"><div class="opt"><span class="chk">+</span><span class="grow">New branch from <b>test</b>…</span></div></div>
+        </div>
+      </div>
+
+      <div class="col">
+        <span class="pick">C</span>
+        <h3>A git graph (GitKraken-style)</h3>
+        <p class="why">The panel's branches view is a commit graph: each save is a dot on its branch's lane, and branch names are tags on their tip. Clicking a dot looks back at that version. The most "git" of the three, and the busiest.</p>
+        <div class="panel" style="height:auto">
+          <div class="body graph" id="graph"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2 STATE -->
+  <div class="page" id="state">
+    <div class="states">
+      <div class="card">
+        <h4>A · one icon, a coloured dot</h4>
+        <div id="iconA"></div>
+      </div>
+      <div class="card">
+        <h4>B · a short pill (recommended)</h4>
+        <div id="iconB"></div>
+      </div>
+      <div class="card">
+        <h4>C · save icon, git-style</h4>
+        <div id="iconC"></div>
+      </div>
+    </div>
+    <div class="ladder">
+      <b style="color:var(--text)">The states, from least to most saved.</b> Hovering any of them says the same thing in a sentence, and clicking opens Settings → Repo.
+      <ol>
+        <li><b>Only in this browser:</b> the local demo. Nothing leaves the tab (IndexedDB).</li>
+        <li><b>On the server only:</b> saved by atlas, not in git.</li>
+        <li><b>In a repo, not pushed:</b> committed on atlas's own repo, or ahead of the remote. Shows how many.</li>
+        <li><b>Synced with the repo:</b> the same as what's on the remote.</li>
+      </ol>
+      Plus two passing states: <b>syncing</b> and <b>can't reach the repo</b>.
+    </div>
+  </div>
+
+  <!-- 3 SETTINGS -->
+  <div class="page" id="settings">
+    <div class="dlg-wrap">
+      <div class="dlg">
+        <div class="nav" id="nav">
+          <div class="h">Settings</div>
+          <button data-s="general" class="on">General</button>
+          <button data-s="repo">Repo &amp; git</button>
+          <button data-s="account">Account</button>
+          <button data-s="canvas">Canvas</button>
+          <button data-s="layout">Layout &amp; tidy</button>
+          <button data-s="arrows">Arrows</button>
+        </div>
+        <div class="pane" id="pane"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll(".proto button[data-p]").forEach((b) => b.onclick = () => {
+  document.querySelectorAll(".proto button[data-p]").forEach((x) => x.classList.toggle("on", x === b));
+  document.querySelectorAll(".page").forEach((p) => p.classList.toggle("on", p.id === b.dataset.p));
+});
+
+// C: graph
+const lanes = { main: 14, test: 32, t2: 50 };
+const col = { main: "#9cc0ff", test: "#34d399", t2: "#f0abfc" };
+const commits = [
+  { on: "test", tag: ["test", "fork"], msg: "Delete API Gateway", when: "14h", live: ["main", "test", "t2"] },
+  { on: "t2", tag: ["test-2", "fork2"], msg: "Rename Menu Cache", when: "14h", live: ["main", "test", "t2"] },
+  { on: "test", msg: "Move Orders into Data", when: "15h", live: ["main", "test", "t2"] },
+  { on: "main", tag: ["main", "main"], msg: "Sync from GitHub", when: "2m", live: ["main", "test", "t2"] },
+  { on: "main", msg: "Add Loyalty Service", when: "1d", live: ["main", "test", "t2"], fork: ["test", "t2"] },
+  { on: "main", msg: "Tables: one box per table", when: "2d", live: ["main"] },
+  { on: "main", msg: "First import", when: "4d", live: ["main"], last: true },
+];
+document.getElementById("graph").innerHTML = commits.map((c, i) => {
+  let svg = "";
+  for (const l of c.live) {
+    if (c.fork?.includes(l)) svg += `<path d="M${lanes.main} 17 C ${lanes.main} 4, ${lanes[l]} 10, ${lanes[l]} 0" stroke="${col[l]}" stroke-width="2" fill="none"/>`;
+    else svg += `<line x1="${lanes[l]}" y1="${i === 0 && l !== c.on ? 17 : 0}" x2="${lanes[l]}" y2="${c.last && l === "main" ? 17 : 34}" stroke="${col[l]}" stroke-width="2" opacity="${l === c.on ? 1 : .55}"/>`;
+  }
+  svg += `<circle cx="${lanes[c.on]}" cy="17" r="5" fill="#16191f" stroke="${col[c.on]}" stroke-width="2.5"/>`;
+  return `<div class="gc"><svg class="g" viewBox="0 0 64 34">${svg}</svg>${c.tag ? `<span class="tag ${c.tag[1]}">${c.tag[0]}</span>` : ""}<span class="msg">${c.msg}</span><span class="when">${c.when}</span></div>`;
+}).join("");
+
+// 2: states
+const S = [
+  ["local", "Only in this browser", "Nothing leaves this tab", "laptop"],
+  ["server", "On the server only", "Saved by atlas, not in git", "server"],
+  ["ahead", "In a repo, 3 not pushed", "orbit · atlas's own repo", "git"],
+  ["ok", "Synced with the repo", "acme/orbit on GitHub · 2m ago", "git"],
+  ["busy", "Syncing…", "Pushing 3 saves", "spin"],
+  ["bad", "Can't reach the repo", "acme/orbit · saved here, pushes when it's back", "git"],
+];
+const ICON = {
+  laptop: '<path d="M4 6h16v10H4zM2 19h20"/>',
+  server: '<rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/>',
+  git: '<circle cx="12" cy="12" r="3"/><path d="M3 12h6M15 12h6"/>',
+  spin: '<path d="M21 12a9 9 0 1 1-3-6.7L21 8M21 3v5h-5"/>',
+  save: '<path d="M5 3h11l3 3v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M7 3v5h8V3M7 21v-7h10v7"/>',
+};
+const tone = (k) => (k === "busy" ? "server" : k);
+const ic = (name, cls = "") => `<svg class="i ${cls}" viewBox="0 0 24 24">${ICON[name]}</svg>`;
+document.getElementById("iconA").innerHTML = S.map(([k, t, s, i]) => `<div class="srow"><span class="gi">${ic(i === "spin" ? "git" : i, "t-" + tone(k))}<span class="badge b-${tone(k)}"></span></span><span class="lbl">${t}<small>${s}</small></span></div>`).join("");
+const short = { local: "Browser only", server: "Not in git", ahead: "3 to push", ok: "Synced", busy: "Syncing", bad: "Offline" };
+document.getElementById("iconB").innerHTML = S.map(([k, t, s, i]) => `<div class="srow"><span class="pill t-${tone(k)}">${ic(i)}${short[k]}</span><span class="lbl" style="color:var(--muted)">${t}<small>${s}</small></span></div>`).join("");
+document.getElementById("iconC").innerHTML = S.map(([k, t, s]) => `<div class="srow"><span class="gi">${ic("save", "t-" + tone(k))}${k === "ahead" ? '<span class="badge b-ahead"></span>' : ""}</span><span class="lbl">${t}<small>${s}</small></span></div>`).join("");
+
+// 3: settings
+const sw = (on) => `<span class="sw ${on ? "on" : ""}" onclick="this.classList.toggle('on')"></span>`;
+const PANES = {
+  general: `<h2>General</h2><p class="sub">This design, and how atlas looks.</p>
+    <div class="set"><div class="grow">Design<small>Switch designs, or start one</small></div><button class="btn">Orbit Coffee ▾</button></div>
+    <div class="set"><div class="grow">Theme</div><span class="seg"><span class="on">Dark</span><span>Light</span><span>System</span></span></div>
+    <div class="gone"><b>Gone from here:</b> Simple mode (it's the only mode now), Export as PNG / JSON (they move to ⌘K), Keyboard shortcuts (? in the corner already opens them).</div>`,
+  repo: `<h2>Repo &amp; git</h2><p class="sub">Where this design is saved. Everything is git underneath: a repo of atlas's own until you connect one.</p>
+    <div class="repo-card">${ic("git", "t-ahead")}<div class="grow">atlas's own repo<small style="color:var(--faint);display:block">orbit · 3 saves not in a remote</small></div><button class="btn pri">Connect a repo…</button></div>
+    <div class="set"><div class="grow">Remote<small>Any git URL: GitHub, GitLab, Gitea, a bare repo on disk</small></div><input class="btn" style="width:240px" placeholder="https://… or git@…"/></div>
+    <div class="set"><div class="grow">Folder in the repo<small>Where the YAML lives, e.g. docs/architecture</small></div><input class="btn" style="width:240px" value="atlas/"/></div>
+    <div class="set"><div class="grow">Push on every save<small>Off: saves pile up as "to push" until you push</small></div>${sw(true)}</div>
+    <div class="set"><div class="grow">GitHub<small>Only needed to push to GitHub and open pull requests</small></div><button class="btn">Sign in with GitHub</button></div>`,
+  account: `<h2>Account</h2><p class="sub">Who you are here. One kind of login: whatever the server's env vars set up, or none when it's just you.</p>
+    <div class="set"><div class="grow">Name<small>Shown on your edits and next to your cursor</small></div><input class="btn" style="width:200px" value="Zeek"/></div>
+    <div class="set"><div class="grow">Signed in<small>via the server's login (ATLAS_AUTH)</small></div><button class="btn">Sign out</button></div>`,
+  canvas: `<h2>Canvas</h2><p class="sub">How the canvas behaves.</p>
+    <div class="set"><div class="grow">Minimap<small>M</small></div>${sw(false)}</div>
+    <div class="set"><div class="grow">Animate every arrow<small>A · otherwise only what's selected</small></div>${sw(false)}</div>
+    <div class="set"><div class="grow">Snap to grid</div>${sw(true)}</div>`,
+  layout: `<h2>Layout &amp; tidy</h2><p class="sub">Laying out views automatically.</p>
+    <div class="set"><div class="grow">Direction<small>Which way calls flow</small></div><span class="seg"><span class="on">→</span><span>↓</span></span></div>
+    <div class="set"><div class="grow">Spacing</div><span class="seg"><span>Tight</span><span class="on">Normal</span><span>Roomy</span></span></div>
+    <div class="set"><div class="grow">Tidy new boxes as they're added</div>${sw(false)}</div>
+    <div class="set"><div class="grow">Tidy every view<small>Lays out all 14 views; undo brings each back</small></div><button class="btn">Tidy everything…</button></div>`,
+  arrows: `<h2>Arrows</h2><p class="sub">How lines are drawn: pick a style, or write your own.</p>
+    <div class="set"><div class="grow">Style</div><span class="seg"><span>Curved</span><span class="on">Elbow</span><span>Straight</span><span>Custom</span></span></div>
+    <div class="tabbar"><span class="on">arrows.py</span><span>arrows.ts</span></div>
+    <div class="code"><span class="c"># Called for every arrow. Return the points it goes through.</span>
+<span class="k">def</span> <span class="f">route</span>(edge, src, dst, boxes):
+    <span class="k">if</span> edge.tech == <span class="s">"HTTP"</span>:
+        <span class="k">return</span> elbow(src.right, dst.left)
+    <span class="k">if</span> edge.kind == <span class="s">"data"</span>:
+        <span class="k">return</span> [src.bottom, dst.top]          <span class="c"># straight down</span>
+    <span class="k">return</span> curve(src, dst, bend=<span class="s">0.3</span>)</div>
+    <p class="sub" style="margin-top:10px">Runs in the browser (Python through Pyodide, about 6 MB the first time; or TypeScript, free). Saved in the repo as <code>atlas/arrows.py</code>, so everyone sees the same lines.</p>`,
+};
+const pane = document.getElementById("pane");
+const show = (k) => { pane.innerHTML = PANES[k]; document.querySelectorAll("#nav button").forEach((b) => b.classList.toggle("on", b.dataset.s === k)); };
+document.querySelectorAll("#nav button").forEach((b) => b.onclick = () => show(b.dataset.s));
+show("general");
+</script>
+</body>
+</html>

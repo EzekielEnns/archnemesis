@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>atlas tables: four ways to draw them</title>
+<style>
+:root{--bg:#0f1115;--panel:#161a21;--card:#1a1e26;--line:#2a303b;--stroke:#2c323d;--text:#e6e9ef;--sub:#8b93a3;--dim:#6b7383;--acc:#4f8cff;
+--tbl:#f2c46d;--store:#fbbf24;--comp:#f472b6;--add:#5fbf8f;--run:#8fd1b8;--fn:#7dcfcf;--mod:#e0b04a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,Inter,system-ui,sans-serif}
+header{padding:14px 16px 0;max-width:1600px;margin:0 auto}h1{font-size:18px;margin:0}p.lead{color:var(--sub);margin:2px 0 8px;font-size:13px;max-width:1150px}
+.bar{display:flex;gap:6px;align-items:center;font-size:12px;flex-wrap:wrap;padding:2px 0 8px}
+.seg{border:1px solid var(--line);border-radius:7px;padding:3px 10px;color:var(--sub);cursor:pointer;background:var(--panel);font:inherit}.seg.on{background:#24314d;color:var(--text);border-color:#3a4a6b}
+.seg b{color:var(--tbl);margin-right:4px}
+.about{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:10px;font-size:12.5px;margin:0 0 10px}
+.about div{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 10px;color:var(--sub)}.about b{color:var(--text);display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px}
+.about .pro b{color:var(--add)}.about .con b{color:#f0b070}
+.crumb{font-size:12px;color:var(--sub);margin:0 0 6px;display:flex;gap:6px;align-items:center}.crumb b{color:var(--text)}.crumb a{color:var(--acc);cursor:pointer}
+.wrapc{max-width:1600px;margin:0 auto;padding:0 16px 30px;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:12px}
+.canvas{position:relative;background:radial-gradient(circle,#2a2f39 1px,transparent 1px) 0 0/24px 24px,var(--bg);border:1px solid var(--line);border-radius:10px;overflow:auto;height:780px}
+.inner{position:relative;width:1240px;min-height:760px}
+svg.edges{position:absolute;inset:0;pointer-events:none;overflow:visible;z-index:2;width:100%;height:100%}
+.n{position:absolute;z-index:3;cursor:pointer;transition:opacity .15s}
+.dim{opacity:.18}
+/* an atlas box: tile, title, subtitle */
+.box{width:184px;height:72px;background:var(--card);border:1px solid var(--stroke);border-radius:10px;display:flex;align-items:center;gap:9px;padding:0 10px}
+.box .tile{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;flex:none}
+.box .tile svg{width:18px;height:18px}
+.box .t{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box .s{font-size:11px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.box .mid{min-width:0;flex:1}
+.box.comp .tile{background:#3a2131;color:var(--comp)}
+.box.tbl .tile{background:#3a3020;color:var(--tbl)}
+.box.tbl .keys{display:flex;gap:3px;margin-top:2px}
+.sel>.box,.sel.box,.sel>.card,.sel.frame{border-color:var(--acc)!important;box-shadow:0 0 0 2px #4f8cff44}
+.future>.box,.future>.card{border-style:dashed;border-color:var(--add)}
+.new{position:absolute;right:-6px;top:-8px;font-size:11px;background:#1d3328;color:var(--add);border-radius:9px;padding:0 6px;z-index:4}
+.chip{display:inline-block;font:600 9px/14px ui-monospace,Menlo,monospace;padding:0 4px;border-radius:4px;letter-spacing:.03em}
+.pk{background:#3a3020;color:var(--tbl)}.fk{background:#1e2a40;color:#8fb3ff}.uq{background:#262b35;color:var(--sub)}.nw{background:#1d3328;color:var(--add)}
+/* ERD-ish card (B, C) */
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:10px;overflow:hidden}
+.card .hd{display:flex;align-items:center;gap:7px;padding:6px 9px;border-bottom:1px solid var(--line);background:#1f2430}
+.card .hd svg{width:14px;height:14px;color:var(--tbl);flex:none}
+.card .hd .t{font:600 12.5px ui-monospace,Menlo,monospace}
+.card .hd .r{margin-left:auto;font-size:10.5px;color:var(--dim)}
+.card.strip .hd{border-top:3px solid var(--tbl)}
+.row{display:flex;align-items:center;gap:6px;padding:0 9px;height:22px;font:11.5px ui-monospace,Menlo,monospace;border-bottom:1px solid #20252e}
+.row:last-child{border-bottom:0}
+.row .c{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .ty{color:var(--dim);font-size:10.5px}
+.row .ty.null:after{content:'?';color:#6b7383}
+.row.hl{background:#24314d}.row.newc{background:#16251d}.row.newc .c{color:var(--add)}
+.row .k{width:22px;flex:none}
+.more{padding:2px 9px 4px;font-size:11px;color:var(--acc);cursor:pointer}
+/* D: a table opened, its columns as nodes */
+.frame{position:absolute;border:1px solid #3a4150;background:#141820cc;border-radius:12px;z-index:1}
+.frame .lab{position:absolute;top:6px;left:11px;font:600 12px ui-monospace,Menlo,monospace;color:var(--tbl);display:flex;gap:6px;align-items:center}
+.frame .lab svg{width:13px;height:13px}
+.coln{position:absolute;z-index:3;width:228px;height:30px;background:var(--card);border:1px solid #3a4150;border-radius:7px;display:flex;align-items:center;gap:7px;padding:0 9px;font:12px ui-monospace,Menlo,monospace;cursor:pointer}
+.coln .c{flex:1}.coln .ty{color:var(--dim);font-size:10.5px}
+.coln.sel{border-color:var(--acc);box-shadow:0 0 0 2px #4f8cff44}.coln.newc{border-style:dashed;border-color:var(--add)}.coln.newc .c{color:var(--add)}
+.sect{position:absolute;font-size:10.5px;letter-spacing:.06em;color:var(--dim);text-transform:uppercase;z-index:3}
+/* edges */
+.e{fill:none;stroke:#5f6a7e;stroke-width:1.4}.e.hop{stroke:#4d8a76;stroke-dasharray:5 4}.e.fut{stroke:var(--add);stroke-dasharray:5 4}
+.e.hi{stroke:#d4dcec;stroke-width:2}.e.hop.hi{stroke:var(--run)}.e.dim{opacity:.12}
+.cf{fill:none;stroke:#7d889c;stroke-width:1.3}.cf.hi{stroke:#d4dcec}.cf.dim{opacity:.12}
+.el{font-size:10.5px;fill:#aab3c3;font-family:ui-monospace,Menlo,monospace}.el.hop{fill:var(--run);font-family:-apple-system,system-ui,sans-serif}.el.dim{opacity:.12}
+.elb{fill:#14171d}
+/* side */
+.side{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;align-self:start;position:sticky;top:10px;max-height:780px;overflow:auto}
+.side h2{font:600 15px ui-monospace,Menlo,monospace;margin:0;display:flex;gap:7px;align-items:center}.side h2 svg{width:16px;height:16px;color:var(--tbl)}
+.kind{color:var(--sub);font-size:12px;margin-bottom:6px}
+.desc{font-size:12.5px;color:#c7cdd8}
+.sec{margin-top:11px}.sec h3{font-size:10.5px;letter-spacing:.06em;color:var(--dim);margin:0 0 4px;text-transform:uppercase}
+.stat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}.stat div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 7px}.stat b{display:block;font-size:14px}.stat span{font-size:10.5px;color:var(--dim)}
+table.cols{width:100%;border-collapse:collapse;font:11.5px ui-monospace,Menlo,monospace}
+table.cols td{padding:2px 4px;border-bottom:1px solid #20252e;vertical-align:top}table.cols td.ty{color:var(--dim)}table.cols tr.newc td:first-child{color:var(--add)}
+table.cols tr{cursor:pointer}table.cols tr:hover{background:#1e2330}
+.pill{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:9px;border:1px solid var(--line);margin:2px 4px 2px 0;color:var(--sub);cursor:pointer}
+.pill.t{border-color:#4a4030;color:var(--tbl);font-family:ui-monospace,Menlo,monospace}.pill.c{border-color:#4a2a3e;color:var(--comp)}
+.refline code{background:#0f1115;border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:12px;word-break:break-all}
+.side button{font:inherit;font-size:12px;background:#24314d;color:var(--text);border:1px solid #3a4a6b;border-radius:6px;padding:2px 9px;cursor:pointer;margin:6px 6px 0 0}
+.yaml{background:#0f1115;border:1px solid var(--line);border-radius:6px;padding:6px 8px;font:11px/1.45 ui-monospace,Menlo,monospace;color:#aab3c3;white-space:pre;overflow:auto}
+.legend{display:flex;gap:14px;font-size:11px;color:var(--sub);flex-wrap:wrap;margin-left:auto}
+.legend i{display:inline-block;width:18px;border-top:2px solid;vertical-align:middle;margin-right:5px}
+.hint{color:var(--dim);font-size:11.5px}
+</style></head><body>
+<header>
+  <h1>Tables in atlas: four ways to draw them</h1>
+  <p class="lead">A new kind, <b>table</b>, that lives <code>in</code> a store, the same way a function lives in its file. Opening <b>Orders DB</b> (the shop example's Postgres) shows its tables. Foreign keys are connections between tables. What reads and writes the tables (components, functions) connects to them like any other call: dashed, labelled <i>SQL</i>, because it crosses a process. Click a table, a column or a caller. The side panel is the same in all four.</p>
+  <div class="bar" id="variants"></div>
+  <div class="about" id="about"></div>
+  <div class="bar">
+    <button class="seg on" id="tCallers">Show what uses them</button>
+    <button class="seg on" id="tFuture">✦ Light what's new</button>
+    <span class="legend"><span><i style="border-color:#5f6a7e"></i>foreign key</span><span><i style="border-color:#4d8a76;border-top-style:dashed"></i>SQL from code</span><span><i style="border-color:#5fbf8f;border-top-style:dashed"></i>proposed</span></span>
+  </div>
+</header>
+<div class="wrapc">
+  <div>
+    <div class="crumb" id="crumb"></div>
+    <div class="canvas" id="canvas"><div class="inner" id="inner"><svg class="edges" id="edges"></svg></div></div>
+  </div>
+  <aside class="side" id="side"></aside>
+</div>
+<script>
+const ICON={
+ table:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/></svg>',
+ comp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 0 .474-1.68l-1.683-1.682a2.414 2.414 0 0 1 0-3.414L4.39 8.61a1 1 0 0 1 1.68.474 2.5 2.5 0 1 0 3.014-3.015 1 1 0 0 1-.474-1.68l1.683-1.682a2.414 2.414 0 0 1 3.414 0z"/></svg>'
+};
+// The Orders DB. Column: [name, type, flags]. Flags: pk, uq, null, fk:table.col, new.
+const T={
+ carts:{col:2,rows:'3.1k',src:'shop-api:migrations/0006_carts.sql',desc:'One open cart per visitor. Items are a JSON list until checkout copies them into order_items.',
+  cols:[['id','uuid','pk'],['customer_id','uuid','fk:customers.id null'],['items','jsonb'],['updated_at','timestamptz']]},
+ customers:{col:3,rows:'48k',src:'shop-api:migrations/0001_customers.sql',desc:'Everyone who has signed up or bought something. Holds personal data.',
+  cols:[['id','uuid','pk'],['email','text','uq'],['name','text'],['marketing_opt_in','bool'],['created_at','timestamptz']]},
+ addresses:{col:3,rows:'61k',src:'shop-api:migrations/0002_addresses.sql',desc:'Shipping addresses a customer has used.',
+  cols:[['id','uuid','pk'],['customer_id','uuid','fk:customers.id'],['line1','text'],['line2','text','null'],['city','text'],['postcode','text'],['country','char(2)']]},
+ orders:{col:2,rows:'212k',src:'shop-api:migrations/0003_orders.sql',desc:'A placed order. <i>status</i> moves placed → paid → shipped; the worker moves it on.',
+  cols:[['id','uuid','pk'],['customer_id','uuid','fk:customers.id'],['shipping_address_id','uuid','fk:addresses.id'],['status','order_status'],['total_cents','int'],['currency','char(3)'],['placed_at','timestamptz'],['refunded_at','timestamptz','null new']]},
+ order_items:{col:1,rows:'540k',src:'shop-api:migrations/0004_order_items.sql',desc:'The lines of an order, with the price paid at the time.',
+  cols:[['id','bigint','pk'],['order_id','uuid','fk:orders.id'],['product_id','uuid','fk:products.id'],['qty','int'],['price_cents','int']]},
+ products:{col:2,rows:'1.9k',src:'shop-api:migrations/0005_products.sql',desc:'What the shop sells. Catalog reads it; the search index is built from it.',
+  cols:[['id','uuid','pk'],['sku','text','uq'],['title','text'],['price_cents','int'],['active','bool']]},
+ payments:{col:1,rows:'205k',src:'shop-api:migrations/0007_payments.sql',desc:'One row per payment attempt with the payment provider.',
+  cols:[['id','uuid','pk'],['order_id','uuid','fk:orders.id'],['provider','text'],['provider_ref','text','uq'],['amount_cents','int'],['status','text'],['created_at','timestamptz']]},
+ refunds:{col:1,rows:'—',future:true,src:'(proposed in fork shop@refunds)',desc:'<b>Proposed.</b> A refund against a payment, partial or whole.',
+  cols:[['id','uuid','pk new'],['payment_id','uuid','fk:payments.id new'],['amount_cents','int','new'],['reason','text','null new'],['created_at','timestamptz','new']]},
+};
+// Callers: components of the shop (shop.yaml). mode and the columns they touch, per table.
+const C={
+ cart:{name:'Cart',desc:'Component · Shop API',uses:[['carts','writes',['items','updated_at','customer_id']],['products','reads',['title','price_cents']]]},
+ checkout:{name:'Checkout',desc:'Component · Shop API',uses:[['carts','reads',['items']],['orders','writes',['*']],['order_items','writes',['*']],['payments','writes',['*']],['refunds','writes',['*'],true]]},
+ worker:{name:'Order worker',desc:'App · Shop',uses:[['orders','reads',['status','placed_at']],['orders','writes',['status']]]},
+};
+const VARIANTS={
+ A:{name:'Card',like:'Like an atlas box (and IcePanel / Structurizr: a store drawn as one box). C4 leaves the schema to "other notations".',
+   pro:'Matches every other kind exactly: 184×72, tile, title, subtitle. Twelve to a screen. Arrows labelled with the key column. Columns live in the side panel.',
+   con:'You can\'t see the columns without clicking. A foreign key arrow points at the table, not the column.'},
+ B:{name:'Key columns',like:'Like Azimutt (shows only the columns you pick, "+N more") and dbdiagram\'s header colours.',
+   pro:'Keys show on the canvas: PK, FK, unique. Each foreign key starts at its own row, with crow\'s feet for one-to-many. Unfold a table with "+N more".',
+   con:'Boxes are different heights, so Tidy and Straighten need to handle that. Bigger than other kinds.'},
+ C:{name:'Full ERD',like:'Like dbdiagram, DrawSQL, ChartDB, Supabase\'s schema visualizer: every column with its type.',
+   pro:'Familiar to anyone who has used an ERD tool. Read the whole schema without clicking.',
+   con:'Big boxes: a 30-column table fills the screen. Looks unlike the rest of atlas. Breaks the twelve-boxes-a-screen rule fast.'},
+ D:{name:'Card, opens into columns',like:'Like atlas\'s code layer: a file opens into its functions. Here a table opens into its columns (double-click or "Open").',
+   pro:'The store diagram reads like A. Open a table and each column is a node: arrows go to the exact column a caller writes or a key points at. The same drill-down as code.',
+   con:'Columns become objects in the model (more YAML, more for agents to keep in step). Two levels to learn.'},
+};
+let variant='B',sel=null,selCol=null,opened=null,showCallers=true,showFuture=true;const unfolded=new Set();
+const $=id=>document.getElementById(id);
+const flags=c=>(c[2]||'').split(' ');
+const fkOf=c=>{const f=flags(c).find(x=>x.startsWith('fk:'));return f?f.slice(3).split('.'):null};
+const isNew=c=>flags(c).includes('new');
+function fks(){const out=[];for(const [t,d] of Object.entries(T))for(const c of d.cols){const f=fkOf(c);if(f)out.push({from:t,col:c[0],to:f[0],tocol:f[1],future:d.future||isNew(c)})}return out}
+function visible(t){return showFuture||!T[t].future}
+function chips(c){const f=flags(c);let h='';if(f.includes('pk'))h+='<span class="chip pk">PK</span>';else if(fkOf(c))h+='<span class="chip fk">FK</span>';else if(f.includes('uq'))h+='<span class="chip uq">UQ</span>';if(f.includes('new')&&showFuture&&!f.includes('pk')&&!fkOf(c))h+='<span class="chip nw">NEW</span>';return h}
+function keyCols(d){return d.cols.filter(c=>{const f=flags(c);return f.includes('pk')||f.includes('uq')||fkOf(c)||(f.includes('new')&&showFuture)})}
+
+function renderVariants(){
+ $('variants').innerHTML=Object.entries(VARIANTS).map(([k,v])=>`<button class="seg ${k===variant?'on':''}" data-v="${k}"><b>${k}</b>${v.name}</button>`).join('')+'<span class="hint" style="margin-left:8px">1–4 switch · Esc clears</span>';
+ $('variants').querySelectorAll('button').forEach(b=>b.onclick=()=>{variant=b.dataset.v;opened=null;render()});
+ const v=VARIANTS[variant];
+ $('about').innerHTML=`<div><b>Looks like</b>${v.like}</div><div class="pro"><b>Good</b>${v.pro}</div><div class="con"><b>Costs</b>${v.con}</div>`;
+}
+function crumb(){
+ const nT=Object.keys(T).filter(visible).length;
+ $('crumb').innerHTML=`Landscape › Shop › ${opened?`<a id="up">Orders DB</a> › <b>${opened}</b> <span class="hint">· a table opened: its columns are nodes</span>`:`<b>Orders DB</b> <span class="hint">· Postgres · ${nT} tables · opened from the Orders DB box (one level up it reads "Orders DB · Postgres · ${nT} tables")</span>`}`;
+ if(opened)$('up').onclick=()=>{opened=null;render()};
+}
+const inner=$('inner'),svg=$('edges');
+function clear(){inner.querySelectorAll('.n,.frame,.coln,.sect').forEach(e=>e.remove());svg.innerHTML=''}
+function add(html,cls,x,y,attrs={}){const d=document.createElement('div');d.className='n '+cls;d.style.left=x+'px';d.style.top=y+'px';d.innerHTML=html;for(const[k,v]of Object.entries(attrs))d.dataset[k]=v;inner.appendChild(d);return d}
+
+function tableBox(t){const d=T[t];const k=d.cols.filter(c=>flags(c).includes('pk')||fkOf(c)).length;
+ const nfk=d.cols.filter(fkOf).length;
+ return `<div class="box tbl"><div class="tile">${ICON.table}</div><div class="mid"><div class="t" style="font-family:ui-monospace,Menlo,monospace">${t}</div><div class="s">Table · ${d.cols.length} cols · ${d.rows} rows</div></div></div>${d.future&&showFuture?'<span class="new">✦ new</span>':''}`}
+function compBox(id){const c=C[id];return `<div class="box comp"><div class="tile">${ICON.comp}</div><div class="mid"><div class="t">${c.name}</div><div class="s">${c.desc}</div></div></div>`}
+function rowHtml(t,c){const f=flags(c);const nw=isNew(c)&&showFuture;return `<div class="row ${nw?'newc':''} ${sel===t&&selCol===c[0]?'hl':''}" data-col="${c[0]}"><span class="k">${chips(c)}</span><span class="c">${c[0]}</span><span class="ty ${f.includes('null')?'null':''}">${c[1]}</span></div>`}
+function cardHtml(t,mode){const d=T[t];let cols=mode==='full'||unfolded.has(t)?d.cols:keyCols(d);cols=cols.filter(c=>showFuture||!isNew(c));
+ const hidden=d.cols.filter(c=>showFuture||!isNew(c)).length-cols.length;
+ return `<div class="card ${mode==='full'?'strip':''}"><div class="hd">${ICON.table}<span class="t">${t}</span><span class="r">${d.rows}</span></div>${cols.map(c=>rowHtml(t,c)).join('')}${mode==='keys'?(hidden>0?`<div class="more" data-more="${t}">+${hidden} more</div>`:(unfolded.has(t)?`<div class="more" data-more="${t}">fold</div>`:'')):''}</div>${d.future&&showFuture?'<span class="new">✦ new</span>':''}`}
+
+const ORDER=['order_items','payments','refunds','orders','products','carts','customers','addresses'];
+const COLX={A:[24,300,590,880],B:[24,290,570,850],C:[24,280,560,860]};
+const W={A:184,B:230,C:250};
+function renderStore(){
+ const v=variant==='D'?'A':variant;const xs=COLX[v];
+ if(showCallers)['cart','checkout','worker'].forEach((id,i)=>add(compBox(id),'caller',xs[0],0,{id,c:0,i}));
+ for(const t of ORDER){if(!visible(t))continue;const html=v==='A'?tableBox(t):cardHtml(t,v==='B'?'keys':'full');
+  const n=add(html,'tbl'+(T[t].future?' future':''),xs[T[t].col],0,{id:t,c:T[t].col});n.style.width=W[v]+'px'}
+ // stack each column
+ const cols={};inner.querySelectorAll('.n').forEach(n=>(cols[n.dataset.c]??=[]).push(n));
+ let maxB=0;for(const[c,list]of Object.entries(cols)){const gap=c==='0'?110:v==='A'?54:34;let y=c==='0'?90:30;for(const n of list){n.style.top=y+'px';y+=n.offsetHeight+gap}maxB=Math.max(maxB,y)}
+ inner.style.height=Math.max(760,maxB)+'px';
+ // edges
+ const E=[];
+ for(const f of fks()){if(!visible(f.from)||!visible(f.to))continue;if(isNewCol(f)&&!showFuture)continue;
+  E.push({a:f.from,b:f.to,acol:v==='A'?null:f.col,bcol:v==='A'?null:f.tocol,label:v==='A'?f.col:null,kind:f.future?'fut':'fk',crow:v!=='A'})}
+ if(showCallers)for(const[id,c]of Object.entries(C)){const seen=new Set();for(const[t,mode,,fut]of c.uses){if(!visible(t))continue;const key=t;const both=c.uses.filter(u=>u[0]===t).map(u=>u[1]);if(seen.has(key))continue;seen.add(key);
+  E.push({a:id,b:t,label:both.length>1?'reads, writes':mode,kind:fut?'fut':'hop',hop:true})}}
+ drawEdges(E);wire();
+}
+const isNewCol=f=>{const c=T[f.from].cols.find(c=>c[0]===f.col);return c&&isNew(c)};
+
+function rel(el){const r=el.getBoundingClientRect(),o=inner.getBoundingClientRect();return{x:r.left-o.left,y:r.top-o.top,w:r.width,h:r.height}}
+function anchor(id,col){const n=inner.querySelector(`[data-id="${id}"]`);if(!n)return null;const box=rel(n.firstElementChild||n);let y=box.y+box.h/2;
+ if(col){const r=n.querySelector(`.row[data-col="${col}"]`);if(r){const rr=rel(r);y=rr.y+rr.h/2}else{const hd=n.querySelector('.hd');if(hd){const h=rel(hd);y=h.y+h.h/2}}}
+ return{l:box.x,r:box.x+box.w,y,cx:box.x+box.w/2}}
+function related(id){const s=new Set([id]);for(const f of fks()){if(f.from===id)s.add(f.to);if(f.to===id)s.add(f.from)}for(const[c,d]of Object.entries(C))for(const u of d.uses){if(u[0]===id)s.add(c);if(c===id)s.add(u[0])}return s}
+function drawEdges(E){
+ let h='<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7d889c"/></marker><marker id="arh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d4dcec"/></marker></defs>';
+ const rs=sel?related(sel):null;const labels=[];
+ for(const e of E){const A=anchor(e.a,e.acol),B=anchor(e.b,e.bcol);if(!A||!B)continue;
+  let x1,x2,s1,s2;
+  if(Math.abs(A.cx-B.cx)<20){x1=A.r;x2=B.r;s1=1;s2=1}else if(B.cx>A.cx){x1=A.r;x2=B.l;s1=1;s2=-1}else{x1=A.l;x2=B.r;s1=-1;s2=1}
+  const y1=A.y,y2=B.y,pad=e.crow?14:0;const sx=x1+s1*pad,ex=x2+s2*(e.crow?14:2);
+  const k=Math.max(46,Math.abs(ex-sx)/2);
+  const d=`M${sx} ${y1} C${sx+s1*k} ${y1} ${ex+s2*k} ${y2} ${ex} ${y2}`;
+  const on=sel&&(e.a===sel||e.b===sel)&&(!selCol||e.acol===selCol||e.bcol===selCol||(!e.acol&&!e.bcol));
+  const off=sel&&!on;
+  const cls=`e ${e.kind==='hop'?'hop':e.kind==='fut'?'fut':''} ${on?'hi':''} ${off?'dim':''}`;
+  h+=`<path class="${cls}" d="${d}" ${e.crow?'':`marker-end="url(#${on?'arh':'ar'})"`}/>`;
+  if(e.crow){h+=`<path class="cf ${on?'hi':''} ${off?'dim':''}" d="M${x1} ${y1}H${sx}"/>`+crowMany(x1,y1,s1,on,off)+`<path class="cf ${on?'hi':''} ${off?'dim':''}" d="M${x2} ${y2}H${ex}"/>`+crowOne(x2,y2,s2,on,off)}
+  if(e.label){const t=e.kind==='fk'?0.5:0.22,u=1-t;const mx=u*u*u*sx+3*u*u*t*(sx+s1*k)+3*u*t*t*(ex+s2*k)+t*t*t*ex,my=u*u*u*y1+3*u*u*t*y1+3*u*t*t*y2+t*t*t*y2;labels.push({x:mx,y:my,t:e.label,hop:e.kind!=='fk',off})}}
+ for(const l of labels){const w=l.t.length*6.3+10;h+=`<rect class="elb ${l.off?'dim':''}" x="${l.x-w/2}" y="${l.y-8}" width="${w}" height="16" rx="4"/><text class="el ${l.hop?'hop':''} ${l.off?'dim':''}" x="${l.x}" y="${l.y+4}" text-anchor="middle">${l.t}</text>`}
+ svg.innerHTML=h;
+ inner.querySelectorAll('.n').forEach(n=>n.classList.toggle('dim',!!rs&&!rs.has(n.dataset.id)));
+ inner.querySelectorAll('.n').forEach(n=>n.classList.toggle('sel',n.dataset.id===sel));
+}
+// crow's foot: many at the FK side, a bar at the PK side. s = which way the box faces.
+function crowMany(x,y,s,on,off){const c=`cf ${on?'hi':''} ${off?'dim':''}`;const p=x+s*12;return `<path class="${c}" d="M${p} ${y}L${x} ${y-6}M${p} ${y}L${x} ${y+6}M${p} ${y}L${x} ${y}"/>`}
+function crowOne(x,y,s,on,off){const c=`cf ${on?'hi':''} ${off?'dim':''}`;return `<path class="${c}" d="M${x+s*6} ${y-6}V${y+6}M${x+s*10} ${y-6}V${y+6}"/>`}
+
+// D, opened: the table as a frame, its columns as nodes; neighbours folded to cards.
+function renderOpened(t){
+ const d=T[t];const cols=d.cols.filter(c=>showFuture||!isNew(c));
+ const fx=470,fy=40,cw=228;const fh=40+cols.length*40;
+ const fr=document.createElement('div');fr.className='frame'+(sel===t&&!selCol?' sel':'');Object.assign(fr.style,{left:fx+'px',top:fy+'px',width:cw+24+'px',height:fh+'px'});fr.innerHTML=`<div class="lab">${ICON.table}${t}</div>`;fr.dataset.id=t;fr.onclick=ev=>{ev.stopPropagation();sel=t;selCol=null;render()};inner.appendChild(fr);
+ cols.forEach((c,i)=>{const n=document.createElement('div');n.className='coln'+(isNew(c)&&showFuture?' newc':'')+(selCol===c[0]?' sel':'');n.style.left=fx+12+'px';n.style.top=fy+32+i*40+'px';n.dataset.colnode=c[0];n.innerHTML=`<span>${chips(c)}</span><span class="c">${c[0]}</span><span class="ty">${c[1]}${flags(c).includes('null')?'?':''}</span>`;n.onclick=ev=>{ev.stopPropagation();sel=t;selCol=c[0];render()};inner.appendChild(n)});
+ const colY=name=>{const i=cols.findIndex(c=>c[0]===name);return i<0?fy+16:fy+32+i*40+15};
+ const L=[],R=[];
+ for(const f of fks()){if(!visible(f.from)||!visible(f.to))continue;if(f.from===t)R.push({t:f.to,col:f.col,fut:f.future});if(f.to===t&&f.from!==t)L.push({t:f.from,col:f.tocol,fcol:f.col,fut:f.future})}
+ const callers=[];if(showCallers)for(const[id,c]of Object.entries(C))for(const u of c.uses)if(u[0]===t)callers.push({id,mode:u[1],cols:u[2],fut:u[3]});
+ const sect=(txt,x,y)=>{const s=document.createElement('div');s.className='sect';s.style.left=x+'px';s.style.top=y+'px';s.textContent=txt;inner.appendChild(s)};
+ let h='<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#7d889c"/></marker></defs>';const labels=[];
+ const curve=(x1,y1,x2,y2,cls,label)=>{const k=Math.max(50,Math.abs(x2-x1)/2);h+=`<path class="e ${cls}" d="M${x1} ${y1}C${x1+k} ${y1} ${x2-k} ${y2} ${x2} ${y2}" marker-end="url(#ar)"/>`;if(label)labels.push({x:(x1+x2)/2,y:(y1+y2)/2,t:label,hop:cls.includes('hop')})};
+ const hiCol=c=>selCol&&c===selCol?'hi':selCol?'dim':'';
+ // callers, top left
+ let y=40;if(callers.length)sect('What uses it',40,y-22);
+ const seen={};for(const c of callers){if(!(c.id in seen)){seen[c.id]=y;add(compBox(c.id),'caller',40,y,{id:c.id});y+=100}
+  const cy=seen[c.id]+36;const targets=c.cols[0]==='*'?[null]:c.cols;
+  for(const col of targets){const ty=col?colY(col):fy+16;curve(224,cy,fx+(col?12:0),ty,`hop ${c.fut?'fut':''} ${col?hiCol(col):''}`,col?null:c.mode+' all')}
+  if(c.cols[0]!=='*')labels.push({x:330,y:cy-12,t:c.mode,hop:true})}
+ // tables that point here, below callers on the left
+ if(L.length){y+=10;sect('Points here',40,y-22);for(const l of L){if(visible(l.t)){add(tableBox(l.t),'tbl'+(T[l.t].future?' future':''),40,y,{id:l.t});curve(224,y+36,fx+12,colY(l.col),`${l.fut?'fut':''} ${hiCol(l.col)}`,l.fcol);y+=100}}}
+ // tables it points to, right
+ let ry=60;if(R.length)sect('Points to',900,ry-22);for(const r of R){add(tableBox(r.t),'tbl'+(T[r.t].future?' future':''),900,ry,{id:r.t});curve(fx+12+cw,colY(r.col),900,ry+36,`${r.fut?'fut':''} ${hiCol(r.col)}`);ry+=100}
+ for(const l of labels){const w=l.t.length*6.3+10;h+=`<rect class="elb" x="${l.x-w/2}" y="${l.y-8}" width="${w}" height="16" rx="4"/><text class="el ${l.hop?'hop':''}" x="${l.x}" y="${l.y+4}" text-anchor="middle">${l.t}</text>`}
+ svg.innerHTML=h;inner.style.height=Math.max(760,y,fy+fh+40)+'px';
+ inner.querySelectorAll('.n').forEach(n=>n.onclick=ev=>{ev.stopPropagation();const id=n.dataset.id;if(T[id]&&ev.detail>=2){opened=id;sel=id;selCol=null}else{sel=id;selCol=null}render()});
+}
+
+function wire(){
+ inner.querySelectorAll('.n').forEach(n=>{
+  n.onclick=ev=>{ev.stopPropagation();const m=ev.target.closest('[data-more]');if(m){const t=m.dataset.more;unfolded.has(t)?unfolded.delete(t):unfolded.add(t);render();return}
+   const r=ev.target.closest('.row');sel=n.dataset.id;selCol=r?r.dataset.col:null;render()};
+  n.ondblclick=ev=>{if(variant==='D'&&T[n.dataset.id]){opened=n.dataset.id;sel=opened;selCol=null;render()}};
+ });
+}
+$('canvas').onclick=()=>{sel=null;selCol=null;render()};
+
+function side(){
+ const s=$('side');
+ if(!sel){s.innerHTML=`<h2>${ICON.table}<span style="font-family:-apple-system,system-ui">Orders DB</span></h2><div class="kind">Store · Postgres · in Shop</div>
+  <div class="desc">Click a table, a column or a caller. ${variant==='D'?'Double-click a table to open it into its columns.':''}</div>
+  <div class="sec"><h3>The new kind, in the files</h3><div class="yaml">${esc(yamlFor('orders'))}</div></div>
+  <div class="sec"><h3>What changes in atlas</h3><div class="desc" style="font-size:12px;color:var(--sub)">
+  • <b>table</b> joins OBJECT_KINDS (a code-ish kind, like module).<br>• Columns are a field on the table (A–C), or objects of a new kind <b>column</b> inside it (D).<br>• Foreign keys are connections; <code>fk:</code> on a column is shorthand the importer and check keep in step.<br>• Store boxes count their tables ("8 tables") and open into them.<br>• MCP: <code>context orders-db/public.orders</code> gives columns, keys and who reads and writes it. An importer reads migrations, Prisma/Drizzle/SQLAlchemy models, or a live database, the same way <code>atlas import</code> reads code.</div></div>`;return}
+ if(C[sel]){const c=C[sel];s.innerHTML=`<h2 style="font-family:-apple-system,system-ui">${c.name}</h2><div class="kind">${c.desc}</div><div class="sec"><h3>Tables it uses</h3>${c.uses.map(u=>`<div style="font-size:12.5px;margin:3px 0"><span class="pill t" data-t="${u[0]}">${u[0]}</span>${u[1]} ${u[2][0]==='*'?'every column':u[2].map(x=>`<code>${x}</code>`).join(' ')}${u[3]?' <span class="chip nw">NEW</span>':''}</div>`).join('')}</div><div class="sec"><h3>As a connection</h3><div class="yaml">- from: ${sel}\n  to: orders\n  label: writes\n  tech: SQL\n  columns: [*]</div></div>`;pills();return}
+ const d=T[sel];const out=fks().filter(f=>f.from===sel),inn=fks().filter(f=>f.to===sel);
+ const users=Object.entries(C).flatMap(([id,c])=>c.uses.filter(u=>u[0]===sel).map(u=>({id,name:c.name,mode:u[1],cols:u[2]})));
+ const col=selCol&&d.cols.find(c=>c[0]===selCol);
+ s.innerHTML=`<h2>${ICON.table}${sel}${col?`<span style="color:var(--sub)">.${col[0]}</span>`:''}</h2>
+ <div class="kind">${col?`Column · ${col[1]}${flags(col).includes('null')?' · nullable':''}`:`Table · public · Postgres · in Orders DB`}${d.future?' · <span style="color:var(--add)">proposed</span>':''}</div>
+ <div class="desc">${d.desc}</div>
+ <div class="stat"><div><b>${d.cols.length}</b><span>columns</span></div><div><b>${d.rows}</b><span>rows</span></div><div><b>${out.length}/${inn.length}</b><span>keys out/in</span></div></div>
+ <div class="sec refline"><h3>Ref</h3><code>shop:orders-db/public.${sel}${col?'.'+col[0]:''}</code><br><button>Copy for an agent</button><button>Copy link</button>${variant==='D'&&!opened?`<button id="openBtn">Open</button>`:''}</div>
+ <div class="sec"><h3>Columns</h3><table class="cols">${d.cols.filter(c=>showFuture||!isNew(c)).map(c=>`<tr class="${isNew(c)?'newc':''}" data-col="${c[0]}" style="${selCol===c[0]?'background:#24314d':''}"><td>${c[0]}</td><td class="ty">${c[1]}${flags(c).includes('null')?'?':''}</td><td>${chips(c)}${fkOf(c)?` <span style="color:var(--dim)">→ ${fkOf(c).join('.')}</span>`:''}</td></tr>`).join('')}</table></div>
+ <div class="sec"><h3>Points to</h3>${out.map(f=>`<span class="pill t" data-t="${f.to}">${f.to}</span>`).join('')||'<span class="hint">nothing</span>'}</div>
+ <div class="sec"><h3>Pointed at by</h3>${inn.map(f=>`<span class="pill t" data-t="${f.from}">${f.from}.${f.col}</span>`).join('')||'<span class="hint">nothing</span>'}</div>
+ <div class="sec"><h3>Read and written by</h3>${users.map(u=>`<div style="font-size:12.5px;margin:3px 0"><span class="pill c" data-t="${u.id}">${u.name}</span>${u.mode} ${u.cols[0]==='*'?'every column':u.cols.join(', ')}</div>`).join('')||'<span class="hint">nothing on this design</span>'}</div>
+ <div class="sec"><h3>Source</h3><code style="font-size:11.5px">${d.src}</code></div>
+ <div class="sec"><h3>In the files</h3><div class="yaml">${esc(yamlFor(sel))}</div></div>`;
+ s.querySelectorAll('tr[data-col]').forEach(tr=>tr.onclick=()=>{selCol=tr.dataset.col;render()});
+ const ob=$('openBtn');if(ob)ob.onclick=()=>{opened=sel;render()};pills();
+}
+function pills(){$('side').querySelectorAll('[data-t]').forEach(p=>p.onclick=()=>{sel=p.dataset.t;selCol=null;if(opened&&T[sel])opened=sel;render()})}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function yamlFor(t){const d=T[t];
+ if(variant==='D')return `- id: ${t}\n  kind: table\n  in: orders-db\n  path: shop-api:${d.src.split(':')[1]||''}\n${d.cols.slice(0,3).map(c=>`- id: ${t}.${c[0]}\n  kind: column\n  in: ${t}\n  tech: ${c[1]}${flags(c).includes('pk')?'\n  tags: [pk]':''}`).join('\n')}\n# …one object per column`;
+ return `- id: ${t}\n  kind: table\n  in: orders-db\n  path: shop-api:${d.src.split(':')[1]||''}\n  columns:\n${d.cols.slice(0,4).map(c=>`    - ${c[0]}: ${c[1]}${c[2]?' '+c[2].split(' ').filter(x=>x!=='new').join(' '):''}`).join('\n')}${d.cols.length>4?`\n    # …${d.cols.length-4} more`:''}`}
+
+function render(){renderVariants();crumb();clear();if(variant==='D'&&opened)renderOpened(opened);else renderStore();side()}
+$('tCallers').onclick=()=>{showCallers=!showCallers;$('tCallers').classList.toggle('on',showCallers);render()};
+$('tFuture').onclick=()=>{showFuture=!showFuture;$('tFuture').classList.toggle('on',showFuture);if(!showFuture&&T[sel]?.future)sel=null;render()};
+document.addEventListener('keydown',e=>{if(/^[1-4]$/.test(e.key)){variant='ABCD'[+e.key-1];opened=null;render()}if(e.key==='Escape'){if(opened&&!sel)opened=null;sel=null;selCol=null;render()}});
+{const [v,o,s]=location.hash.slice(1).split(':');if(VARIANTS[v])variant=v;if(o&&T[o]){opened=o;sel=o}if(s&&(T[s]||C[s]))sel=s}
+render();
+</script>
+</body></html>

@@ -1,0 +1,193 @@
+/* Settings dialog: sections down the left (src/ui/LeftPanel.tsx). */
+
+/* --- Settings: sections down the left --------------------------------------------------- */
+.dialog.bare {
+  width: min(820px, calc(100vw - 48px));
+  height: min(600px, calc(100vh - 48px));
+  padding: 0;
+  overflow: hidden;
+}
+.prefs {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  height: 100%;
+}
+.prefs-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 8px;
+  background: #10131a;
+  border-right: 1px solid var(--line);
+}
+.prefs-h {
+  font-weight: 700;
+  font-size: 14px;
+  padding: 2px 10px 12px;
+}
+.prefs-nav button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.prefs-nav button:hover {
+  background: var(--field);
+  color: var(--text);
+}
+.prefs-nav button.on {
+  background: rgba(79, 140, 255, 0.14);
+  color: var(--text);
+}
+.prefs-pane {
+  position: relative;
+  padding: 20px 24px;
+  overflow: auto;
+}
+.prefs-pane h2 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+.prefs-sub {
+  color: var(--muted);
+  margin: 0 0 14px;
+}
+.prefs-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+.set-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.set-row .grow {
+  flex: 1;
+  min-width: 0;
+}
+.set-row small {
+  display: block;
+  color: var(--faint, #5d6576);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.set-row .cta {
+  flex: none;
+}
+.set-row .dialog-input {
+  margin: 0;
+}
+.switch {
+  width: 32px;
+  height: 18px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--line-strong);
+  position: relative;
+  flex: none;
+  cursor: pointer;
+  padding: 0;
+}
+.switch::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #cfd5df;
+  transition: left 0.15s;
+}
+.switch.on {
+  background: var(--accent);
+}
+.switch.on::after {
+  left: 16px;
+}
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  overflow: hidden;
+  flex: none;
+}
+.seg button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12.5px;
+  padding: 5px 11px;
+  cursor: pointer;
+}
+.seg button + button {
+  border-left: 1px solid var(--line);
+}
+.seg button:hover {
+  color: var(--text);
+}
+.seg button.on {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text);
+}
+.connect-repo.inline {
+  padding: 4px 0 12px;
+}
+.set-later {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.set-later-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.set-later .soon {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  border-radius: 5px;
+  padding: 0 5px;
+}
+.set-later small {
+  color: var(--faint, #5d6576);
+  font-size: 12px;
+}
+.code-preview {
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #0b0d11;
+  color: #8b93a3;
+  font:
+    12px/1.55 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  white-space: pre;
+  overflow: auto;
+  opacity: 0.8;
+}
+.br-cur-t .grow {
+  flex: 1;
+}
+.br-cur-t .icon-btn {
+  width: 24px;
+  height: 24px;
+}

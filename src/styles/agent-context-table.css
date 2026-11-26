@@ -1,0 +1,318 @@
+/* Agent context rows and a table's columns panel, plus job banners (src/ui/AgentContext.tsx, src/ui/Inspector.tsx). */
+
+/* An agent's long job (MCP progress): a strip across the top of the design. */
+.job-banners {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 20;
+  pointer-events: none;
+  max-width: min(560px, calc(100% - 32px));
+}
+.job-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--panel, #161b22);
+  border: 1px solid #c084fc55;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--text);
+  box-shadow: 0 4px 16px #0006;
+  pointer-events: auto;
+}
+.job-banner svg {
+  color: #c084fc;
+  flex: none;
+}
+.job-banner.done svg {
+  color: #4ade80;
+}
+.job-who {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.job-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.job-count {
+  color: var(--muted);
+  white-space: nowrap;
+}
+.job-bar {
+  flex: none;
+  width: 64px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+.job-bar span {
+  display: block;
+  height: 100%;
+  background: #c084fc;
+  transition: width 0.4s;
+}
+.job-banner.done .job-bar span {
+  background: #4ade80;
+}
+
+.guide-top .guide-close {
+  margin-left: auto;
+  align-self: flex-start;
+  flex: none;
+}
+
+/* Markdown in a story or an agent's context: compact, readable in a side panel. */
+.md h4,
+.md h5,
+.md h6 {
+  margin: 10px 0 2px;
+  font-size: 12px;
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0;
+}
+.md ul,
+.md ol {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+.md li {
+  margin: 2px 0;
+}
+.md code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.06));
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+.md pre {
+  margin: 6px 0 0;
+  padding: 8px 10px;
+  background: var(--surface-2, rgba(255, 255, 255, 0.06));
+  border-radius: 6px;
+  overflow-x: auto;
+  max-height: 320px;
+}
+.md pre code {
+  background: none;
+  padding: 0;
+  white-space: pre;
+}
+.md blockquote {
+  margin: 6px 0 0;
+  padding-left: 8px;
+  border-left: 2px solid var(--border, rgba(255, 255, 255, 0.15));
+}
+.md a {
+  color: var(--accent, #7aa2ff);
+}
+.story textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+/* Agent context: one row in the panel; read and edited in a dialog. */
+.agent-context-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin: 8px 0 4px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.agent-context-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.agent-context-row .muted {
+  margin-left: auto;
+}
+.agent-context-go {
+  opacity: 0.5;
+}
+.dialog.wide {
+  width: min(760px, calc(100vw - 32px));
+}
+.agent-context-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.agent-context-tabs button {
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.agent-context-tabs button.on {
+  background: rgba(255, 255, 255, 0.08);
+}
+.agent-context-tabs .muted {
+  margin-left: 8px;
+}
+.agent-context-edit {
+  width: 100%;
+  height: min(60vh, 520px);
+  resize: vertical;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.agent-context-preview {
+  height: min(60vh, 520px);
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
+/* A table's panel: its columns as a small table (name, type, key), one shared grid so they line up. */
+.table-facts .col-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.table-facts .col-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content minmax(26px, max-content);
+  column-gap: 14px;
+  margin-top: 2px;
+}
+.table-facts .col-grid > .group-form,
+.table-facts .col-grid > .add-line,
+.table-facts .col-grid > p {
+  grid-column: 1 / -1;
+}
+.table-facts .col-grid > .add-line {
+  margin-top: 8px;
+  justify-self: start;
+}
+.table-facts .col-line {
+  display: contents;
+  font:
+    12.5px ui-monospace,
+    Menlo,
+    monospace;
+}
+.table-facts .col-line > * {
+  padding: 6px 0;
+  border-top: 1px solid #23272f;
+}
+.table-facts .col-line:first-child > * {
+  border-top: none;
+}
+.table-facts .col-line > .col-to {
+  border-top: none;
+  padding: 0 0 6px 12px;
+  margin-top: -3px;
+}
+.table-facts .col-name {
+  color: #d6dbe3;
+  font:
+    12.5px ui-monospace,
+    Menlo,
+    monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.table-facts .col-type {
+  color: #7d8595;
+  font:
+    12px ui-monospace,
+    Menlo,
+    monospace;
+}
+.table-facts .col-marks {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.table-facts .col-mark {
+  font:
+    600 9.5px ui-monospace,
+    Menlo,
+    monospace;
+  padding: 0 4px;
+  border-radius: 4px;
+  line-height: 16px;
+}
+.table-facts .col-mark.pk {
+  color: #f2c46d;
+  background: #3a2f17;
+}
+.table-facts .col-mark.fk {
+  color: #8fb8ff;
+  background: #1c2a44;
+}
+.table-facts .col-mark.uq {
+  color: #aab2c0;
+  background: #262b34;
+}
+.table-facts .col-mark.pii {
+  color: #f29b9b;
+  background: #3a1c1c;
+}
+.table-facts .col-to {
+  grid-column: 1 / -1;
+  text-align: left;
+  font:
+    11.5px ui-monospace,
+    Menlo,
+    monospace;
+  color: #7d8595;
+}
+.table-facts .col-to:hover {
+  color: #c9d1dd;
+}
+.table-facts .col-form-flags {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: #aab2c0;
+}
+.table-facts .col-form-flags label {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.table-facts .col-grid {
+  column-gap: 0;
+}
+.table-facts .col-line > .col-name,
+.table-facts .col-line > .col-type {
+  padding-right: 14px;
+}
+.table-facts .col-to {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.table-facts .col-region {
+  white-space: nowrap;
+  font:
+    600 9.5px ui-monospace,
+    Menlo,
+    monospace;
+  color: #c9b8f0;
+  background: #2a2340;
+  border-radius: 4px;
+  padding: 0 5px;
+  line-height: 16px;
+}

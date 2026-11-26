@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>atlas · minimap drafts</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: rgba(22, 25, 32, 0.97); --field: #1b1f27; --line: #262c36; --line-strong: #353d4a;
+    --text: #e6e9ef; --muted: #8b93a3; --faint: #5d6576; --accent: #4f8cff;
+    --actor: #a78bfa; --system: #60a5fa; --app: #34d399; --store: #fbbf24; --component: #f472b6;
+    --module: #fb923c; --function: #5eead4; --table: #facc15; --group: #94a3b8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 13px/1.4 Inter, ui-sans-serif, system-ui, -apple-system, sans-serif; overflow: hidden; }
+  button { font: inherit; color: inherit; }
+  .app { display: grid; grid-template-rows: 44px 1fr; height: 100vh; }
+  .proto { display: flex; align-items: center; gap: 8px; padding: 0 14px; border-bottom: 1px solid var(--line); background: #0c0e12; }
+  .proto b { font-weight: 600; margin-right: 6px; color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+  .proto button { border: 1px solid var(--line); background: var(--field); border-radius: 8px; padding: 5px 10px; cursor: pointer; color: var(--muted); }
+  .proto button.on { color: var(--text); border-color: var(--accent); background: rgba(79,140,255,.12); }
+  .proto .hint { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+  .canvas { position: relative; overflow: hidden; cursor: grab; background-color: var(--bg); }
+  .canvas.drag { cursor: grabbing; }
+  .world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+  .world.anim { transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .grid { position: absolute; inset: -4000px; background-image: radial-gradient(#232833 1px, transparent 1px); background-size: 24px 24px; }
+  .box { position: absolute; width: 190px; height: 74px; border-radius: 10px; border: 1px solid #2a303c; background: #181c24; padding: 10px 12px; user-select: none; }
+  .box:hover { border-color: #3d4656; }
+  .box .n { font-weight: 600; display: flex; align-items: center; gap: 7px; white-space: nowrap; overflow: hidden; }
+  .box .s { color: var(--muted); font-size: 11.5px; margin-top: 3px; }
+  .box .in { position: absolute; left: 12px; bottom: 7px; font-size: 10.5px; color: #6b7486; }
+  .dot { width: 8px; height: 8px; border-radius: 3px; flex: none; }
+  .frame { position: absolute; border: 1px dashed #2b3240; border-radius: 14px; }
+  .frame span { position: absolute; left: 14px; top: 9px; color: #aeb6c6; font-size: 12.5px; }
+  .box.portal { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(79,140,255,.18); }
+  .box.portal .s { display: none; }
+  .portal-mini { position: absolute; left: 10px; right: 10px; top: 30px; bottom: 8px; }
+  .portal-mini i { position: absolute; border-radius: 1.5px; background: #4a5a78; }
+  .box .tag { position: absolute; right: 8px; top: -9px; font-size: 10px; font-weight: 700; padding: 0 6px; border-radius: 6px; background: var(--accent); color: #fff; line-height: 16px; }
+
+  .crumbs { position: absolute; left: 14px; top: 12px; display: flex; align-items: center; gap: 2px; z-index: 5; }
+  .crumbs .c { border: 0; background: none; color: var(--muted); padding: 4px 6px; border-radius: 7px; cursor: pointer; font-size: 12.5px; display: flex; gap: 4px; align-items: center; }
+  .crumbs .c:hover { background: var(--field); color: var(--text); }
+  .crumbs .c.cur { color: var(--text); font-weight: 600; }
+  .crumbs .c .v { font-size: 9px; color: var(--faint); }
+  .crumbs .sep { color: var(--faint); }
+
+  .card { position: absolute; z-index: 6; background: var(--panel); border: 1px solid var(--line-strong); border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,.5); }
+  .help { position: absolute; left: 14px; bottom: 14px; max-width: 420px; padding: 11px 13px; font-size: 12px; color: var(--muted); z-index: 5; }
+  .help b { color: var(--text); display: block; margin-bottom: 3px; font-size: 13px; }
+  .help .seen { margin-top: 6px; color: var(--faint); }
+  .zoom { position: absolute; right: 14px; top: 12px; display: flex; gap: 2px; padding: 3px; z-index: 5; }
+  .zoom button { border: 0; background: none; width: 28px; height: 26px; border-radius: 6px; cursor: pointer; color: var(--muted); }
+  .zoom button:hover { background: var(--field); color: var(--text); }
+  .zoom span { min-width: 44px; text-align: center; color: var(--muted); font-size: 12px; line-height: 26px; }
+
+  /* A: classic */
+  .mmA { right: 14px; bottom: 14px; width: 220px; padding: 6px; }
+  .mmA .hd { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); padding: 0 2px 4px; }
+  .mmA .hd kbd { font: 10px ui-monospace, monospace; border: 1px solid var(--line-strong); border-radius: 4px; padding: 0 4px; }
+  .mmA .map { position: relative; border-radius: 7px; background: #0c0e12; overflow: hidden; cursor: pointer; }
+  .mmA .map i { position: absolute; border-radius: 2px; opacity: .85; }
+  .mmA .map .fr { position: absolute; border: 1px dashed #2b3240; border-radius: 3px; }
+  .mmA .vp { position: absolute; border: 1.5px solid var(--accent); background: rgba(79,140,255,.10); border-radius: 3px; pointer-events: none; }
+
+  /* B: breadcrumb peek */
+  .peek { min-width: 230px; padding: 6px; display: flex; gap: 6px; }
+  .peek .list { min-width: 200px; }
+  .peek .t { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding: 4px 8px; }
+  .peek .it { display: flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 7px; cursor: pointer; white-space: nowrap; }
+  .peek .it:hover, .peek .it.hov { background: var(--field); }
+  .peek .it.on { color: var(--accent); }
+  .peek .it .k { margin-left: auto; font-size: 10.5px; color: var(--faint); }
+  .peek .prev { width: 220px; border-left: 1px solid var(--line); padding: 6px 8px; }
+  .peek .prev .pt { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .thumb { position: relative; border-radius: 7px; background: #0c0e12; border: 1px solid var(--line); overflow: hidden; }
+  .thumb .tb { position: absolute; border-radius: 3px; border: 1px solid #303846; background: #1a1f28; font-size: 8px; color: #c5ccd8; padding: 2px 3px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .thumb .tf { position: absolute; border: 1px dashed #2b3240; border-radius: 4px; }
+
+  /* C: zoom out into the level above */
+  .lvl-hint { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); padding: 7px 12px; font-size: 12px; color: var(--muted); z-index: 5; display: flex; gap: 8px; align-items: center; }
+  .lvl-hint .bar { width: 120px; height: 4px; border-radius: 2px; background: #232a36; overflow: hidden; }
+  .lvl-hint .bar i { display: block; height: 100%; background: var(--accent); }
+  .lvl-flash { position: absolute; left: 50%; top: 56px; transform: translateX(-50%); padding: 7px 12px; font-size: 12.5px; z-index: 6; }
+
+  /* E: edge markers */
+  .edge { position: absolute; z-index: 4; display: flex; align-items: center; gap: 5px; padding: 3px 8px 3px 6px; border-radius: 8px; background: var(--panel); border: 1px solid var(--line-strong); font-size: 11.5px; color: var(--muted); cursor: pointer; white-space: nowrap; transform: translate(-50%, -50%); }
+  .edge:hover { color: var(--text); border-color: #4a5466; }
+  .edge .ar { color: var(--accent); font-size: 11px; display: inline-block; }
+  .edge.up { border-color: rgba(79,140,255,.5); color: var(--text); }
+  .edge .ct { font-size: 10px; color: var(--faint); }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="proto">
+    <b>Minimap drafts</b>
+    <button data-v="A" class="on">A · Classic corner map</button>
+    <button data-v="B">B · Breadcrumb peek</button>
+    <button data-v="C">C · Zoom out to the level above</button>
+    <button data-v="E">D · Edge markers</button>
+    <span class="hint">Drag to pan, scroll to zoom, double-click a box to open it.</span>
+  </div>
+  <main class="canvas" id="canvas">
+    <div class="world" id="world"></div>
+    <div id="overlay"></div>
+  </main>
+</div>
+<script>
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const kc = (k) => `var(--${k === "landscape" ? "system" : k})`;
+const T = (id, name, kind, kids = [], x = {}) => ({ id, name, kind, kids, ...x });
+const fns = (pre, names) => names.map((n) => T(pre + n, n + "()", "function"));
+const tree = T("landscape", "Orbit Coffee", "landscape", [
+  T("customer", "Customer", "actor"), T("barista", "Barista", "actor"), T("ops", "Ops team", "actor"),
+  T("orbit", "Orbit Platform", "system", [
+    T("clients", "Clients", "group", [T("mobile", "Mobile App", "app"), T("tablet", "Store Tablet", "app"), T("admin", "Web Admin", "app")]),
+    T("gateway", "API Gateway", "app"),
+    T("orders", "Orders Service", "app", [
+      T("order-api", "Order API", "component", [T("http-rs", "http.rs", "module", fns("h-", ["create_order", "get_order", "cancel_order", "list_orders"]))]),
+      T("pricing", "Pricing Engine", "component", [T("pricing-rs", "pricing.rs", "module", fns("p-", ["price_cart", "apply_promos", "tax_for"]))]),
+      T("payment", "Payment Adapter", "component", [T("payments-rs", "payments.rs", "module", fns("y-", ["charge", "refund", "verify_webhook"]))]),
+      T("state", "Order State Machine", "component", [T("state-rs", "state.rs", "module", fns("s-", ["advance", "publish_change"]))]),
+      T("outbox", "Outbox Relay", "component"), T("admin-api", "Admin API", "component"), T("reports", "Reports", "component"),
+    ]),
+    T("menu", "Menu Service", "app"), T("notify", "Notify Worker", "app"), T("loyalty", "Loyalty Service", "app"),
+    T("data", "Data", "group", [
+      T("orders-db", "Orders DB", "store", [T("t-customers", "customers", "table"), T("t-orders", "orders", "table"), T("t-items", "order_items", "table"), T("t-payments", "payments", "table")]),
+      T("menu-cache", "Menu Cache", "store"), T("events", "Order Events", "store"), T("receipts", "Receipts Bucket", "store"),
+    ]),
+  ]),
+  T("stripe", "Stripe", "system"), T("twilio", "Twilio", "system"), T("mapbox", "Mapbox", "system"),
+]);
+const byId = new Map(), parentOf = new Map();
+(function walk(n, p) { byId.set(n.id, n); if (p) parentOf.set(n.id, p.id); n.kids.forEach((k) => walk(k, n)); })(tree, null);
+const pathTo = (id) => { const o = []; for (let c = id; c; c = parentOf.get(c)) o.unshift(c); return o; };
+const diagramOf = (id) => { let c = id; while (c && byId.get(c).kind === "group") c = parentOf.get(c); return c; };
+const upOf = (id) => diagramOf(parentOf.get(id));
+
+// Wider than the screen on purpose, so there's somewhere to navigate to.
+const BW = 190, BH = 74, CX = 280, RY = 170;
+function layout(n) {
+  const out = { boxes: [], frames: [] };
+  const loose = n.kids.filter((k) => k.kind !== "group"), groups = n.kids.filter((k) => k.kind === "group");
+  const cols = 4;
+  loose.forEach((k, i) => out.boxes.push({ n: k, x: 100 + (i % cols) * CX + (Math.floor(i / cols) % 2) * 90, y: 100 + Math.floor(i / cols) * RY }));
+  let gx = 100, gy = 100 + Math.ceil(loose.length / cols) * RY + 20;
+  groups.forEach((g) => {
+    const c = Math.min(3, g.kids.length), w = (c - 1) * CX + BW + 40, h = (Math.ceil(g.kids.length / 3) - 1) * RY + BH + 64;
+    out.frames.push({ n: g, x: gx, y: gy, w, h });
+    g.kids.forEach((k, i) => out.boxes.push({ n: k, x: gx + 20 + (i % 3) * CX, y: gy + 44 + Math.floor(i / 3) * RY }));
+    gx += w + 60;
+  });
+  const xs = [...out.boxes.map((b) => b.x + BW), ...out.frames.map((f) => f.x + f.w)], ys = [...out.boxes.map((b) => b.y + BH), ...out.frames.map((f) => f.y + f.h)];
+  out.w = Math.max(...xs) + 100; out.h = Math.max(...ys) + 100;
+  return out;
+}
+
+const S = { v: "A", here: "orbit", x: 40, y: 60, z: 1, mmOn: true, peek: null, hov: null, from: null, out: 0 };
+let L = null;
+const cv = document.getElementById("canvas"), world = document.getElementById("world"), overlay = document.getElementById("overlay");
+
+function draw() {
+  L = layout(byId.get(S.here));
+  world.innerHTML = `<div class="grid"></div>` + L.frames.map((f) => `<div class="frame" style="left:${f.x}px;top:${f.y}px;width:${f.w}px;height:${f.h}px"><span>${esc(f.n.name)}</span></div>`).join("") +
+    L.boxes.map(({ n: k, x, y }) => {
+      const portal = S.v === "C" && S.from === k.id;
+      const inner = portal ? `<div class="portal-mini">${miniDots(k)}</div><span class="tag">you were here</span>` : `<div class="s">${k.kind}</div>${k.kids.length ? `<span class="in">${k.kids.length} inside →</span>` : ""}`;
+      return `<div class="box${portal ? " portal" : ""}" data-box="${k.id}" style="left:${x}px;top:${y}px"><div class="n"><span class="dot" style="background:${kc(k.kind)}"></span>${esc(k.name)}</div>${inner}</div>`;
+    }).join("");
+  view();
+}
+function miniDots(n) { const l = layout(n), s = Math.min(166 / l.w, 34 / l.h); return l.boxes.map((b) => `<i style="left:${b.x * s}px;top:${b.y * s}px;width:${BW * s}px;height:${Math.max(2, BH * s)}px"></i>`).join(""); }
+function view() {
+  world.style.transform = `translate(${S.x}px,${S.y}px) scale(${S.z})`;
+  overlay.innerHTML = crumbs() + zoomCtl() + (S.v === "A" ? mmA() : S.v === "B" ? peek() : S.v === "C" ? levelHint() : edges()) + help();
+}
+function go(id, from = null) {
+  if (!id) return;
+  S.here = id; S.from = from; S.peek = null; S.out = 0;
+  const l = layout(byId.get(id));
+  S.z = 1; S.x = 40; S.y = 60;
+  if (from) { const b = l.boxes.find((b) => b.n.id === from); if (b) { S.x = cv.clientWidth / 2 - (b.x + BW / 2); S.y = cv.clientHeight / 2 - (b.y + BH / 2); } }
+  draw();
+}
+
+// ---- Breadcrumbs (every option has them; B adds the peek) ----
+function crumbs() {
+  const p = pathTo(S.here).filter((id) => byId.get(id).kind !== "group");
+  return `<div class="crumbs card" style="padding:3px">${p.map((id, i) => `${i ? '<span class="sep">›</span>' : ""}<button class="c${id === S.here ? " cur" : ""}" data-crumb="${id}">${esc(byId.get(id).name)}${S.v === "B" ? ' <span class="v">▾</span>' : ""}</button>`).join("")}</div>`;
+}
+function zoomCtl() { return `<div class="zoom card"><button data-zoom="-1">−</button><span>${Math.round(S.z * 100)}%</span><button data-zoom="1">+</button><button data-fit title="Fit">⤢</button></div>`; }
+
+// ---- A: classic corner map ----
+function mmA() {
+  if (!S.mmOn) return `<div class="mmA card" style="width:auto;padding:6px 9px;font-size:11.5px;color:var(--muted);cursor:pointer" data-mm>Map <kbd style="font:10px monospace;border:1px solid var(--line-strong);border-radius:4px;padding:0 4px">M</kbd></div>`;
+  const W = 208, s = W / L.w, H = L.h * s;
+  const vp = { l: -S.x / S.z * s, t: -S.y / S.z * s, w: cv.clientWidth / S.z * s, h: cv.clientHeight / S.z * s };
+  return `<div class="mmA card"><div class="hd"><span>${esc(byId.get(S.here).name)}</span><span data-mm style="cursor:pointer">hide <kbd>M</kbd></span></div>
+    <div class="map" id="mapA" style="height:${H}px">${L.frames.map((f) => `<div class="fr" style="left:${f.x * s}px;top:${f.y * s}px;width:${f.w * s}px;height:${f.h * s}px"></div>`).join("")}
+    ${L.boxes.map((b) => `<i style="left:${b.x * s}px;top:${b.y * s}px;width:${BW * s}px;height:${BH * s}px;background:${kc(b.n.kind)}"></i>`).join("")}
+    <div class="vp" style="left:${vp.l}px;top:${vp.t}px;width:${vp.w}px;height:${vp.h}px"></div></div></div>`;
+}
+
+// ---- B: breadcrumb peek ----
+function thumb(n, W, H) {
+  const l = layout(n), s = Math.min(W / l.w, H / l.h);
+  return `<div class="thumb" style="width:${l.w * s}px;height:${l.h * s}px">${l.frames.map((f) => `<div class="tf" style="left:${f.x * s}px;top:${f.y * s}px;width:${f.w * s}px;height:${f.h * s}px"></div>`).join("")}${l.boxes.map((b) => `<div class="tb" style="left:${b.x * s}px;top:${b.y * s}px;width:${BW * s}px;height:${BH * s}px;font-size:${Math.max(6, 11 * s)}px">${esc(b.n.name)}</div>`).join("")}</div>`;
+}
+function peek() {
+  if (!S.peek) return "";
+  const id = S.peek, up = upOf(id);
+  const sibs = up ? layout(byId.get(up)).boxes.map((b) => b.n) : [byId.get(id)];
+  const hov = byId.get(S.hov && sibs.some((k) => k.id === S.hov) ? S.hov : id);
+  const el = document.querySelector(`[data-crumb="${id}"]`);
+  const left = el ? el.getBoundingClientRect().left : 14;
+  return `<div class="card peek" style="left:${left}px;top:48px"><div class="list"><div class="t">${up ? "In " + esc(byId.get(up).name) : "Design"}</div>
+    ${sibs.map((k) => `<div class="it${k.id === id ? " on" : ""}${k.id === hov.id ? " hov" : ""}"${k.kids.length ? ` data-peekgo="${k.id}" data-peekhov="${k.id}"` : ` style="opacity:.4;cursor:default"`}><span class="dot" style="background:${kc(k.kind)}"></span>${esc(k.name)}<span class="k">${k.kids.length || ""}</span></div>`).join("")}</div>
+    <div class="prev"><div class="pt">${esc(hov.name)}</div>${thumb(hov, 204, 150)}</div></div>`;
+}
+
+// ---- C: zoom out into the level above ----
+const OUT_AT = 0.45;
+function levelHint() {
+  const up = upOf(S.here);
+  const flash = S.from ? `<div class="lvl-flash card">Zoomed out to <b>${esc(byId.get(S.here).name)}</b>. Scroll in on a box to go back down.</div>` : "";
+  if (!up) return flash;
+  const pct = Math.max(0, Math.min(1, (1 - S.z) / (1 - OUT_AT)));
+  return flash + `<div class="lvl-hint card">${S.z <= 1 ? `Keep zooming out for <b style="color:var(--text)">${esc(byId.get(up).name)}</b><span class="bar"><i style="width:${pct * 100}%"></i></span>` : `Zoom out to see ${esc(byId.get(up).name)}`}</div>`;
+}
+
+// ---- D: edge markers ----
+function edges() {
+  const W = cv.clientWidth, H = cv.clientHeight, M = 30, out = [];
+  const up = upOf(S.here);
+  if (up) out.push(`<div class="edge up" style="left:${W / 2}px;top:${64}px" data-go="${up}"><span class="ar">↑</span>${esc(byId.get(up).name)}</div>`);
+  const groupsOff = new Map();
+  for (const b of L.boxes) {
+    const cx = S.x + (b.x + BW / 2) * S.z, cy = S.y + (b.y + BH / 2) * S.z;
+    if (cx > 0 && cx < W && cy > 0 && cy < H) continue;
+    const ex = Math.max(M + 40, Math.min(W - M - 40, cx)), ey = Math.max(M + 70, Math.min(H - M, cy));
+    const side = cx <= 0 ? "l" : cx >= W ? "r" : cy <= 0 ? "t" : "b";
+    const key = side + Math.round((side === "l" || side === "r" ? ey : ex) / 60);
+    if (!groupsOff.has(key)) groupsOff.set(key, { ex, ey, side, items: [] });
+    groupsOff.get(key).items.push(b);
+  }
+  for (const g of groupsOff.values()) {
+    const ang = { l: 180, r: 0, t: -90, b: 90 }[g.side];
+    const first = g.items[0];
+    out.push(`<div class="edge" style="left:${g.ex}px;top:${g.ey}px" data-pan="${first.n.id}"><span class="ar" style="transform:rotate(${ang}deg)">➜</span>${esc(first.n.name)}${g.items.length > 1 ? ` <span class="ct">+${g.items.length - 1}</span>` : ""}</div>`);
+  }
+  return out.join("");
+}
+
+function help() {
+  const H = {
+    A: ["A · Classic corner map", "The current diagram as colored blocks, with the part on screen outlined. Click or drag in it to move. M hides it. It shows where you are in this diagram, not in the design.", "Miro, tldraw, React Flow, Figma's plugin maps"],
+    B: ["B · Breadcrumb peek", "No map. The trail at the top is the map: each step opens a list of what sits beside it, with a preview of the one you point at. One click moves you across or up.", "IcePanel's \"Belongs to\" bar, Finder's path bar, VS Code breadcrumbs"],
+    C: ["C · Zoom out to the level above", "No overlay either. Keep scrolling out and the canvas becomes the diagram above, with the box you came from lit and drawn as a miniature of what's inside it. Scroll in on any box to drop into it.", "Semantic zoom: Prezi, Muse, Google Maps; the zoomable UI research"],
+    E: ["D · Edge markers", "What's off screen is pinned to the edges, pointing the way, with a count when several are in the same direction; click one to pan there. The way up is pinned to the top.", "Game HUD markers, Figma's off-screen cursors"],
+  }[S.v];
+  return `<div class="help card"><b>${H[0]}</b>${H[1]}<div class="seen">Seen in: ${H[2]}</div></div>`;
+}
+
+// ---- Input ----
+function zoomAt(f, px, py) {
+  const z = Math.max(0.2, Math.min(2.2, S.z * f));
+  S.x = px - (px - S.x) * (z / S.z); S.y = py - (py - S.y) * (z / S.z); S.z = z;
+  if (S.v === "C") {
+    const up = upOf(S.here);
+    if (S.z < OUT_AT && up) return go(up, S.here);
+    if (S.z > 1.8) { // scrolling in on a box drops into it
+      const wx = (px - S.x) / S.z, wy = (py - S.y) / S.z;
+      const b = L.boxes.find((b) => wx >= b.x && wx <= b.x + BW && wy >= b.y && wy <= b.y + BH && b.n.kids.length);
+      if (b) return go(b.n.id);
+    }
+  }
+  view();
+}
+cv.addEventListener("wheel", (e) => { e.preventDefault(); const r = cv.getBoundingClientRect(); zoomAt(Math.exp(-e.deltaY * 0.0015), e.clientX - r.left, e.clientY - r.top); }, { passive: false });
+let drag = null;
+cv.addEventListener("pointerdown", (e) => {
+  const map = e.target.closest("#mapA");
+  if (map) {
+    const r = map.getBoundingClientRect(), s = 208 / L.w;
+    const to = (ev) => { S.x = -(((ev.clientX - r.left) / s) * S.z - cv.clientWidth / 2); S.y = -(((ev.clientY - r.top) / s) * S.z - cv.clientHeight / 2); view(); };
+    to(e); drag = { map: to }; cv.setPointerCapture(e.pointerId); return;
+  }
+  if (e.target.closest(".card,.edge")) return;
+  drag = { x: e.clientX - S.x, y: e.clientY - S.y, moved: false }; cv.classList.add("drag"); cv.setPointerCapture(e.pointerId);
+});
+cv.addEventListener("pointermove", (e) => { if (!drag) return; if (drag.map) return drag.map(e); S.x = e.clientX - drag.x; S.y = e.clientY - drag.y; drag.moved = true; if (S.from) S.from = S.from; view(); });
+cv.addEventListener("pointerup", () => { drag = null; cv.classList.remove("drag"); });
+cv.addEventListener("dblclick", (e) => { const b = e.target.closest("[data-box]"); if (!b) return; const n = byId.get(b.dataset.box); if (n.kids.length) go(n.id); });
+document.addEventListener("click", (e) => {
+  const t = e.target.closest("[data-v],[data-crumb],[data-peekgo],[data-mm],[data-zoom],[data-fit],[data-go],[data-pan]");
+  if (!t) { if (S.peek && !e.target.closest(".peek")) { S.peek = null; view(); } return; }
+  if (t.dataset.v) { S.v = t.dataset.v; document.querySelectorAll("[data-v]").forEach((b) => b.classList.toggle("on", b === t)); S.peek = null; S.from = null; go(S.v === "B" ? "orders" : "orbit"); return; }
+  if (t.dataset.crumb) { if (S.v === "B") { S.peek = S.peek === t.dataset.crumb ? null : t.dataset.crumb; S.hov = null; view(); } else go(t.dataset.crumb); return; }
+  if (t.dataset.peekgo) { go(t.dataset.peekgo); return; }
+  if (t.dataset.mm !== undefined) { S.mmOn = !S.mmOn; view(); return; }
+  if (t.dataset.zoom) { zoomAt(t.dataset.zoom === "1" ? 1.25 : 0.8, cv.clientWidth / 2, cv.clientHeight / 2); return; }
+  if (t.dataset.fit !== undefined) { const s = Math.min(cv.clientWidth / L.w, (cv.clientHeight - 60) / L.h, 1); S.z = s; S.x = (cv.clientWidth - L.w * s) / 2; S.y = 50; view(); return; }
+  if (t.dataset.go) { go(t.dataset.go, S.here); return; }
+  if (t.dataset.pan) { const b = L.boxes.find((b) => b.n.id === t.dataset.pan); world.classList.add("anim"); S.x = cv.clientWidth / 2 - (b.x + BW / 2) * S.z; S.y = cv.clientHeight / 2 - (b.y + BH / 2) * S.z; view(); setTimeout(() => world.classList.remove("anim"), 400); }
+});
+document.addEventListener("mouseover", (e) => { const t = e.target.closest("[data-peekhov]"); if (t && S.hov !== t.dataset.peekhov) { S.hov = t.dataset.peekhov; view(); } });
+document.addEventListener("keydown", (e) => { if (e.key === "m" || e.key === "M") { S.mmOn = !S.mmOn; view(); } if (e.key === "Escape") { S.peek = null; view(); } });
+addEventListener("resize", view);
+go("orbit");
+</script>
+</body>
+</html>

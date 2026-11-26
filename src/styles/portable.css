@@ -1,0 +1,70 @@
+/* Designs that travel: the design menu's entries, the page a link opens on, and the banner
+   over a design that came from elsewhere (src/ui/Portable.tsx, src/ui/OpenShared.tsx). */
+.portable-items {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  padding-top: 4px;
+}
+.portable-items .design-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.portable-choices {
+  display: flex;
+  gap: 8px;
+  margin: 4px 0 8px;
+}
+.portable-link {
+  min-height: 96px;
+  resize: vertical;
+  word-break: break-all;
+  font-size: 12px;
+}
+.portable-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.shared-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--bg, #0e1116);
+  color: var(--text);
+}
+.shared-page h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.shared-wait {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 14px;
+}
+.shared-error {
+  max-width: 460px;
+  margin: 0 0 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.shared-page .cta {
+  flex: none;
+  align-self: center;
+  padding: 0 16px;
+}
+.portable-banner .cta {
+  flex: none;
+}

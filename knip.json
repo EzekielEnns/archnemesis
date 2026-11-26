@@ -1,0 +1,11 @@
+{
+  "entry": [
+    "src/canvas/routeWorker.ts",
+    "cli/channel-main.ts",
+    "cli/index-main.ts",
+    "scripts/*.ts"
+  ],
+  "project": ["{server,shared,src,cli,scripts}/**/*.{ts,tsx}"],
+  "ignoreBinaries": ["ctags", "gcloud"],
+  "ignoreDependencies": ["@expo-google-fonts/inter"]
+}

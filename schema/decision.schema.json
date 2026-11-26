@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "archnm/decision.schema.json",
+  "title": "Archnemesis decision (decisions/<id>.yaml): one architecture decision record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["title", "status"],
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "What was decided, in a line."
+    },
+    "status": {
+      "enum": ["proposed", "accepted", "rejected", "superseded"],
+      "description": "proposed: open. accepted: in force. rejected: considered and turned down. superseded: replaced (say by what in superseded_by)."
+    },
+    "date": {
+      "type": "string",
+      "description": "When it was decided: YYYY-MM-DD.",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "affects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The objects it changes (ids); they show a badge linking here."
+    },
+    "superseded_by": {
+      "type": "string",
+      "description": "The decision that replaced this one (its file name, without .yaml)."
+    },
+    "text": {
+      "type": "string",
+      "description": "The record, in markdown: context, the decision, consequences."
+    }
+  }
+}

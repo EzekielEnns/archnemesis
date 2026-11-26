@@ -1,0 +1,13 @@
+# Archnemesis: architecture as files. See README for the format; `archnm check` validates.
+name: Example shop
+version: 2
+tags:
+  personal-data:
+    description: Holds data about a person
+    values: [holds, none]
+    colors:
+      holds: "#e06c75"
+  contract:
+    description: What we've signed with whoever runs it
+    values: [sub-processor, public]
+github: example

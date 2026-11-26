@@ -1,0 +1,76 @@
+/* Performance meter and bug/feature reports (src/ui/Perf.tsx, src/ui/Report.tsx). */
+
+/* --- performance meter (⌘K → Show performance meter) and bug/feature reports --- */
+.perf-meter {
+  position: fixed;
+  left: 12px;
+  bottom: 60px;
+  z-index: 30;
+  min-width: 210px;
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  font:
+    11px/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  color: var(--text);
+  pointer-events: auto;
+}
+.perf-meter .ok {
+  color: #4ade80;
+}
+.perf-meter .warn {
+  color: #facc15;
+}
+.perf-meter .bad {
+  color: var(--danger);
+}
+.perf-close {
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.report-kinds {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+button.chip.on {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.report-text {
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+  font: inherit;
+}
+.report-attach {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin-top: 8px;
+}
+
+/* In the bottom-left row, beside the zoom controls, bottoms lined up. */
+.bottom-left {
+  align-items: flex-end;
+}
+.bottom-left .perf-meter {
+  position: static;
+  display: grid;
+  grid-template-columns: auto auto auto auto 12px;
+  column-gap: 12px;
+  row-gap: 0;
+  min-width: 0;
+  height: 42px;
+  padding: 3px 6px 3px 10px;
+  align-content: center;
+  line-height: 1.35;
+  white-space: nowrap;
+}

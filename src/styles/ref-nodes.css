@@ -1,0 +1,356 @@
+/* References drawn as nodes beside their box and a picked reference (src/ui/Layers.tsx). */
+
+/* References as nodes: small, not placeable, beside their box */
+.ref-tethers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.ref-tethers line {
+  stroke: #6b7486;
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+  opacity: 0.75;
+}
+.ref-tethers line.dim {
+  opacity: 0.15;
+}
+.ref-node-at {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  transition: opacity 0.12s;
+}
+.ref-node-at.dim {
+  opacity: 0.2;
+}
+.ref-node {
+  pointer-events: auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px 0 8px;
+  border-radius: 9px;
+  border: 1px solid var(--line-strong);
+  border-left-width: 3px;
+  background: rgba(22, 25, 32, 0.97);
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.ref-node:hover,
+.ref-node.on {
+  border-color: var(--accent);
+  background: rgba(30, 38, 56, 0.98);
+}
+.ref-node-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--field);
+}
+.ref-node-words {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+  flex: 1;
+}
+.ref-node-words.row {
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.ref-node-words b {
+  font-weight: 600;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ref-node-words i {
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ref-node-words i em {
+  font-style: normal;
+  color: #fbbf24;
+}
+.ref-node .mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.ref-node .link-icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: #fff;
+  display: grid;
+  place-items: center;
+}
+.ref-node .link-icon img {
+  width: 16px;
+  height: 16px;
+}
+.ref-node-uses {
+  flex: none;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: rgba(192, 132, 252, 0.18);
+  color: #d8b4fe;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.ref-node.ref-link {
+  border-left-color: #60a5fa;
+}
+.ref-node.ref-doc {
+  border-left-color: #a3e635;
+}
+.ref-node.ref-doc .ref-node-icon {
+  color: #a3e635;
+}
+.ref-node.ref-code {
+  border-left-color: #fbbf24;
+  background: rgba(24, 22, 16, 0.97);
+}
+.ref-node.ref-code .ref-node-icon {
+  color: #fbbf24;
+}
+.ref-node.ref-dependency {
+  border-left-color: #c084fc;
+}
+.ref-node.ref-dependency .ref-node-icon {
+  color: #c084fc;
+}
+.ref-node.ref-image {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-left-width: 1px;
+  border-top: 3px solid #f472b6;
+}
+.ref-thumb {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  background: repeating-linear-gradient(45deg, #1b1f27 0 8px, #191d24 8px 16px);
+  color: #f472b6;
+  overflow: hidden;
+}
+.ref-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ref-node.ref-image .ref-node-words {
+  flex: none;
+  padding: 6px 8px;
+}
+.ref-node.ref-image .ref-node-words svg {
+  color: #f472b6;
+  flex: none;
+}
+
+/* A picked reference: its node outlined, the card beside it with who shares it */
+.ref-node-at.picked .ref-node {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 3px rgba(79, 140, 255, 0.35),
+    0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.ref-node.on {
+  border-color: var(--accent);
+  background: rgba(30, 40, 62, 0.98);
+}
+.ref-node-docs {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: rgba(192, 132, 252, 0.14);
+  color: #d8b4fe;
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.ref-node-docs:hover {
+  background: rgba(192, 132, 252, 0.3);
+  color: #fff;
+}
+.ref-docs {
+  color: #d8b4fe;
+}
+.ref-pop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 20;
+  width: 248px;
+  padding: 10px;
+  pointer-events: auto;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  color: var(--text);
+  backdrop-filter: blur(8px);
+}
+.ref-pop-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ref-pop-head b {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+}
+.ref-pop-x {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px;
+  display: grid;
+  place-items: center;
+}
+.ref-pop-to {
+  margin: 4px 0 8px;
+  color: var(--muted);
+  font-size: 11px;
+  word-break: break-all;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.ref-pop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.ref-pop-actions a,
+.ref-pop-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 8px;
+  border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 11.5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ref-pop-actions a:hover,
+.ref-pop-actions button:hover {
+  border-color: var(--accent);
+}
+.ref-pop-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.ref-pop-users {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-height: 180px;
+  overflow: auto;
+}
+.ref-pop-user {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+.ref-pop-user:hover {
+  background: var(--field);
+}
+.ref-pop-user.me {
+  color: var(--accent);
+}
+.ref-pop-user i {
+  margin-left: auto;
+  font-style: normal;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.ref-pop-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ref-pop-dot {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.ref-pop-dot[data-kind="function"] {
+  background: #5eead4;
+}
+.ref-pop-dot[data-kind="app"] {
+  background: #34d399;
+}
+.ref-pop-dot[data-kind="component"] {
+  background: #f472b6;
+}
+.ref-pop-dot[data-kind="store"],
+.ref-pop-dot[data-kind="table"] {
+  background: #fbbf24;
+}
+.ref-pop-dot[data-kind="module"] {
+  background: #fb923c;
+}
+.ref-pop-dot[data-kind="system"] {
+  background: #60a5fa;
+}
+.ref-pop-dot[data-kind="actor"] {
+  background: #a78bfa;
+}

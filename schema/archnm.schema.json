@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "archnm/archnm.schema.json",
+  "title": "archnm.yaml: the design's name and rules",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The design's name."
+    },
+    "version": {
+      "const": 2,
+      "description": "The file format's version."
+    },
+    "forbid": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Patterns (case-insensitive regular expressions) no text may contain: archnm check refuses them. IPs, private keys and API keys are always refused."
+    },
+    "tags": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["values"],
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "What the group means; shown in the legend."
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The values allowed after the colon."
+          },
+          "colors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "description": "value → #rrggbb, for colouring diagrams by this group."
+          }
+        }
+      },
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9-]{0,31}$"
+      },
+      "description": "Tag groups: tags written group:value, with the values allowed and their colours."
+    },
+    "protect": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(refs\\.[a-z][a-z0-9_-]{0,31}|name|in|status|kind)$"
+      },
+      "description": "Fields only people change (refs.sys): an agent's apply is refused, and a pull request that changes one says so."
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "boxes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        },
+        "lines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 500
+        }
+      },
+      "description": "A diagram past these is too busy to read; check warns (15 boxes and 20 lines unless set)."
+    },
+    "github": {
+      "type": "string",
+      "description": "The GitHub owner repo@sha:path sources point at (Acme)."
+    }
+  }
+}

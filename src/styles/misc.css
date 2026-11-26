@@ -1,0 +1,206 @@
+/* Empty state, hints and shared odds and ends (src/Workspace.tsx, src/ui/Inspector.tsx). */
+
+/* --- misc -------------------------------------------------------------------------- */
+
+.hint {
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.empty {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  color: var(--muted);
+  pointer-events: none;
+}
+.empty h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+}
+.empty p {
+  margin: 0;
+  font-size: 13px;
+}
+.empty-starts {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 10px;
+  pointer-events: auto;
+}
+.empty-start {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 84px;
+  padding: 14px 0 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    border-color 0.12s,
+    transform 0.12s;
+}
+.empty-start:hover {
+  border-color: currentColor;
+  transform: translateY(-1px);
+}
+.empty-start span {
+  color: var(--text);
+  font-size: 12px;
+}
+.empty-start kbd {
+  font-size: 10px;
+  opacity: 0.7;
+}
+.empty-aside {
+  font-size: 12px;
+  opacity: 0.75;
+}
+
+.toasts {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 12px;
+  max-width: 360px;
+}
+
+.toast.error {
+  border-left-color: var(--danger);
+}
+
+.meter {
+  top: 12px;
+  right: 12px;
+  padding: 8px 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  line-height: 1.6;
+  min-width: 190px;
+}
+
+.fps {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.fps.good {
+  color: #34d399;
+}
+
+.fps.ok {
+  color: #fbbf24;
+}
+
+.fps.bad {
+  color: var(--danger);
+}
+
+.fps.idle {
+  color: var(--muted);
+}
+
+.palette-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 14vh;
+  z-index: 10;
+}
+
+.palette {
+  width: min(560px, 92vw);
+  background: #161a21;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.palette input {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  padding: 14px 16px;
+  font-size: 15px;
+  background: transparent;
+}
+
+.palette ul {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.palette li button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 7px 10px;
+  text-align: left;
+}
+
+.palette li button.active {
+  background: #1d2533;
+}
+
+.palette .name {
+  flex: none;
+}
+
+.palette .none {
+  padding: 10px;
+}
+
+.rename {
+  position: fixed;
+  z-index: 5;
+  width: auto;
+  padding: 2px 6px;
+  font-weight: 500;
+  background: #11141a;
+  border-color: var(--accent);
+}
+
+.hint {
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

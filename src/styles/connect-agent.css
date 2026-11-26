@@ -1,0 +1,125 @@
+/* Connect your agent and the shortcuts sheet (src/ui/ConnectAgent.tsx). */
+
+/* Connect your agent: in the welcome (src/ui/Welcome.tsx) and at the top of the ? sheet. */
+.agent-cmd {
+  margin: 8px 0 4px;
+}
+.agent-cmd-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 8px 8px 8px 10px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.agent-cmd-line code {
+  flex: 1;
+  font-size: 12px;
+  line-height: 1.5;
+  word-break: break-all;
+  user-select: all;
+}
+.agent-cmd p.small {
+  margin: 6px 0 0;
+}
+.agent-client {
+  margin: 12px 0 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.agent-cmd-line + .agent-cmd-line {
+  margin-top: 6px;
+}
+.agent-step {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  display: grid;
+  place-items: center;
+  margin-top: 1px;
+}
+.agent-way {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  margin-bottom: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.agent-way button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.agent-way button.on {
+  background: var(--panel-2, var(--line));
+  color: var(--text);
+}
+.shortcuts .agent-cmd {
+  margin-bottom: 8px;
+}
+.agent-cmd-label {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  font-family: inherit;
+}
+.unsaved-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.signin .first-error {
+  color: #f87171;
+}
+
+.gh-connect {
+  flex: none;
+  align-self: flex-start;
+}
+.gh-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.agent-token {
+  align-self: flex-start;
+  margin-top: 6px;
+}
+.agent-tokens {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.agent-tokens li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  color: var(--muted);
+}
+.gh-setup {
+  display: flex;
+  gap: 8px;
+}
+.gh-setup .design-input {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}

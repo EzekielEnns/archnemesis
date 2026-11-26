@@ -1,0 +1,262 @@
+/* Right-hand inspector panel and its fields (src/ui/Inspector.tsx). */
+
+/* --- inspector --------------------------------------------------------------------- */
+
+.inspector {
+  top: 64px;
+  right: 12px;
+  width: 330px;
+  max-height: calc(100% - 120px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.inspector .body {
+  padding: 14px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  /* A long unbroken name or story wraps instead of running out of the panel. */
+  overflow-wrap: anywhere;
+}
+.inspector .grid > * {
+  min-width: 0;
+}
+.inspector input,
+.inspector select,
+.inspector textarea {
+  max-width: 100%;
+}
+.tag {
+  max-width: 100%;
+  min-width: 0;
+}
+.tag-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inspector .footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.inspector .spacer {
+  flex: 1;
+}
+
+button.act {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.inspector .footer button.act {
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+.inspector .footer button.act:hover:not(:disabled) {
+  background: var(--field);
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.inspector .footer button.act.danger,
+.inspector .footer button.act.danger:hover {
+  color: var(--danger);
+}
+
+button.icon-btn {
+  display: inline-flex;
+  padding: 4px;
+  background: transparent;
+  border-color: transparent;
+  color: var(--muted);
+}
+
+button.icon-btn:hover:not(:disabled) {
+  background: var(--field);
+  border-color: var(--line);
+  color: var(--text);
+}
+
+button.icon-btn.danger:hover {
+  color: var(--danger);
+}
+
+.inspector .eyebrow {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.inspector h3.ends {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  margin: 0 0 12px;
+}
+
+.quick {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+button.chip {
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+button.chip.here,
+button.chip.here:disabled {
+  opacity: 1;
+  color: var(--text);
+  border-color: var(--line-strong);
+  cursor: default;
+}
+
+.conn-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 2px 0;
+  min-width: 0;
+}
+
+.conn-list .dir {
+  flex: none;
+  color: var(--muted);
+  align-self: center;
+}
+
+.conn-list .who {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.conn-list .what,
+.conn-list .via {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.inspector h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.inspector h4 {
+  margin: 16px 0 6px;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.title-input {
+  font-size: 15px;
+  font-weight: 600;
+  background: transparent;
+  border-color: transparent;
+}
+
+.title-input:hover {
+  border-color: var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 6px 8px;
+  align-items: center;
+}
+
+.grid label {
+  color: var(--muted);
+}
+
+.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  line-height: 1.7;
+}
+
+button.link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.connection {
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.ends-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.ends-row .ends {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.connection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

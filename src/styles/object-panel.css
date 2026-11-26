@@ -1,0 +1,417 @@
+/* Read-first object panel: summary, fact rows, tag and technology chips, pickers (src/ui/Inspector.tsx, src/ui/Pickers.tsx). */
+
+/* The object panel, read-first: a summary under the name, the
+   description as text, then tabs. Facts read as text and are pickers when clicked. */
+.head-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -4px 0 8px;
+}
+.head-row .summary {
+  flex: 1;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+.status-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  margin: 0 2px 0 8px;
+  background: var(--muted);
+}
+.status-live {
+  background: #3fb67b;
+}
+.status-future {
+  background: #e0a03c;
+}
+.status-deprecated {
+  background: #d9774b;
+}
+.status-removed {
+  background: #6b7280;
+}
+
+.desc {
+  margin: 0 0 10px;
+}
+.desc-text {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  cursor: text;
+  border-radius: 6px;
+  padding: 2px 4px;
+  margin: 0 -4px;
+}
+.desc-text:hover {
+  background: var(--field);
+}
+.desc.folded .desc-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+textarea.desc-edit {
+  min-height: 110px;
+  margin-bottom: 10px;
+}
+button.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent);
+  font-size: 12px;
+  cursor: pointer;
+}
+.add-line,
+button.add-line,
+select.add-line {
+  display: block;
+  /* The text lines up with the section's other rows; the padding only shows on hover. */
+  width: calc(100% + 14px);
+  text-align: left;
+  background: transparent;
+  border: 1px dashed transparent;
+  color: var(--muted);
+  padding: 4px 6px;
+  margin: 2px -7px 8px;
+  cursor: pointer;
+}
+.add-line:hover {
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  margin: 4px 0 12px;
+  background: var(--field);
+  border-radius: 8px;
+}
+.tabs button {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  padding: 5px 4px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  position: relative;
+}
+.tabs button.on {
+  background: var(--panel);
+  color: var(--text);
+  font-weight: 600;
+}
+.tab-warn {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: #e0a03c;
+  vertical-align: middle;
+}
+
+/* Fact rows: no box until you point at them. */
+.grid.facts {
+  gap: 2px 8px;
+  margin-bottom: 4px;
+}
+.grid.facts > select,
+.grid.facts > input {
+  background: transparent;
+  border-color: transparent;
+  padding: 4px 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+}
+.grid.facts > input {
+  cursor: text;
+}
+.grid.facts > select:hover,
+.grid.facts > input:hover {
+  background: var(--field);
+}
+.grid.facts > select:focus,
+.grid.facts > input:focus {
+  background: var(--field);
+  border-color: var(--accent);
+}
+.grid.facts > .chips {
+  padding: 3px 0;
+}
+.grid.facts > input::placeholder {
+  color: var(--muted);
+}
+
+.history li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+.history li .when {
+  font-size: 11px;
+}
+.history li .what {
+  color: var(--text);
+}
+
+/* Tags and technology as chips, with pickers beside the panel. */
+.chip-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 2px 0 6px;
+}
+.tag-chip,
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 100%;
+  padding: 2px 7px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  background: var(--field);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+}
+.tech-chip {
+  padding: 3px 8px;
+}
+.tag-chip-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tag-chip button,
+.tech-chip button {
+  display: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  opacity: 0.7;
+  line-height: 0;
+  cursor: pointer;
+}
+.tag-chip:hover button,
+.tech-chip:hover button {
+  display: inline-block;
+}
+button.add-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--field);
+  border: 1px solid var(--line);
+}
+button.add-chip:hover {
+  color: var(--text);
+}
+
+.picker {
+  position: fixed;
+  z-index: 60;
+  width: 300px;
+  max-height: min(520px, calc(100vh - 24px));
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--line-strong, var(--line));
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+}
+.picker-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+input.picker-search {
+  margin-bottom: 8px;
+}
+.picker-list {
+  overflow-y: auto;
+  min-height: 0;
+}
+.picker-group {
+  margin-bottom: 8px;
+}
+.picker-group-head {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 4px 4px;
+}
+.picker-group-head .muted {
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: 0.7;
+}
+button.picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 4px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  text-align: left;
+  color: var(--text);
+  cursor: pointer;
+}
+button.picker-row:hover {
+  background: var(--field);
+}
+button.picker-row.create {
+  color: var(--accent);
+}
+.picker .check {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong, #3a4150);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.picker .check.on {
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+  color: #fff;
+}
+.picker-foot {
+  padding: 4px;
+  margin: 4px 0 0;
+}
+
+.head-icon {
+  flex: none;
+  border-radius: 5px;
+}
+.notes-empty {
+  margin: 0;
+  padding: 14px 12px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+
+input.tag-filter {
+  margin: 0 4px 6px;
+  width: calc(100% - 8px);
+  font-size: 12px;
+  padding: 3px 7px;
+}
+.tag.more {
+  color: var(--accent);
+  border-style: dashed;
+}
+
+button.add-chip.more {
+  color: var(--accent);
+}
+
+button.picker-plus {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  padding: 0 2px;
+  color: var(--muted);
+  line-height: 0;
+  cursor: pointer;
+}
+button.picker-plus:hover {
+  color: var(--text);
+}
+.group-form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 4px 8px;
+}
+.group-form-acts {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.group-form .err {
+  color: var(--danger);
+  margin: 0;
+}
+
+.chip-field.clickable {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 3px;
+  margin: -3px;
+}
+.chip-field.clickable:hover {
+  background: var(--field);
+}
+
+.links-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.doc-link {
+  position: relative;
+  border-radius: 6px;
+}
+.doc-link:hover {
+  background: var(--field);
+}
+.doc-link > a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 6px;
+  color: var(--text);
+  text-decoration: none;
+  min-width: 0;
+}
+.doc-link-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.doc-link-text b,
+.doc-link-text i {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.doc-link-text b {
+  font-weight: 500;
+  font-size: 12.5px;
+}
+.doc-link-text i {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--muted);
+}

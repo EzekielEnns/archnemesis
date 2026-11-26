@@ -1,0 +1,13 @@
+{
+  "analytics": { "x": 1300, "y": 450 },
+  "customer": { "x": 0, "y": 60 },
+  "email": { "x": 1300, "y": 150 },
+  "orders-db": { "x": 940, "y": 60 },
+  "payments": { "x": 1300, "y": 0 },
+  "search-index": { "x": 940, "y": 320 },
+  "shop-api": { "x": 640, "y": 60 },
+  "storefront": { "x": 340, "y": 60 },
+  "support-agent": { "x": 0, "y": 320 },
+  "warehouse": { "x": 1300, "y": 300 },
+  "worker": { "x": 640, "y": 320 }
+}

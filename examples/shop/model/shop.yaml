@@ -1,0 +1,60 @@
+# Shop and everything inside it.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  shop:
+    kind: system
+    name: Shop
+    context: Everything we run to sell online.
+  orders-db:
+    kind: store
+    name: Orders DB
+    in: shop
+    tech: [Postgres]
+    tags: [personal-data:holds]
+    sources:
+      - shop@main:db/schema.sql
+  search-index:
+    kind: store
+    name: Search index
+    in: shop
+    tech: [OpenSearch]
+  shop-api:
+    kind: app
+    name: Shop API
+    in: shop
+    tech: [Go]
+  storefront:
+    kind: app
+    name: Storefront
+    in: shop
+    tech: [React]
+  worker:
+    kind: app
+    name: Worker
+    in: shop
+    tech: [Go]
+  cart:
+    kind: component
+    name: Cart
+    in: shop-api
+  catalog:
+    kind: component
+    name: Catalog
+    in: shop-api
+  checkout:
+    kind: component
+    name: Checkout
+    in: shop-api
+connections:
+  - { from: cart, to: orders-db, label: reads and writes, tech: SQL }
+  - { from: catalog, to: search-index, label: queries }
+  - { from: checkout, to: orders-db, label: writes orders, tech: SQL }
+  - { from: checkout, to: payments, label: charges cards, tech: HTTPS }
+  - { from: checkout, to: warehouse, label: ships orders, status: future }
+  - { from: storefront, to: cart, label: updates the cart, tech: JSON/HTTPS }
+  - { from: storefront, to: catalog, label: lists products, tech: JSON/HTTPS }
+  - { from: storefront, to: checkout, label: places orders, tech: JSON/HTTPS }
+  - { from: worker, to: analytics, label: exports events }
+  - { from: worker, to: email, label: sends receipts, tech: HTTPS }
+  - { from: worker, to: orders-db, label: reads new orders, tech: SQL }
+  - { from: worker, to: search-index, label: indexes products }

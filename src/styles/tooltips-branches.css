@@ -1,0 +1,279 @@
+/* Tooltips (data-tip) and the branches card and graph (src/ui/Branches.tsx). */
+
+/* --- Tooltips (data-tip) ---------------------------------------------------------------- */
+.tip {
+  position: fixed;
+  z-index: 1000;
+  transform: translateX(-50%);
+  max-width: 240px;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #0b0d11;
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  animation: tip-in 0.12s ease-out;
+}
+.tip.above {
+  transform: translate(-50%, -100%);
+}
+@keyframes tip-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* --- Branches: the card and the graph --------------------------------------------------- */
+.branch-wide.static {
+  cursor: default;
+}
+.branch-wide.static:hover {
+  background: none;
+}
+.br-cur {
+  border-left: 3px solid var(--lane, var(--accent));
+}
+.br-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lane);
+  flex: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lane) 22%, transparent);
+}
+.br-cur-name {
+  font-weight: 600;
+}
+.br-changes {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0 6px;
+  padding: 7px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.br-changes:hover:not(:disabled) {
+  border-color: var(--line-strong);
+}
+.br-changes:disabled {
+  cursor: default;
+  color: var(--muted);
+}
+.br-changes.on {
+  border-color: color-mix(in srgb, var(--lane) 55%, transparent);
+}
+.br-count {
+  flex: 1;
+  text-align: left;
+  color: #34d399;
+}
+.br-changes:disabled .br-count {
+  color: var(--muted);
+}
+.br-show {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+}
+.br-changes:hover .br-show,
+.br-changes.on .br-show {
+  color: var(--text);
+}
+.changes.in-card {
+  max-height: 220px;
+  overflow: auto;
+  margin: 0 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 0;
+  background: rgba(0, 0, 0, 0.18);
+}
+.br-behind {
+  color: #fbbf24;
+  font-size: 12px;
+  margin: 0 0 8px;
+}
+.cta.wide {
+  width: 100%;
+  flex: none;
+  margin-top: 2px;
+}
+.br-graph {
+  padding: 2px 0 8px;
+}
+.br-row {
+  padding: 0 12px 0 0;
+  gap: 2px;
+}
+.br-row .br-gutter {
+  flex: none;
+}
+.br-row.fork:hover .br-gutter path {
+  stroke-width: 2.5;
+}
+.br-row.on {
+  background: color-mix(in srgb, var(--lane) 10%, transparent);
+}
+.br-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.br-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+.br-row.on .br-label {
+  font-weight: 600;
+}
+.br-row.commit .br-label {
+  font-size: 12.5px;
+  color: var(--muted);
+}
+.br-row.commit.on .br-label {
+  color: var(--text);
+}
+.br-row.commit .br-meta {
+  font-size: 11px;
+}
+.br-you {
+  flex: none;
+  font-size: 10px;
+  padding: 0 5px;
+  border-radius: 5px;
+  color: var(--lane);
+  border: 1px solid color-mix(in srgb, var(--lane) 50%, transparent);
+}
+.br-here {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.br-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.br-av {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #111;
+  flex: none;
+}
+.br-hist {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  height: 30px;
+  padding: 0 12px 0 7px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.br-hist:hover {
+  color: var(--text);
+}
+.br-hist svg.open {
+  transform: rotate(90deg);
+}
+.br-hist svg {
+  transition: transform 0.12s;
+}
+.br-hist {
+  position: relative;
+  padding-left: 26px;
+}
+.br-hist[aria-expanded="true"]::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #7aa7ff;
+  opacity: 0.55;
+}
+/* The branches view fills the panel; history takes what's left and scrolls there, no bar. */
+.panel-body:has(.branches) {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.branches {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0;
+}
+.branches > * {
+  flex: none;
+}
+.branches > .br-history {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding-bottom: 10px;
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent);
+}
+.br-history::-webkit-scrollbar {
+  display: none;
+}
+.br-hist {
+  cursor: default;
+}
+.br-hist:hover {
+  color: var(--muted);
+}
+.br-hist.lane::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #7aa7ff;
+  opacity: 0.55;
+}
+.branches > .br-graph {
+  padding-bottom: 0;
+}
+/* The panel's lists scroll without a bar (as the branches' history does). */
+.left-panel .list.scroll {
+  scrollbar-width: none;
+}
+.left-panel .list.scroll::-webkit-scrollbar {
+  display: none;
+}
+/* The left panel is the same height on every tab (tree, code, branches): down to the zoom bar. */
+.drawer.left-panel.tab-model {
+  height: calc(100% - var(--drawer-top) - var(--drawer-bottom));
+}

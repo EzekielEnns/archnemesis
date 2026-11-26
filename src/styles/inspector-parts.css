@@ -1,0 +1,360 @@
+/* Inspector parts: guide bar, connection rows, impact, past-version banner, decisions, design menu rows, breadcrumbs (src/ui/Inspector.tsx, src/ui/DesignMenu.tsx). */
+
+button.step-add {
+  width: 100%;
+  margin: 6px 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* An agent showing you around (MCP point): what to look at, under the toolbar. */
+.guide-bar {
+  position: absolute;
+  top: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: min(560px, calc(100% - 32px));
+  padding: 10px 12px 10px 14px;
+  background: var(--panel);
+  border: 1px solid #c084fc66;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px #0008;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.guide-top {
+  display: flex;
+  gap: 10px;
+}
+.guide-who {
+  color: #c084fc;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.guide-say {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.guide-refs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-family: ui-monospace, monospace;
+  font-size: 11.5px;
+}
+.guide-refs a {
+  color: var(--accent, #7aa2ff);
+}
+.guide-actions {
+  flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.guide-actions .grow {
+  flex: 1;
+}
+.guide-ask {
+  flex: 1;
+  min-width: 0;
+}
+.guide-actions button {
+  white-space: nowrap;
+}
+
+/* Who's touched it: a name, then commits and when, on one line. */
+.touched .link-row {
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* A connection row you can click to light that arrow up. */
+.conn-list li.pickable {
+  cursor: pointer;
+  border-radius: 6px;
+}
+.conn-list li.pickable:hover {
+  background: var(--hover, #ffffff0d);
+}
+/* A link-styled row that is a button (Also on: a diagram). */
+.link-row.as-button {
+  width: 100%;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* A connection: who it's with (and through what) on top, what it does below. */
+.conn-list li.pickable {
+  padding: 4px 6px;
+  margin: 0 -6px;
+}
+.conn-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.conn-top {
+  display: flex;
+  gap: 6px;
+  min-width: 0;
+  align-items: baseline;
+}
+.conn-top .who {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.conn-top .via {
+  margin-left: auto;
+  font-size: 11px;
+}
+.conn-body .what {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* "← AWS": back to what was selected before a jump from the panel. */
+.panel-back {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 10px 14px -4px;
+  padding: 2px 8px 2px 6px;
+  align-self: flex-start;
+  max-width: calc(100% - 28px);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+.panel-back span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.panel-back:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+/* "+ Add technology" reads like the panel's other "+ Add …" lines. */
+.chip-field .add-chip {
+  color: var(--muted);
+  font-size: 12px;
+}
+.chip-field .add-chip:hover {
+  color: var(--text);
+}
+.tabs button {
+  white-space: nowrap;
+}
+.conn-list.touched .link-row {
+  padding: 3px 0;
+}
+
+/* "+" on an off-diagram connection: add that box here. */
+.conn-list li .row-add {
+  margin-left: 4px;
+  align-self: center;
+  flex: none;
+  opacity: 0.6;
+}
+.conn-list li:hover .row-add {
+  opacity: 1;
+}
+
+/* Impact: what depends on a box, or what it depends on, lit up on the diagram. */
+.impact {
+  margin: 2px 0 10px;
+}
+.impact .segs {
+  display: flex;
+  gap: 4px;
+}
+.impact .seg {
+  flex: 1;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11.5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.impact .seg:hover {
+  color: var(--text);
+}
+.impact .seg.on {
+  color: var(--text);
+  border-color: var(--accent, #60a5fa);
+  background: rgba(96, 165, 250, 0.12);
+}
+.impact p {
+  margin: 6px 0 0;
+}
+
+/* Looking at an earlier version: what and when, and the way back. */
+.past-banner {
+  border-color: #f59e0b;
+  font-size: 12.5px;
+  padding: 4px 4px 4px 12px;
+}
+.past-banner .cta {
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.branch-section.as-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+}
+.past-subject {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+/* Recording a decision. */
+.decision-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.decision-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.decision-form input,
+.decision-form select,
+.decision-form textarea {
+  font: inherit;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--field, #0f1218);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+.decision-form textarea {
+  resize: vertical;
+}
+.decision-row {
+  display: flex;
+  gap: 10px;
+}
+.decision-row label {
+  flex: 1;
+}
+
+.conn-top .via {
+  flex: none;
+}
+
+/* Design menu: what you can do with the open design. */
+.design-row.danger {
+  color: #f87171;
+}
+.design-lock {
+  margin-right: 5px;
+  vertical-align: -1px;
+  opacity: 0.8;
+}
+.design-note {
+  font-size: 12px;
+  color: var(--muted, #8a93a6);
+  padding: 4px 10px;
+}
+
+/* Breadcrumbs: top level / … / here, where "…" goes up one level. */
+.top-left .crumb.current {
+  min-width: 48px;
+}
+
+/* Other views at this level (Deployment beside the landscape): a quiet chip after the crumbs. */
+.conn-chip.other-views {
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  border: 0;
+  cursor: pointer;
+  flex: none;
+  gap: 3px;
+  padding: 4px 5px;
+  border-radius: 6px;
+}
+.other-views-n {
+  font-size: 11px;
+}
+.conn-chip.other-views:hover {
+  color: var(--text);
+  background: var(--hover, rgba(255, 255, 255, 0.06));
+}
+
+/* A tight bar gives up the design's name before the view you're on. */
+.top-left .design-menu {
+  min-width: 44px;
+  flex-shrink: 4;
+}
+.top-left .design-btn {
+  min-width: 0;
+  overflow: hidden;
+}
+.top-left .crumb.current {
+  flex: 0 0.15 auto;
+  min-width: 72px;
+  max-width: 200px;
+}
+
+/* Renaming a row in the drawer, in place. */
+.row-rename {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.3);
+  color: inherit;
+  font: inherit;
+}
+
+.design-hint {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 6px 8px 2px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+}
+
+/* Between an agent's wait calls: a press is kept for its next one. */
+.guide-actions .guide-quiet {
+  flex-basis: 100%;
+  font-size: 11px;
+}

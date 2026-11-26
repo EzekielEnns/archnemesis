@@ -1,0 +1,12 @@
+# A hand-picked diagram: exactly these boxes.
+name: Landscape
+story: |
+  The shop and who it deals with: customers and staff on the left, the services it pays for on the right.
+boxes:
+  - analytics
+  - customer
+  - email
+  - payments
+  - shop
+  - support-agent
+  - warehouse

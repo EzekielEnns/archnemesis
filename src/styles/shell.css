@@ -1,0 +1,233 @@
+/* App shell: workspace, canvas, sidebar and floating bars (src/Workspace.tsx, src/ui/Sidebar.tsx). */
+
+/* --- layout ------------------------------------------------------------------------ */
+
+.workspace {
+  height: 100%;
+}
+
+.stage,
+.bench {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+
+.canvas canvas {
+  display: block;
+}
+
+/* --- sidebar ----------------------------------------------------------------------- */
+
+.sidebar {
+  background: var(--side);
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.brand {
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.conn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.conn.live {
+  background: #34d399;
+}
+
+.conn.offline {
+  background: var(--danger);
+}
+
+.sidebar section {
+  padding: 4px 8px 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.sidebar section.grow {
+  flex: 1;
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 6px;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+button.icon {
+  padding: 0 7px;
+  line-height: 18px;
+}
+
+.search {
+  margin: 0 0 6px;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list.scroll {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.row:hover {
+  background: #1a1e26;
+}
+
+.row.active {
+  background: #1d2533;
+  color: #fff;
+}
+
+.row.external .name {
+  color: var(--muted);
+}
+
+.row.here .name::after {
+  content: " •";
+  color: var(--accent);
+}
+
+.row .name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row .count {
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.glyph {
+  color: var(--muted);
+  width: 10px;
+  font-size: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+/* --- floating bars ----------------------------------------------------------------- */
+
+.toolbar,
+.inspector,
+.meter,
+.hint {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+}
+
+.toolbar {
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  max-width: calc(100% - 24px);
+}
+
+.toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.toolbar select {
+  width: auto;
+}
+
+.sep {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+  flex: none;
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.crumb {
+  border: 0;
+  background: transparent;
+  padding: 3px 6px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.crumb.current {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.crumb-input {
+  width: 200px;
+}
+
+.adds {
+  display: flex;
+  gap: 4px;
+}
+
+.adds button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}

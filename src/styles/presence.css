@@ -1,0 +1,139 @@
+/* Who is here: peer avatars and the here list (src/ui/Peers.tsx). */
+
+/* --- presence ------------------------------------------------------------------------ */
+.top-right {
+  top: 12px;
+  right: 12px;
+}
+.island.peers {
+  gap: 4px;
+  height: 42px;
+}
+.peer {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--panel);
+  color: #0b0d12;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  padding: 0;
+}
+.peer:hover {
+  outline: 2px solid var(--line);
+}
+.peer.me {
+  opacity: 0.85;
+}
+/* Someone on another design or fork. */
+.peer.away {
+  opacity: 0.5;
+  border-style: dashed;
+  border-color: var(--line);
+}
+.peer.away:hover {
+  opacity: 0.9;
+}
+.peer-more {
+  font-size: 11px;
+  color: var(--muted, #8a93a6);
+  padding: 0 6px;
+  height: 28px;
+  min-width: 28px;
+  border: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  font-weight: 600;
+}
+.peer-more:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.1);
+}
+/* Nothing folded: just the way into the list. */
+.peer-more.quiet {
+  background: transparent;
+  min-width: 20px;
+  padding: 0 2px;
+}
+/* Everyone on Archnemesis: people here, elsewhere, then agents. */
+.here-list {
+  position: fixed;
+  width: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  z-index: 60;
+}
+.here-group + .here-group {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+.here-list .design-row.here-row {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.peer.small {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  font-size: 10px;
+}
+.here-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.here-text .design-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.link-btn {
+  background: none;
+  border: 0;
+  color: var(--muted, #8a93a6);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 6px;
+}
+.signin {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--bg, #0b0d12);
+}
+.signin form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;
+}
+.signin h1 {
+  margin: 0;
+  font-size: 22px;
+}
+.signin p {
+  margin: 0;
+  color: var(--muted, #8a93a6);
+  font-size: 13px;
+}
+.signin input,
+.signin button {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: inherit;
+  padding: 0 10px;
+}
+.signin button {
+  cursor: pointer;
+}

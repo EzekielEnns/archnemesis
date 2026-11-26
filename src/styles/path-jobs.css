@@ -1,0 +1,124 @@
+/* Path flows, breadcrumb icons, search button, agent job banners, markdown, agent context (src/ui/Inspector.tsx, src/ui/JobBanner.tsx, src/ui/AgentContext.tsx). */
+
+/* --- path flows ----------------------------------------------------------------------- */
+/* The left pane stays open for a path, so its chip sits in the middle, under the toolbar. */
+.flow-chip.path-chip {
+  left: 50%;
+  transform: translateX(-50%);
+  border-color: #f2c14e66;
+  padding-right: 4px;
+}
+.flow-chip.path-chip > svg:first-child {
+  color: #f2c14e;
+  flex: none;
+}
+.glyph-icon.path {
+  color: #f2c14e;
+}
+.row.nav .new.plugs {
+  opacity: 0.6;
+}
+.lib-warn {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 6px 0;
+}
+.tag.warn {
+  background: #3a2a10;
+  color: #f2c14e;
+  border: 1px solid #5a4318;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+}
+.lib-stats a {
+  color: inherit;
+}
+.lib-stats {
+  row-gap: 6px;
+  margin-top: 8px;
+}
+
+/* A connection's ends, as links that select them: they read as the title, not as links. */
+.inspector h3.ends button.linkish.end {
+  color: inherit;
+  font: inherit;
+  font-weight: 600;
+}
+.inspector h3.ends button.linkish.end:hover {
+  color: var(--accent);
+}
+.inspector .walk {
+  margin-top: 14px;
+}
+
+/* The breadcrumbs: icon buttons to get around (design, fork, top, up, back) and the name of
+   where you are, the only words. */
+.crumbs .crumb-div {
+  width: 1px;
+  height: 16px;
+  background: var(--line-strong);
+  margin: 0 4px;
+  flex: none;
+}
+.crumbs .crumb-icon {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  color: var(--muted);
+}
+.crumbs .crumb-icon:hover:not(:disabled) {
+  color: var(--text);
+}
+.crumbs .crumb-back {
+  color: var(--accent);
+  animation: crumb-in 160ms ease-out;
+}
+@keyframes crumb-in {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+}
+.crumbs .design-btn {
+  padding: 0 6px;
+}
+.source-row .code-ref {
+  padding: 0;
+}
+
+/* The model tree: what's selected on the canvas, marked. */
+.row.nav.picked {
+  background: rgba(79, 140, 255, 0.16);
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+.row.nav.picked .name {
+  color: var(--text);
+}
+/* Search lives in the ⌘K palette; the drawer just opens it. */
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  color: var(--muted);
+  text-align: left;
+}
+.search-btn span {
+  flex: 1;
+}
+.search-btn kbd {
+  font: inherit;
+  font-size: 10.5px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+}
+.search-btn:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+}

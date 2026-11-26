@@ -1,0 +1,52 @@
+# The server-less build (pnpm build:static), published to this repository's GitHub Pages on
+# every push to main. Designs live in each visitor's browser; nothing is sent anywhere.
+#
+# Once, in the repository's settings: Pages -> Source: GitHub Actions.
+# Optional, for WebMCP without a browser flag while Chrome has it as an origin trial: register
+# the Pages address (https://<owner>.github.io, or your own domain) for the trial and put the
+# token in a repository variable named ORIGIN_TRIAL_TOKENS (Settings -> Secrets and variables ->
+# Actions -> Variables). A token is public by nature: it ends up in the page.
+name: pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      # No install scripts: the only one is the git hook, which has no use here.
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm build:static
+        env:
+          ORIGIN_TRIAL_TOKENS: ${{ vars.ORIGIN_TRIAL_TOKENS }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-static
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment

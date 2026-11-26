@@ -1,0 +1,8 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Shop
+scope: shop
+story: |
+  How an order goes through the shop. Start at the storefront; orders land in Postgres, and the worker picks them up.
+include:
+  - children: shop
+  - neighbours: shop

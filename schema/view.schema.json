@@ -1,0 +1,352 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "archnm/view.schema.json",
+  "title": "Archnemesis view file (views/*.yaml): one diagram",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name"],
+  "not": {
+    "required": ["boxes", "include"]
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The diagram's title."
+    },
+    "scope": {
+      "type": "string",
+      "description": "The object whose inside this diagram shows; leave out for a landscape."
+    },
+    "arrows": {
+      "enum": ["curved", "elbow", "straight"],
+      "description": "How arrows are drawn; leave out for curved."
+    },
+    "tidy": {
+      "enum": ["right", "down"],
+      "description": "Which way Tidy lays it out. Moves nothing on its own."
+    },
+    "keep_tidy": {
+      "type": "boolean",
+      "description": "Lay it out again on its own whenever boxes or arrows come or go. Leave it out unless asked: it moves boxes people placed."
+    },
+    "boundaries": {
+      "type": "boolean",
+      "description": "Draw boundaries (projects, networks) as frames."
+    },
+    "color_by": {
+      "type": "string",
+      "description": "Colour boxes by a tag group from archnm.yaml (personal-data), with a legend."
+    },
+    "story": {
+      "type": "string",
+      "description": "How to read it, in a few lines of markdown: what it shows and where to start. Shown as the diagram's caption."
+    },
+    "context": {
+      "type": "string",
+      "description": "For agents, in markdown: the brief behind this view (goals, constraints, what's decided, what's still open, where the code is, what to do next). Not drawn; given in full to an agent that opens the view."
+    },
+    "fold": {
+      "enum": ["groups", "externals", "none"],
+      "description": "groups: boxes fold into one box per group: tag (externals without one together); opening a group box opens that group's view. A view never folds the group it's about (include tag: group:x). externals: all externals into one box. none: each drawn. Left out: only externals fold by group on a landscape (no scope), none elsewhere."
+    },
+    "unfolded": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Folded groups opened on this view (Unfold here): each is drawn as a frame around its boxes that folds back. A group: tag's value, or externals for the externals without one."
+    },
+    "hide_lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "One rule: exactly one of these.",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "These objects, by id."
+          },
+          "children": {
+            "type": "string",
+            "description": "Everything directly inside this object."
+          },
+          "descendants": {
+            "type": "string",
+            "description": "Everything inside this object, at any depth."
+          },
+          "neighbours": {
+            "type": "string",
+            "description": "Everything connected to this object."
+          },
+          "tag": {
+            "type": "string",
+            "description": "Everything with this tag."
+          },
+          "kind": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Everything of this kind."
+          },
+          "status": {
+            "enum": ["live", "future", "deprecated", "removed"],
+            "description": "Everything with this status."
+          },
+          "uses": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Whatever calls or uses something of this kind (uses: library for a dependency graph)."
+          },
+          "guess": {
+            "type": "boolean",
+            "enum": [true],
+            "description": "Guesses: in hide_lines, every guessed line (a call matched by name); in include/exclude, guessed boxes."
+          }
+        }
+      },
+      "description": "Connections touching what these pick aren't drawn here (shared infrastructure, logging); the boxes still are."
+    },
+    "lanes": {
+      "type": "string",
+      "description": "A tag group from archnm.yaml: tidy lays its values out as columns, in the order archnm.yaml lists them, each framed."
+    },
+    "boxes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Hand-picked: exactly these objects. Not with include/exclude."
+    },
+    "include": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "One rule: exactly one of these.",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "These objects, by id."
+          },
+          "children": {
+            "type": "string",
+            "description": "Everything directly inside this object."
+          },
+          "descendants": {
+            "type": "string",
+            "description": "Everything inside this object, at any depth."
+          },
+          "neighbours": {
+            "type": "string",
+            "description": "Everything connected to this object."
+          },
+          "tag": {
+            "type": "string",
+            "description": "Everything with this tag."
+          },
+          "kind": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Everything of this kind."
+          },
+          "status": {
+            "enum": ["live", "future", "deprecated", "removed"],
+            "description": "Everything with this status."
+          },
+          "uses": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Whatever calls or uses something of this kind (uses: library for a dependency graph)."
+          },
+          "guess": {
+            "type": "boolean",
+            "enum": [true],
+            "description": "Guesses: in hide_lines, every guessed line (a call matched by name); in include/exclude, guessed boxes."
+          }
+        }
+      },
+      "description": "Rules for what's on it; new matches appear on their own."
+    },
+    "exclude": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "One rule: exactly one of these.",
+        "minProperties": 1,
+        "maxProperties": 1,
+        "additionalProperties": false,
+        "properties": {
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "These objects, by id."
+          },
+          "children": {
+            "type": "string",
+            "description": "Everything directly inside this object."
+          },
+          "descendants": {
+            "type": "string",
+            "description": "Everything inside this object, at any depth."
+          },
+          "neighbours": {
+            "type": "string",
+            "description": "Everything connected to this object."
+          },
+          "tag": {
+            "type": "string",
+            "description": "Everything with this tag."
+          },
+          "kind": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Everything of this kind."
+          },
+          "status": {
+            "enum": ["live", "future", "deprecated", "removed"],
+            "description": "Everything with this status."
+          },
+          "uses": {
+            "enum": [
+              "actor",
+              "system",
+              "app",
+              "store",
+              "component",
+              "module",
+              "function",
+              "library",
+              "table"
+            ],
+            "description": "Whatever calls or uses something of this kind (uses: library for a dependency graph)."
+          },
+          "guess": {
+            "type": "boolean",
+            "enum": [true],
+            "description": "Guesses: in hide_lines, every guessed line (a call matched by name); in include/exclude, guessed boxes."
+          }
+        }
+      },
+      "description": "Rules for what to leave off."
+    },
+    "flows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "steps"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "What the flow shows (\"Check out\")."
+          },
+          "kind": {
+            "enum": ["story", "path"],
+            "description": "story (left out): told step by step with a panel. path: a route lit through the graph all at once, for following calls through code."
+          },
+          "steps": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["from", "to"],
+              "properties": {
+                "from": {
+                  "type": "string",
+                  "description": "Who acts (an object id)."
+                },
+                "to": {
+                  "type": "string",
+                  "description": "Who it acts on; the same id as from for something done inside one box."
+                },
+                "text": {
+                  "type": "string",
+                  "description": "What happens in this step."
+                }
+              }
+            },
+            "description": "In order."
+          }
+        }
+      },
+      "description": "Step-by-step stories played on this diagram."
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["url"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "What to call it; defaults to the address."
+          },
+          "url": {
+            "type": "string",
+            "description": "An http or https address.",
+            "format": "uri"
+          }
+        }
+      },
+      "description": "Docs about the diagram as a whole (a box's own docs go on the box)."
+    }
+  }
+}

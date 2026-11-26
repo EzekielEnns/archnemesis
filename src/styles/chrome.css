@@ -1,0 +1,145 @@
+/* Floating chrome: islands, top-left bar, toasts, minimap head (src/ui/Chrome.tsx). */
+
+/* --- floating chrome, Excalidraw-style ------------------------------------------------ */
+.chrome {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+.island {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+.island .sep {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+  margin: 0 4px;
+}
+.island .icon-btn {
+  width: 32px;
+  height: 32px;
+}
+.top-left {
+  top: 12px;
+  left: calc(var(--inset, 0px) + 12px);
+  transition: left 160ms ease;
+  /* Stops short of the tool bar in the middle (about 560px wide), whatever the names. */
+  max-width: calc(50% - 300px - var(--inset, 0px) / 2);
+}
+.top-left .crumb {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.top-left .crumb.current {
+  flex-shrink: 0.4;
+}
+.top-left .crumbs {
+  padding: 4px 10px;
+  height: 42px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.top-center {
+  top: 12px;
+  /* Centred in what the drawer leaves visible. */
+  /* Centred in what's free: past the drawer or the left panel's room, short of the people island. */
+  /* Centred in what the drawer or a docked panel leaves (the page, when nothing's docked). */
+  left: calc(
+    max(var(--inset, 0px), var(--dock, 0px)) + (100% - max(var(--inset, 0px), var(--dock, 0px))) / 2
+  );
+  transition: left 160ms ease;
+  transform: translateX(-50%);
+  flex-direction: column;
+  gap: 6px;
+}
+.tools .tool {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text);
+  padding: 0;
+}
+.tools .tool:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.tools .tool.on {
+  background: rgba(79, 140, 255, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(79, 140, 255, 0.5);
+}
+.tools .tool sub {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--muted);
+}
+.tool-hint {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.tool-hint b {
+  color: var(--text);
+}
+.bottom-left {
+  bottom: 12px;
+  left: calc(var(--inset, 0px) + 12px);
+  transition: left 160ms ease;
+}
+.bottom-right {
+  bottom: 12px;
+  right: 12px;
+}
+.zoom-pct {
+  min-width: 52px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+}
+.zoom-pct:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+/* Sits on top of the canvas-drawn minimap (200 x 130, 60px up from the bottom). */
+.mini-head {
+  left: calc(var(--inset, 0px) + 12px);
+  bottom: 190px;
+  width: 200px;
+  gap: 2px;
+  padding: 3px 4px 3px 10px;
+  font-size: 11px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+}
+.mini-head .icon-btn.tiny {
+  width: 22px;
+  height: 22px;
+}
+.toasts {
+  bottom: 64px;
+}
+.tag-banner {
+  top: 104px;
+}

@@ -1,0 +1,8 @@
+# A diagram that follows the model: its boxes are whatever these rules match.
+name: Shop API
+scope: shop-api
+story: |
+  Inside the API: one component per job, each with the store it owns.
+include:
+  - children: shop-api
+  - neighbours: shop-api

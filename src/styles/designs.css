@@ -1,0 +1,237 @@
+/* Design menu and design list, branch pill and menu (src/ui/DesignMenu.tsx, src/ui/BranchMenu.tsx). */
+
+/* --- designs (top left) ------------------------------------------------------------------ */
+.design-menu {
+  position: relative;
+  display: inline-flex;
+}
+.design-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 2px;
+  font: inherit;
+}
+.design-list {
+  position: fixed;
+  min-width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: auto;
+  padding: 4px;
+  gap: 2px;
+  z-index: 20;
+}
+.design-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+.design-row:hover,
+.design-row.on {
+  background: rgba(255, 255, 255, 0.06);
+}
+.design-row.new {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.8;
+}
+.design-name {
+  font-size: 13px;
+}
+.design-meta {
+  font-size: 11px;
+  opacity: 0.55;
+}
+.design-input {
+  margin: 2px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.3);
+  color: inherit;
+  font: inherit;
+}
+.design-error {
+  font-size: 11px;
+  color: #f87171;
+  padding: 4px 8px;
+}
+
+/* --- branches: the pill next to the design, and its menu ----------------------------- */
+.branch-menu {
+  display: flex;
+  align-items: center;
+  margin-left: 4px;
+}
+.branch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 8px;
+  margin-left: 2px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.branch-pill:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.branch-pill.quiet {
+  padding: 0 6px;
+  opacity: 0.7;
+}
+.branch-pill.quiet:hover {
+  color: var(--text);
+}
+.branch-pill.fork {
+  color: #c4b5fd;
+}
+.branch-pill.bad {
+  color: var(--danger);
+}
+.branch-list {
+  width: 320px;
+}
+.branch-head {
+  padding: 8px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.branch-head > .design-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.branch-note {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+.branch-note.warn {
+  color: #fbbf24;
+}
+.branch-section {
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 8px 2px;
+}
+.design-row.action {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+.design-row:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.design-name svg {
+  vertical-align: -1px;
+  margin-right: 2px;
+}
+.branch-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+}
+.branch-form .design-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.branch-form-row {
+  display: flex;
+  gap: 8px;
+}
+.branch-form-row button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.branch-form-row button.primary {
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+  color: #fff;
+}
+.branch-form-row button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.spin {
+  animation: spin 0.9s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.b-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+.b-icon.ok {
+  color: #4ade80;
+}
+.b-icon.pr {
+  color: #a78bfa;
+}
+.b-icon.warn {
+  color: #fbbf24;
+}
+.b-muted {
+  color: var(--muted);
+}
+.b-bad {
+  color: var(--danger);
+}
+.fork-row-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+a.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}

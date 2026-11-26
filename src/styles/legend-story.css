@@ -1,0 +1,79 @@
+/* Colour-by legend and a diagram story in the inspector (src/Workspace.tsx, src/ui/Inspector.tsx). */
+
+/* Colour-by legend: bottom left of the canvas, above the zoom controls. */
+.legend {
+  position: absolute;
+  left: 12px;
+  bottom: 60px;
+  z-index: 3;
+  min-width: 140px;
+  max-width: 240px;
+  padding: 8px 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+}
+.legend-title {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 20px;
+}
+.legend-row .swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+}
+.legend-row .count {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+}
+.grid.refs .ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.decision-accepted {
+  color: #4fb286;
+}
+.decision-proposed {
+  color: #e0a03c;
+}
+.decision-rejected,
+.decision-superseded {
+  text-decoration: line-through;
+}
+
+/* A diagram's story, in the inspector when the diagram's frame is clicked. */
+.story h4 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.story-body {
+  color: var(--muted);
+  line-height: 1.5;
+}
+.story-body p {
+  margin: 4px 0 0;
+}
+.story-body p:first-child {
+  color: var(--text);
+}
+.story textarea {
+  width: 100%;
+  min-height: 140px;
+}

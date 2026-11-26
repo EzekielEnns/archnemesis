@@ -1,0 +1,458 @@
+/* The node card, first half (src/ui/NodeCard.tsx). */
+
+/* ---- The node card (src/ui/NodeCard.tsx; docs/prototypes/node-card.html, "A") ---- */
+.inspector.node-card {
+  width: 360px;
+  border-radius: 14px;
+  overflow: visible;
+  --faint: #5d6576;
+  --field2: #222733;
+}
+.float-panel .inspector.node-card {
+  max-height: none;
+}
+.node-card .mono {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.node-card .ib {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.node-card .ib:hover {
+  background: var(--field);
+  color: var(--text);
+}
+.nc-stack {
+  position: relative;
+}
+.nc-view {
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s;
+}
+.nc-sub {
+  position: absolute;
+  inset: 0;
+  transform: translateX(40px);
+  opacity: 0;
+  pointer-events: none;
+  background: var(--panel);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.nc-stack.in {
+  min-height: 380px;
+}
+.nc-stack.in .nc-main {
+  transform: translateX(-30px);
+  opacity: 0;
+  pointer-events: none;
+}
+.nc-stack.in .nc-sub {
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+}
+.nc-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 10px 2px 14px;
+}
+.nc-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 0;
+  display: grid;
+  place-items: center;
+  background: var(--field2);
+  flex: none;
+  cursor: pointer;
+  padding: 0;
+}
+.nc-icon .dot {
+  width: 11px;
+  height: 11px;
+}
+.nc-title {
+  flex: 1;
+  min-width: 0;
+}
+.node-card .nc-name {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  padding: 0;
+  color: var(--text);
+  font: 650 16px/1.25 inherit;
+  font-family: inherit;
+}
+.node-card .nc-name.mono {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 14.5px;
+}
+.nc-kind {
+  font-size: 11.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nc-kind .linkish {
+  font-size: inherit;
+  padding: 0;
+}
+.node-card .nc-logo {
+  margin-top: 4px;
+  width: 100%;
+  font-size: 12px;
+}
+.nc-acts {
+  display: flex;
+  gap: 0;
+  flex: none;
+}
+.nc-acts .icon {
+  width: 28px;
+  height: 28px;
+}
+.nc-sum {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 6px 12px 0 14px;
+}
+.node-card .nc-sum-line {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  padding: 2px 0;
+  color: #cfd5df;
+  font-size: 13.5px;
+  font-family: inherit;
+}
+.node-card .nc-sum-line::placeholder {
+  color: var(--faint);
+  font-style: italic;
+}
+.nc-pen {
+  width: auto !important;
+  padding: 0 6px !important;
+  gap: 4px;
+  display: inline-flex !important;
+  align-items: center;
+  opacity: 0.55;
+}
+.node-card:hover .nc-pen {
+  opacity: 1;
+}
+.nc-pen-more {
+  font-size: 11px;
+}
+.nc-tech,
+.nc-facts {
+  padding: 8px 14px 0;
+}
+.nc-facts {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 4px 10px;
+  font-size: 12.5px;
+  align-items: center;
+}
+.nc-fk {
+  color: var(--muted);
+}
+.nc-fv {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.node-card input.nc-fv {
+  border: 0;
+  background: none;
+  color: var(--text);
+  outline: 0;
+  padding: 0;
+  font-size: 12px;
+}
+.nc-sect {
+  padding: 14px 14px 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+button.nc-sect {
+  width: 100%;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  font-size: 10.5px;
+}
+button.nc-sect:hover {
+  color: var(--muted);
+}
+.nc-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.nc-tech.nc-addbar {
+  padding: 8px 14px 0;
+}
+.nc-chip {
+  font-size: 11.5px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--field2);
+  color: #c7ccd6;
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.nc-chip:hover {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+.nc-chip.static {
+  cursor: default;
+}
+.nc-sect .sp,
+.nc-foot .spacer {
+  flex: 1;
+}
+.nc-n {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.nc-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 14px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+}
+.nc-link:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.nc-dir {
+  width: 14px;
+  color: var(--faint);
+  text-align: center;
+  flex: none;
+}
+.nc-who {
+  font-weight: 550;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.nc-via {
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 45%;
+  flex: none;
+}
+.nc-more {
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: 12.5px;
+  padding: 4px 14px 2px 36px;
+  cursor: pointer;
+}
+.nc-rows {
+  margin: 12px 10px 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.nc-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: none;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+}
+.nc-row:first-child {
+  border-top: 0;
+}
+.nc-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.nc-peek {
+  flex: 1;
+  min-width: 0;
+  color: var(--faint);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nc-chev {
+  color: var(--faint);
+  flex: none;
+}
+.nc-addbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px 12px 10px;
+}
+.nc-addbar button {
+  border: 1px dashed var(--line-strong);
+  background: none;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.nc-addbar button:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+.nc-foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-top: 1px solid var(--line);
+}
+.nc-foot .act {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  padding: 5px 8px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+.node-card .ib.on {
+  color: var(--accent);
+}
+.nc-foot .act:hover {
+  background: var(--field);
+  color: var(--text);
+}
+.nc-foot .act.danger:hover {
+  color: var(--danger);
+}
+.nc-foot > .muted {
+  padding-left: 6px;
+}
+.nc-also {
+  position: absolute;
+  left: 8px;
+  bottom: calc(100% + 6px);
+  width: 320px;
+  z-index: 20;
+  background: #1a1e26;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5);
+  padding: 6px;
+}
+.nc-also-h {
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 6px 8px 4px;
+}
+.nc-also-d {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+}
+.nc-also-d:disabled {
+  cursor: default;
+  opacity: 1;
+}
+.nc-also-d:not(:disabled):hover,
+.nc-also-d.on {
+  background: rgba(79, 140, 255, 0.14);
+}
+.nc-also-t {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+.nc-also-t > span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nc-also-p {
+  color: var(--faint);
+  font-size: 11.5px;
+}
+.nc-also-n {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11.5px;
+  /* "8 connections" stays on one line. */
+  white-space: nowrap;
+  flex: none;
+}
+.nc-here {
+  margin-left: auto;
+  font-size: 10.5px;
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-radius: 5px;
+  padding: 0 5px;
+  flex: none;
+}

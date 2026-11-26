@@ -1,0 +1,61 @@
+# The simplest self-host: one container, sign-in by tokens.
+#
+#   cp examples/tokens.example.json tokens.json     # then replace each token (16+ random characters)
+#   docker compose up -d --build
+#   open http://127.0.0.1:5190
+#
+# /data holds the live database (a named volume); ./architecture holds one folder of YAML per
+# design, which you can put in git (the container runs as uid 1000, so on Linux that folder and
+# the volume must be writable by it). Every setting is listed by `node cli/archnm.ts config`.
+services:
+  archnm:
+    build: .
+    image: archnm
+    restart: unless-stopped
+    ports:
+      - "5190:5190"
+    volumes:
+      - archnm-data:/data
+      - ./architecture:/architecture
+      - ./tokens.json:/run/archnm/tokens.json:ro
+    environment:
+      ARCHNM_AUTH: tokens
+      ARCHNM_TOKENS: /run/archnm/tokens.json
+      # The address people use in the browser; requests for any other host are refused
+      # (127.0.0.1:5190 and localhost:5190 always work). Set it when it is a domain, or when
+      # the host port above is not 5190.
+      ARCHNM_PUBLIC_URL: ${ARCHNM_PUBLIC_URL:-http://127.0.0.1:5190}
+
+      # Instead of tokens, one of these (delete the tokens settings above, or keep the
+      # tokens file beside them for agents and scripts that cannot sign in).
+      # Who may do what: ARCHNM_ADMINS, ARCHNM_EDITORS, ARCHNM_VIEWERS (examples/auth/README.md).
+      #
+      # Any OpenID Connect provider (Keycloak, Authentik, Okta, Auth0, Google, Entra ID):
+      #   ARCHNM_AUTH: oidc
+      #   ARCHNM_OIDC_ISSUER: https://id.example.com/realms/main
+      #   ARCHNM_OIDC_CLIENT_ID: archnm
+      #   ARCHNM_OIDC_CLIENT_SECRET: ${OIDC_CLIENT_SECRET}
+      #   ARCHNM_ADMINS: you@example.com
+      #   ARCHNM_EDITORS: "@example.com"
+      #
+      # GitHub accounts (needs the GitHub App; the lists name GitHub logins):
+      #   ARCHNM_AUTH: github
+      #   ARCHNM_ADMINS: your-github-login
+      #   ARCHNM_EDITORS: your-github-login, a-teammate
+      #
+      # Behind a proxy that signs in for you, here Cloudflare Access (or `header`, with the
+      # ARCHNM_HEADER_* settings, for oauth2-proxy, Pomerium and the like):
+      #   ARCHNM_AUTH: cloudflare-access
+      #   ARCHNM_CLOUDFLARE_TEAM: acme.cloudflareaccess.com
+      #   ARCHNM_CLOUDFLARE_AUD: <the application's AUD tag>
+      #
+      # A sign-in module of your own (examples/auth/README.md). Set ARCHNM_AUTH to its path
+      # in the container and add this line under volumes above:
+      #   - ./my-provider.js:/auth/provider.js:ro
+      #   ARCHNM_AUTH: /auth/provider.js
+      #
+      # Copy the database to a bucket as it changes, for a host whose disk does not last
+      # (leave unset when /data is a real volume):
+      #   ARCHNM_LITESTREAM_URL: gs://my-bucket/archnm
+volumes:
+  archnm-data:

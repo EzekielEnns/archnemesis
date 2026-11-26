@@ -1,0 +1,143 @@
+/* Model navigator tree and code facts (src/ui/Sidebar.tsx, src/ui/Inspector.tsx). */
+
+/* --- model navigator (lsd --tree) ----------------------------------------------------- */
+.nav-head {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.nav-head .search {
+  flex: 1;
+  min-width: 0;
+}
+.nav-head .icon-btn.on {
+  color: var(--accent);
+}
+.row.nav {
+  gap: 4px;
+}
+.row.nav.here .name::after {
+  content: none;
+}
+.row.nav .guides {
+  display: flex;
+  align-self: stretch;
+  flex: none;
+}
+.row.nav .g {
+  width: 14px;
+  position: relative;
+  flex: none;
+}
+.row.nav .g.bar::before,
+.row.nav .g.tee::before,
+.row.nav .g.elbow::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  border-left: 1px solid #343b48;
+}
+.row.nav .g.bar::before,
+.row.nav .g.tee::before {
+  bottom: 0;
+}
+.row.nav .g.elbow::before {
+  height: 50%;
+}
+.row.nav .g.tee::after,
+.row.nav .g.elbow::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 7px;
+  border-top: 1px solid #343b48;
+}
+.row.nav .twist {
+  width: 12px;
+  flex: none;
+  display: inline-flex;
+  color: var(--muted);
+  transition: transform 0.1s;
+}
+.row.nav .twist.open {
+  transform: rotate(90deg);
+}
+.row.nav .nav-icon {
+  flex: none;
+}
+.row.nav .nav-icon.folder {
+  color: #e0b46a;
+}
+.row.nav .nav-icon.file {
+  color: #f0a060;
+}
+.row.nav .nav-icon.fn {
+  color: #7dcfcf;
+}
+.row.nav .nav-icon.table {
+  color: #f2c46d;
+}
+.row.nav .name.code {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+}
+.row.nav .new {
+  color: #f2c14e;
+  font-size: 11px;
+  flex: none;
+}
+.row.nav .here-dot {
+  color: var(--accent);
+  font-size: 9px;
+  flex: none;
+}
+.row.nav .add {
+  flex: none;
+  display: none;
+  color: var(--muted);
+  border-radius: 4px;
+  padding: 1px;
+}
+.row.nav:hover .add {
+  display: inline-flex;
+}
+.row.nav .add:hover {
+  color: var(--text, #fff);
+  background: #2a303c;
+}
+.row.nav .name {
+  flex: 1;
+  min-width: 0;
+}
+
+/* --- inspector: code facts ------------------------------------------------------------ */
+.code-facts .code,
+.code-facts .who.code,
+.code-facts .code-ref {
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 12px;
+}
+.code-facts .code-ref {
+  padding: 4px 0;
+  color: #f0a060;
+  word-break: break-all;
+}
+.code-facts .hop {
+  font-size: 10.5px;
+  color: #8fd1b8;
+  border: 1px dashed #8fd1b8;
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-left: 6px;
+  flex: none;
+}
+.note-flag {
+  font-size: 10px;
+  color: #f2c14e;
+  border: 1px solid #f2c14e55;
+  border-radius: 4px;
+  padding: 0 4px;
+  margin-left: 6px;
+}

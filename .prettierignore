@@ -1,0 +1,11 @@
+dist
+dist-static
+node_modules
+pnpm-lock.yaml
+data
+result
+.bench
+.claude
+docs
+server/testdata
+eslint-suppressions.json

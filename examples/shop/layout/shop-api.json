@@ -1,0 +1,11 @@
+{
+  "cart": { "x": 340, "y": 180 },
+  "catalog": { "x": 340, "y": 40 },
+  "checkout": { "x": 340, "y": 320 },
+  "orders-db": { "x": 700, "y": 160 },
+  "payments": { "x": 700, "y": 320 },
+  "search-index": { "x": 700, "y": 0 },
+  "storefront": { "x": 0, "y": 140 },
+  "support-agent": { "x": 0, "y": 340 },
+  "warehouse": { "x": 700, "y": 460 }
+}

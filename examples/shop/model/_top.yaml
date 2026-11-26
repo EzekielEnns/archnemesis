@@ -1,0 +1,33 @@
+# Top-level objects with nothing inside them, and entities nothing defines yet.
+# Objects by id, entities by name; connections live with their caller. See AGENTS.md.
+objects:
+  analytics:
+    kind: system
+    name: Analytics
+    tech: [BigQuery]
+  customer:
+    kind: actor
+    name: Customer
+    context: Someone buying from the shop.
+  email:
+    kind: system
+    name: Email
+    tech: [Postmark]
+    external: true
+  payments:
+    kind: system
+    name: Payments
+    tech: [Stripe]
+    external: true
+    tags: [contract:sub-processor]
+  support-agent:
+    kind: actor
+    name: Support agent
+  warehouse:
+    kind: system
+    name: Warehouse
+    context: Fulfilment, planned for next year.
+    status: future
+connections:
+  - { from: customer, to: storefront, label: browses and buys, tech: HTTPS }
+  - { from: support-agent, to: catalog, label: edits products, tech: HTTPS }

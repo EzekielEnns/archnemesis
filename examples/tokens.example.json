@@ -1,0 +1,23 @@
+[
+  {
+    "token": "replace-with-at-least-16-random-chars",
+    "id": "alex",
+    "name": "Alex",
+    "kind": "human",
+    "roles": ["admin"]
+  },
+  {
+    "token": "replace-with-another-long-random-one",
+    "id": "agent",
+    "name": "Agent",
+    "kind": "agent",
+    "roles": ["editor"]
+  },
+  {
+    "token": "replace-with-a-third-long-random-one",
+    "id": "viewer",
+    "name": "Viewer",
+    "kind": "human",
+    "roles": ["viewer"]
+  }
+]

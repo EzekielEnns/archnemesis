@@ -1,0 +1,15 @@
+# Archnemesis
+
+> Archnemesis (command: archnm) is an open source, self-hosted tool for drawing software architecture. It keeps one model of a system (actors, systems, apps, stores, components, and for code: modules, functions, libraries, tables), the connections between them, and as many views and flows over it as you need. The model is saved as YAML files in git. People edit it live on a canvas; AI agents read and change it through an MCP server (on a server install) or WebMCP (on the static, server-less build).
+
+If you are an AI agent: connect to the MCP endpoint at `<server>/mcp`, call the `guide` tool with topic `grammar` before your first write, then follow read, write with dry_run, write, read with lens problems, design propose. Two good first tasks: "Map this repo into Archnemesis" and "Plan <feature> in Archnemesis".
+
+The repository is https://github.com/EzekielEnns/archnemesis. The app itself is at https://ezekielenns.github.io/archnemesis/.
+
+- [README](https://github.com/EzekielEnns/archnemesis/blob/main/README.md): what it is and the fastest ways to run it
+- [For AI agents](https://github.com/EzekielEnns/archnemesis/blob/main/README.md#for-ai-agents): how to connect, the tools and the loop to follow
+- [File grammar](https://github.com/EzekielEnns/archnemesis/blob/main/docs/grammar-v2.md): the YAML format, also how agents write
+- [MCP tools](https://github.com/EzekielEnns/archnemesis/blob/main/docs/mcp-v2.md): the eight tools: read, write, note, show, guide, design, index, feedback
+- [Design](https://github.com/EzekielEnns/archnemesis/blob/main/docs/DESIGN.md): why the code is shaped as it is
+- [Example design](https://github.com/EzekielEnns/archnemesis/blob/main/examples/shop): a complete small design folder
+- [Working on the code](https://github.com/EzekielEnns/archnemesis/blob/main/AGENTS.md): layout, commands and lint rules

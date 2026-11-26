@@ -1,0 +1,107 @@
+/* Page tokens (colours, font) and resets for the whole app (src/main.tsx, src/App.tsx). */
+
+:root {
+  color-scheme: dark;
+  --bg: #0f1115;
+  --side: #12151b;
+  --panel: rgba(22, 25, 32, 0.94);
+  --field: #1b1f27;
+  --line: #262c36;
+  --line-strong: #353d4a;
+  --text: #e6e9ef;
+  --muted: #8b93a3;
+  --accent: #4f8cff;
+  /* Behind white text (filled buttons, badges): --accent is only 3.2:1 with white, this is 5.3:1. */
+  --accent-fill: #2b66d6;
+  --danger: #f87171;
+  font-family:
+    Inter,
+    -apple-system,
+    system-ui,
+    sans-serif;
+  font-size: 13px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 4px 9px;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--line-strong);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+button.danger {
+  color: var(--danger);
+}
+
+input,
+select,
+textarea {
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 5px 8px;
+  width: 100%;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--accent);
+}
+
+input[type="checkbox"] {
+  width: auto;
+  justify-self: start;
+}
+
+textarea {
+  resize: vertical;
+  margin-top: 8px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+kbd {
+  font-size: 11px;
+  color: var(--muted);
+  margin-left: 4px;
+}

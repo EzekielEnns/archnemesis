@@ -1,0 +1,9 @@
+{
+  "analytics": { "x": 340, "y": 340 },
+  "customer": { "x": 0, "y": 40 },
+  "email": { "x": 700, "y": 140 },
+  "payments": { "x": 700, "y": 0 },
+  "shop": { "x": 340, "y": 140 },
+  "support-agent": { "x": 0, "y": 240 },
+  "warehouse": { "x": 700, "y": 280 }
+}

@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "archnm/boundaries.schema.json",
+  "title": "Archnemesis boundaries file (boundaries.yaml): where things run",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "boundaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "kind"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The boundary's key.",
+            "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]*$"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name it by role (\"prod project\", \"private services subnet\"), never by a cloud ID or an address range."
+          },
+          "kind": {
+            "enum": [
+              "cloud",
+              "project",
+              "host",
+              "network",
+              "subnet",
+              "region",
+              "edge",
+              "trust",
+              "process",
+              "group"
+            ],
+            "description": "What kind of place it is."
+          },
+          "in": {
+            "type": "string",
+            "description": "The boundary this one sits inside."
+          },
+          "description": {
+            "type": "string",
+            "description": "What runs here and why."
+          },
+          "include": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "One rule: exactly one of these.",
+              "minProperties": 1,
+              "maxProperties": 1,
+              "additionalProperties": false,
+              "properties": {
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "These objects, by id."
+                },
+                "children": {
+                  "type": "string",
+                  "description": "Everything directly inside this object."
+                },
+                "descendants": {
+                  "type": "string",
+                  "description": "Everything inside this object, at any depth."
+                },
+                "neighbours": {
+                  "type": "string",
+                  "description": "Everything connected to this object."
+                },
+                "tag": {
+                  "type": "string",
+                  "description": "Everything with this tag."
+                },
+                "kind": {
+                  "enum": [
+                    "actor",
+                    "system",
+                    "app",
+                    "store",
+                    "component",
+                    "module",
+                    "function",
+                    "library",
+                    "table"
+                  ],
+                  "description": "Everything of this kind."
+                },
+                "status": {
+                  "enum": ["live", "future", "deprecated", "removed"],
+                  "description": "Everything with this status."
+                },
+                "uses": {
+                  "enum": [
+                    "actor",
+                    "system",
+                    "app",
+                    "store",
+                    "component",
+                    "module",
+                    "function",
+                    "library",
+                    "table"
+                  ],
+                  "description": "Whatever calls or uses something of this kind (uses: library for a dependency graph)."
+                },
+                "guess": {
+                  "type": "boolean",
+                  "enum": [true],
+                  "description": "Guesses: in hide_lines, every guessed line (a call matched by name); in include/exclude, guessed boxes."
+                }
+              }
+            },
+            "description": "What runs here; tags are best, so new things fall in on their own."
+          },
+          "exclude": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "One rule: exactly one of these.",
+              "minProperties": 1,
+              "maxProperties": 1,
+              "additionalProperties": false,
+              "properties": {
+                "ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "These objects, by id."
+                },
+                "children": {
+                  "type": "string",
+                  "description": "Everything directly inside this object."
+                },
+                "descendants": {
+                  "type": "string",
+                  "description": "Everything inside this object, at any depth."
+                },
+                "neighbours": {
+                  "type": "string",
+                  "description": "Everything connected to this object."
+                },
+                "tag": {
+                  "type": "string",
+                  "description": "Everything with this tag."
+                },
+                "kind": {
+                  "enum": [
+                    "actor",
+                    "system",
+                    "app",
+                    "store",
+                    "component",
+                    "module",
+                    "function",
+                    "library",
+                    "table"
+                  ],
+                  "description": "Everything of this kind."
+                },
+                "status": {
+                  "enum": ["live", "future", "deprecated", "removed"],
+                  "description": "Everything with this status."
+                },
+                "uses": {
+                  "enum": [
+                    "actor",
+                    "system",
+                    "app",
+                    "store",
+                    "component",
+                    "module",
+                    "function",
+                    "library",
+                    "table"
+                  ],
+                  "description": "Whatever calls or uses something of this kind (uses: library for a dependency graph)."
+                },
+                "guess": {
+                  "type": "boolean",
+                  "enum": [true],
+                  "description": "Guesses: in hide_lines, every guessed line (a call matched by name); in include/exclude, guessed boxes."
+                }
+              }
+            },
+            "description": "Exceptions."
+          }
+        }
+      },
+      "description": "Parents before the boundaries inside them."
+    }
+  }
+}

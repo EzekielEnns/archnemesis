@@ -1,0 +1,617 @@
+{
+  "cli/archnm.ts": {
+    "no-fallthrough": {
+      "count": 2
+    }
+  },
+  "cli/convert.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "cli/telemetry.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "server/gitsync.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    }
+  },
+  "server/importer.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "server/live.ts": {
+    "max-lines": {
+      "count": 1
+    }
+  },
+  "server/mcp.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "server/render.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "server/scip.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "server/seed.ts": {
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "server/signin/oauth.ts": {
+    "no-control-regex": {
+      "count": 1
+    }
+  },
+  "server/store.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 3
+    }
+  },
+  "server/survey.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "server/tags.ts": {
+    "complexity": {
+      "count": 3
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "server/telemetry.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    }
+  },
+  "shared/agent.ts": {
+    "complexity": {
+      "count": 4
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/align.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/clipboard.ts": {
+    "complexity": {
+      "count": 3
+    }
+  },
+  "shared/codeindex.ts": {
+    "complexity": {
+      "count": 2
+    },
+    "max-lines-per-function": {
+      "count": 1
+    },
+    "no-irregular-whitespace": {
+      "count": 1
+    },
+    "no-useless-escape": {
+      "count": 1
+    }
+  },
+  "shared/context.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/convert.test.ts": {
+    "no-regex-spaces": {
+      "count": 1
+    }
+  },
+  "shared/curate.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/diff.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 3
+    },
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/doc.ts": {
+    "complexity": {
+      "count": 3
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    }
+  },
+  "shared/explode.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/files.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 8
+    },
+    "complexity": {
+      "count": 5
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 4
+    }
+  },
+  "shared/geometry.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "no-useless-assignment": {
+      "count": 1
+    }
+  },
+  "shared/grammar.test.ts": {
+    "no-regex-spaces": {
+      "count": 2
+    }
+  },
+  "shared/handover.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/layout.ts": {
+    "complexity": {
+      "count": 2
+    }
+  },
+  "shared/notes.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/project.ts": {
+    "complexity": {
+      "count": 2
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/router.ts": {
+    "@typescript-eslint/no-explicit-any": {
+      "count": 5
+    },
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/score.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/slice.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/design.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/diff.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/tools/guide.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/indexing.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/judge.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/lens.ts": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/tools/note.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/read.ts": {
+    "complexity": {
+      "count": 4
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    }
+  },
+  "shared/tools/refs.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/show.ts": {
+    "complexity": {
+      "count": 2
+    }
+  },
+  "shared/tools/slice.ts": {
+    "complexity": {
+      "count": 2
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "shared/tools/tidy.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/tools/tools.test.ts": {
+    "no-regex-spaces": {
+      "count": 4
+    }
+  },
+  "shared/tools/write.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 5
+    },
+    "complexity": {
+      "count": 6
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    }
+  },
+  "shared/trail.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 2
+    },
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/views.ts": {
+    "complexity": {
+      "count": 1
+    }
+  },
+  "shared/whatsnew.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 2
+    },
+    "complexity": {
+      "count": 1
+    }
+  },
+  "src/canvas/routeWorker.ts": {
+    "no-restricted-syntax": {
+      "count": 1
+    }
+  },
+  "src/ui/BranchMenu.tsx": {
+    "complexity": {
+      "count": 2
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    },
+    "no-useless-assignment": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/Branches.tsx": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/ui/DesignMenu.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 4
+    },
+    "max-lines-per-function": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/Dialog.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 2
+    },
+    "react-hooks/refs": {
+      "count": 1
+    }
+  },
+  "src/ui/DiffLayer.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    }
+  },
+  "src/ui/InsetTabs.tsx": {
+    "react-hooks/refs": {
+      "count": 1
+    }
+  },
+  "src/ui/Inspector.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "complexity": {
+      "count": 2
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 4
+    },
+    "react-hooks/immutability": {
+      "count": 1
+    },
+    "react-hooks/purity": {
+      "count": 1
+    }
+  },
+  "src/ui/Layers.tsx": {
+    "complexity": {
+      "count": 1
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    },
+    "react-hooks/refs": {
+      "count": 3
+    }
+  },
+  "src/ui/LeftPanel.tsx": {
+    "max-lines-per-function": {
+      "count": 1
+    }
+  },
+  "src/ui/Links.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/NodeCard.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 8
+    },
+    "complexity": {
+      "count": 2
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    },
+    "react-hooks/refs": {
+      "count": 2
+    }
+  },
+  "src/ui/Notes.tsx": {
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 2
+    },
+    "react-hooks/immutability": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/Palette.tsx": {
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/Peers.tsx": {
+    "complexity": {
+      "count": 1
+    },
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/ui/Pickers.tsx": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/ui/Sidebar.tsx": {
+    "complexity": {
+      "count": 2
+    },
+    "max-lines": {
+      "count": 1
+    },
+    "max-lines-per-function": {
+      "count": 1
+    },
+    "react-hooks/refs": {
+      "count": 7
+    },
+    "react-hooks/set-state-in-effect": {
+      "count": 2
+    }
+  },
+  "src/workspace/TopBar.tsx": {
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/workspace/diffChanges.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    }
+  },
+  "src/workspace/useDiagramState.ts": {
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/workspace/useDiffMode.ts": {
+    "react-hooks/set-state-in-effect": {
+      "count": 2
+    }
+  },
+  "src/workspace/useEditActions.ts": {
+    "react-hooks/refs": {
+      "count": 1
+    }
+  },
+  "src/workspace/useHighlights.ts": {
+    "react-hooks/set-state-in-effect": {
+      "count": 2
+    }
+  },
+  "src/workspace/useJump.ts": {
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/workspace/useScene.ts": {
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/workspace/useStoreEvents.ts": {
+    "react-hooks/immutability": {
+      "count": 1
+    }
+  },
+  "src/workspace/useTools.tsx": {
+    "react-hooks/set-state-in-effect": {
+      "count": 1
+    }
+  },
+  "src/workspace/useTour.ts": {
+    "@typescript-eslint/no-unused-expressions": {
+      "count": 1
+    },
+    "react-hooks/preserve-manual-memoization": {
+      "count": 1
+    }
+  },
+  "src/workspace/useWebMcp.ts": {
+    "react-hooks/refs": {
+      "count": 1
+    }
+  }
+}

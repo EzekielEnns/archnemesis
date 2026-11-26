@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>atlas code tree</title>
+<style>
+:root{--bg:#0f1115;--panel:#161a21;--line:#2a303b;--text:#e6e8ec;--sub:#9aa3b2;--dim:#6b7383;--acc:#7aa2f7;--dir:#7aa2f7;--rs:#f0a060;--toml:#9ece6a;--sh:#bb9af7;--lib:#c792ea;--add:#5fbf8f;--mod:#e0b04a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 -apple-system,Inter,system-ui,sans-serif}
+main{max-width:1240px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:20px;margin:0 0 4px}p.lead{color:var(--sub);margin:0 0 14px;max-width:900px}
+a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
+.bar{display:flex;gap:6px;align-items:center;font-size:12px;margin:10px 0;flex-wrap:wrap}
+.seg{border:1px solid var(--line);border-radius:7px;padding:3px 10px;color:var(--sub);cursor:pointer;background:none;font:inherit}.seg.on{background:#24314d;color:var(--text);border-color:#3a4a6b}
+.app{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px}
+body.libs .app{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.lcard{background:#1b1f27;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:4px}
+.lcard:hover{border-color:#3a4150}.lcard.sel{border-color:#3a4a6b;background:#1e2738}
+.lcard.proposed{border:1px dashed var(--add)}
+.lhead{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}.lwhat{font-size:12.5px}
+.lstats{display:flex;gap:10px;font-size:12px;color:var(--sub)}
+.lfoot{display:flex;justify-content:space-between;gap:8px;align-items:baseline;margin-top:auto;padding-top:4px}
+.prop{display:inline-block;font-size:10.5px;padding:0 7px;border-radius:9px;background:#1d3328;color:var(--add);font-family:-apple-system,system-ui,sans-serif;font-weight:500}
+.nmark{display:inline-block;font-size:10.5px;padding:0 6px;border-radius:9px;background:#2a2d3a;color:#c8d0ff;margin-left:4px}
+.talk .refline{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.talk .refline code{background:#0f1115;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--text)}
+.talk button,.nrow button{font:inherit;font-size:12px;background:#24314d;color:var(--text);border:1px solid #3a4a6b;border-radius:6px;padding:2px 9px;cursor:pointer}
+.note{background:#1b1f27;border:1px solid var(--line);border-radius:8px;padding:6px 9px;margin-top:6px;font-size:12.5px}
+.ask{font-size:10.5px;padding:0 6px;border-radius:9px;background:#2a2d3a;color:#c8d0ff}
+.talk textarea{width:100%;margin-top:8px;min-height:54px;background:#0f1115;border:1px solid var(--line);border-radius:6px;color:var(--text);font:12.5px -apple-system,system-ui,sans-serif;padding:6px 8px;resize:vertical}
+.nrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--sub);margin:4px 0}
+@media (max-width:860px){.app,body.libs .app{grid-template-columns:1fr}}
+.pane{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;min-width:0}
+.tree{font:13px/1.75 ui-monospace,Menlo,monospace;overflow-x:auto;white-space:pre;outline:none}
+.tree:focus-visible{box-shadow:0 0 0 1px #3a4a6b;border-radius:6px}
+.row{cursor:pointer;border-radius:4px;padding:0 4px;display:block}.row:hover{background:#1f2430}.row.sel{background:#24314d}
+.g{color:#3d4452}.tw{color:var(--dim);display:inline-block;width:1em}.ic{display:inline-block;width:1.4em;text-align:center}
+.dir{color:var(--dir)}.rs{color:var(--rs)}.toml{color:var(--toml)}.sh{color:var(--sh)}.lib{color:var(--lib)}.libm{color:#a58bc4}.deps{color:var(--text)}
+.run{color:var(--sub);font-size:11.5px}.run b{color:#8fd1b8;font-weight:500}
+.mk{display:inline-block;width:1.2em;font-weight:700}.mk.a{color:var(--add)}.mk.m{color:var(--mod)}
+.faint{opacity:.45}.ext{color:var(--dim);font-size:11px}
+.hit{background:#4a3f1a;color:#ffe08a;border-radius:2px}
+.find .seg{font-size:12px}
+.find{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.find input{flex:1;min-width:160px;background:#0f1115;border:1px solid var(--line);color:var(--text);border-radius:6px;padding:4px 8px;font:12px ui-monospace,Menlo,monospace}
+.keys{font-size:11px;color:var(--dim)}kbd{font:11px ui-monospace,Menlo,monospace;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--sub)}
+h2{font-size:15px;margin:0 0 2px}.kind{color:var(--sub);font-size:12px;margin-bottom:10px}
+.sec{margin-top:12px}.sec h3{font-size:11px;letter-spacing:.06em;color:var(--dim);margin:0 0 4px;text-transform:uppercase}
+.chip{display:inline-block;font-size:11.5px;padding:1px 8px;border-radius:9px;border:1px solid var(--line);margin:2px 4px 2px 0;color:var(--sub)}
+.chip.run{border-color:#2d4d43;color:#8fd1b8}.chip.lib{border-color:#4a3a5e;color:var(--lib)}
+.plan{border-left:3px solid var(--mod);padding:6px 10px;background:#1c1a14;border-radius:4px;font-size:13px}
+.flag{margin-top:14px;font-size:12px;color:var(--sub);border:1px dashed var(--line);border-radius:8px;padding:8px}
+.flag button{font:inherit;font-size:12px;background:#2a2230;color:var(--text);border:1px solid #4a3a5e;border-radius:6px;padding:2px 8px;cursor:pointer}
+ol.steps{margin:4px 0 0 18px;padding:0;font-size:13px}ol.steps li{margin:3px 0}
+.wrap{overflow-x:auto}
+table.libs{border-collapse:collapse;width:100%;font-size:12.5px}
+table.libs th{color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+table.libs th.n,table.libs td.n{text-align:right;white-space:nowrap}
+table.libs td{padding:7px 8px;border-bottom:1px solid #1f2430;vertical-align:top}
+table.libs tr:hover td{background:#1a1e26}table.libs tr.sel td{background:#1e2738}
+.lname{font:600 13px ui-monospace,Menlo,monospace;color:var(--lib)}
+.links a{margin-right:8px;font-size:12px;white-space:nowrap}
+.warn{display:inline-block;font-size:11px;padding:0 7px;border-radius:9px;background:#3a2a1a;color:#f0b070;margin:2px 4px 0 0;white-space:nowrap}
+.spark{display:inline-block;height:6px;border-radius:3px;background:#3a4a6b;vertical-align:middle;margin-left:6px}
+.stat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+.stat div{background:#1b1f27;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.stat b{display:block;font-size:15px}.stat span{font-size:11px;color:var(--dim)}
+.qs{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 18px;margin-top:22px;font-size:13px;color:var(--sub)}.qs li{margin:5px 0}
+code{font-size:12.5px}
+</style></head><body><main>
+<h1>s-chan's code, and the libraries it stands on</h1>
+<p class="lead">A tree you drive like a file browser (keys below), folders start closed, and the libraries are cards to review (proposed ones dashed green). Every line has a reference you can hand an agent, and notes it can read. Library numbers are real, from GitHub and crates.io on 2026-11-21. The folders are the s-chan agent's drawing; the plan lines are made up.</p>
+<div class="bar">
+ <button class="seg on" data-t="tree">Tree</button><button class="seg" data-t="libs">Libraries (9)</button>
+ <span style="width:14px"></span>Show <button class="seg on" data-m="now">Now</button><button class="seg" data-m="plan">Plan: "board v1" (agent)</button>
+</div>
+<div class="app"><div class="pane" id="left"></div><div class="pane" id="detail"></div></div>
+<div class="qs"><b style="color:var(--acc)">About the numbers</b><ul>
+<li><b style="color:var(--text)">Contributors</b> is GitHub's count (people plus anonymous emails). <b style="color:var(--text)">Sponsors</b> is the repo owner's GitHub Sponsors: an org with none can still have maintainers sponsored personally (serde's are), and Open Collective would be a second source.</li>
+<li>The <span class="warn">orange</span> tags are rules, not judgement: under 5 contributors, no release in a year, a licence GitHub can't read.</li>
+<li>jquery would be the same row with npm for the registry and weekly downloads. EKS is a product, not a package: its row would be docs, pricing and status page, no stars.</li>
+</ul></div>
+</main>
+<script>
+const LIBS={
+ axum:{v:'0.8.9',what:'HTTP routing and request handling',repo:'tokio-rs/axum',docs:'https://docs.rs/axum',stars:27900,contrib:469,sponsors:115,dl90:174.9,updated:'2026-04-14',lic:'MIT',inside:['Router','routing/','extract/','response/','middleware/','serve()']},
+ clap:{v:'4.6.9',what:'command-line argument parsing',repo:'clap-rs/clap',docs:'https://docs.rs/clap',stars:16903,contrib:617,sponsors:13,dl90:301.0,updated:'2026-11-20',lic:'Apache-2.0',inside:['Parser (derive)','Subcommand','Arg','Command']},
+ reqwest:{v:'0.13.5',what:'HTTP client',repo:'seanmonstar/reqwest',docs:'https://docs.rs/reqwest',stars:11935,contrib:416,sponsors:58,dl90:280.4,updated:'2026-09-08',lic:'Apache-2.0',inside:['Client','RequestBuilder','Response']},
+ 'eventsource-stream':{v:'0.2.3',what:'server-sent events from a byte stream',repo:'jpopesculian/eventsource-stream',docs:'https://docs.rs/eventsource-stream',stars:40,contrib:2,sponsors:0,dl90:17.8,updated:'2022-02-17',lic:'',inside:['EventStream','Event']},
+ rmcp:{v:'3.11.0',what:'Model Context Protocol server (official Rust SDK)',repo:'modelcontextprotocol/rust-sdk',docs:'https://docs.rs/rmcp',stars:4134,contrib:235,sponsors:0,dl90:31.4,updated:'2026-11-17',lic:'NOASSERTION',inside:['ServerHandler','#[tool] macros','transport/']},
+ rusqlite:{v:'0.43.0',what:'SQLite bindings (bundled, WAL, FTS5)',repo:'rusqlite/rusqlite',docs:'https://docs.rs/rusqlite',stars:4500,contrib:158,sponsors:0,dl90:66.3,updated:'2026-11-15',lic:'MIT',inside:['Connection','Transaction','params!']},
+ tokio:{v:'1.54.1',what:'async runtime: I/O, networking, timers',repo:'tokio-rs/tokio',docs:'https://docs.rs/tokio',stars:33755,contrib:1146,sponsors:115,dl90:324.2,updated:'2026-10-21',lic:'MIT',inside:['runtime','sync/','net/','time/','task/']},
+ tracing:{v:'0.1.44',what:'structured logs and spans',repo:'tokio-rs/tracing',docs:'https://docs.rs/tracing',stars:7004,contrib:321,sponsors:115,dl90:289.5,updated:'2025-12-18',lic:'MIT',proposed:'board v1: log what the hub routes',inside:['span!','event!','Subscriber','instrument']},
+ serde:{v:'1.0.229',what:'serialising and deserialising',repo:'serde-rs/serde',docs:'https://docs.rs/serde',stars:10993,contrib:205,sponsors:0,dl90:453.7,updated:'2026-07-18',lic:'Apache-2.0',inside:['Serialize','Deserialize','de/','ser/']},
+};
+const T={n:'s-chan',k:'dir',c:[
+ {n:'Cargo.toml',k:'toml',why:'Workspace: two crates.'},
+ {n:'crates',k:'dir',c:[
+  {n:'board',k:'dir',tag:'bin crate',run:'board CLI · Board hub · Board node',c:[
+   {n:'Cargo.toml',k:'toml'},
+   {n:'src',k:'dir',c:[
+    {n:'main.rs',k:'rs',run:'board CLI',uses:['clap'],why:'Parses the verbs and hands off to cli/, hub/ or node/.'},
+    {n:'cli',k:'dir',run:'board CLI',uses:['reqwest'],why:'board hello / post / … talk to the local node.',c:[{n:'mod.rs',k:'rs'}]},
+    {n:'hub',k:'dir',run:'Board hub',uses:['axum','rmcp','tokio'],why:'One per LAN: storage, event log, policies, routing, MCP.',c:[{n:'mod.rs',k:'rs'},{n:'routes.rs',k:'rs'},{n:'mcp.rs',k:'rs',plan:'a',uses:['tracing'],pwhy:'MCP over streamable HTTP for harnesses.'}]},
+    {n:'node',k:'dir',run:'Board node',uses:['reqwest','eventsource-stream'],why:'One per machine: holds the hub subscription, serves a local socket.',c:[{n:'mod.rs',k:'rs'},{n:'adapters',k:'dir',plan:'a',pwhy:'Wake agents in Rex / Claude channels.',c:[{n:'rex.rs',k:'rs',plan:'a'},{n:'channel.rs',k:'rs',plan:'a'}]}]},
+    {n:'store',k:'dir',run:'Board database',uses:['rusqlite'],plan:'m',pwhy:'Add FTS5 search over posts.',why:'Event log + derived tables in SQLite.',c:[{n:'mod.rs',k:'rs'},{n:'search.rs',k:'rs',plan:'a'}]},
+   ]},
+   {n:'dependencies',k:'deps',c:['axum','clap','reqwest','eventsource-stream','rmcp','rusqlite','tokio','tracing'].map(x=>({lib:x,plan:LIBS[x].proposed?'a':undefined}))},
+  ]},
+  {n:'board-core',k:'dir',tag:'lib crate · no I/O',c:[
+   {n:'src',k:'dir',c:['address.rs','envelope.rs','guards.rs','policy.rs','render.rs'].map(n=>({n,k:'rs',uses:n==='envelope.rs'?['serde']:[],plan:n==='guards.rs'?'m':undefined,pwhy:n==='guards.rs'?'Loop guard: stop two agents pinging each other.':undefined}))},
+   {n:'dependencies',k:'deps',c:[{lib:'serde'}]},
+  ]},
+ ]},
+ {n:'hooks',k:'dir',c:[{n:'claude',k:'dir',run:'Claude Code harness',c:[{n:'session-start.sh',k:'sh'},{n:'stop.sh',k:'sh'}]}]},
+ {n:'profiles',k:'dir',why:'Policy profiles, chosen at start.',c:[{n:'default.toml',k:'toml'},{n:'quiet.toml',k:'toml',plan:'a'}]},
+]};
+const ICON={dir:'▰',rs:'◆',toml:'⚙',sh:'$',lib:'◈',libm:'·',deps:'⧉'};
+const TODAY=new Date('2026-11-21');
+const fmt=n=>n>=1000?(n/1000).toFixed(n>=10000?0:1)+'k':String(n);
+const ageDays=d=>Math.round((TODAY-new Date(d))/864e5);
+function warns(L){const w=[];if(L.contrib<5)w.push(`${L.contrib} contributors`);if(ageDays(L.updated)>365)w.push(`no release since ${L.updated.slice(0,4)}`);if(!L.lic||L.lic==='NOASSERTION')w.push('check the licence');return w}
+const usedBy=l=>{const out=[];(function w(n,p){if(n.uses?.includes(l))out.push(p+n.n);(n.c||[]).forEach(c=>w(c,p+(n.n==='s-chan'?'':n.n+'/')))})(T,'');return out};
+
+// Notes on a line of the tree: for people, and for agents (they read them with notes(path)).
+const NOTES={'/s-chan/crates/board/src/node':[{who:'Zeek',text:'Is eventsource-stream still the right pick? It looks unmaintained.',agent:true,read:false}]};
+const pathOf=id=>{const r=id.replace(/^\/s-chan\/?/,'');return r};
+const refOf=(e)=>e.isLib?`crate:${e.n.lib}`:`s-chan:${pathOf(e.id)}${e.n.k==='dir'||e.n.k==='deps'?'/':''}`;
+let tab='tree',mode='now',sel=null,filter='',sortBy='name',sortDir=1,selLib='axum',note='';
+const open=new Set();
+(function w(n,path){const id=path+'/'+(n.n||n.lib);if(!n.lib&&[].includes(n.n))open.add(id);(n.c||[]).forEach(c=>w(c,id))})(T,'');
+
+function flat(){const out=[];const q=filter.toLowerCase();
+ const matches=n=>{const name=(n.n||n.lib||'').toLowerCase();return name.includes(q)||(n.c||[]).some(matches)||(!!n.lib&&LIBS[n.lib].what.toLowerCase().includes(q))};
+ (function walk(n,pre,last,path,parent){const id=path+'/'+(n.n||n.lib);const isLib=!!n.lib;
+  if(q&&!matches(n))return;
+  const kids=isLib?LIBS[n.lib].inside.map(x=>({n:x,k:'libm'})):(n.c||[]);
+  const isOpen=pre===null||(q&&!isLib)||open.has(id);
+  out.push({n,id,pre,last,hasKids:kids.length>0,isLib,parent,open:isOpen});
+  if(!isOpen)return;
+  const shown=q&&!isLib?kids.filter(matches):kids;
+  shown.forEach((c,i)=>walk(c,pre===null?'':pre+(last?'   ':'│  '),i===shown.length-1,id,id));
+ })(T,null,true,'',null);return out}
+const hl=s=>{if(!filter)return s;const i=s.toLowerCase().indexOf(filter.toLowerCase());return i<0?s:s.slice(0,i)+`<span class="hit">${s.slice(i,i+filter.length)}</span>`+s.slice(i+filter.length)};
+
+function renderTree(){const rows=flat();if(!sel||!rows.some(r=>r.id===sel))sel=rows[0].id;
+ const L=document.getElementById('left');
+ L.innerHTML=`<div class="find"><input id="q" placeholder="Find (press /)" value="${filter}"><span class="keys"><kbd>↑</kbd><kbd>↓</kbd> move <kbd>→</kbd> open <kbd>←</kbd> close / up <kbd>Enter</kbd> go to it</span></div><div class="tree" id="tree" tabindex="0"></div>`;
+ const tree=document.getElementById('tree');
+ tree.innerHTML=rows.map(({n,id,pre,last,hasKids,isLib,open:o})=>{
+  const k=isLib?'lib':n.k;const name=isLib?n.lib:n.n;
+  const g=pre===null?'':`<span class="g">${pre}${last?'└─ ':'├─ '}</span>`;
+  const mk=mode==='plan'&&n.plan?`<span class="mk ${n.plan}">${n.plan==='a'?'+':'~'}</span>`:'';
+  const faint=mode==='now'&&n.plan==='a'?' faint':'';
+  const X0=0;const X=isLib&&LIBS[n.lib];const w=X?warns(X):[];
+  const ext=X?` <span class="ext">${X.v} · ${X.what}</span>${w.length?` <span class="warn">${w[0]}</span>`:''}`:n.tag?` <span class="ext">${n.tag}</span>`:'';
+  const run=n.run?` <span class="run">◂ <b>${n.run}</b></span>`:'';
+  const nn=(NOTES[id]||[]).length;const note=nn?` <span class="nmark" title="${nn} note(s)">✎ ${nn}</span>`:'';
+  const prop=X&&X.proposed?` <span class="prop">+ proposed</span>`:'';
+  return `<span class="row${sel===id?' sel':''}${faint}" data-id="${id}">${g}<span class="tw">${hasKids&&pre!==null?(o?'▾':'▸'):' '}</span><span class="ic ${k}">${ICON[k]}</span>${mk}<span class="${k}">${hl(name)}${n.k==='dir'?'/':''}</span>${prop}${ext}${run}${note}</span>`}).join('');
+ tree.querySelectorAll('.row').forEach(r=>r.onclick=e=>{const row=rows.find(x=>x.id===r.dataset.id);if(row.hasKids&&row.pre!==null&&(e.target.classList.contains('tw')||sel===row.id))toggle(row);sel=row.id;renderTree();document.getElementById('tree').focus()});
+ tree.onkeydown=e=>{const i=rows.findIndex(r=>r.id===sel);const row=rows[i];
+  if(e.key==='ArrowDown')sel=rows[Math.min(rows.length-1,i+1)].id;
+  else if(e.key==='ArrowUp')sel=rows[Math.max(0,i-1)].id;
+  else if(e.key==='ArrowRight'){if(row.hasKids&&!row.open)open.add(row.id);else if(row.hasKids&&rows[i+1])sel=rows[i+1].id}
+  else if(e.key==='ArrowLeft'){if(row.hasKids&&row.open&&row.pre!==null)open.delete(row.id);else if(row.parent)sel=row.parent}
+  else if(e.key==='Enter'){if(row.isLib){tab='libs';selLib=row.n.lib;render();return}note=row.n.run?`Enter would open ${row.n.run} on the diagram.`:''}
+  else if(e.key==='/'){e.preventDefault();document.getElementById('q').focus();return}
+  else return;
+  e.preventDefault();renderTree();document.getElementById('tree').focus();document.querySelector('.row.sel')?.scrollIntoView({block:'nearest'})};
+ const q=document.getElementById('q');
+ q.oninput=()=>{filter=q.value;const pos=q.selectionStart;renderTree();const nq=document.getElementById('q');nq.focus();nq.setSelectionRange(pos,pos)};
+ q.onkeydown=e=>{if(e.key==='Escape'){filter='';renderTree();document.getElementById('tree').focus()}else if(e.key==='ArrowDown'||e.key==='Enter'){e.preventDefault();document.getElementById('tree').focus()}};
+ detailTree(rows.find(r=>r.id===sel));
+}
+const toggle=row=>open.has(row.id)?open.delete(row.id):open.add(row.id);
+
+function talk(e){const id=e.isLib?'lib:'+e.n.lib:e.id;const list=NOTES[id]||[];const ref=refOf(e);
+ return `<div class="sec talk"><h3>Talk about it</h3>
+ <div class="refline"><code>${ref}</code><button data-copy="${ref}">Copy for an agent</button></div>
+ <div class="ext">Paste it in chat ("look at ${ref}"); the agent opens the same line with <code>show</code>. Or point the agent's tour here.</div>
+ ${list.map((x,i)=>`<div class="note"><b>${x.who}</b>${x.agent?' <span class="ask">for the agent</span>':''}<div>${x.text}</div><div class="ext">${x.agent?(x.read?'read by the agent':"the agent hasn't read it yet"):'for people'}</div></div>`).join('')}
+ <textarea id="nt" placeholder="Leave a note on ${ref}…"></textarea>
+ <div class="nrow"><label><input type="checkbox" id="na" checked> the agent should check this</label><button id="nb">Add note</button></div>
+ <div class="ext">Agents see it in <code>notes({path: "${ref}"})</code> and in <code>outline</code>, and answer under it.</div></div>`}
+function wireTalk(e){const id=e.isLib?'lib:'+e.n.lib:e.id;
+ document.querySelectorAll('[data-copy]').forEach(b=>b.onclick=()=>{const t=`In atlas (design agent-comms), look at ${b.dataset.copy}`;navigator.clipboard?.writeText(t).catch(()=>{});b.textContent='Copied';setTimeout(()=>b.textContent='Copy for an agent',1200)});
+ const nb=document.getElementById('nb');if(nb)nb.onclick=()=>{const t=document.getElementById('nt').value.trim();if(!t)return;(NOTES[id]=NOTES[id]||[]).push({who:'You',text:t,agent:document.getElementById('na').checked,read:false});render()}}
+function detailTree(e){const d=document.getElementById('detail');
+ if(!e||e.pre===null){d.innerHTML=`<h2>s-chan/</h2><div class="kind">repo · Cargo workspace, 2 crates, 8 libraries</div>${planSummary()}`;return}
+ const n=e.n;if(e.isLib){d.innerHTML=libCard(n.lib)+talk(e);wireTalk(e);return}
+ d.innerHTML=`<h2>${n.n}${n.k==='dir'?'/':''}</h2><div class="kind">${n.k==='dir'?'folder':n.k==='libm'?'inside a library':n.k==='deps'?"what this crate depends on":'file'}${n.tag?' · '+n.tag:''}</div>
+ ${n.why?`<div style="font-size:13px">${n.why}</div>`:''}
+ ${n.run?`<div class="sec"><h3>Builds</h3>${n.run.split(' · ').map(r=>`<span class="chip run">◂ ${r}</span>`).join('')}</div>`:''}
+ ${n.uses?.length?`<div class="sec"><h3>Uses</h3>${n.uses.map(u=>`<span class="chip lib">${u}</span>`).join('')}</div>`:''}
+ ${mode==='plan'&&n.plan?`<div class="sec"><h3>In the plan</h3><div class="plan">${n.plan==='a'?'New. ':'Changes. '}${n.pwhy||''}</div></div>`:''}
+ ${note?`<div class="ext" style="margin-top:10px">${note}</div>`:''}${talk(e)}${flag()}`;note='';wireTalk(e)}
+
+function libCard(name){const L=LIBS[name];const w=warns(L);
+ return `<h2 class="lib" style="font-family:ui-monospace,Menlo,monospace">${name} <span class="ext">${L.v}</span>${L.proposed?' <span class="prop">+ proposed</span>':''}</h2><div class="kind">${L.what}${L.proposed?`<br><span style="color:var(--add)">Proposed in ${L.proposed}</span>`:''}</div>
+ <div class="links"><a href="https://github.com/${L.repo}" target="_blank" rel="noopener">GitHub ↗</a><a href="${L.docs}" target="_blank" rel="noopener">Docs ↗</a><a href="https://crates.io/crates/${name}" target="_blank" rel="noopener">crates.io ↗</a></div>
+ <div class="stat"><div><b>${fmt(L.stars)}</b><span>stars</span></div><div><b>${L.contrib}</b><span>contributors</span></div><div><b>${L.sponsors||'–'}</b><span>owner's sponsors</span></div>
+ <div><b>${L.dl90.toFixed(0)}M</b><span>downloads, 90 days</span></div><div><b>${L.updated}</b><span>last release</span></div><div><b>${L.lic||'none'}</b><span>licence</span></div></div>
+ ${w.length?`<div class="sec"><h3>Worth a look</h3>${w.map(x=>`<span class="warn">${x}</span>`).join('')}</div>`:''}
+ <div class="sec"><h3>Used by</h3>${usedBy(name).map(p=>`<span class="chip">${p}</span>`).join('')}</div>${flag()}`}
+
+function renderLibs(){const L=document.getElementById('left');
+ const sorts=[['name','name'],['contrib','contributors'],['dl90','downloads'],['updated','last release'],['stars','stars']];
+ const val=(k,name,x)=>k==='name'?name:x[k];
+ const rows=Object.entries(LIBS).filter(([,x])=>mode==='plan'||true).sort(([a,A],[b,B])=>{if(!!A.proposed!==!!B.proposed)return A.proposed?-1:1;const x=val(sortBy,a,A),y=val(sortBy,b,B);return (x>y?1:x<y?-1:0)*sortDir});
+ L.innerHTML=`<div class="find"><span class="keys">Sort</span>${sorts.map(([k,t])=>`<button class="seg${sortBy===k?' on':''}" data-s="${k}">${t}${sortBy===k?(sortDir>0?' ↑':' ↓'):''}</button>`).join('')}</div>
+ <div class="cards">${rows.map(([name,x])=>{const w=warns(x);return `<div class="lcard${x.proposed?' proposed':''}${selLib===name?' sel':''}${x.proposed&&mode==='now'?' faint':''}" data-l="${name}">
+  <div class="lhead"><span class="lname">${name}</span><span class="ext">${x.v}</span>${x.proposed?'<span class="prop">+ proposed</span>':''}${(NOTES['lib:'+name]||[]).length?`<span class="nmark">✎ ${NOTES['lib:'+name].length}</span>`:''}</div>
+  <div class="lwhat">${x.what}</div>
+  <div class="lstats"><span title="stars">★ ${fmt(x.stars)}</span><span title="contributors">👥 ${x.contrib}</span><span title="owner's sponsors">♥ ${x.sponsors||'–'}</span><span title="downloads, 90 days">↓ ${x.dl90.toFixed(0)}M</span></div>
+  <div class="ext">released ${x.updated} · ${x.lic||'no licence on GitHub'}</div>
+  ${w.length?`<div>${w.map(t=>`<span class="warn">${t}</span>`).join('')}</div>`:''}
+  <div class="lfoot"><span class="ext">${x.proposed?'for '+usedBy(name).map(p=>p.split('/').slice(-1)[0]).join(', '):usedBy(name).map(p=>p.replace('crates/','')).join(' · ')}</span>
+  <span class="links"><a href="https://github.com/${x.repo}" target="_blank" rel="noopener">GitHub</a><a href="${x.docs}" target="_blank" rel="noopener">Docs</a></span></div></div>`}).join('')}</div>`;
+ L.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const k=b.dataset.s;if(sortBy===k)sortDir*=-1;else{sortBy=k;sortDir=k==='name'?1:-1}renderLibs()});
+ L.querySelectorAll('.lcard').forEach(c=>c.onclick=e=>{if(e.target.tagName==='A')return;selLib=c.dataset.l;renderLibs()});
+ const e={isLib:true,n:{lib:selLib},id:'lib:'+selLib};
+ document.getElementById('detail').innerHTML=libCard(selLib)+talk(e);wireTalk(e);
+}
+function flag(){return `<div class="flag">Something here wrong or missing? <button>Flag it</button><div class="ext" style="margin-top:4px">Agents get the same thing as a tool. Flags go to the curator, not straight into the map.</div></div>`}
+function planSummary(){if(mode!=='plan')return'<div class="ext">Switch to Plan to read the agent\'s proposal on this tree.</div>';return`<div class="sec"><h3>Plan · board v1 · by an agent</h3><div class="plan"><b>Why:</b> harnesses need MCP, nodes need to wake agents, and posts need search.</div>
+ <ol class="steps"><li><span class="mk a">+</span>hub/mcp.rs: MCP over streamable HTTP</li><li><span class="mk a">+</span>node/adapters/: Rex + channel wake-ups</li><li><span class="mk m">~</span>store/: FTS5 search</li><li><span class="mk m">~</span>board-core guards.rs: loop guard</li><li><span class="mk a">+</span>profiles/quiet.toml</li></ol>
+ <div class="sec"><h3>Libraries to review in this plan</h3><div><span class="chip lib">tracing</span><span class="prop">+ proposed</span></div><div><span class="chip lib">eventsource-stream</span><span class="warn">2 contributors</span><span class="warn">no release since 2022</span></div><div><span class="chip lib">rmcp</span><span class="warn">check the licence</span></div></div></div>`}
+function render(){document.body.classList.toggle('libs',tab==='libs');document.querySelectorAll('[data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t===tab));tab==='tree'?renderTree():renderLibs()}
+document.querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>{tab=b.dataset.t;render()});
+document.querySelectorAll('[data-m]').forEach(b=>b.onclick=()=>{mode=b.dataset.m;document.querySelectorAll('[data-m]').forEach(x=>x.classList.toggle('on',x===b));render()});
+render();setTimeout(()=>document.getElementById('tree')?.focus(),0);
+</script></body></html>

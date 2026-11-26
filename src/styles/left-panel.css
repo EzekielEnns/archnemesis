@@ -1,0 +1,124 @@
+/* Left panel: branch, tree, settings rows (src/ui/LeftPanel.tsx). */
+
+/* --- simple mode's left panel: the branch, the tree, settings ------------------------------ */
+.drawer.left-panel {
+  --drawer-top: 12px;
+  --drawer-bottom: 68px;
+  width: 264px;
+}
+.panel-head {
+  border-bottom: 1px solid var(--line);
+}
+.panel-top {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px 6px;
+}
+.branch-menu.wide {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.branch-wide {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.branch-wide:hover,
+.branch-wide.open {
+  background: rgba(255, 255, 255, 0.05);
+}
+.branch-wide .b-icon {
+  color: var(--muted);
+  flex: none;
+}
+.branch-wide.fork .b-icon {
+  color: #c4b5fd;
+}
+.branch-wide .b-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.branch-wide .b-count {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0 6px;
+  white-space: nowrap;
+}
+.branch-wide .b-muted {
+  color: var(--muted);
+  flex: none;
+  margin-left: auto;
+}
+.git-status.none,
+.git-status.local {
+  color: var(--muted);
+}
+.git-status.ok {
+  color: #34d399;
+}
+.git-status.bad {
+  color: var(--danger);
+}
+.git-status.busy {
+  color: var(--accent);
+}
+.panel-head .conn {
+  cursor: default;
+}
+.panel-head .conn.offline {
+  color: var(--danger);
+}
+.panel-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 6px 6px;
+}
+.panel-tools .grow {
+  flex: 1;
+}
+.panel-tools .icon-btn {
+  position: relative;
+}
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 4px 0 10px;
+}
+.design-btn-label {
+  font-weight: 600;
+  margin-left: 4px;
+}
+.settings .design-btn {
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+.settings .design-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Menus opened from inside a dialog sit above it. */
+body > .design-list {
+  z-index: 60;
+}

@@ -1,0 +1,119 @@
+/* Inset tabs and the new-box walk (src/ui/InsetTabs.tsx, src/ui/NewWalk.tsx). */
+
+/* A box opened in place: its tab on the frame's top edge (src/ui/InsetTabs.tsx). */
+.inset-tab {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 26px;
+  padding: 0 4px 0 2px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--kind, #4f8cff) 12%, #161a22);
+  border: 1px solid color-mix(in srgb, var(--kind, #4f8cff) 60%, transparent);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  visibility: hidden;
+  will-change: transform;
+}
+.inset-tab.on {
+  border-color: var(--kind, var(--accent));
+  background: color-mix(in srgb, var(--kind, #4f8cff) 22%, #161a22);
+}
+.inset-name {
+  border: 0;
+  background: none;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 12.5px;
+  padding: 0 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+.inset-btn {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+  flex: none;
+}
+.inset-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+}
+
+/* The left panel's top-level row: the tree's first row, lined up with the rows under it (src/ui/Sidebar.tsx). */
+.nav-top {
+  flex: none;
+}
+/* In the dot's place, as wide as a dot, so the names line up. */
+.nav-top-icon {
+  color: var(--muted);
+  margin: 0 -1px;
+  flex: none;
+}
+
+/* A box just placed: its card walks through what it needs (src/ui/NewWalk.tsx). */
+.nw {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 14px 12px;
+}
+.nw-done {
+  align-self: flex-start;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.nw-done:hover {
+  color: var(--text);
+}
+.nw-ask {
+  margin-top: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.nw-ask.opt {
+  color: var(--muted);
+}
+.nw-in {
+  font-size: 15px;
+  padding: 8px 10px;
+}
+.nw-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.nw-err {
+  color: var(--danger, #f87171);
+  font-size: 12px;
+}
+.nw-keys {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.nw-keys kbd {
+  font-size: 10.5px;
+}

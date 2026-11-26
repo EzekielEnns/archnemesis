@@ -1,0 +1,315 @@
+/* Entities on cards and beside boxes, and an entity card (src/ui/Layers.tsx, src/ui/NodeCard.tsx). */
+
+/* Entities on the card (docs/entities-plan.md): a TBD one is just a name so far. */
+.nc-tbd {
+  color: var(--muted, #8b93a1);
+  font-style: italic;
+}
+.nc-crumb-in {
+  margin-bottom: 4px;
+}
+.nc-src {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent, #4f8cff);
+  font: inherit;
+  cursor: pointer;
+}
+.nc-src:hover {
+  text-decoration: underline;
+}
+.nc-move {
+  margin-left: 10px;
+  font-size: 11.5px;
+  color: var(--muted, #8b93a1);
+}
+
+/* Entities beside their boxes (Layers: Entities). TBD ones are dashed: just a name so far. */
+.ref-entity {
+  color: #2dd4bf;
+}
+.ref-node.ref-entity {
+  border-left-color: #2dd4bf;
+}
+.ref-node.ref-entity .ref-node-icon {
+  color: #2dd4bf;
+}
+.ref-node.ref-entity.tbd {
+  border-style: dashed;
+  border-left-style: dashed;
+}
+.ref-node.ref-entity.tbd b {
+  font-style: italic;
+  color: var(--muted);
+}
+.ref-ext-go {
+  cursor: pointer;
+  color: #5eead4;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  text-decoration: underline dotted rgba(94, 234, 212, 0.5);
+  text-underline-offset: 2px;
+}
+.ref-ext-go:hover {
+  color: #99f6e4;
+  text-decoration-style: solid;
+}
+
+/* An entity's card: crumb, title, extends, fields, where it's defined, who uses it. */
+.ref-pop.ep {
+  width: 284px;
+  padding: 0;
+  overflow: hidden;
+}
+.ep-crumb {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  padding: 7px 12px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.ep-crumb:hover {
+  color: var(--text);
+}
+.ep-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px 10px 12px;
+}
+.ep-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(45, 212, 191, 0.12);
+  color: #2dd4bf;
+}
+.ep-icon.tbd {
+  background: none;
+  border: 1px dashed rgba(45, 212, 191, 0.5);
+}
+.ep-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.ep-title b {
+  font:
+    600 14px ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ep-title span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.ep .ref-pop-x {
+  align-self: flex-start;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+.ep .ref-pop-x:hover {
+  background: var(--field);
+  color: var(--text);
+}
+.ep-extends {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ep-chip {
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 11px;
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  background: rgba(45, 212, 191, 0.08);
+  color: #5eead4;
+  font:
+    500 11.5px ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  cursor: pointer;
+}
+.ep-chip:hover {
+  border-color: #2dd4bf;
+  background: rgba(45, 212, 191, 0.16);
+}
+.ep-fields {
+  margin: 0 10px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.18);
+  font:
+    11.5px ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  overflow: hidden;
+}
+.ep-field {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 5px 9px;
+}
+.ep-field + .ep-field {
+  border-top: 1px solid var(--line);
+}
+.ep-field.faint {
+  opacity: 0.5;
+}
+.ep-fname {
+  flex: none;
+  color: var(--text);
+}
+.ep-ftype {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ep-type {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: #5eead4;
+  cursor: pointer;
+  border-bottom: 1px dotted rgba(94, 234, 212, 0.45);
+}
+.ep-type:hover {
+  color: #99f6e4;
+  border-bottom-style: solid;
+}
+.ep-type.tbd {
+  color: var(--muted);
+  font-style: italic;
+}
+.ep-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 8px;
+}
+.ep-values span {
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: var(--field);
+  color: var(--text);
+}
+.ep-empty {
+  margin: 0 12px 10px;
+  padding: 10px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.ep-sect {
+  padding: 8px 6px 6px;
+  border-top: 1px solid var(--line);
+}
+.ep-label {
+  padding: 0 6px 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ep-label em {
+  font-style: normal;
+  margin-left: 3px;
+  padding: 0 5px;
+  border-radius: 6px;
+  background: var(--field);
+  letter-spacing: 0;
+}
+.ep-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 168px;
+  overflow: auto;
+}
+.ep-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 30px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 7px;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+.ep-box:hover {
+  background: var(--field);
+}
+.ep-box-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ep-box-where {
+  flex: none;
+  font-size: 11px;
+  color: var(--muted);
+}
+.ep-box-go {
+  flex: none;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.ep-box:hover .ep-box-go {
+  opacity: 1;
+}
+.ep-box.me .ep-box-name {
+  color: var(--accent);
+}
+.ep-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 6px 4px;
+}
+.ep-none {
+  padding: 0 6px 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+}

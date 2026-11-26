@@ -1,0 +1,131 @@
+/* Save state icon and Branches in the left panel (src/ui/Branches.tsx). */
+
+/* --- Where it's saved: a save icon in a colour per state --------------------------------- */
+.git-status.server {
+  color: #60a5fa;
+}
+.git-status.ahead {
+  color: #fbbf24;
+}
+.git-status.big {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--field);
+  flex: none;
+}
+
+/* --- Branches, in the left panel -------------------------------------------------------- */
+.panel-body {
+  overflow: auto;
+}
+.branches {
+  padding: 6px 0 12px;
+}
+.br-cur {
+  margin: 4px 10px 8px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--field);
+}
+.br-cur-t {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+.br-from {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.br-note {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 4px 0 8px;
+  line-height: 1.45;
+}
+.br-note.pad {
+  padding: 2px 14px;
+}
+.br-sect {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 14px 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--faint, #5d6576);
+  background: none;
+  border: 0;
+  font-family: inherit;
+  text-align: left;
+}
+.br-sect .grow {
+  flex: 1;
+}
+.br-sect button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+  font-size: 12px;
+}
+.br-sect button:hover:not(:disabled) {
+  color: var(--text);
+}
+.br-sect.as-button {
+  cursor: pointer;
+}
+.br-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 12px 6px 36px;
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.br-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.br-row.on {
+  background: rgba(79, 140, 255, 0.1);
+}
+.br-row.past {
+  padding-left: 14px;
+}
+.br-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.br-meta {
+  color: var(--faint, #5d6576);
+  font-size: 11.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
