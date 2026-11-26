@@ -1,6 +1,6 @@
 // What the welcome shows after one of its agent ways is chosen: a few steps, each one sentence
 // and the exact thing to type or paste. The words differ by where this page runs.
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import type { McpSetup } from "../../shared/api.ts";
 import { AgentCommand, Cmd } from "./ConnectAgent";
 import {
@@ -114,7 +114,39 @@ function Local() {
   );
 }
 
-function ConnectOnServer({ mcp, agent }: { mcp: McpSetup; agent: boolean }) {
+type Option = "page" | "server";
+
+/** Option A: the agent uses this page's own tools, through Chrome (WebMCP). Works anywhere. */
+function InPage({ on }: { on: boolean }) {
+  return (
+    <>
+      {on && <Ready on>Chrome is already offering this page's tools to agents.</Ready>}
+      <Step n={1}>
+        Run this in a terminal. It gives Claude Code a Chrome it can drive.
+        <Cmd text={WEBMCP_CLAUDE} />
+      </Step>
+      <Step n={2}>
+        Have it open this page:
+        <Cmd text={location.href.split("#")[0]!} />
+      </Step>
+      <Note>
+        Using an agent inside your own Chrome instead? Paste this in a new tab, set it to Enabled
+        and relaunch (a page can't open Chrome's settings for you):
+        <Cmd text={WEBMCP_FLAG} />
+      </Note>
+    </>
+  );
+}
+
+/** Option B: the agent connects to an Archnemesis server (MCP), and can read code on your machine. */
+function ThroughServer({ mcp, agent }: { mcp: McpSetup | null; agent: boolean }) {
+  if (!mcp)
+    return (
+      <>
+        <p>Demo mode has no server. Run Archnemesis on your machine, then connect from there:</p>
+        <RunLocal />
+      </>
+    );
   return (
     <>
       <AgentCommand mcp={mcp} />
@@ -123,55 +155,40 @@ function ConnectOnServer({ mcp, agent }: { mcp: McpSetup; agent: boolean }) {
           ? "An agent is connected."
           : "Waiting for an agent. This line changes when one connects."}
       </Ready>
-      <Note>
-        An agent inside Chrome can use this page too (WebMCP), with your rights. To switch that on:{" "}
-        <code>{WEBMCP_FLAG}</code>
-      </Note>
     </>
   );
 }
 
-function ConnectInPage() {
-  return (
-    <>
-      <Ready on>Chrome is offering this page's tools to agents.</Ready>
-      <Step n={1}>Ask your agent to use the tools on this page.</Step>
-      <Step n={2}>
-        Try:
-        <Cmd text={WEBMCP_ASK} />
-        <Cmd text={MAP_ASK_PUBLIC} />
-      </Step>
-      <Step n={3}>Watch it appear. The agent's edits carry its name, and it can undo its own.</Step>
-      <Note>It can't read files on your computer from here: give it a link, or describe it.</Note>
-    </>
+function Connect({ place, mcp, agent }: { place: Place; mcp: McpSetup | null; agent: boolean }) {
+  const [option, setOption] = useState<Option>(place === "server" ? "server" : "page");
+  const tab = (id: Option, letter: string, name: string, how: string) => (
+    <button
+      role="tab"
+      aria-selected={option === id}
+      className={option === id ? "on" : undefined}
+      onClick={() => setOption(id)}
+    >
+      <b>{letter}</b> {name} <span className="muted">{how}</span>
+    </button>
   );
-}
-
-function ConnectNowhere() {
   return (
     <>
-      <p>Pick one.</p>
-      <h3>With Claude Code (one command)</h3>
-      <Step n={1}>
-        Run this in a terminal. It gives Claude Code a Chrome it can drive.
-        <Cmd text={WEBMCP_CLAUDE} />
-      </Step>
-      <Step n={2}>In that Chrome, open this page.</Step>
-      <Step n={3}>
-        Ask:
-        <Cmd text={WEBMCP_ASK} />
-      </Step>
-      <h3>In your own Chrome</h3>
-      <Step n={1}>
-        Open this and set it to Enabled:
-        <Cmd text={WEBMCP_FLAG} />
-      </Step>
-      <Step n={2}>Relaunch Chrome and come back to this page.</Step>
-      <Step n={3}>Use an agent that works inside Chrome.</Step>
-      <Note>
-        This is Chrome's WebMCP, still a trial. No agent? Start blank or open the example: both work
-        without one.
-      </Note>
+      <div className="seg wel-options" role="tablist" aria-label="How the agent connects">
+        {tab("page", "A", "In this page", "WebMCP")}
+        {tab("server", "B", "Through a server", "MCP")}
+      </div>
+      {option === "page" ? (
+        <InPage on={place === "page-agent"} />
+      ) : (
+        <ThroughServer mcp={mcp} agent={agent} />
+      )}
+      <h3>Then ask it</h3>
+      <Cmd text={option === "page" ? WEBMCP_ASK : MAP_ASK} />
+      <p className="small muted">
+        {option === "page"
+          ? "It draws here while you watch. Its edits carry its name, and it can undo its own. From a page it can't read files on your computer: describe the system or give it a link."
+          : "It reads the repo in the folder it runs in and draws here while you watch. Its edits carry its name, and it can undo its own."}
+      </p>
     </>
   );
 }
@@ -194,8 +211,8 @@ export function stepsFor(
           <Local />
         ),
     };
-  if (p.place === "server" && p.mcp)
-    return { title: "Connect an agent", body: <ConnectOnServer mcp={p.mcp} agent={p.agent} /> };
-  if (p.place === "page-agent") return { title: "Connect an agent", body: <ConnectInPage /> };
-  return { title: "Connect an agent", body: <ConnectNowhere /> };
+  return {
+    title: "Connect an agent",
+    body: <Connect place={p.place} mcp={p.mcp} agent={p.agent} />,
+  };
 }

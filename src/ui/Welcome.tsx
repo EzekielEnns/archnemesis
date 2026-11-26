@@ -95,7 +95,7 @@ function waysFor(w: Where): Way[] {
             : `Add ${addr} to your agent`
           : place === "page-agent"
             ? "Ask it to use the tools on this page"
-            : "See the two ways",
+            : "See how",
       tag:
         place === "server"
           ? w.agent
@@ -159,16 +159,13 @@ export function WelcomePanel(p: PanelProps) {
       {steps ? (
         <>
           <button className="wel-back" onClick={() => showDetail(null)}>
-            <ChevronLeft size={14} /> All ways in
+            <ChevronLeft size={14} /> Back
           </button>
           <h2 id="wel-title" tabIndex={-1} ref={head}>
             {steps.title}
           </h2>
           <div className="wel-body">{steps.body}</div>
           <div className="wel-actions">
-            <button className="cta" onClick={() => showDetail(null)}>
-              All ways in
-            </button>
             <button className="cta primary" onClick={p.onTuck}>
               {detail === "connect" ? "Got it, close this" : "Got it"}
             </button>

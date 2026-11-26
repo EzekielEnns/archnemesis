@@ -407,3 +407,12 @@
   font-size: 11.5px;
   font-weight: 400;
 }
+
+/* Connect an agent: option A or B. */
+.wel-options {
+  display: flex;
+  margin: 4px 0 14px;
+}
+.wel-options button {
+  flex: 1;
+}
