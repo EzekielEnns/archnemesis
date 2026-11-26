@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => ({
   optimizeDeps: { include: ["elkjs/lib/elk.bundled.js"] },
   test: {
     environment: "node",
+    setupFiles: ["test/setup.ts"],
     include: ["src/**/*.test.ts", "server/**/*.test.ts", "shared/**/*.test.ts"],
   },
 }));

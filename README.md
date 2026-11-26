@@ -15,20 +15,15 @@ Fastest first.
 
 1. **Open the hosted demo.** It runs in your browser and keeps designs in your browser only.
    <https://ezekielenns.github.io/archnemesis/>
-2. **Run it with Docker.** Needs Docker.
+2. **Run it with Docker.** One command, nothing to build. Needs Docker.
 
    ```sh
-   cp examples/tokens.example.json tokens.json
+   docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -e ARCHNM_AUTH=local -e ARCHNM_ALLOW_OPEN=yes ghcr.io/ezekielenns/archnemesis:main
    ```
 
-   Replace each token in `tokens.json` with 16 or more random characters, then:
-
-   ```sh
-   docker compose up -d --build
-   ```
-
-   Open http://127.0.0.1:5190 and sign in with one of the tokens. Details are in
-   [Docker](#1-docker-the-default).
+   Open http://127.0.0.1:5190. This is for you alone: it answers only on your own machine and
+   has no sign-in. Your designs are kept in the `archnm-data` volume. To host it for other
+   people, with sign-in, see [Docker](#1-docker-the-default).
 
 3. **Run it from source.** Needs Node 24 or newer and pnpm.
 
@@ -355,7 +350,7 @@ pnpm build:static   # the server-less app
 ```
 
 `pnpm install` sets up a pre-push hook (lefthook) that runs the format check, typecheck,
-lint, a check that the files in your push carry no recorded lint debt, the tests and knip.
+lint, the tests and knip, one after another.
 There is no CI for these: `LEFTHOOK_EXCLUDE=slow git push` skips the slow ones.
 
 The code has four folders (`shared/`, `server/`, `src/`, `cli/`) and lint enforces how they

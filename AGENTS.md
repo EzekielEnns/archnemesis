@@ -48,8 +48,7 @@ after paying debt off run `pnpm lint:bank`, which prunes it.
 ## Pre-push hook
 
 `pnpm install` sets up lefthook (`lefthook.yml`). On push it runs the format check, typecheck,
-lint, a check that the pushed `server`, `shared`, `src` and `cli` files carry no recorded lint
-debt, the tests and knip. There is no CI. `LEFTHOOK_EXCLUDE=slow git push` skips the tests
+lint, the tests and knip, one after another. There is no CI. `LEFTHOOK_EXCLUDE=slow git push` skips the tests
 and knip; `git push --no-verify` skips everything.
 
 ## Running a throwaway server

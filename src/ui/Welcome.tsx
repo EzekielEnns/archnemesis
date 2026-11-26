@@ -69,7 +69,7 @@ function waysFor(w: Where): Way[] {
           ? "An AI agent reads your code and draws it here."
           : place === "page-agent"
             ? "An AI agent draws a system from a public repo or from what you tell it."
-            : "Needs your own copy of Archnemesis (self-hosted). Three commands.",
+            : "Needs your own copy of Archnemesis (self-hosted). One Docker command.",
       next:
         place === "server"
           ? "“Map this repo into Archnemesis”"

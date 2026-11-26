@@ -40,7 +40,8 @@ function RunLocal() {
         <Cmd key={c} text={c} />
       ))}
       <p className="small muted">
-        Needs Node 24 or newer and pnpm. Docker, sign-in and hosting it for a team are in the{" "}
+        Needs Docker. It answers only on your own machine, with no sign-in. Running from source,
+        sign-in and hosting it for a team are in the{" "}
         <a href={`${REPO_URL}#readme`} target="_blank" rel="noreferrer">
           README
         </a>

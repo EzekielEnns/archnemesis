@@ -71,11 +71,9 @@ export const WEBMCP_CLAUDE =
 export const WEBMCP_ASK = "Use the Archnemesis tools on this page to draw my system.";
 
 export const REPO_URL = "https://github.com/EzekielEnns/archnemesis";
-/** Self-hosting at its simplest: README.md, "Run it from source". */
+/** Self-hosting at its simplest: README.md, "Try it on your machine". The published image, for you alone. */
 export const RUN_LOCAL: readonly string[] = [
-  `git clone ${REPO_URL}.git && cd archnemesis`,
-  "pnpm install",
-  "pnpm dev",
+  "docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -e ARCHNM_AUTH=local -e ARCHNM_ALLOW_OPEN=yes ghcr.io/ezekielenns/archnemesis:main",
 ];
 
 // --- the state the pieces share ----------------------------------------------------------
