@@ -1,0 +1,26 @@
+# The checks a push must pass before anything is deployed: format, types, lint, tests and dead
+# code (the same ones the pre-push hook runs, lefthook.yml). pages.yml and image.yml call this
+# first; it also runs on pull requests.
+name: check
+on:
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm check
+      - run: pnpm knip

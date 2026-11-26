@@ -24,7 +24,18 @@ pnpm knip           # unused files, exports, dependencies
 pnpm format         # prettier --write
 pnpm build          # the app and the scripts the server hands out
 pnpm build:static   # the server-less app into dist-static/
+pnpm build:npm      # the publishable package into dist-npm/ (runs pnpm build; see below)
 ```
+
+## The npm package
+
+`pnpm build:npm` compiles `server/`, `shared/` and `cli/` with tsc (`tsconfig.npm.json`) into
+`dist-npm/`, keeping the checkout's layout, and copies `dist/`, `schema/` and `examples/auth/`
+beside them; the server finds those one folder above `server/`, so keep reading them that way.
+`scripts/build-npm.ts` writes its `package.json`: dependencies are the packages the compiled
+code imports, at the versions in the root `package.json`, plus the two read by path in
+`server/render.ts`. Its bin is `server/personal-main.ts` (personal mode: `server/personal.ts`).
+Publishing is manual: `cd dist-npm && npm publish`.
 
 ## Rules lint enforces
 
@@ -48,7 +59,7 @@ after paying debt off run `pnpm lint:bank`, which prunes it.
 ## Pre-push hook
 
 `pnpm install` sets up lefthook (`lefthook.yml`). On push it runs the format check, typecheck,
-lint, the tests and knip, one after another. There is no CI. `LEFTHOOK_EXCLUDE=slow git push` skips the tests
+lint, the tests and knip, one after another. The same checks run on GitHub before anything deploys (`.github/workflows/`). `LEFTHOOK_EXCLUDE=slow git push` skips the tests
 and knip; `git push --no-verify` skips everything.
 
 ## Running a throwaway server

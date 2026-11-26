@@ -1,4 +1,4 @@
-# Local git hooks (https://lefthook.dev). There is no CI: what would run there runs here,
+# Local git hooks (https://lefthook.dev). The same checks run on GitHub before a deploy (.github/workflows/check.yml); here they run
 # before a push. `pnpm install` turns them on. `LEFTHOOK_EXCLUDE=slow git push` skips the
 # slow jobs; `git push --no-verify` skips them all.
 pre-push:

@@ -1,5 +1,5 @@
 # The server-less build (pnpm build:static), published to this repository's GitHub Pages on
-# every push to main. Designs live in each visitor's browser; nothing is sent anywhere.
+# every push to main that passes the checks (check.yml). Designs live in each visitor's browser; nothing is sent anywhere.
 #
 # Once, in the repository's settings: Pages -> Source: GitHub Actions.
 # Optional, for WebMCP without a browser flag while Chrome has it as an origin trial: register
@@ -22,7 +22,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  check:
+    uses: ./.github/workflows/check.yml
   build:
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

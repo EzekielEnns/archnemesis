@@ -3,6 +3,7 @@
     "src/canvas/routeWorker.ts",
     "cli/channel-main.ts",
     "cli/index-main.ts",
+    "server/personal-main.ts",
     "scripts/*.ts"
   ],
   "project": ["{server,shared,src,cli,scripts}/**/*.{ts,tsx}"],

@@ -20,7 +20,7 @@ stdenv.mkDerivation (finalAttrs: {
     pnpm = pnpm_10;
     fetcherVersion = 5;
     # The same on macOS and Linux. Changing pnpm-lock.yaml changes it: set lib.fakeHash, build, copy the "got".
-    hash = "sha256-Eu4Gz5Qo6q9VbCH84mL5l2+EQqsCCDQeGy0w+z0zwRA=";
+    hash = "sha256-8yGJoTrHhjNQRXWvPqo4vT3b/kSxLoxpl7CqQ5dchw8=";
   };
 
   buildPhase = ''

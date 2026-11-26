@@ -9,3 +9,4 @@ data/
 tokens.json
 result
 .bench/
+dist-npm/

@@ -36,6 +36,7 @@ export default tseslint.config(
     ignores: [
       "dist",
       "dist-static",
+      "dist-npm",
       "node_modules",
       "data",
       "result",
@@ -117,7 +118,13 @@ export default tseslint.config(
   { files: ["server/**"], rules: { "no-console": "off" } },
   {
     files: ["server/**/*.ts"],
-    ignores: ["server/config.ts", "server/env-compat.ts", "server/e2e.ts", "server/testing.ts"],
+    ignores: [
+      "server/config.ts",
+      "server/env-compat.ts",
+      "server/e2e.ts",
+      "server/testing.ts",
+      "server/personal-main.ts",
+    ],
     rules: { "no-restricted-syntax": ["error", ...HOUSE_RULES, NO_PROCESS_ENV] },
   },
   {

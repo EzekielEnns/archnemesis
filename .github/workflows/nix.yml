@@ -1,0 +1,21 @@
+# Builds the Nix package (flake.nix), so a dependency change that needs a new hash in
+# nix/package.nix is caught here and not on someone's machine. It deploys nothing.
+name: nix
+on:
+  push:
+    branches: [main]
+    paths: [pnpm-lock.yaml, package.json, flake.nix, flake.lock, "nix/**"]
+  pull_request:
+    paths: [pnpm-lock.yaml, package.json, flake.nix, flake.lock, "nix/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v16
+      - run: nix build .#archnm --print-build-logs

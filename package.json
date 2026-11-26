@@ -1,5 +1,6 @@
 {
   "name": "archnm",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "description": "An open source, self-hosted architecture diagram tool: one model of a software system, many views, saved as YAML in git and edited live by people and AI agents.",
@@ -29,6 +30,7 @@
     "archnm": "node cli/archnm.ts",
     "dev": "node server/main.ts",
     "build": "pnpm typecheck && vite build && vite build -c vite.channel.config.ts && vite build -c vite.index.config.ts",
+    "build:npm": "pnpm build && node scripts/build-npm.ts",
     "build:static": "vite build --mode static --outDir dist-static",
     "start": "vite build && NODE_ENV=production node server/main.ts",
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test:run",

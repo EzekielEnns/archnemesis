@@ -15,7 +15,23 @@ Fastest first.
 
 1. **Open the hosted demo.** It runs in your browser and keeps designs in your browser only.
    <https://ezekielenns.github.io/archnemesis/>
-2. **Run it with Docker.** One command, nothing to build. Needs Docker.
+2. **Run it with npx** (available once the `archnemesis` package is published to npm; until
+   then use Docker or source). Needs Node 24 or newer, nothing else.
+
+   ```sh
+   npx archnemesis
+   ```
+
+   Run it in your project's folder, then open http://127.0.0.1:5190. This is personal mode, as
+   with Docker: it answers only on your own machine, has no sign-in, and saves each design as
+   YAML under `./architecture` to commit with your repo. It prints the one command that
+   connects an agent. History and forks are kept in a per-user folder
+   (`~/.local/share/archnemesis/<folder>-<hash>`), outside your project, so there is nothing to
+   add to `.gitignore`. Flags: `--port`, `--dir` (the designs folder), `--data` (that
+   per-user folder); `--help` lists them. The `archnm` commands work through it too, for
+   example `npx archnemesis check`.
+
+3. **Run it with Docker.** One command, nothing to build. Needs Docker.
 
    ```sh
    docker run -p 127.0.0.1:5190:5190 -v archnm-data:/data -v "$PWD/architecture:/architecture" -e ARCHNM_PERSONAL=yes ghcr.io/ezekielenns/archnemesis
@@ -27,7 +43,7 @@ Fastest first.
    history are kept in the `archnm-data` volume. To host it for other people, with sign-in
    and pull requests on GitHub, see [Docker](#1-docker-the-default).
 
-3. **Run it from source.** Needs Node 24 or newer and pnpm.
+4. **Run it from source.** Needs Node 24 or newer and pnpm.
 
    ```sh
    git clone https://github.com/EzekielEnns/archnemesis.git && cd archnemesis
@@ -353,7 +369,7 @@ pnpm build:static   # the server-less app
 
 `pnpm install` sets up a pre-push hook (lefthook) that runs the format check, typecheck,
 lint, the tests and knip, one after another.
-There is no CI for these: `LEFTHOOK_EXCLUDE=slow git push` skips the slow ones.
+The same checks run on GitHub before the demo or the image is updated (`.github/workflows/check.yml`). `LEFTHOOK_EXCLUDE=slow git push` skips the slow ones locally.
 
 The code has four folders (`shared/`, `server/`, `src/`, `cli/`) and lint enforces how they
 depend on each other and a few house rules; `AGENTS.md` lists them. `docs/DESIGN.md` says why

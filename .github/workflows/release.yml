@@ -1,0 +1,39 @@
+# A release: push a tag like v0.4.0 (matching package.json's version). The image gets that
+# version as a tag (image.yml), and the npm package `archnemesis` is published, so
+# `npx archnemesis` picks it up.
+#
+# Once, for npm: create an automation token on npmjs.com and save it as a repository secret
+# named NPM_TOKEN (Settings -> Secrets and variables -> Actions -> Secrets).
+name: release
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  check:
+    uses: ./.github/workflows/check.yml
+  npm:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: The tag must be the version in package.json
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: pnpm build:npm
+      - run: npm publish --access public --provenance
+        working-directory: dist-npm
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
