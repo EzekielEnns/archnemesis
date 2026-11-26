@@ -59,6 +59,11 @@ export function WelcomeHost({
     return () => window.removeEventListener("keydown", esc);
   }, [ui.panel, help]);
 
+  // Something was drawn while the panel was up (an agent, or someone else): get out of its way.
+  useEffect(() => {
+    if (boxes > 0 && ui.panel) tuck();
+  }, [boxes, ui.panel]);
+
   // The coach has said its piece once there is a connection.
   const connected = store.connections.size > 0;
   useEffect(() => {

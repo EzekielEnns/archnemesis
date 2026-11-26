@@ -44,6 +44,9 @@ const IN_PAGE = new Set(["read", "write", "note", "show", "guide", "design", "fe
 /** What `design` does in the page: fork and propose need git, which not every backend has. */
 const PAGE_DESIGN: [string, ...string[]] = backend.git ? ["list", "fork", "propose"] : ["list"];
 
+/** A little longer than the backend waits before applying view rules (src/backend/rules.ts). */
+const RULES_SETTLE_MS = 700;
+
 /** The agent in the page: its own name, working for the person. */
 const pageAgent = (store: Store): Actor => ({
   id: `agent:page:${store.me.id}`,
@@ -71,6 +74,9 @@ function pageHost(
     commit: (ops, label, opts) => hand.send(ops, label, opts),
     undo: (dry) => hand.undo(dry),
     recent: (n) => store.log(n),
+    // Views that follow rules are brought up to date a moment after an edit (the backend does
+    // it, here or on the server): wait for that, so what's said next is about the view as drawn.
+    settled: () => new Promise((r) => setTimeout(r, RULES_SETTLE_MS)),
     url,
     seen: { get: () => seen, set: (at) => void (seen = at) },
     canvas,

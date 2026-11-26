@@ -6,6 +6,9 @@ import { Tools, TopLeft } from "../ui/Chrome";
 import type { WorkspaceBag } from "./useInteraction";
 
 /** The tools in the middle of the page, and the top-left bar when not in simple mode. */
+/** A first name for a sentence ("Sam is on it"); "Your agent" stays whole. */
+const shortName = (name: string) => (/^your /i.test(name) ? name : name.split(" ")[0]!);
+
 export function TopBar({
   up,
   canUp,
@@ -181,7 +184,7 @@ export function GuideBar({
                     className="muted small guide-quiet"
                     title="A press is kept and handed to it the next time it checks"
                   >
-                    {guide.name.split(" ")[0]} isn't listening right now: a press waits for it, or
+                    {shortName(guide.name)} isn't listening right now: a press waits for it, or
                     reply in chat
                   </span>
                 )}
@@ -191,8 +194,8 @@ export function GuideBar({
                 {guide.waiting === false && following && (
                   <span className="muted small grow">
                     {guide.listening === false
-                      ? `Sent. ${guide.name.split(" ")[0]} gets it when it next checks in, or reply in chat`
-                      : `${guide.name.split(" ")[0]} is on it…`}
+                      ? `Sent. ${shortName(guide.name)} gets it when it next checks in, or reply in chat`
+                      : `${shortName(guide.name)} is on it…`}
                   </span>
                 )}
                 <span className="grow" />

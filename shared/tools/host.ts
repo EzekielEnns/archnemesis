@@ -134,6 +134,8 @@ export interface Host {
   commit(ops: Op[], label: string, opts?: CommitOpts): void | Promise<void>;
   /** Views that follow rules pick up what changed. */
   applyRules?(): void;
+  /** Where the rules are applied a moment later by something else (a page): resolves once they have been. */
+  settled?(): Promise<void>;
   /** The actor's own last step undone (dry: only named): what it was, or null when there's nothing of theirs to undo. */
   undo?(dry?: boolean): string | null;
   recent?(n: number): LogEntry[];

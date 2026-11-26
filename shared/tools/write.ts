@@ -1211,6 +1211,7 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
     await host.commit(ops, a.label?.trim() || autoLabel(ops, tbd));
     step.started = true;
     host.applyRules?.();
+    await host.settled?.();
     // Who, and the history line: so a manager running several workers sees which wrote what.
     if (lifted.length || ignored.length) out.push(liftedNote(lifted, ignored));
     out.push(
@@ -1236,6 +1237,15 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
         await tidyView(host, host.index().diagrams.get(id)!, a.direction, step, set.get(id)),
       );
     if (a.tidy === true && !ids.length) out.push("no view changed, so none was tidied");
+  } else if (step.started) {
+    // A view that had nothing on it and now has boxes: nobody has arranged it, so lay it out
+    // (boxes written without positions otherwise land in a pile). A view someone has arranged is
+    // left alone unless tidy is asked for.
+    const now = host.index();
+    for (const d of now.diagrams.values()) {
+      if (idx.placements.get(d.id)?.size || !now.placements.get(d.id)?.size) continue;
+      out.push(await tidyView(host, d, a.direction, step));
+    }
   }
   out.push(...(warn ? [warn.trim()] : []));
   // A view this write set hide_lines on, left with boxes and no lines (four went out so).
