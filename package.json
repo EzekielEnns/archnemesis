@@ -1,6 +1,6 @@
 {
   "name": "archnm",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "type": "module",
   "description": "An open source, self-hosted architecture diagram tool: one model of a software system, many views, saved as YAML in git and edited live by people and AI agents.",

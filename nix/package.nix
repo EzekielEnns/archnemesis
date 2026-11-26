@@ -11,7 +11,7 @@ let
 in
 stdenv.mkDerivation (finalAttrs: {
   pname = "archnm";
-  version = "0.4.0";
+  version = "0.4.1";
   inherit src;
 
   nativeBuildInputs = [ nodejs_26 pnpm_10 pnpmConfigHook makeWrapper ];
