@@ -34,18 +34,12 @@ export async function init(state: SceneState, host: HTMLElement): Promise<boolea
       fontSize: 40,
       fill: 0xffffff,
     },
-    // ASCII, Latin-1 and Latin Extended-A (café, Zürich, Łódź), and typographic
-    // punctuation. Other scripts (CJK, emoji) aren't in it yet and draw as gaps.
-    chars: [
-      [" ", "~"],
-      ["\u00a0", "\u017f"],
-      ["\u2010", "\u2027"],
-      ["\u2190", "\u21ff"],
-      "✦",
-      "★",
-      "✓",
-      "✗",
-    ],
+    // What almost every label uses: ASCII, Latin-1 (café, Zürich), typographic punctuation and
+    // the four arrows. Anything else in Latin Extended (Łódź) or the arrows block is added the
+    // first time a label uses it. Kept short on purpose: Pixi measures every pair of these for
+    // kerning when the font is made, which blocked the page for about a second with 460 of them.
+    // Other scripts (CJK, emoji) draw as gaps.
+    chars: [[" ", "~"], ["\u00a0", "\u00ff"], ["\u2010", "\u2027"], "←↑→↓↔", "✦", "★", "✓", "✗"],
     resolution: Math.max(3, (window.devicePixelRatio || 1) * 1.5),
   });
 

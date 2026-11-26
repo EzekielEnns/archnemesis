@@ -172,8 +172,15 @@ function placeEdgeLabel(
       false,
       others,
     );
-    if (trial.covers > 0 && ev.edge.label.length > SHORT_LABEL) setEdgeLabel(ev, true);
-    mid = placeLabel(ev.route, ev.labelSize.w, ev.labelSize.h, boxes, taken, others);
+    if (trial.covers > 0 && ev.edge.label.length > SHORT_LABEL) {
+      setEdgeLabel(ev, true);
+      mid = placeLabel(ev.route, ev.labelSize.w, ev.labelSize.h, boxes, taken, others);
+    } else {
+      // Nothing changed since the trial, so placing it again would give the same spot.
+      mid = trial.at;
+      const { w, h } = ev.labelSize;
+      taken.push({ x: mid.x - w / 2 - 4, y: mid.y - h / 2 - 2, w: w + 8, h: h + 4 });
+    }
   }
   label.position.set(mid.x, mid.y);
   label.alpha = look.dim ? 0.18 : ev.edge.quiet && !look.focused && !look.live ? 0.25 : 1;

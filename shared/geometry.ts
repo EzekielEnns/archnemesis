@@ -354,6 +354,44 @@ export function placeLabel(
   return placeLabelOn(r, w, h, boxes, taken, true, others).at;
 }
 
+interface Run {
+  of: Route;
+  a: Point;
+  b: Point;
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+}
+const RUNS = new WeakMap<Route[], Run[]>();
+/**
+ * Every route's straight runs (a curve as four chords), with their bounds. Kept per list of
+ * routes: a redraw places every label against the same list, so it's worked out once.
+ */
+function runsOf(routes: Route[]): Run[] {
+  const had = RUNS.get(routes);
+  if (had) return had;
+  const runs: Run[] = [];
+  for (const o of routes) {
+    const pts = o.pts ?? [o.p0, routePoint(o, 0.25), routePoint(o, 0.5), routePoint(o, 0.75), o.p1];
+    for (let i = 1; i < pts.length; i++) {
+      const a = pts[i - 1]!;
+      const b = pts[i]!;
+      runs.push({
+        of: o,
+        a,
+        b,
+        x0: Math.min(a.x, b.x),
+        y0: Math.min(a.y, b.y),
+        x1: Math.max(a.x, b.x),
+        y1: Math.max(a.y, b.y),
+      });
+    }
+  }
+  RUNS.set(routes, runs);
+  return runs;
+}
+
 /** placeLabel, saying how much box it still covers (0: none), so a caller can shorten it and try again. */
 export function placeLabelOn(
   r: Route,
@@ -365,20 +403,50 @@ export function placeLabelOn(
   others: Route[] = [],
 ): { at: Point; covers: number } {
   const box = (p: Point): Rect => ({ x: p.x - w / 2 - 4, y: p.y - h / 2 - 2, w: w + 8, h: h + 4 });
+  // Every spot tried lies on the route or just beside it, so only what's within reach of the
+  // route can cost anything: boxes, labels and runs further off are dropped once, here, and not
+  // weighed again for each of a few hundred spots.
+  const hull = r.pts ?? [r.p0, r.c1, r.c2, r.p1];
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  for (const q of hull) {
+    x0 = Math.min(x0, q.x);
+    y0 = Math.min(y0, q.y);
+    x1 = Math.max(x1, q.x);
+    y1 = Math.max(y1, q.y);
+  }
+  x0 -= w + 20;
+  x1 += w + 20;
+  y0 -= 2 * h + 20;
+  y1 += 2 * h + 20;
+  const near = (b: Rect) => b.x <= x1 && b.x + b.w >= x0 && b.y <= y1 && b.y + b.h >= y0;
+  const nearBoxes = boxes.filter(near);
+  const nearTaken = taken.filter(near);
   // Other lines' straight runs: a label lying along one reads as that line's label.
-  const runs = others
-    .filter((o) => o !== r)
-    .flatMap((o) =>
-      (o.pts ?? [o.p0, routePoint(o, 0.25), routePoint(o, 0.5), routePoint(o, 0.75), o.p1]).flatMap(
-        (q, i, all) => (i ? [{ a: all[i - 1]!, b: q }] : []),
-      ),
-    );
-  const overRuns = (b: Rect) => runs.reduce((n, s) => n + lengthInside(s.a, s.b, b), 0);
+  const runs = runsOf(others).filter(
+    (s) => s.of !== r && s.x0 <= x1 && s.x1 >= x0 && s.y0 <= y1 && s.y1 >= y0,
+  );
+  const overRuns = (b: Rect) => {
+    const right = b.x + b.w;
+    const bottom = b.y + b.h;
+    let n = 0;
+    for (const s of runs) {
+      // A run whose own bounds miss the label has no length inside it: skip the sum.
+      if (s.x1 < b.x || s.x0 > right || s.y1 < b.y || s.y0 > bottom) continue;
+      n += lengthInside(s.a, s.b, b);
+    }
+    return n;
+  };
   // Covering a box's title is far worse than sitting on another label or line.
-  const cost = (b: Rect) =>
-    boxes.reduce((n, x) => n + overlapArea(x, b), 0) * 8 +
-    taken.reduce((n, x) => n + overlapArea(x, b), 0) +
-    overRuns(b) * h * 2;
+  const cost = (b: Rect) => {
+    let onBoxes = 0;
+    for (const x of nearBoxes) onBoxes += overlapArea(x, b);
+    let onLabels = 0;
+    for (const x of nearTaken) onLabels += overlapArea(x, b);
+    return onBoxes * 8 + onLabels + overRuns(b) * h * 2;
+  };
   const on = [...labelSpots(r, w)];
   for (let t = 0.1; t <= 0.9001; t += 0.025) on.push(routePoint(r, t));
   // On an upright stretch a label across the line spreads sideways over its neighbours and
@@ -426,7 +494,8 @@ export function placeLabelOn(
     const c = over + p.away * w;
     if (c < least) [best, least] = [{ x: p.x, y: p.y }, c];
   }
-  const covers = boxes.reduce((n, x) => n + overlapArea(x, box(best)), 0);
+  const bestBox = box(best);
+  const covers = nearBoxes.reduce((n, x) => n + overlapArea(x, bestBox), 0);
   if (keep) taken.push(box(best));
   return { at: best, covers };
 }
@@ -437,12 +506,18 @@ export function lengthInside(a: Point, b: Point, r: Rect): number {
   let t1 = 1;
   const dx = b.x - a.x;
   const dy = b.y - a.y;
-  for (const [p, q] of [
-    [-dx, a.x - r.x],
-    [dx, r.x + r.w - a.x],
-    [-dy, a.y - r.y],
-    [dy, r.y + r.h - a.y],
-  ] as const) {
+  // Each side of the rect in turn, written out: this runs millions of times a redraw, and a
+  // list of pairs to loop over would be allocated on every call.
+  for (let side = 0; side < 4; side++) {
+    const p = side === 0 ? -dx : side === 1 ? dx : side === 2 ? -dy : dy;
+    const q =
+      side === 0
+        ? a.x - r.x
+        : side === 1
+          ? r.x + r.w - a.x
+          : side === 2
+            ? a.y - r.y
+            : r.y + r.h - a.y;
     if (p === 0) {
       if (q < 0) return 0;
     } else {
