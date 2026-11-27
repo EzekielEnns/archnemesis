@@ -9,7 +9,7 @@ Tools:
 - write: a YAML fragment (objects:, entities:, connections:, views:) merged by id. Leaving something out never deletes it; remove: [refs] does. dry_run first when unsure. Every problem comes back at once with where and the nearest real id; nothing is half-applied. On a design that follows git it goes to your fork.
 - note: notes, flags (something wrong or missing) and claims (what you learned about a box you don't own).
 - show: open, spotlight, tour or render in the person's canvas. Changes nothing.
-- guide (read-only): the grammar, the field reference, and playbooks: map, design, tour, mentor.
+- guide (read-only): the grammar, the field reference, and playbooks: map, plan, design, tour, mentor.
 - design: list, create, fork, propose (a pull-request link to hand the person), delete, discard.
 - index: map a repo on the person's machine (start gives a shell command; then scan, import).
 - feedback: when Archnemesis gets in your way (a wrong answer, a confusing error, something missing), tell us with feedback: it's how the tools get fixed.
@@ -99,6 +99,30 @@ A big one: divide and conquer, agents in parallel.
 4. design {action: "propose"}: the person reviews the shape on the canvas. When the code lands, the importer turns future into live; what's still future isn't built.
 
 Running the agents yourself (briefing, watching, correcting): guide {topic: "manage"}.`,
+  },
+  plan: {
+    title: "Plan something new with a person",
+    args: "what they want to build",
+    text: `Planning with a person, from an idea to something worth building. They look at the big picture and cut; you keep it small and off the shelf. Don't draw the big version first: the usual first design is three times what's wanted, and the person spends the session cutting it.
+
+1. The goal, in one sentence, before any box: what it does for whom ("light novels translated to English that I can read in a smooth UI"). Not said? Ask once. Write it as the system's context. Everything after is measured against it.
+
+2. Off the shelf first. For each thing the goal needs, in this order: an existing tool or service that already does it; a library that does it; a few lines of glue; and only then code of your own. A part you'd write yourself says in its context why nothing existing fits. Check what you name: the registry for the current version, the docs, the licence, a site's terms before planning to fetch from it. Queues, workers, caches, schedulers, sync protocols and hand-written clients are the usual things to not build.
+
+3. The big picture, three views the person reads first, about 12 boxes each:
+   - the shape (the system's view): who uses it, the apps, the stores, the outside services, and what travels between them.
+   - dependencies: every library and tool the plan leans on, each a library box (package: {ecosystem, name, version}, a docs link, and in its context what it does for us and what it saves us writing), connected from the app that uses it. The first library makes this view.
+   - deploy (views: {deploy: {name: "Deploy", boundaries: true, ...}}): where each part runs (the machine, the image, the volume, the network it listens on), how it's reached, and what it needs from outside. Boundaries are the machines and networks.
+   Only what the goal needs, all status: future. What you'd add "for later" isn't drawn: it goes on the roadmap (decisions: {roadmap: {title: "Roadmap: not in the first version", status: proposed, text: "- <thing>: <why later>"}}).
+   show {open} the shape, and say in a few lines what's in and what's on the roadmap. Then stop and let them look.
+
+4. The review round. They comment on boxes; read them with note {action: "list"} (each says what it's on). Answer in chat with a table: what it's on, what they said, what you'll do. Read each as one of: "can a library do this?" (find one), "what is this?" (it's unclear: rename it and say it plainly, or cut it), "simpler" (cut it down to what the goal needs), "skip" (to the roadmap). Ask only what is really open, once. Then reply in each thread with what you did, change the design (remove what's cut; the fork's diff shows it), and leave the threads for them to resolve. Expect more than one round; each should end smaller.
+
+5. The code shape, once the cut is agreed and not before: the repo as it will be, folder by folder (a module per folder and per file, with path, config and test files too, each file in its folder's box); the functions that matter with signatures; tables with columns; what's created once and passed in. A view per folder. Entities for what crosses a boundary.
+
+6. Lock it in. Each choice the person questioned or agreed ("why this and not that?") is a decision: what was picked, what it beat and why, status accepted, affects: the boxes. read {lens: "review"} and read {lens: "problems"}, then design {action: "propose"}.
+
+Throughout: when they ask "why X?", answer with the alternative and what each costs here, and say which you'd pick. When something you said turns out wrong (a terms page, a version), say so first and change the plan.`,
   },
   tour: {
     title: "Show someone around",

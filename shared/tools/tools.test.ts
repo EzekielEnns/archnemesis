@@ -529,6 +529,38 @@ describe("libraries", () => {
   });
 });
 
+describe("review, for a plan", () => {
+  it("asks for library versions and for files in their folders", async () => {
+    const h = shop();
+    await call(h, "write", {
+      yaml: [
+        "objects:",
+        "  hono: {kind: library, package: {ecosystem: npm, name: hono}}",
+        ...["a", "b", "c"].map(
+          (f) =>
+            `  f-${f}: {kind: module, in: checkout, name: ${f}.ts, path: "shop:server/src/${f}.ts", status: future}`,
+        ),
+        "connections:",
+        "  - {from: checkout, to: hono}",
+      ].join("\n"),
+    });
+    const text = (await call(h, "read", { lens: "review" })).text;
+    expect(text).toContain("this library has no version");
+    expect(text).toContain("3 files aren't in a box for their folder");
+    await call(h, "write", {
+      yaml: [
+        "objects:",
+        "  hono: {package: {ecosystem: npm, name: hono, version: 4.6.0}}",
+        '  src: {kind: module, in: checkout, name: src, path: "shop:server/src", status: future}',
+        ...["a", "b", "c"].map((f) => `  f-${f}: {in: src}`),
+      ].join("\n"),
+    });
+    const after = (await call(h, "read", { lens: "review" })).text;
+    expect(after).not.toContain("no version");
+    expect(after).not.toContain("in a box for their folder");
+  });
+});
+
 describe("note", () => {
   it("adds a note where the box is drawn, replies, resolves, lists", async () => {
     const h = shop();

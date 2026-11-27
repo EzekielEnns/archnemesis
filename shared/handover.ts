@@ -259,6 +259,37 @@ export function review(idx: ModelIndex): Review {
       fix: "answer them (notes, note reply_to)",
     });
 
+  // Planned libraries with no version: their links can't point at the docs for what will be used.
+  const unversioned = live.filter((o) => o.kind === "library" && o.package && !o.package.version);
+  if (unversioned.length)
+    should.push({
+      about: unversioned
+        .slice(0, 6)
+        .map((o) => keyOf(idx, o.id))
+        .join(", "),
+      problem: `${unversioned.length === 1 ? "this library has" : `${unversioned.length} libraries have`} no version`,
+      fix: "set package.version from the manifest or the registry, so its docs links are for that version",
+    });
+
+  // Planned files put straight into an app or a far-off folder: the design doesn't mirror the repo.
+  const dirOf = (path: string) => path.slice(0, path.lastIndexOf("/"));
+  const stray = code.filter((o) => {
+    if (o.kind !== "module" || !o.path || !/\/[^/]+\.[a-z0-9]+$/i.test(o.path)) return false;
+    const up = o.parentId ? idx.objects.get(o.parentId) : undefined;
+    const dir = dirOf(o.path);
+    // Its folder is the box it's in, or it sits at the repo's (or its app's) root.
+    return !!up && dir.includes("/") && up.path !== dir;
+  });
+  if (stray.length >= 3)
+    should.push({
+      about: stray
+        .slice(0, 6)
+        .map((o) => keyOf(idx, o.id))
+        .join(", "),
+      problem: `${stray.length} files aren't in a box for their folder, so the design doesn't read like the repo`,
+      fix: "add each folder as a module (kind: module, path: repo:dir) and put its files in it (in: <folder>); config and test files too",
+    });
+
   return {
     must,
     should,

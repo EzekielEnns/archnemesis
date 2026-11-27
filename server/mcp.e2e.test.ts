@@ -38,7 +38,7 @@ afterAll(async () => {
 });
 
 describe("the MCP, end to end", () => {
-  it("offers eight tools, four prompts, the guide, and short instructions", async () => {
+  it("offers eight tools, five prompts, the guide, and short instructions", async () => {
     const { tools } = await client.listTools();
     expect(tools.map((t) => t.name)).toEqual([
       "read",
@@ -55,7 +55,7 @@ describe("the MCP, end to end", () => {
     expect(tools.find((t) => t.name === "write")!.annotations?.destructiveHint).toBe(true);
     expect(client.getInstructions()!.length).toBeLessThanOrEqual(2500);
     const { prompts } = await client.listPrompts();
-    expect(prompts.map((p) => p.name).sort()).toEqual(["design", "map", "mentor", "tour"]);
+    expect(prompts.map((p) => p.name).sort()).toEqual(["design", "map", "mentor", "plan", "tour"]);
     const map = await client.getPrompt({ name: "map", arguments: { focus: "the shop" } });
     expect((map.messages[0]!.content as { text: string }).text).toContain("This time: the shop");
     const guide = await client.readResource({ uri: "archnm://guide" });
