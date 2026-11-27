@@ -1,6 +1,6 @@
 // Letting go: what each kind of drag does when it ends (select, move, resize, connect, shape).
 import { screenToWorld } from "../camera";
-import { intersects, type Rect, rectFromCorners } from "../../../shared/geometry";
+import { intersects, nearestT, type Rect, rectFromCorners } from "../../../shared/geometry";
 import type { CanvasGroup } from "../types";
 import { commitShape } from "./arrows";
 import { drawStaticEdges } from "./edges";
@@ -69,9 +69,31 @@ function finishMarquee(state: SceneState, d: Extract<Drag, { kind: "marquee" }>)
   if (state.groupDraw) state.cb.onGroupDraw?.([...state.selected]);
 }
 
+/** Drawn off an arrow: which arrow it forks from (by where that one goes), and how far along. */
+function forkSpot(
+  state: SceneState,
+  d: Extract<Drag, { kind: "connect" }>,
+): { of: string; at: number } | undefined {
+  const ev = d.like ? state.edges.get(d.like) : undefined;
+  if (!ev) return undefined;
+  const t = Math.max(0.05, Math.min(0.95, nearestT(ev.route, d.start)));
+  return { of: ev.edge.to, at: Math.round(t * 100) / 100 };
+}
+
 /** A connection dropped on a box connects them; on nothing, it makes a new box there. */
 function finishConnect(state: SceneState, d: Extract<Drag, { kind: "connect" }>): void {
-  if (d.target) state.cb.onConnect?.(d.from, d.target);
+  const far = Math.hypot(d.current.x - d.start.x, d.current.y - d.start.y) * state.camera.scale;
+  // The connect tool, and a click not a drag: the box is picked (where the connection starts, or ends).
+  if (state.connecting && far < 4) {
+    state.selected = new Set(d.like ? [] : [d.from]);
+    state.selectedEdge = d.like ?? null;
+    state.selectedBoundary = null;
+    state.selectedScope = false;
+    emitSelect(state);
+    return;
+  }
+  if (d.target) state.cb.onConnect?.(d.from, d.target, d.like, forkSpot(state, d));
+  else if (d.like) return;
   else if (Math.hypot(d.current.x - d.start.x, d.current.y - d.start.y) * state.camera.scale > 24) {
     // Dropped on nothing: a new box, there, connected. Inside a file frame, it's in that file.
     const frame = state.groupList

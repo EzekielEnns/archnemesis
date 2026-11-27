@@ -39,6 +39,8 @@ export interface WriteArgs {
   /** Whole files (model/x.yaml, views/v.yaml…), as the folder has them: what read {file} gives, or a view exported to copy. */
   files?: Record<string, string>;
   remove?: string | string[];
+  /** Arrows drawn as forks of another from the same box, on a view. off: null undoes it. */
+  forks?: { view: string; arrow: string; off: string | null; at?: number }[];
   dry_run?: boolean;
   /** Only changes inside this box's subtree; anything else is refused with what to note instead. */
   scope?: string;
@@ -523,7 +525,16 @@ function knownRepos(model: FileModel, registered: string[]): Set<string> {
 }
 
 /** write's own parameters, which agents also write inside the yaml: taken out and used as the parameters. */
-const PARAM_KEYS = ["tidy", "remove", "scope", "dry_run", "as", "label", "direction"] as const;
+const PARAM_KEYS = [
+  "tidy",
+  "remove",
+  "forks",
+  "scope",
+  "dry_run",
+  "as",
+  "label",
+  "direction",
+] as const;
 
 /**
  * Parameters written inside the yaml (tidy: true, label: …, as: …), lifted out and used as the
@@ -558,6 +569,55 @@ export function liftParams<T extends WriteArgs & { as?: string }>(
     } else if (JSON.stringify(out[k]) !== JSON.stringify(val)) ignored.push(k);
   }
   return { args: out as T, lifted, ignored };
+}
+
+/**
+ * forks: on a view, an arrow drawn coming off another arrow from the same box, partway along
+ * it (one line that splits). It's how the view draws them: both stay their own connections.
+ */
+function setForks(
+  model: FileModel,
+  forks: NonNullable<WriteArgs["forks"]>,
+): { model: FileModel; problems: string[] } {
+  const problems: string[] = [];
+  const arrows = new Map(model.arrows);
+  const drawn = (ends: string) => model.connections.some((c) => `${c.from}>${c.to}` === ends);
+  for (const f of forks) {
+    const say = (m: string) => problems.push(`${f?.arrow ?? "?"}: ${m}`);
+    if (!f || typeof f.view !== "string" || typeof f.arrow !== "string")
+      return { model, problems: ["each fork is {view, arrow: a>b, off: a>c, at: 0.5}"] };
+    const view = f.view.replace(/^view:/, "");
+    if (!model.views.some((v) => v.key === view)) {
+      say(`no view "${view}" (${model.views.map((v) => v.key).join(", ")})`);
+      continue;
+    }
+    if (!drawn(f.arrow)) {
+      say("no connection has those ends (arrow is from>to, by box id)");
+      continue;
+    }
+    const mine = { ...arrows.get(view) };
+    const { fork_of: _of, fork_at: _at, ...rest } = mine[f.arrow] ?? {};
+    if (f.off === null) {
+      if (Object.keys(rest).length) mine[f.arrow] = rest;
+      else delete mine[f.arrow];
+      arrows.set(view, mine);
+      continue;
+    }
+    const [from, to] = f.arrow.split(">") as [string, string];
+    const [offFrom, offTo] = String(f.off).split(">") as [string, string | undefined];
+    if (!offTo || !drawn(String(f.off)))
+      say(`off: no connection ${f.off} (it's from>to, by box id)`);
+    else if (offFrom !== from)
+      say(`it forks off an arrow from the same box (${from}>…), not ${f.off}`);
+    else if (offTo === to) say("an arrow can't fork off itself");
+    else if (mine[f.off]?.fork_of === to) say(`${f.off} already forks off it`);
+    else {
+      const at = typeof f.at === "number" && f.at >= 0 && f.at <= 1 ? f.at : 0.5;
+      mine[f.arrow] = { ...rest, fork_of: offTo, fork_at: Math.round(at * 100) / 100 };
+      arrows.set(view, mine);
+    }
+  }
+  return { model: { ...model, arrows }, problems };
 }
 
 const DEPS_VIEW = "dependencies";
@@ -715,7 +775,7 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       a.dry_run ? `Dry run, nothing changed. Undo would take back: ${what}.` : `Undone: ${what}.`,
     );
   }
-  if (!a.yaml?.trim() && !a.files && !remove.length && !a.tidy)
+  if (!a.yaml?.trim() && !a.files && !remove.length && !a.tidy && !a.forks?.length)
     return fail(`Send yaml (a fragment in the file grammar), remove, or tidy.\n${EXAMPLE}`);
   if (!a.dry_run && !host.canEdit)
     return fail(`${host.actor.name} can read this design but not edit it`);
@@ -897,6 +957,13 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     }
   }
   model = without(model, gone);
+  if (Array.isArray(a.forks) && a.forks.length) {
+    const forked = setForks(model, a.forks);
+    model = forked.model;
+    problems.push(
+      ...forked.problems.map((message) => ({ level: "error" as const, file: "forks", message })),
+    );
+  }
   // A dropped tag group takes its tags off the boxes, and its lanes off the views (the
   // tags stayed as chips on every box and were taken off one by one).
   if (droppedGroups.size) {

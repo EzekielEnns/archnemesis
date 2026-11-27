@@ -61,7 +61,8 @@ function rebuildEdges(state: SceneState, graph: CanvasGraph): Map<string, string
   state.frameEnds = new Map([...lineEnds(graph)].filter(([id]) => !state.views.has(id)));
   for (const e of graph.edges) {
     if (!endRect(state, e.from) || !endRect(state, e.to)) continue;
-    const label = e.label ? makeEdgeLabel(state, e.label) : null;
+    // A fan is named once, on the one that leads it.
+    const label = e.label && (!e.fan || e.fanLead) ? makeEdgeLabel(state, e) : null;
     const ev: EdgeView = {
       edge: e,
       route: routeOf(state, e),

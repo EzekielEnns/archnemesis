@@ -6,6 +6,7 @@ import { drawGroups } from "./groups";
 import { baseAlpha } from "./measure";
 import { drawMiniNodes } from "./minimap";
 import { drawOverlay } from "./overlay";
+import { forkFamily } from "./lookup";
 import type { SceneState } from "./state";
 import type { Spotlight } from "./types";
 
@@ -78,7 +79,13 @@ export function refocus(state: SceneState): void {
     f = focusOnSpot(state, state.spot);
   } else if (state.selectedEdge) {
     const ev = state.edges.get(state.selectedEdge);
-    if (ev) f = { nodes: new Set([ev.edge.from, ev.edge.to]), edges: new Set([ev.edge.id]) };
+    // An arrow and its forks are one arrow: all of it stays lit, with every box it reaches.
+    const all = ev ? [ev, ...forkFamily(state, ev)] : [];
+    if (ev)
+      f = {
+        nodes: new Set(all.flatMap((x) => [x.edge.from, x.edge.to])),
+        edges: new Set(all.map((x) => x.edge.id)),
+      };
   } else if (state.selected.size || openedPicked(state)) {
     f = focusOnSelection(state);
   }

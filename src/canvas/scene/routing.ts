@@ -3,7 +3,13 @@
 import {
   BoxGrid,
   chooseSides,
+  clipToBoxes,
   intersects,
+  lineRoute,
+  type Point,
+  routePoint,
+  fanSides,
+  pinOffset,
   ports,
   type Rect,
   route,
@@ -33,13 +39,38 @@ export function syncAvoid(state: SceneState): void {
   const boxes = new Map<string, Rect>();
   for (const v of state.order)
     boxes.set(v.node.id, { x: v.node.x, y: v.node.y, w: v.node.w, h: v.node.h });
-  const edges = routerEdges(
-    [...state.edges.values()].map((ev) => ({ ...ev.edge, shape: shapeOf(state, ev.edge) })),
-    new Map([...boxes, ...state.frameEnds]),
-    boxes,
-  );
+  const list = [...state.edges.values()].map((ev) => ({
+    ...ev.edge,
+    shape: shapeOf(state, ev.edge),
+  }));
+  const ends = new Map([...boxes, ...state.frameEnds]);
+  // A fork is routed from its spot on the arrow it comes off: from that arrow's routed path,
+  // or, bent by hand or a fork itself, the line it was last drawn with.
+  const junction = (id: string): Point | undefined => {
+    const e = state.edges.get(id)?.edge;
+    const up = e?.forkOf ? state.edges.get(e.forkOf) : undefined;
+    const t = e && shapeOf(state, e)?.forkAt;
+    if (!up || t === undefined) return undefined;
+    const [a, b] = [endRect(state, up.edge.from), endRect(state, up.edge.to)];
+    const pts =
+      !up.edge.forkOf && !shapeOf(state, up.edge)?.bends?.length && state.avoid!.path(up.edge.id);
+    return routePoint(pts && a && b ? lineRoute(clipToBoxes(pts, a, b)) : up.route, t);
+  };
+  const style = state.arrowStyle === "straight" ? "straight" : "elbow";
   try {
-    state.avoid!.sync(boxes, edges, state.arrowStyle === "straight" ? "straight" : "elbow");
+    const first = routerEdges(list, ends, boxes, junction);
+    state.avoid!.sync(boxes, first, style);
+    // The arrows forks come off may have just been routed: route the forks from where they are now.
+    if (list.some((e) => e.forkOf)) {
+      const again = routerEdges(list, ends, boxes, junction);
+      const moved = again.some((e, i) => {
+        const [p, q] = [e.fromAt, first[i]?.fromAt];
+        return (
+          first[i]?.id !== e.id || (p && q && Math.hypot(p.x - q.x, p.y - q.y) > 0.5) || !p !== !q
+        );
+      });
+      if (moved || again.length !== first.length) state.avoid!.sync(boxes, again, style);
+    }
   } catch (e) {
     // Never let the router break drawing: drop it, and arrows go back to curves.
     console.warn("archnm: arrow router failed; arrows are curved for now", e);
@@ -89,6 +120,25 @@ export function recomputeRoutes(state: SceneState, dirty?: Dirty): void {
       for (const id of state.sideMap.keys()) if (!live.has(id)) state.sideMap.delete(id);
     }
   }
+  // A fan leaves its box from one spot on one side.
+  const fans = fanSides(
+    all.map((e) => ({ ...e, shape: shapeOf(state, e) })),
+    (id) => (state.views.has(id) ? rect(id) : undefined),
+  );
+  state.fanMap = new Map([...fans].map(([id, f]) => [id, f.side]));
+  for (const [id, { side }] of fans) {
+    const e = state.edges.get(id)!.edge;
+    const [a, b] = [rect(e.from), rect(e.to)];
+    const now = state.sideMap.get(id) ?? (a && b ? sides(a, b) : undefined);
+    if (now) state.sideMap.set(id, { from: side, to: now.to });
+  }
   state.portMap = ports(all, rect, state.sideMap);
+  for (const [id, f] of fans) {
+    const a = rect(state.edges.get(id)!.edge.from);
+    state.portMap.set(id, {
+      a: (a && pinOffset(a, f.side, f.at ?? 0.5)) || 0,
+      b: state.portMap.get(id)?.b ?? 0,
+    });
+  }
   syncAvoid(state);
 }

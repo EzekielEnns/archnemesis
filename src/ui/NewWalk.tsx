@@ -11,11 +11,16 @@ import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from "react"
 function useFocus() {
   const ref = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    const t = setTimeout(() => ref.current?.focus(), 40);
+    // What's there already (a store's name starts as what it is) is selected: typing replaces it.
+    const t = setTimeout(() => {
+      ref.current?.focus();
+      ref.current?.select();
+    }, 40);
     return () => clearTimeout(t);
   }, []);
   return ref;
 }
+import { backend } from "../backend";
 import { useTypeSuggest } from "./TypeSuggest";
 import type { Ecosystem, ModelObject, ObjectKind } from "../../shared/model.ts";
 import { OUTSIDE_TOOLS, parsePackage, parseSignature } from "../../shared/nodecard.ts";
@@ -43,11 +48,8 @@ const STEPS: Partial<Record<ObjectKind, Step[]>> = {
     { key: "tech", ask: "Tech: Rust, Node.js… (Enter when done)" },
     SUMMARY("what it does"),
   ],
-  store: [
-    { key: "tech", ask: "What is it? Postgres, Redis, S3…" },
-    { key: "name", ask: "A name, if it needs one (else it's just Postgres)", optional: true },
-    SUMMARY("what's in it"),
-  ],
+  // A service (kind: store) asks for both at once: see ServiceStep.
+  store: [{ key: "name", ask: "Name it" }],
   component: [{ key: "name", ask: "Name the component" }, SUMMARY("what it does")],
   table: [
     { key: "name", ask: "Table name: orders" },
@@ -103,6 +105,7 @@ export function NewWalk({
     return o.description ?? "";
   };
   if (!step) return null;
+  if (o.kind === "store") return <ServiceStep o={o} idx={idx} save={save} done={done} />;
   return (
     <div className="nw">
       {steps.slice(0, at).map((s, i) => {
@@ -324,6 +327,128 @@ function TextStep({
   );
 }
 
+/** The last of a comma-separated list, as it's being typed. */
+const lastWord = (s: string) => s.slice(s.lastIndexOf(",") + 1).trim();
+
+/**
+ * A service just placed (a database, a queue, a bucket, a cluster: anything ready-made): its
+ * name and what it runs on, side by side, either one enough. Enter anywhere saves both and
+ * closes, so the next one can go down. Asked one after the other, the tech became the name
+ * and the name was never asked.
+ */
+function ServiceStep({
+  o,
+  idx,
+  save,
+  done,
+}: Pick<StepProps, "o" | "save" | "done"> & { idx: ModelIndex }) {
+  const [name, setName] = useState(unnamed(o) ? "" : o.name);
+  const [tech, setTech] = useState(o.technology ?? "");
+  const [more, setMore] = useState<{ q: string; list: string[] }>({ q: "", list: [] });
+  // The tech as it stood when a suggestion was taken: nothing more is offered until it changes.
+  const [taken, setTaken] = useState("");
+  const [pick, setPick] = useState(0);
+  const ref = useFocus();
+  const q = lastWord(tech);
+  const mine = useMemo(() => designTechs(idx).map((t) => t.name), [idx]);
+  // Every technology there's a logo for, looked up as it's typed.
+  useEffect(() => {
+    if (!q) return;
+    let live = true;
+    void backend.icons
+      .search(q)
+      .then((list) => live && setMore({ q, list }))
+      .catch(() => {});
+    return () => void (live = false);
+  }, [q]);
+  // What the design already runs on first.
+  const here = q ? mine.filter((t) => t.toLowerCase().startsWith(q.toLowerCase())) : [];
+  const found =
+    !q || tech === taken
+      ? []
+      : [...new Set([...here, ...(more.q === q ? more.list : [])])].slice(0, 6);
+  const at = Math.min(pick, Math.max(0, found.length - 1));
+  const take = (t: string) => {
+    const head = tech.slice(0, tech.lastIndexOf(",") + 1);
+    const next = `${head}${head ? " " : ""}${t}`;
+    setTech(next);
+    setTaken(next);
+    setPick(0);
+  };
+  const finish = (techNow = tech) => {
+    const techs = techsOf(techNow);
+    const n = name.trim() || techs[0] || "";
+    const patch: Partial<ModelObject> = {};
+    if (n && n !== o.name) patch.name = n;
+    if (techs.join(", ") !== (o.technology ?? "")) patch.technology = techs.join(", ") || undefined;
+    if (Object.keys(patch).length) save(patch, n ? `name it ${n}` : "set tech");
+    done();
+  };
+  const keys = (e: KeyboardEvent<HTMLInputElement>, onTech: boolean) => {
+    e.stopPropagation();
+    if (onTech && found.length && e.key === "ArrowDown")
+      return (e.preventDefault(), setPick(Math.min(at + 1, found.length - 1)));
+    if (onTech && found.length && e.key === "ArrowUp")
+      return (e.preventDefault(), setPick(Math.max(at - 1, 0)));
+    if (e.key === "Enter") {
+      e.preventDefault();
+      // What's typed grows into what it means (pubs → Google Pub/Sub): the suggestion that is
+      // exactly it, or else the one that's lit.
+      const sug = found.find((f) => f.toLowerCase() === q.toLowerCase()) ?? found[at] ?? "";
+      const head = tech.slice(0, tech.lastIndexOf(",") + 1);
+      return finish(sug ? `${head}${head ? " " : ""}${sug}` : tech);
+    }
+    if (e.key === "Escape") return (e.preventDefault(), finish());
+  };
+  return (
+    <div className="nw">
+      <div className="nw-ask">Name</div>
+      <input
+        ref={ref}
+        className="nc-in nw-in"
+        value={name}
+        placeholder="Orders DB, Events bus… (or leave it: named by what it is)"
+        autoComplete="off"
+        spellCheck={false}
+        onChange={(e) => setName(e.target.value)}
+        onKeyDown={(e) => keys(e, false)}
+      />
+      <div className="nw-ask">Runs on</div>
+      <input
+        className="nc-in nw-in"
+        value={tech}
+        placeholder="Postgres, Pub/Sub, Kubernetes, S3… (commas for several)"
+        autoComplete="off"
+        spellCheck={false}
+        onChange={(e) => (setTech(e.target.value), setPick(0))}
+        onKeyDown={(e) => keys(e, true)}
+      />
+      {found.length > 0 && (
+        <div className="nc-sugg">
+          {found.map((s, i) => (
+            <button
+              key={s}
+              className={i === at ? "on" : ""}
+              onMouseDown={(e) => (e.preventDefault(), take(s))}
+              onMouseEnter={() => setPick(i)}
+            >
+              <span className="nc-sugg-v">{s}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      <div className="nw-keys">
+        <span>
+          <kbd>Enter</kbd> done
+        </span>
+        <span>
+          <kbd>Tab</kbd> the other one
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function TechStep({
   o,
   idx,
@@ -352,8 +477,6 @@ function TechStep({
   const add = (name: string) => {
     if (!name || have.some((h) => h.toLowerCase() === name.toLowerCase())) return;
     const patch: Partial<ModelObject> = { technology: [...have, name].join(", ") };
-    // A store is what it runs on: Postgres, unless it's given a name of its own.
-    if (o.kind === "store" && unnamed(o)) patch.name = name;
     save(patch, `add ${name}`);
     setQ("");
     setPick(0);
@@ -368,8 +491,6 @@ function TechStep({
       e.preventDefault();
       if (!q.trim()) return next();
       add(list[at]?.name ?? q.trim());
-      // A store needs one thing: what it is.
-      if (o.kind === "store") next();
       return;
     }
     if (e.key === "Tab" && !e.shiftKey) {
@@ -412,7 +533,7 @@ function TechStep({
             <button
               key={s.name}
               className={i === at ? "on" : ""}
-              onMouseDown={(e) => (e.preventDefault(), add(s.name), o.kind === "store" && next())}
+              onMouseDown={(e) => (e.preventDefault(), add(s.name))}
               onMouseEnter={() => setPick(i)}
             >
               <span className="nc-sugg-v">{s.name}</span>

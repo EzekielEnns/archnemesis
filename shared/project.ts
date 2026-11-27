@@ -103,6 +103,15 @@ export interface CanvasEdge {
   quiet?: boolean;
   /** Every connection on it is a guess (a call matched by name). */
   guess?: true;
+  /** A connection on it goes both ways: a head at each end. */
+  both?: true;
+  /** One of several arrows from the same box with the same label (publishes → three services):
+   * drawn as one line that splits, named once. The same on each of them. */
+  fan?: string;
+  /** The one of a fan that carries its label. */
+  fanLead?: true;
+  /** It forks off this arrow of its fan partway along (shape.forkAt), not from the box. */
+  forkOf?: string;
   /** Every connection on it is a call between code (functions, files): a call graph, tangled by nature. */
   code?: true;
   /** Its ends are in different regions ("us-central1 → europe-west2"): a pointer or call that
@@ -116,6 +125,47 @@ export interface CanvasEdge {
   status: Status;
   /** Shaped by hand on this diagram, if it has been. */
   shape?: ArrowShape;
+}
+
+/**
+ * Mark the arrows that are drawn as one line that splits. A fork comes off another arrow from
+ * the same box partway along (its shape says which, and where). Arrows that leave one box
+ * under one name for different boxes are a fan: one start, named once.
+ */
+function markFans(edges: CanvasEdge[]): void {
+  const byId = new Map(edges.map((e) => [e.id, e]));
+  const forks = (e: CanvasEdge): CanvasEdge | undefined => {
+    const s = e.shape;
+    const parent =
+      s?.forkAt !== undefined && s.forkOf ? byId.get(`${e.from}>${s.forkOf}`) : undefined;
+    // Forks can come off forks, but never round in a ring.
+    let up = parent;
+    for (let i = 0; up && i < 32; i++) {
+      if (up === e) return undefined;
+      const us = up.shape;
+      up = us?.forkAt !== undefined && us.forkOf ? byId.get(`${up.from}>${us.forkOf}`) : undefined;
+    }
+    return up ? undefined : parent;
+  };
+  const by = new Map<string, CanvasEdge[]>();
+  for (const e of edges) {
+    const parent = forks(e);
+    if (parent) {
+      e.forkOf = parent.id;
+      // Named as the arrow it comes off: that one's label says it for both.
+      if (e.label.trim().toLowerCase() === parent.label.trim().toLowerCase()) e.fan = "fork";
+      continue;
+    }
+    const label = e.label.trim().toLowerCase();
+    if (!label || e.labels?.length || e.fromColumn) continue;
+    const k = `${e.from}|${label}`;
+    by.set(k, [...(by.get(k) ?? []), e]);
+  }
+  for (const [k, list] of by) {
+    if (list.length < 2) continue;
+    for (const e of list) e.fan = k;
+    list[0]!.fanLead = true;
+  }
 }
 
 /** A frame: the object a diagram looks inside, or a boundary (dashed, with its kind). */
@@ -687,6 +737,7 @@ export function projectDiagram(
       idx.objects.get(e.from)?.kind === "library" || idx.objects.get(e.to)?.kind === "library";
     if ((toLib && !depGraph) || conns.every((c) => c.guess)) e.quiet = true;
     if (conns.every((c) => c.guess)) e.guess = true;
+    if (conns.some((c) => c.both)) e.both = true;
     const isCode = (id: string) => ["function", "module"].includes(idx.objects.get(id)?.kind ?? "");
     if (conns.every((c) => isCode(c.fromId) && isCode(c.toId))) e.code = true;
     e.status = conns.every((c) => c.status === "future")
@@ -798,6 +849,7 @@ export function projectDiagram(
   }
 
   groups.push(...frames);
+  markFans([...edges.values()]);
   return { nodes, edges: [...edges.values()], groups };
 }
 

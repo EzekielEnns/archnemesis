@@ -4,7 +4,16 @@
 // re-routes only what that touches, in well under a millisecond. Shared: the canvas loads
 // libavoid in the browser (src/canvas/avoid.ts), the server in Node (server/render.ts).
 import type { Avoid } from "libavoid-js";
-import { anchor, SIDE_OF_WORD, sides, type Point, type Rect, type Side } from "./geometry.ts";
+import {
+  anchor,
+  fanSides,
+  pinOffset,
+  SIDE_OF_WORD,
+  sides,
+  type Point,
+  type Rect,
+  type Side,
+} from "./geometry.ts";
 import type { ArrowStyle } from "./model.ts";
 
 /**
@@ -63,20 +72,30 @@ export function routerEdges(
     id: string;
     from: string;
     to: string;
+    fan?: string;
+    forkOf?: string;
     shape?: {
       bends?: Point[];
       fromSide?: keyof typeof SIDE_OF_WORD;
       toSide?: keyof typeof SIDE_OF_WORD;
+      fromAt?: number;
+      toAt?: number;
     };
   }[],
   ends: Map<string, Rect>,
   boxes: Map<string, Rect>,
+  /** Where a fork comes off its arrow, once that's known: it's routed from there. */
+  junction?: (id: string) => Point | undefined,
 ): RouterEdge[] {
+  // A fan's arrows all start at one spot, so they run as one line until they part.
+  const fans = fanSides(edges, (id) => (boxes.has(id) ? ends.get(id) : undefined));
   return edges.flatMap((e) => {
+    // Bent by hand: drawn through its bends, not routed.
     if (e.shape?.bends?.length) return [];
     const a = ends.get(e.from);
     const b = ends.get(e.to);
     if (!a || !b) return [];
+    if (e.forkOf) return forkEdge(e, boxes, junction?.(e.id));
     const out: RouterEdge = {
       id: e.id,
       from: e.from,
@@ -84,10 +103,37 @@ export function routerEdges(
       fromSide: e.shape?.fromSide && SIDE_OF_WORD[e.shape.fromSide],
       toSide: e.shape?.toSide && SIDE_OF_WORD[e.shape.toSide],
     };
+    const fan = fans.get(e.id);
+    if (fan) {
+      out.fromSide = fan.side;
+      out.fromAt = pinPoint(a, fan.side, fan.at ?? 0.5);
+    }
     if (!boxes.has(e.from)) out.fromAt = framePoint(a, b, out.fromSide);
+    else if (out.fromSide && e.shape?.fromAt !== undefined)
+      out.fromAt = pinPoint(a, out.fromSide, e.shape.fromAt);
     if (!boxes.has(e.to)) out.toAt = framePoint(b, a, out.toSide);
+    else if (out.toSide && e.shape?.toAt !== undefined)
+      out.toAt = pinPoint(b, out.toSide, e.shape.toAt);
     return [out];
   });
+}
+
+/** A fork is routed from its spot on the arrow it comes off, around the boxes in its way. */
+function forkEdge(
+  e: { id: string; from: string; to: string; shape?: { toSide?: keyof typeof SIDE_OF_WORD } },
+  boxes: Map<string, Rect>,
+  p: Point | undefined,
+): RouterEdge[] {
+  if (!p || !boxes.has(e.to)) return [];
+  const toSide = e.shape?.toSide && SIDE_OF_WORD[e.shape.toSide];
+  return [{ id: e.id, from: e.from, to: e.to, toSide, fromAt: { ...p, side: "r" } }];
+}
+
+/** An end put on a spot by hand: that point, a step off the box's border (the box is in the way of a point on it). */
+function pinPoint(box: Rect, side: Side, t: number): FramePoint {
+  const p = anchor(box, side, pinOffset(box, side, t));
+  const out = { l: [-2, 0], r: [2, 0], t: [0, -2], b: [0, 2] }[side] as [number, number];
+  return { x: p.x + out[0], y: p.y + out[1], side };
 }
 
 /** Where a line meets a frame: the middle of its side facing the other end (or the side pinned by hand). */
@@ -116,7 +162,8 @@ export class EdgeRouter {
     this.router.setRoutingParameter(P.segmentPenalty, 50);
     const O = A.RoutingOption;
     this.router.setRoutingOption(O.nudgeOrthogonalSegmentsConnectedToShapes, true);
-    this.router.setRoutingOption(O.nudgeSharedPathsWithCommonEndPoint, true);
+    // Arrows from the very same point are a fan: they stay one line until they part.
+    this.router.setRoutingOption(O.nudgeSharedPathsWithCommonEndPoint, false);
   }
 
   /**

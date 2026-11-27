@@ -52,7 +52,7 @@ export class AsyncRouter {
     }
     // An arrow whose end boxes moved, or whose ends changed, loses its old path until it's routed again.
     for (const e of edges) {
-      const ends = `${e.from}>${e.to}:${e.fromSide ?? ""}${e.toSide ?? ""}`;
+      const ends = `${e.from}>${e.to}:${e.fromSide ?? ""}${e.toSide ?? ""}:${e.fromAt ? `${e.fromAt.x},${e.fromAt.y}` : ""}:${e.toAt ? `${e.toAt.x},${e.toAt.y}` : ""}`;
       const moved = [e.from, e.to].some((id) => {
         const was = this.sent.get(id);
         const now = boxes.get(id);

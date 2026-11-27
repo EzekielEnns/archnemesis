@@ -158,6 +158,8 @@ export interface Connection {
   sources?: string[];
   /** Believed but not confirmed (an importer matched a call by name, an agent inferred it). Drawn fainter. */
   guess?: true;
+  /** It goes both ways (a socket, a sync): drawn with a head at each end. */
+  both?: true;
   /** Between tables, a key: the column on the from table that holds it ("customer_id")… */
   column?: string;
   /** …and the column on the to table it points at (its primary key when left out). */
@@ -388,6 +390,14 @@ export interface ArrowShape {
   /** The side it leaves `from` by, and arrives at `to` on. */
   fromSide?: BoxSide;
   toSide?: BoxSide;
+  /** Where along that side each end sits, when it was put there by hand: 0 at the side's start
+   * (its left, or its top), 1 at its end. Left out, the ends on a side share it out between them. */
+  fromAt?: number;
+  toAt?: number;
+  /** It forks off another arrow from the same box (the one to `forkOf`), `forkAt` of the way
+   * along it (0 at its start, 1 at its end), instead of starting at the box. */
+  forkOf?: string;
+  forkAt?: number;
   /** Points it goes through, in order, on the diagram. */
   bends?: { x: number; y: number }[];
   /** Where its label sits: 0 at the start, 1 at the end. */
@@ -511,7 +521,9 @@ export const KIND_LABEL: Record<ObjectKind, string> = {
   actor: "Actor",
   system: "System",
   app: "App",
-  store: "Store",
+  // A store in the files (kind: store); to people, anything ready-made you run on: a database,
+  // a queue, a bucket, a cluster.
+  store: "Service",
   component: "Component",
   module: "Module",
   function: "Function",

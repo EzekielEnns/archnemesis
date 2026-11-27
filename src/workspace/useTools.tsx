@@ -46,7 +46,7 @@ export function useTools({
           Click the box <b>{idx.objects.get(connectFrom)?.name}</b> connects to · Esc to cancel
         </>
       ) : (
-        "Click the box the connection starts from · Esc to cancel"
+        "Drag from a box to connect it, or from an arrow to branch it · Esc to cancel"
       )
     ) : tool === "note" ? (
       "Click where the note goes (on a box pins it to the box) · Esc to cancel"
@@ -68,6 +68,7 @@ export function useTools({
           : "place",
     );
     scene.current?.setGroupDraw(tool === "group");
+    scene.current?.setConnecting(tool === "connect");
     scene.current?.setSimple(simple);
     if (tool !== "connect") setConnectFrom(null);
   }, [tool, ready, simple]);

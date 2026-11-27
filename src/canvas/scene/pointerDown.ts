@@ -211,6 +211,27 @@ function pressOnEmpty(state: SceneState, e: PointerEvent, screen: Point, world: 
   state.drag = select
     ? { kind: "marquee", start: screen, current: screen }
     : { kind: "pan", last: screen, moved: false };
+  // A press on empty canvas lets go of what's picked there and then, not on the release (which
+  // read as a lag). If it turns out to be a drag, that's a pan: what was picked comes back.
+  if (
+    state.drag.kind === "pan" &&
+    e.button === 0 &&
+    (state.selected.size || state.selectedEdge || state.selectedBoundary || state.selectedScope)
+  ) {
+    state.drag.was = {
+      nodes: [...state.selected],
+      edge: state.selectedEdge,
+      boundary: state.selectedBoundary,
+      diagram: state.selectedScope,
+    };
+    state.selected.clear();
+    state.selectedEdge = null;
+    state.selectedBoundary = null;
+    state.selectedScope = false;
+    emitSelect(state);
+    drawOverlay(state);
+    requestRender(state);
+  }
   state.app.canvas.style.cursor = state.drag.kind === "pan" ? "grabbing" : "crosshair";
 }
 
@@ -271,6 +292,28 @@ export function onPointerDown(state: SceneState, e: PointerEvent): void {
   if (pressOnHandle(state, e, world)) return;
 
   const hit = e.button === 0 && !(state.simple && state.space) ? hitNode(state, world) : null;
+  // The connect tool: a drag from a box draws the arrow (a click still picks where it starts).
+  if (hit && state.connecting) {
+    state.knob = null;
+    state.drag = { kind: "connect", from: hit.node.id, start: world, current: world, target: null };
+    state.app.canvas.style.cursor = "crosshair";
+    return;
+  }
+  // The connect tool, from an arrow: a branch of it, to wherever it's dropped.
+  const off = !hit && state.connecting && e.button === 0 ? hitEdge(state, world) : null;
+  if (off && state.views.has(off.edge.from)) {
+    state.knob = null;
+    state.drag = {
+      kind: "connect",
+      from: off.edge.from,
+      like: off.edge.id,
+      start: world,
+      current: world,
+      target: null,
+    };
+    state.app.canvas.style.cursor = "crosshair";
+    return;
+  }
   if (!hit) pressOnEmpty(state, e, screen, world);
   else pressOnNode(state, e, hit, screen, world);
 }

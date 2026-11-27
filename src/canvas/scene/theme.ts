@@ -95,7 +95,7 @@ export const KIND_WORD: Record<NodeKind, string> = {
   actor: "Actor",
   system: "System",
   app: "App",
-  store: "Store",
+  store: "Service",
   component: "Component",
   module: "Module",
   function: "Function",

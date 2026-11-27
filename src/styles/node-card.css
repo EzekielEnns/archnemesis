@@ -354,6 +354,7 @@ button.nc-sect:hover {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-wrap: wrap;
   padding: 8px 10px;
   border-top: 1px solid var(--line);
 }
@@ -455,4 +456,38 @@ button.nc-sect:hover {
   border-radius: 5px;
   padding: 0 5px;
   flex: none;
+}
+
+/* An arrow that stands for several connections: which one the card is. */
+.nc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 10px 0;
+}
+.nc-tab {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 3px 9px;
+  border: 1px solid var(--line, #2a3040);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted, #8a93a6);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+.nc-tab:hover {
+  color: var(--text, #e6e9ef);
+}
+.nc-tab.on {
+  border-color: var(--accent, #4f8cff);
+  color: var(--text, #e6e9ef);
+  background: color-mix(in srgb, var(--accent, #4f8cff) 16%, transparent);
+}
+.nc-tab.add {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 7px;
 }

@@ -183,6 +183,11 @@ export class Scene {
     this.state.app.canvas.style.cursor = on ? "crosshair" : "";
   }
 
+  /** The connect tool: a drag from a box draws a connection. */
+  setConnecting(on: boolean): void {
+    this.state.connecting = on;
+  }
+
   setTool(t: Tool): void {
     this.state.tool = t;
     this.state.knob = null;

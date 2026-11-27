@@ -5,7 +5,6 @@ import { copyLink } from "../route";
 import {
   FolderClosed,
   ArrowLeft,
-  ArrowLeftRight,
   ArrowRight,
   Check,
   Link2,
@@ -18,7 +17,6 @@ import {
   Layers,
   Lock,
   Scale,
-  Spline,
   Trash2,
   Users,
   X,
@@ -53,13 +51,7 @@ import {
   type ButtonHTMLAttributes,
   type ReactNode,
 } from "react";
-import {
-  freeSpot,
-  openGroup,
-  place,
-  updateConnection,
-  updateObject,
-} from "../../shared/actions.ts";
+import { connect, freeSpot, openGroup, place, updateObject } from "../../shared/actions.ts";
 import {
   type Column,
   BOUNDARY_KINDS,
@@ -242,6 +234,70 @@ export function Act({
   );
 }
 
+/** The card for an arrow that stands for several connections: one of them at a time, in full. */
+function ManyConnections({
+  conns,
+  p,
+  resetJoints,
+  drawn,
+}: {
+  conns: Connection[];
+  p: Props;
+  resetJoints?: () => void;
+  drawn: boolean;
+}) {
+  const [pick, setPick] = useState<string | null>(null);
+  const c = conns.find((x) => x.id === pick) ?? conns[0];
+  if (!c) return null;
+  const canEdit = p.canEdit !== false;
+  const add = () => {
+    const made = connect(c.fromId, c.toId);
+    void p.run(made.ops, "add a connection").then(() => setPick(made.connection.id));
+  };
+  const tabs = (
+    <div className="nc-tabs" role="tablist" aria-label="Connections on this arrow">
+      {conns.map((x, i) => (
+        <button
+          key={x.id}
+          role="tab"
+          aria-selected={x.id === c.id}
+          className={`nc-tab${x.id === c.id ? " on" : ""}`}
+          onClick={() => setPick(x.id)}
+          data-tip={`${p.idx.objects.get(x.fromId)?.name ?? "?"} → ${p.idx.objects.get(x.toId)?.name ?? "?"}`}
+        >
+          {x.name || `Unnamed ${i + 1}`}
+        </button>
+      ))}
+      {canEdit && (
+        <button className="nc-tab add" onClick={add} data-tip="Another connection on this arrow">
+          <Plus size={12} />
+        </button>
+      )}
+    </div>
+  );
+  return (
+    <ConnectionCard
+      key={c.id}
+      c={c}
+      idx={p.idx}
+      diagramId={p.diagramId}
+      run={p.run}
+      canEdit={canEdit}
+      onClose={() => p.onClose?.()}
+      // Delete takes this one connection off the arrow, not the arrow.
+      onRemove={() => void p.run([{ op: "connection.delete", id: c.id }], "delete connection")}
+      onGoTo={(id) => p.onGoTo?.(id)}
+      onShowConnection={p.onShowConnection}
+      onHoverConnection={p.onHoverConnection}
+      onResetJoints={resetJoints}
+      drawn={drawn}
+      onComment={(text) => p.onCommentConnection?.(c.id, text)}
+      onOpenNote={(id) => p.onOpenNote?.(id)}
+      tabs={tabs}
+    />
+  );
+}
+
 export function Inspector(p: Props) {
   return (
     <Back.Provider value={p.back ?? null}>
@@ -255,7 +311,6 @@ export function Inspector(p: Props) {
 }
 
 function InspectorBody(p: Props) {
-  const menu = useMenu();
   if (p.selection.diagram) {
     const d = p.idx.diagrams.get(p.diagramId);
     if (!d) return null;
@@ -375,13 +430,18 @@ function InspectorBody(p: Props) {
     const resetJoints =
       edge && shaped
         ? () => {
-            const parts = edge.shape?.parts;
+            const { parts, forkOf, forkAt } = edge.shape ?? {};
+            // Where what it carries was put, and where it forks off another arrow, aren't joints.
+            const kept = {
+              ...(parts ? { parts } : {}),
+              ...(forkOf && forkAt !== undefined ? { forkOf, forkAt } : {}),
+            };
             void p.run(
               [
-                parts
+                Object.keys(kept).length
                   ? {
                       op: "arrow.put",
-                      arrow: { diagramId: p.diagramId, from: edge.from, to: edge.to, parts },
+                      arrow: { diagramId: p.diagramId, from: edge.from, to: edge.to, ...kept },
                     }
                   : { op: "arrow.delete", diagramId: p.diagramId, from: edge.from, to: edge.to },
               ],
@@ -409,73 +469,16 @@ function InspectorBody(p: Props) {
           onOpenNote={(id) => p.onOpenNote?.(id)}
         />
       );
+    // Several connections on one arrow: each is a whole connection, with the same card. A row of
+    // their names picks which; "+" adds another between the same two boxes.
     return (
-      <Panel
-        footer={
-          <>
-            {resetJoints && (
-              <Act
-                icon={<Spline size={13} />}
-                title="Back to the automatic route: sides, bends and label"
-                onClick={resetJoints}
-              >
-                Reset joints
-              </Act>
-            )}
-            <span className="spacer" />
-            <Act
-              icon={<Trash2 size={13} />}
-              className="danger"
-              title="⌫"
-              onClick={() => p.onRemove(false)}
-            >
-              {`Delete ${conns.length}`}
-            </Act>
-          </>
-        }
-      >
-        {
-          <>
-            {menu.node}
-            <h3>{conns.length} connections</h3>
-            <p className="muted small">
-              Several connections land on this arrow, from the objects inside these boxes.
-            </p>
-            {conns.map((c) => (
-              <div className="connection" key={c.id}>
-                <div
-                  className="ends-row"
-                  title="Right-click to reverse or delete this one"
-                  onContextMenu={menu.on(() => [
-                    {
-                      label: "Reverse",
-                      icon: <ArrowLeftRight size={14} />,
-                      run: () =>
-                        void p.run(
-                          updateConnection(c, { fromId: c.toId, toId: c.fromId }),
-                          "reverse connection",
-                        ),
-                    },
-                    {
-                      label: "Delete this one",
-                      icon: <Trash2 size={14} />,
-                      danger: true,
-                      run: () =>
-                        void p.run([{ op: "connection.delete", id: c.id }], "delete connection"),
-                    },
-                  ])}
-                >
-                  <span className="ends small">
-                    {p.idx.objects.get(c.fromId)?.name} <ArrowRight size={12} className="muted" />{" "}
-                    {p.idx.objects.get(c.toId)?.name}
-                  </span>
-                </div>
-                <ConnectionForm c={c} {...p} />
-              </div>
-            ))}
-          </>
-        }
-      </Panel>
+      <ManyConnections
+        key={edge?.id}
+        conns={conns}
+        p={p}
+        resetJoints={resetJoints}
+        drawn={!!edge}
+      />
     );
   }
 
@@ -2212,96 +2215,6 @@ export function CopyLinkButton({ to, what }: { to: Parameters<typeof copyLink>[0
     >
       {done ? <Check size={14} /> : <Link2 size={14} />}
     </button>
-  );
-}
-
-function ConnectionForm({ c, idx, config, run, canEdit }: Props & { c: Connection }) {
-  const via = c.viaId ? idx.objects.get(c.viaId) : undefined;
-  const from = idx.objects.get(c.fromId);
-  const to = idx.objects.get(c.toId);
-  const save = (patch: Partial<Connection>, label: string) => {
-    const changed = Object.entries(patch).some(([k, v]) => c[k as keyof Connection] !== v);
-    if (changed) void run(updateConnection(c, patch), label);
-  };
-  return (
-    <div className="connection-form">
-      {from?.kind === "table" && to?.kind === "table" && (
-        <div className="grid key-pick">
-          <label>Key</label>
-          <select
-            className="flow-field"
-            value={c.column ?? ""}
-            onChange={(e) => save({ column: e.target.value || undefined }, "set key column")}
-          >
-            <option value="">{from.name}: which column?</option>
-            {(from.columns ?? []).map((col) => (
-              <option key={col.name} value={col.name}>
-                {from.name}.{col.name}
-              </option>
-            ))}
-          </select>
-          <label>Points at</label>
-          <select
-            value={c.toColumn ?? ""}
-            onChange={(e) => save({ toColumn: e.target.value || undefined }, "set key target")}
-          >
-            <option value="">
-              {to.name}.{to.columns?.find((x) => x.pk)?.name ?? "id"} (its key)
-            </option>
-            {(to.columns ?? []).map((col) => (
-              <option key={col.name} value={col.name}>
-                {to.name}.{col.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      )}
-      <TextField
-        className="flow-field"
-        value={c.name}
-        placeholder="What it does (shown on the arrow)"
-        onCommit={(name) => save({ name }, "name connection")}
-      />
-      <div className="grid">
-        <label>Technology</label>
-        <TextField
-          className="flow-field"
-          value={c.technology}
-          placeholder="HTTPS, gRPC…"
-          onCommit={(technology) => save({ technology }, "set technology")}
-        />
-        <label>Status</label>
-        <select
-          value={c.status}
-          onChange={(e) => save({ status: e.target.value as Connection["status"] }, "set status")}
-        >
-          {STATUSES.map((s) => (
-            <option key={s} value={s}>
-              {s}
-            </option>
-          ))}
-        </select>
-      </div>
-      <TextField
-        multiline
-        value={c.description}
-        placeholder="Details…"
-        onCommit={(description) => save({ description }, "describe connection")}
-      />
-      <AgentContext
-        of={`${idx.objects.get(c.fromId)?.name ?? "?"} → ${idx.objects.get(c.toId)?.name ?? "?"}${c.name ? ` (${c.name})` : ""}`}
-        text={c.context ?? ""}
-        canEdit={canEdit}
-        onSave={(context) =>
-          save(
-            { context: context || undefined },
-            context ? "write agent context" : "remove agent context",
-          )
-        }
-      />
-      {via && <div className="muted small">Passes through {via.name}</div>}
-      <Sources sources={c.sources} owner={config.github} />
-    </div>
   );
 }
 

@@ -36,8 +36,15 @@ export function selectHandler(deps: SceneDeps, getScene: () => Scene): SceneCall
     }
     return false;
   };
-  return (next, fromCode) => {
+  // Whether the card was open when a press on empty canvas let go of everything: a pan puts both back.
+  let cardWas = false;
+  return (next, fromCode, back) => {
     const s = getScene();
+    if (back) {
+      setSel(next);
+      if (cardWas) setPanel(true);
+      return;
+    }
     if (next.nodes.length || next.edge || next.boundary || next.diagram) {
       setNoteSel(null);
       setDraft(null);
@@ -47,7 +54,11 @@ export function selectHandler(deps: SceneDeps, getScene: () => Scene): SceneCall
     // Simple mode: a click with the view tool reads it; letting go of everything closes it.
     // A click with the select tool shows what flows in and out, not the card: the card is a
     // right-click (which comes after this and opens it again).
-    if (!next.nodes.length && !next.edge && !next.boundary && !next.diagram) setPanel(false);
+    if (!next.nodes.length && !next.edge && !next.boundary && !next.diagram)
+      setPanel((open) => {
+        cardWas = open;
+        return false;
+      });
     else if (latest.current.simple && latest.current.tool === "select" && !fromCode)
       setPanel(false);
     else if (latest.current.tool === "view" && (next.nodes.length === 1 || next.edge))

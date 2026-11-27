@@ -79,7 +79,7 @@ export function addObject(
   const inside = kind !== "actor" && !fields.external;
   const object = makeObject({
     kind,
-    name: `New ${kind}`,
+    name: kind === "store" ? "New service" : `New ${kind}`,
     parentId: inside ? scopeId : null,
     ...fields,
   });
@@ -160,6 +160,12 @@ export function updateObject(o: ModelObject, patch: Partial<ModelObject>): Op[] 
 
 export function updateConnection(c: Connection, patch: Partial<Connection>): Op[] {
   return [{ op: "connection.put", connection: { ...c, ...patch, id: c.id } }];
+}
+
+/** Make a connection go both ways, or one way again (the flag is left out, not written as false). */
+export function setBoth(c: Connection, both: boolean): Op[] {
+  const { both: _was, ...rest } = c;
+  return [{ op: "connection.put", connection: both ? { ...rest, both: true } : rest }];
 }
 
 export function removeFromDiagram(diagramId: string, objectIds: string[]): Op[] {

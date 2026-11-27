@@ -14,7 +14,7 @@ describe("defaultName", () => {
   it.each([
     ["app", "New app"],
     ["actor", "New actor"],
-    ["store", "New store"],
+    ["store", "New service"],
     ["function", "new_function()"],
     ["table", "new_table"],
   ] as const)("names a new %s %s", (kind, name) => {

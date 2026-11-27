@@ -207,6 +207,9 @@ export const CONNECTION: Schema = {
     guess: bool(
       "true when it's believed but not confirmed (an importer matched the call by name, an agent inferred it); drawn fainter. Leave out once confirmed.",
     ),
+    both: bool(
+      "true when it goes both ways (a socket, a two-way sync): drawn with a head at each end. One connection, not two.",
+    ),
     column: str(
       "Between tables, a foreign key or pointer: the column on the from table that holds it (customer_id). The line is labelled with it.",
     ),

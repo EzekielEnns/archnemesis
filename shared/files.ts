@@ -494,6 +494,7 @@ export interface FConnection {
   via?: string;
   sources?: string[];
   guess?: true;
+  both?: true;
   /** A key between tables: the column holding it, and the one it points at. */
   column?: string;
   to_column?: string;
@@ -564,6 +565,12 @@ interface Box {
 interface FArrow {
   from?: BoxSide;
   to?: BoxSide;
+  /** Where along that side, 0 to 1, when put there by hand. */
+  from_at?: number;
+  to_at?: number;
+  /** It forks off the arrow from the same box to `fork_of`, this far along it, 0 to 1. */
+  fork_of?: string;
+  fork_at?: number;
   bends?: [number, number][];
   label?: number;
   /** Where what it carries was dragged to, from its label's corner. */
@@ -925,6 +932,7 @@ function fConnection(
   if (c.viaId) f.via = key(c.viaId);
   if (c.sources?.length) f.sources = [...c.sources];
   if (c.guess) f.guess = true;
+  if (c.both) f.both = true;
   if (c.column) f.column = c.column;
   if (c.toColumn) f.to_column = c.toColumn;
   const carries = entityRefs(c, entityName);
@@ -1341,6 +1349,12 @@ export function writeFiles(state: ModelState, config: FConfig = {}): Map<string,
       const f: FArrow = {};
       if (a.fromSide) f.from = a.fromSide;
       if (a.toSide) f.to = a.toSide;
+      if (a.fromSide && a.fromAt !== undefined) f.from_at = a.fromAt;
+      if (a.toSide && a.toAt !== undefined) f.to_at = a.toAt;
+      if (a.forkAt !== undefined && a.forkOf && state.objects.has(a.forkOf)) {
+        f.fork_of = key(a.forkOf);
+        f.fork_at = a.forkAt;
+      }
       if (a.bends?.length) f.bends = a.bends.map((p) => [Math.round(p.x), Math.round(p.y)]);
       if (a.label !== undefined) f.label = a.label;
       if (a.parts) f.parts = [Math.round(a.parts.x), Math.round(a.parts.y)];
@@ -1405,12 +1419,38 @@ function readArrows(
     const f: FArrow = {};
     let ok = true;
     for (const extra of Object.keys(a))
-      if (!["from", "to", "bends", "label", "parts"].includes(extra))
+      if (
+        ![
+          "from",
+          "to",
+          "from_at",
+          "to_at",
+          "fork_of",
+          "fork_at",
+          "bends",
+          "label",
+          "parts",
+        ].includes(extra)
+      )
         (err(file, `${where}: unknown field "${extra}"`), (ok = false));
     for (const end of ["from", "to"] as const) {
       if (a[end] === undefined) continue;
       if (SIDES.includes(a[end] as BoxSide)) f[end] = a[end] as BoxSide;
       else (err(file, `${where}: ${end} is one of ${SIDES.join(", ")}`), (ok = false));
+    }
+    for (const end of ["from_at", "to_at", "fork_at"] as const) {
+      const t = a[end];
+      if (t === undefined) continue;
+      if (typeof t === "number" && t >= 0 && t <= 1) f[end] = t;
+      else {
+        err(file, `${where}: ${end} is a number from 0 to 1`);
+        ok = false;
+      }
+    }
+    if (typeof a.fork_of === "string") f.fork_of = a.fork_of;
+    else if (a.fork_of !== undefined) {
+      err(file, `${where}: fork_of is the box the arrow it forks off goes to`);
+      ok = false;
     }
     if (a.bends !== undefined) {
       const bends = a.bends;
@@ -2092,6 +2132,7 @@ export function readFiles(raw: Map<string, string>): { model: FileModel; problem
           via: textOf(at("via"), where, "via", c.via),
           sources: readSources(at("sources"), where, c.sources, err),
           ...(readFlag(at("guess"), where, "guess", c.guess, err) ? { guess: true as const } : {}),
+          ...(readFlag(at("both"), where, "both", c.both, err) ? { both: true as const } : {}),
           ...(column ? { column } : {}),
           ...(toColumn ? { to_column: toColumn } : {}),
           ...(carries?.length ? { carries } : {}),
@@ -3042,6 +3083,7 @@ export function toOps(state: ModelState, model: FileModel): Op[] {
       ...(f.via ? { viaId: id(f.via) } : {}),
       ...(f.sources ? { sources: f.sources } : {}),
       ...(f.guess ? { guess: true as const } : {}),
+      ...(f.both ? { both: true as const } : {}),
       ...(f.column ? { column: f.column } : {}),
       ...(f.to_column ? { toColumn: f.to_column } : {}),
       ...(f.notes?.trim() ? { notes: f.notes.trim() } : {}),
@@ -3328,12 +3370,18 @@ export function toOps(state: ModelState, model: FileModel): Op[] {
       const next: ArrowShape = { diagramId, from, to };
       if (f.from) next.fromSide = f.from;
       if (f.to) next.toSide = f.to;
+      if (f.from && f.from_at !== undefined) next.fromAt = f.from_at;
+      if (f.to && f.to_at !== undefined) next.toAt = f.to_at;
+      if (f.fork_at !== undefined && f.fork_of && keep.has(id(f.fork_of))) {
+        next.forkOf = id(f.fork_of);
+        next.forkAt = f.fork_at;
+      }
       if (f.bends?.length)
         next.bends = f.bends.map(([x, y]) => ({ x: Math.round(x), y: Math.round(y) }));
       if (f.label !== undefined) next.label = Math.round(f.label * 1000) / 1000;
       if (f.parts) next.parts = { x: Math.round(f.parts[0]), y: Math.round(f.parts[1]) };
-      if (!next.fromSide && !next.toSide && !next.bends && next.label === undefined && !next.parts)
-        continue;
+      const empty = !next.fromSide && !next.toSide && !next.bends && !next.parts && !next.forkOf;
+      if (empty && next.label === undefined) continue;
       const k = akey(diagramId, from, to);
       keepShapes.add(k);
       if (!same(shapedNow.get(k), next)) ops.push({ op: "arrow.put", arrow: next });

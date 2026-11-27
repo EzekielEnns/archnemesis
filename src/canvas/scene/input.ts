@@ -1,6 +1,6 @@
 // Wiring the browser's events to the canvas: pointer, wheel, keys, resizing.
 import { panBy, screenToWorld, zoomAt } from "../camera";
-import type { Rect } from "../../../shared/geometry";
+import type { Point, Rect } from "../../../shared/geometry";
 import type { ArrowShape } from "../../../shared/model.ts";
 import { commitShape } from "./arrows";
 import { drawStaticEdges } from "./edges";
@@ -16,10 +16,20 @@ import { edgeLabelClient } from "./queries";
 import { recomputeRoutes, syncAvoid } from "./routing";
 import { select, setHovered } from "./selection";
 import type { SceneState } from "./state";
+import type { EdgeView } from "./types";
 import { SNAP } from "./theme";
 import { fit, setCamera, zoomBy } from "./view";
 
 /** Scroll or zoom from something laid over the canvas (a note), as if it were the canvas. */
+/** On a label that lists several names (one a line), the line under a point; else undefined. */
+function labelLine(state: SceneState, ev: EdgeView, p: Point): number | undefined {
+  const lab = ev.label && state.edgeLabels.visible ? ev.label.position : null;
+  const n = Math.round((ev.labelSize.h - 18) / 14) + 1;
+  if (!lab || n < 2 || Math.abs(p.x - lab.x) > ev.labelSize.w / 2) return undefined;
+  const line = Math.floor(((p.y - (lab.y - ev.labelSize.h / 2)) / ev.labelSize.h) * n);
+  return line >= 0 && line < n ? line : undefined;
+}
+
 export function forwardWheel(state: SceneState, e: WheelEvent): void {
   onWheel(state, e);
 }
@@ -59,7 +69,10 @@ export function bindInput(state: SceneState, host: HTMLElement): void {
         ...(shapeOf(state, sel.edge) ?? { diagramId: "", from: sel.edge.from, to: sel.edge.to }),
       };
       if (part.part === "bend") s.bends = (s.bends ?? []).filter((_, i) => i !== part.index);
-      else delete s[part.part === "from" ? "fromSide" : "toSide"];
+      else {
+        delete s[part.part === "from" ? "fromSide" : "toSide"];
+        delete s[part.part === "from" ? "fromAt" : "toAt"];
+      }
       state.shaping = { edge: sel.edge.id, shape: s };
       syncAvoid(state);
       drawStaticEdges(state);
@@ -72,7 +85,7 @@ export function bindInput(state: SceneState, host: HTMLElement): void {
     if (!hit) {
       const edge = hitEdge(state, p);
       const at = edge && edgeLabelClient(state, edge.edge.id);
-      if (edge && at) state.cb.onEditEdge?.(edge.edge.id, at.x, at.y);
+      if (edge && at) state.cb.onEditEdge?.(edge.edge.id, at.x, at.y, labelLine(state, edge, p));
       return;
     }
     // The name line renames; anywhere else on the box opens it. A folded box isn't one

@@ -639,6 +639,77 @@ describe("the off-the-shelf experiment", () => {
   });
 });
 
+describe("arrows people asked for", () => {
+  it("a connection can go both ways, and says so in its file", async () => {
+    const h = memHost({});
+    const out = await call(h, "write", {
+      yaml: [
+        "objects:",
+        '  a: {kind: app, context: "One side."}',
+        '  b: {kind: app, context: "The other."}',
+        "connections:",
+        "  - {from: a, to: b, label: syncs, both: true}",
+      ].join("\n"),
+    });
+    expect(out.isError, out.text).toBeFalsy();
+    expect([...h.state().connections.values()][0]?.both).toBe(true);
+    expect((await call(h, "read", { file: "*" })).text).toBeTruthy();
+    // Written again without it, it stays two-way (leaving a field out never clears it).
+    await call(h, "write", {
+      yaml: "connections:\n  - {from: a, to: b, label: syncs, tech: gRPC}\n",
+    });
+    expect([...h.state().connections.values()][0]?.both).toBe(true);
+  });
+
+  it("forks: an arrow drawn coming off another, on a view", async () => {
+    const h = memHost({});
+    const made = await call(h, "write", {
+      yaml: [
+        "objects:",
+        '  bus: {kind: store, tech: [Pub/Sub], context: "Events."}',
+        '  a: {kind: app, context: "A."}',
+        '  b: {kind: app, context: "B."}',
+        "connections:",
+        "  - {from: bus, to: a, label: publishes}",
+        "  - {from: bus, to: b, label: publishes}",
+        "views:",
+        "  main: {name: Main, boxes: [bus, a, b]}",
+      ].join("\n"),
+    });
+    expect(made.isError, made.text).toBeFalsy();
+    const out = await call(h, "write", {
+      forks: [{ view: "main", arrow: "bus>b", off: "bus>a", at: 0.4 }],
+    });
+    expect(out.isError, out.text).toBeFalsy();
+    const shape = [...h.state().arrows.values()][0];
+    expect(shape?.forkAt).toBe(0.4);
+    expect(h.state().objects.get(shape!.forkOf!)?.name).toBe("a");
+    // Off something that isn't there, or itself: said, nothing written.
+    const bad = await call(h, "write", { forks: [{ view: "main", arrow: "bus>b", off: "a>b" }] });
+    expect(bad.text).toContain("forks");
+    // off: null makes it its own arrow again.
+    await call(h, "write", { forks: [{ view: "main", arrow: "bus>b", off: null }] });
+    expect(h.state().arrows.size).toBe(0);
+  });
+
+  it("a real package whose version couldn't be looked up isn't called made up", async () => {
+    const h = memHost({
+      experiments: ["offshelf"],
+      stats: () => ({
+        fetchedAt: "2026-11-27T00:00:00Z",
+        latest: "2.9.0",
+        warnings: [],
+        error: "api.deps.dev answered 404",
+      }),
+    });
+    const out = await call(h, "write", {
+      yaml: 'objects:\n  cli: {kind: library, package: {ecosystem: npm, name: "@terrazzo/cli", version: 2.10.0}}\n',
+    });
+    expect(out.text).not.toContain("wasn't found");
+    expect(out.text).toContain("latest 2.9.0");
+  });
+});
+
 describe("note", () => {
   it("adds a note where the box is drawn, replies, resolves, lists", async () => {
     const h = shop();

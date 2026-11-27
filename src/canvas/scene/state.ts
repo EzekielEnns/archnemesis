@@ -68,6 +68,8 @@ export class SceneState {
   frameEnds = new Map<string, Rect>();
   sideMap = new Map<string, { from: Side; to: Side }>();
   portMap = new Map<string, { a: number; b: number }>();
+  /** The arrows that leave as part of a fan: the side they share. */
+  fanMap = new Map<string, Side>();
   /** Technology logos in their brand colour (and that colour, for the tile behind). */
   icons = new Map<string, { tex: Texture; color: number } | null | "loading">();
   /** Kind icons, by kind: drawn white and tinted per use. */
@@ -108,6 +110,8 @@ export class SceneState {
    * it holds, and a box dragged onto another box or frame goes inside it. */
   simple = false;
   space = false;
+  /** The connect tool is in hand: a drag from a box draws a connection instead of moving it. */
+  connecting = false;
   /** The group tool: a drag anywhere (on boxes too) draws a frame around what it covers. */
   groupDraw = false;
   drag: Drag | null = null;

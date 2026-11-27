@@ -170,6 +170,7 @@ between tables with `column` (and `to_column`).
 | `via` | An object the traffic passes through on the way (a load balancer, a gateway). Draw the connection to the real backend and name the middle here. |
 | `sources` | Where the facts come from, so a person or a drift job can check them: repo@ref:path[:line[-line]] (ref: a sha or a branch, on GitHub under archnm.yaml's github), repo:path for a file that isn't written yet, or an http(s) address. |
 | `guess` | true when it's believed but not confirmed (an importer matched the call by name, an agent inferred it); drawn fainter. Leave out once confirmed. |
+| `both` | true when it goes both ways (a socket, a two-way sync): drawn with a head at each end. One connection, not two. |
 | `column` | Between tables, a foreign key or pointer: the column on the from table that holds it (customer_id). The line is labelled with it. |
 | `to_column` | The column on the to table it points at; leave out for its primary key. |
 | `carries` | The entities that travel over it, by name: [PaidOrder]. A name nothing defines yet becomes a TBD entity. |

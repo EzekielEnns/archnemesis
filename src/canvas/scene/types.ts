@@ -57,7 +57,8 @@ export interface SceneCallbacks {
    */
   loadIcon?: IconLoader;
   /** byCode: the app selected it (select(…, true)), not a click. */
-  onSelect?: (sel: Selection, byCode?: boolean) => void;
+  /** back: what was picked before a press on empty canvas, put back because the press was a pan. */
+  onSelect?: (sel: Selection, byCode?: boolean, back?: boolean) => void;
   /** Boxes were dragged; their new top-left corners. */
   /**
    * into (simple mode): what they were dropped into: a frame or a box under the pointer, null
@@ -69,7 +70,8 @@ export interface SceneCallbacks {
   /** The group tool: a frame drawn around these boxes. */
   onGroupDraw?: (ids: string[]) => void;
   /** A connection was dragged from one box's handle onto another box. */
-  onConnect?: (from: string, to: string) => void;
+  /** With `like`, it was drawn off that arrow: a fork, off the arrow to `of`, `at` of the way along. */
+  onConnect?: (from: string, to: string, like?: string, fork?: { of: string; at: number }) => void;
   /**
    * A connection was dragged from a box's handle into empty space: make a new box there,
    * connected to it. `frame` is the file (module) frame it was dropped in, if any.
@@ -84,7 +86,8 @@ export interface SceneCallbacks {
   /** A box was resized by its corner. */
   onResize?: (id: string, w: number, h: number) => void;
   /** An arrow was double-clicked; where its label is on the page. */
-  onEditEdge?: (id: string, clientX: number, clientY: number) => void;
+  /** line: which name was double-clicked, on a label that lists several. */
+  onEditEdge?: (id: string, clientX: number, clientY: number, line?: number) => void;
   /** An arrow reshaped by hand (null: back to automatic). False if it can't be saved. */
   onArrowShape?: (
     from: string,
@@ -160,7 +163,7 @@ export interface EdgeView {
 
 export type Drag =
   /** keep: it began on a frame's title, which picked the frame; letting go keeps it picked. */
-  | { kind: "pan"; last: Point; moved: boolean; keep?: boolean }
+  | { kind: "pan"; last: Point; moved: boolean; keep?: boolean; was?: Selection }
   | {
       kind: "nodes";
       ids: string[];
@@ -171,7 +174,15 @@ export type Drag =
       frame?: string;
     }
   | { kind: "marquee"; start: Point; current: Point; right?: boolean }
-  | { kind: "connect"; from: string; start: Point; current: Point; target: string | null }
+  | {
+      kind: "connect";
+      from: string;
+      start: Point;
+      current: Point;
+      target: string | null;
+      /** Drawn off this arrow: a branch of it, to another box. */
+      like?: string;
+    }
   | { kind: "resize"; id: string; start: Point; origin: { w: number; h: number }; moved: boolean }
   | { kind: "minimap" }
   /** Shaping the selected arrow: an end (pins its side), a bend, its label, or its line (adds a bend). */

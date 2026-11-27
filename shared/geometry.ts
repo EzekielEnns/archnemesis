@@ -225,6 +225,35 @@ export function anchor(r: Rect, side: Side, offset = 0): Point {
   return { x: c.x + offset, y: side === "t" ? r.y : r.y + r.h };
 }
 
+/** How far from the middle of a side an end pinned at `t` (0 to 1 along it) sits. */
+export function pinOffset(r: Rect, side: Side, t: number | undefined): number | undefined {
+  return t === undefined ? undefined : (t - 0.5) * (side === "l" || side === "r" ? r.h : r.w);
+}
+
+/** The same for both ends of an arrow, from its shape: only an end with a side has a spot on it. */
+export function pinOffsets(
+  a: Rect,
+  b: Rect,
+  pin: { from?: Side; to?: Side },
+  shape: { fromAt?: number; toAt?: number } | undefined,
+): { a?: number; b?: number } {
+  const at: { a?: number; b?: number } = {};
+  const oa = pin.from ? pinOffset(a, pin.from, shape?.fromAt) : undefined;
+  const ob = pin.to ? pinOffset(b, pin.to, shape?.toAt) : undefined;
+  // Only the ends that have a spot: spread over the shared-out offsets, the rest keep theirs.
+  if (oa !== undefined) at.a = oa;
+  if (ob !== undefined) at.b = ob;
+  return at;
+}
+
+/** Where along a side a point is, 0 to 1: kept off the corners, in steps a hand can hit twice. */
+export function sideT(r: Rect, side: Side, p: Point): number {
+  const raw = side === "l" || side === "r" ? (p.y - r.y) / r.h : (p.x - r.x) / r.w;
+  const t = Math.min(0.9, Math.max(0.1, raw));
+  // The middle holds on: a little off it is the middle.
+  return Math.abs(t - 0.5) < 0.06 ? 0.5 : Math.round(t * 20) / 20;
+}
+
 /** A curve from a facing side of `a` to one of `b`; offsets move the ends along their sides. */
 export function route(a: Rect, b: Rect, offA = 0, offB = 0, via?: { from: Side; to: Side }): Route {
   const { from, to } = via ?? sides(a, b);
@@ -246,6 +275,118 @@ export interface PortEdge {
   id: string;
   from: string;
   to: string;
+}
+
+/**
+ * Where on its box each arrow of a fan starts, so they can leave as one line: the side facing
+ * the middle of where they all go, at its middle. One whose start was put somewhere by hand
+ * keeps it, and the rest start there with it. One bent by hand starts there too, then takes
+ * its own bends.
+ */
+export function fanSides(
+  edges: (PortEdge & {
+    fan?: string;
+    forkOf?: string;
+    shape?: { fromSide?: keyof typeof SIDE_OF_WORD; fromAt?: number; bends?: unknown[] };
+  })[],
+  rect: (id: string) => Rect | undefined,
+): Map<string, { side: Side; at?: number }> {
+  const by = new Map<string, typeof edges>();
+  for (const e of edges) {
+    if (!e.fan || e.forkOf) continue;
+    if (!rect(e.from) || !rect(e.to)) continue;
+    by.set(e.fan, [...(by.get(e.fan) ?? []), e]);
+  }
+  const out = new Map<string, { side: Side; at?: number }>();
+  for (const list of by.values()) {
+    if (list.length < 2) continue;
+    const held = list.find((e) => e.shape?.fromSide)?.shape;
+    const to = list.map((e) => center(rect(e.to)!));
+    const mid = {
+      x: to.reduce((s, p) => s + p.x, 0) / to.length,
+      y: to.reduce((s, p) => s + p.y, 0) / to.length,
+    };
+    const start = held?.fromSide
+      ? { side: SIDE_OF_WORD[held.fromSide], at: held.fromAt }
+      : { side: sides(rect(list[0]!.from)!, { x: mid.x, y: mid.y, w: 0, h: 0 }).from };
+    for (const e of list) if (!e.shape?.fromSide) out.set(e.id, start);
+  }
+  return out;
+}
+
+/**
+ * An arrow that forks off another: from the point `t` along that one, through its own bends,
+ * to the side of its box facing the fork, turning once on the way.
+ */
+export function forkRoute(
+  parent: Route,
+  t: number,
+  to: Rect,
+  bends: Point[] = [],
+  round = 0,
+): Route {
+  const p = routePoint(parent, t);
+  const last = bends[bends.length - 1] ?? p;
+  const side = sides({ x: last.x, y: last.y, w: 0, h: 0 }, to).to;
+  const q = anchor(to, side);
+  const turn = side === "t" || side === "b" ? { x: q.x, y: last.y } : { x: last.x, y: q.y };
+  const pts = [p, ...bends, turn, q].filter(
+    (x, i, a) => i === 0 || Math.hypot(x.x - a[i - 1]!.x, x.y - a[i - 1]!.y) > 0.5,
+  );
+  return lineRoute(pts.length > 1 ? pts : [p, q], round);
+}
+
+/**
+ * A routed line made to start exactly at `p` (a fork's spot on its arrow, which may have moved a
+ * little since it was routed): its first corner moves with it, so the first stretch stays straight.
+ */
+export function startAt(pts: Point[], p: Point): Point[] {
+  if (pts.length < 2) return pts;
+  const [a, b] = [pts[0]!, pts[1]!];
+  const next =
+    pts.length === 2
+      ? b
+      : Math.abs(a.x - b.x) < 0.5
+        ? { x: p.x, y: b.y }
+        : Math.abs(a.y - b.y) < 0.5
+          ? { x: b.x, y: p.y }
+          : b;
+  return [p, next, ...pts.slice(2)];
+}
+
+/** An arrow bent by hand that's in a fan still leaves from the fan's spot: its pin and offsets, with that start. */
+export function fanStart<P extends { from?: Side }, A extends { a?: number }>(
+  pin: P,
+  at: A,
+  fan: { side: Side } | undefined,
+  a: number | undefined,
+): { pin: P; at: A } {
+  return fan ? { pin: { ...pin, from: fan.side }, at: { ...at, a: a ?? 0 } } : { pin, at };
+}
+
+/** How far two lines from the same point run as one, in px (0 when they part at once). */
+export function sharedRun(a: Point[], b: Point[]): number {
+  let run = 0;
+  for (let i = 1; i < a.length && i < b.length; i++) {
+    const [p, q, r] = [a[i - 1]!, a[i]!, b[i]!];
+    if (Math.hypot(p.x - b[i - 1]!.x, p.y - b[i - 1]!.y) > 0.5) break;
+    const la = Math.hypot(q.x - p.x, q.y - p.y);
+    const lb = Math.hypot(r.x - p.x, r.y - p.y);
+    // Not the same way out of this point: they've parted.
+    if (!la || !lb || ((q.x - p.x) * (r.x - p.x) + (q.y - p.y) * (r.y - p.y)) / (la * lb) < 0.999)
+      break;
+    run += Math.min(la, lb);
+    if (Math.abs(la - lb) > 0.5) break;
+  }
+  return run;
+}
+
+/** A line's length. */
+export function lineLength(pts: Point[]): number {
+  let total = 0;
+  for (let i = 1; i < pts.length; i++)
+    total += Math.hypot(pts[i]!.x - pts[i - 1]!.x, pts[i]!.y - pts[i - 1]!.y);
+  return total;
 }
 
 /**

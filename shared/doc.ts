@@ -245,6 +245,7 @@ function wellFormed(table: Table, r: Record<string, unknown>, key?: string): boo
         optRef(r.viaId) &&
         sourcesOk(r.sources) &&
         (r.guess === undefined || r.guess === true) &&
+        (r.both === undefined || r.both === true) &&
         optText(r.column, 200) &&
         optText(r.toColumn, 200) &&
         linksOk(r.links) &&
@@ -1167,6 +1168,8 @@ function exec(d: Draft, op: Op): void {
       check(a.from !== a.to, "an arrow needs two different ends");
       for (const s of [a.fromSide, a.toSide])
         check(s === undefined || SIDES.includes(s), `a side is one of ${SIDES.join(", ")}`);
+      for (const t of [a.fromAt, a.toAt, a.forkAt])
+        check(t === undefined || (num(t) && t >= 0 && t <= 1), "where an end sits is 0 to 1");
       check(
         a.bends === undefined ||
           (Array.isArray(a.bends) &&
@@ -1185,7 +1188,14 @@ function exec(d: Draft, op: Op): void {
       const clean = cleanArrow(a as unknown as Record<string, unknown>);
       const k = akey(a.diagramId, a.from, a.to);
       // A shape with nothing in it is no shape: remove it rather than keep an empty record.
-      if (clean.fromSide || clean.toSide || clean.bends || clean.label !== undefined || clean.parts)
+      if (
+        clean.fromSide ||
+        clean.toSide ||
+        clean.bends ||
+        clean.label !== undefined ||
+        clean.parts ||
+        clean.forkOf
+      )
         d.set("arrows", k, clean);
       else if (d.get("arrows", k)) d.set("arrows", k, null);
       return;
@@ -1639,6 +1649,18 @@ function cleanArrow(r: Record<string, unknown>): ArrowShape {
   };
   if (SIDES.includes(r.fromSide as never)) out.fromSide = r.fromSide as ArrowShape["fromSide"];
   if (SIDES.includes(r.toSide as never)) out.toSide = r.toSide as ArrowShape["toSide"];
+  // A spot along a side means nothing without the side.
+  const at = (v: unknown) =>
+    num(v) && (v as number) >= 0 && (v as number) <= 1
+      ? Math.round((v as number) * 100) / 100
+      : undefined;
+  if (out.fromSide && at(r.fromAt) !== undefined) out.fromAt = at(r.fromAt);
+  if (out.toSide && at(r.toAt) !== undefined) out.toAt = at(r.toAt);
+  // A fork needs both: the arrow it comes off (by where that one goes) and how far along.
+  if (at(r.forkAt) !== undefined && typeof r.forkOf === "string" && r.forkOf !== r.to) {
+    out.forkOf = r.forkOf;
+    out.forkAt = at(r.forkAt);
+  }
   if (Array.isArray(r.bends)) {
     const bends = (r.bends as { x: unknown; y: unknown }[])
       .filter((p) => num(p?.x) && num(p?.y))

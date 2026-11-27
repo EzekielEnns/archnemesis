@@ -1,6 +1,6 @@
 // The right-click menu: on a box (or several), on an arrow, on empty canvas.
 import type { Dispatch, SetStateAction } from "react";
-import { insideAction, addObject, updateConnection } from "../../shared/actions.ts";
+import { insideAction, addObject, setBoth, updateConnection } from "../../shared/actions.ts";
 import { KIND_LABEL, OBJECT_KINDS } from "../../shared/model.ts";
 import type { Op } from "../../shared/model.ts";
 import { descendants, type CanvasGraph, type ModelIndex } from "../../shared/project.ts";
@@ -12,6 +12,7 @@ import {
   Link,
   Map as MapIcon,
   Maximize,
+  MoveHorizontal,
   MessageSquarePlus,
   Pencil,
   Spline,
@@ -210,6 +211,14 @@ function edgeMenu(
         const at = scene.current?.edgeLabelClient(t.id!);
         if (one && at) setEdgeEdit({ connectionId: one.id, x: at.x, y: at.y });
       },
+    },
+    {
+      label: one?.both ? "One way" : "Two-way",
+      icon: <MoveHorizontal size={14} />,
+      disabled: !one,
+      run: () =>
+        one &&
+        void run(setBoth(one, !one.both), one.both ? "one-way connection" : "two-way connection"),
     },
     {
       label: "Reverse",

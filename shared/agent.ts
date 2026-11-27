@@ -494,6 +494,7 @@ export type Change =
         via?: string | null;
         sources?: string[];
         guess?: boolean | null;
+        both?: boolean | null;
         column?: string | null;
         to_column?: string | null;
       };
@@ -934,6 +935,7 @@ export function planChanges(
         if (sources?.length) conn.sources = sources;
         const guess = c.guess === undefined ? same?.guess : c.guess;
         if (guess) conn.guess = true;
+        if (c.both === undefined ? same?.both : c.both) conn.both = true;
         const column = c.column === undefined ? same?.column : c.column;
         if (column) conn.column = column;
         const toColumn = c.to_column === undefined ? same?.toColumn : c.to_column;

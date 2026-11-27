@@ -174,6 +174,7 @@ Example: read {q: "checkout"} then read {ref: "checkout"}.`,
 - tags: tag groups (archnm.yaml's): tags: {lane: {values: [callers, doors, domain, vendors]}} declares one (null drops it); then a box takes tags: [lane:doors], and a view lanes: lane or color_by: lane.
 - remove: box ids; a>b or a>b:label (the label when two share the ends); entity names; view:<key>, boundary:<id>, decision:<id>. In yaml, objects: {x: null} removes only the box x, views: {x: null} only the view.
 - views: setting boxes makes a view hand-picked (its include/exclude go); setting include/exclude makes it follow rules (its boxes go); a view with a scope and no include shows its children and neighbours, less what exclude takes.
+- forks: one line that splits, for one thing going to several boxes: [{view: landscape, arrow: bus>billing, off: bus>orders, at: 0.5}] draws bus>billing coming off the bus>orders arrow halfway along. Both stay their own connections.
 - tidy: true (the views this changed) or view keys: lay them out, in the same step. undo: true: your own last write back (dry_run: say which); notes aren't in it.
 Text with a comma or colon goes in quotes (context: "…", label: "…"), or the box in block style.
 Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], context: \\"Charges orders, then emails the invoice.\\"}\\nconnections:\\n  - {from: checkout, to: billing, label: bills the order, tech: HTTPS, carries: [Invoice]}\\nentities:\\n  Invoice: {in: billing, fields: {id: uuid, total: Money}}", dry_run: true}`,
@@ -192,6 +193,19 @@ Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], c
           "Whole files, as read {file} shows them (each replaces the boxes it names, with their connections)",
         ),
       remove: list(z.string()).optional(),
+      forks: z
+        .array(
+          z.object({
+            view: z.string(),
+            arrow: z.string(),
+            off: z.string().nullable(),
+            at: z.number().min(0).max(1).optional(),
+          }),
+        )
+        .optional()
+        .describe(
+          "Draw an arrow on a view as a fork of another from the same box: {view, arrow: a>b, off: a>c, at: 0.5 (how far along a>c it comes off)}. off: null makes it its own arrow again.",
+        ),
       dry_run: z.boolean().optional(),
       scope: z.string().optional(),
       tidy: z.union([z.boolean(), z.string(), z.array(z.string())]).optional(),

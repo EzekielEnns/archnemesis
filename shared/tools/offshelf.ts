@@ -40,11 +40,18 @@ export async function offShelfNotes(host: Host, before: ModelIndex, ops: Op[]): 
   for (const lib of fresh.slice(0, 8)) {
     const s = await statsFor(host, lib.package!);
     if (!s) continue;
-    if (s.error && /answered 404/.test(s.error))
+    // "Not found" is only said of the package itself. The lookup goes on to the version and the
+    // repo, and a 404 there (a version deps.dev hasn't indexed yet) said three real packages
+    // were made up.
+    if (s.error && /answered 404/.test(s.error) && !s.latest)
       out.push(
         `warning: ${idOf(lib)}: ${lib.package!.name} wasn't found on ${lib.package!.ecosystem}. Check the name against the registry: package names get made up.`,
       );
-    else if (!s.error || s.latest) out.push(`library ${idOf(lib)}: ${statsLine(s)}`);
+    else if (s.error && s.latest)
+      out.push(
+        `library ${idOf(lib)}: on ${lib.package!.ecosystem}, latest ${s.latest}; the rest couldn't be looked up${lib.package!.version ? ` for ${lib.package!.version}` : ""} (${s.error})`,
+      );
+    else if (!s.error) out.push(`library ${idOf(lib)}: ${statsLine(s)}`);
   }
 
   // Packages named only in tech.

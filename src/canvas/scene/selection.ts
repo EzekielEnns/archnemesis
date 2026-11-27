@@ -21,7 +21,7 @@ export function select(state: SceneState, sel: Selection, notify = false): void 
   requestRender(state);
 }
 
-export function emitSelect(state: SceneState, byCode = false): void {
+export function emitSelect(state: SceneState, byCode = false, back = false): void {
   refocus(state);
   state.cb.onSelect?.(
     {
@@ -31,6 +31,7 @@ export function emitSelect(state: SceneState, byCode = false): void {
       diagram: state.selectedScope,
     },
     byCode,
+    back,
   );
 }
 

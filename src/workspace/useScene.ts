@@ -4,6 +4,7 @@ import { DRAWER_W, PANEL_ROOM } from "./constants";
 // minimap and arrow-animation switches, the zoom and where the pointer last was.
 import { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "../../shared/actions.ts";
+import type { Op } from "../../shared/model.ts";
 import { type CanvasGraph } from "../../shared/project.ts";
 import { Scene } from "../canvas/Scene";
 import type { Store } from "../store";
@@ -53,25 +54,57 @@ export function useScene({
   const [animate, setAnimate] = useStoredFlag("archnm.arrows.all", false);
 
   /** Make a connection and say what it did, since it may land on an arrow that's already there. */
-  const makeConnection = useCallback((from: string, to: string, s: Scene) => {
-    const { idx: i, run: r, graph: g, toast: say } = latest.current;
-    const { ops, connection } = connect(from, to);
-    const key = `${from}>${to}`;
-    const existing = g?.edges.find((e) => e.id === key);
-    const name = (id: string) => i.objects.get(id)?.name ?? "?";
-    void r(ops, `connect ${name(from)} → ${name(to)}`).then(() => {
-      if (existing)
-        say(
-          `Added to the arrow ${name(from)} → ${name(to)}: now ${existing.connectionIds.length + 1} connections`,
-        );
-    });
-    // Select the new arrow, so it can be named straight away (in simple mode, in its card).
-    setTimeout(() => {
-      s.select({ nodes: [], edge: `${connection.fromId}>${connection.toId}` }, true);
-      if (latest.current.simple)
-        latest.current.openFresh(`${connection.fromId}>${connection.toId}`);
-    }, 60);
-  }, []);
+  const makeConnection = useCallback(
+    (from: string, to: string, s: Scene, like?: string, fork?: { of: string; at: number }) => {
+      const { idx: i, run: r, graph: g, toast: say, diagramId: d } = latest.current;
+      // Drawn off an arrow: a fork of it, so it's the same connection to one more box.
+      const src = like
+        ? i.connections.get(g?.edges.find((e) => e.id === like)?.connectionIds[0] ?? "")
+        : undefined;
+      const made = connect(
+        from,
+        to,
+        src
+          ? { name: src.name, technology: src.technology, status: src.status, both: src.both }
+          : {},
+      );
+      const { connection } = made;
+      // Where on the arrow it comes off is part of how it's drawn here.
+      const ops: Op[] =
+        src && d && fork && fork.of !== to
+          ? [
+              ...made.ops,
+              {
+                op: "arrow.put",
+                arrow: { diagramId: d, from, to, forkOf: fork.of, forkAt: fork.at },
+              },
+            ]
+          : made.ops;
+      const key = `${from}>${to}`;
+      const existing = g?.edges.find((e) => e.id === key);
+      const name = (id: string) => i.objects.get(id)?.name ?? "?";
+      void r(ops, `connect ${name(from)} → ${name(to)}`).then(() => {
+        if (existing)
+          say(
+            `Added to the arrow ${name(from)} → ${name(to)}: now ${existing.connectionIds.length + 1} connections`,
+          );
+      });
+      // Select the new arrow and name it where its label goes: type, Enter, and that's its label.
+      // The arrow is drawn once the model has it (and, routed, once its route is back): wait for it.
+      // A fork has its arrow's name (or, like it, none).
+      if (src) return;
+      const named = (tries: number) => {
+        const at = latest.current.idx.connections.has(connection.id)
+          ? s.edgeLabelClient(key)
+          : null;
+        if (!at) return void (tries > 0 && setTimeout(() => named(tries - 1), 60));
+        s.select({ nodes: [], edge: key }, true);
+        deps.setEdgeEdit({ connectionId: connection.id, x: at.x, y: at.y });
+      };
+      setTimeout(() => named(20), 60);
+    },
+    [],
+  );
   // The canvas, created once.
   useEffect(() => {
     const el = host.current;

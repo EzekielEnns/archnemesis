@@ -53,6 +53,7 @@ interface ClipConnection {
   description?: string;
   column?: string;
   to_column?: string;
+  both?: true;
   guess?: boolean;
 }
 
@@ -115,6 +116,7 @@ export function copyText(idx: ModelIndex, diagramId: string, ids: string[]): str
       ...(c.column ? { column: c.column } : {}),
       ...(c.toColumn ? { to_column: c.toColumn } : {}),
       ...(c.guess ? { guess: true } : {}),
+      ...(c.both ? { both: true } : {}),
     }));
   const layout: Record<string, { x: number; y: number; w: number; h: number }> = {};
   for (const o of objs) {
@@ -242,6 +244,7 @@ export function pasteOps(
         ...(typeof c.column === "string" ? { column: c.column } : {}),
         ...(typeof c.to_column === "string" ? { toColumn: c.to_column } : {}),
         ...(c.guess === true ? { guess: true as const } : {}),
+        ...(c.both === true ? { both: true as const } : {}),
       };
       ops.push({
         op: "connection.put",

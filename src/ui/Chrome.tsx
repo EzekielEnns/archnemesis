@@ -80,7 +80,8 @@ const TOOL_KINDS = [...ARCH_KINDS, ...CODE_TOOLS, ...DATA_TOOLS];
 const TOOL_TITLE: Partial<Record<ObjectKind, string>> = {
   module: "Place a file or folder (module)",
   function: "Place a function",
-  table: "Place a table (drop it on a store)",
+  store: "Place a service: a database, a queue, a bucket, a cluster",
+  table: "Place a table (drop it on a service)",
 };
 
 /** Number keys, as in Excalidraw: 1 select, then the kinds. */

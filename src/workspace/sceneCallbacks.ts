@@ -27,7 +27,13 @@ export interface SceneDeps {
   store: Store;
   latest: LatestRef;
   open: (objectId: string) => void;
-  makeConnection: (from: string, to: string, s: Scene) => void;
+  makeConnection: (
+    from: string,
+    to: string,
+    s: Scene,
+    like?: string,
+    fork?: { of: string; at: number },
+  ) => void;
   pointer: MutableRefObject<{ x: number; y: number } | null>;
   groupRef: MutableRefObject<(ids: string[]) => void>;
   setNoteSel: Dispatch<SetStateAction<string | null>>;
@@ -55,10 +61,18 @@ export function sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCal
       const prev = d ? i.placements.get(d)?.get(id) : undefined;
       if (prev) void r([{ op: "placement.put", placement: { ...prev, w, h } }], "resize");
     },
-    onEditEdge: (id, x, y) => {
+    onEditEdge: (id, x, y, line) => {
       const s = getScene();
       const e = latest.current.graph?.edges.find((g) => g.id === id);
+      // One of the names listed on an arrow that stands for several: that connection's.
+      const named =
+        line !== undefined && e?.labels?.[line]
+          ? e.connectionIds.find(
+              (c) => latest.current.idx.connections.get(c)?.name === e.labels![line],
+            )
+          : undefined;
       if (e?.connectionIds.length === 1) setEdgeEdit({ connectionId: e.connectionIds[0]!, x, y });
+      else if (named) setEdgeEdit({ connectionId: named, x, y });
       else s.select({ nodes: [], edge: id }, true);
     },
     onArrowShape: (from, to, drawnShape) => {
@@ -103,7 +117,14 @@ export function sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCal
     loadIcon: (technology, color) => backend.icons.svg(technology, color),
     onPlace: placeHandler(deps, getScene),
     onMove: moveHandler(latest),
-    onConnect: (from, to) => makeConnection(from, to, getScene()),
+    onConnect: (from, to, like, fork) => {
+      // Drawn with the connect tool: that's the connection made, back to selecting.
+      if (latest.current.tool === "connect") {
+        deps.setConnectFrom(null);
+        latest.current.setTool("select");
+      }
+      makeConnection(from, to, getScene(), like, fork);
+    },
     onOpen: open,
     onOffDiagram: () => showObjectTab("connections"),
     onRename: (id) => {

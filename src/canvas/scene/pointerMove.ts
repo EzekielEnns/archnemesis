@@ -10,7 +10,7 @@ import { nearestOnBorder, signature } from "./measure";
 import { inMinimap } from "./minimap";
 import { dragNodes } from "./nodeDrag";
 import { drawMarquee, drawOverlay } from "./overlay";
-import { setHovered } from "./selection";
+import { emitSelect, setHovered } from "./selection";
 import { resizedSize } from "./snap";
 import type { SceneState } from "./state";
 import { BOUNDARY_LABEL } from "./theme";
@@ -107,6 +107,16 @@ function hoverMove(state: SceneState, screen: Point, world: Point): void {
 /** A drag on empty canvas: the camera follows the pointer. */
 function dragPan(state: SceneState, d: Extract<Drag, { kind: "pan" }>, screen: Point): void {
   d.moved ||= Math.hypot(screen.x - d.last.x, screen.y - d.last.y) > 0;
+  if (d.moved && d.was) {
+    // Not a click after all: panning keeps what was picked.
+    state.selected = new Set(d.was.nodes);
+    state.selectedEdge = d.was.edge;
+    state.selectedBoundary = d.was.boundary ?? null;
+    state.selectedScope = !!d.was.diagram;
+    d.was = undefined;
+    emitSelect(state, true, true);
+    drawOverlay(state);
+  }
   const next = panBy(state.camera, screen.x - d.last.x, screen.y - d.last.y);
   d.last = screen;
   setCamera(state, next);
@@ -132,6 +142,8 @@ function dragConnect(state: SceneState, d: Extract<Drag, { kind: "connect" }>, w
   d.current = world;
   const hit = hitNode(state, world);
   d.target = hit && hit.node.id !== d.from ? hit.node.id : null;
+  // A branch goes somewhere its arrow doesn't already.
+  if (d.like && d.target === state.edges.get(d.like)?.edge.to) d.target = null;
   drawOverlay(state);
   requestRender(state);
 }

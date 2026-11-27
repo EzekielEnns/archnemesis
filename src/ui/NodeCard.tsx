@@ -11,13 +11,14 @@ import {
   Layers,
   Maximize2,
   Minimize2,
+  MoveHorizontal,
   Pencil,
   Spline,
   Trash2,
   X,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { updateConnection, updateObject } from "../../shared/actions.ts";
+import { setBoth, updateConnection, updateObject } from "../../shared/actions.ts";
 import { callsOf, codeHome, type Call } from "../../shared/context.ts";
 import {
   CARD_H,
@@ -2004,6 +2005,8 @@ export interface ConnectionCardProps {
   onOpenNote?: (noteId: string) => void;
   /** Its arrow is drawn on this diagram. */
   drawn?: boolean;
+  /** Its arrow stands for several connections: the row that picks which one this card is. */
+  tabs?: ReactNode;
 }
 
 /**
@@ -2080,6 +2083,7 @@ export function ConnectionCard(p: ConnectionCardProps) {
     >
       <div className={`nc-stack${view ? " in" : ""}`}>
         <div className="nc-view nc-main">
+          {p.tabs}
           <div className="nc-head">
             <span className="nc-icon cc-icon">
               <ArrowRight size={15} />
@@ -2218,6 +2222,21 @@ export function ConnectionCard(p: ConnectionCardProps) {
               >
                 <ArrowLeftRight size={13} />
                 <span>Reverse</span>
+              </button>
+            )}
+            {p.canEdit && (
+              <button
+                className={`act${c.both ? " on" : ""}`}
+                onClick={() =>
+                  void p.run(
+                    setBoth(c, !c.both),
+                    c.both ? "one-way connection" : "two-way connection",
+                  )
+                }
+                data-tip={c.both ? "Goes both ways: click for one way" : "Make it go both ways"}
+              >
+                {c.both ? <ArrowRight size={13} /> : <MoveHorizontal size={13} />}
+                <span>{c.both ? "One-way" : "Two-way"}</span>
               </button>
             )}
             {p.canEdit && p.onResetJoints && (

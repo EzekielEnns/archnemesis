@@ -56,7 +56,8 @@ export function EdgeRenameInput({
         <input
           className="rename edge-rename"
           autoFocus
-          placeholder="What it does"
+          placeholder="Name it, then Enter"
+          autoComplete="off"
           defaultValue={idx.connections.get(edgeEdit.connectionId)!.name}
           style={{ left: edgeEdit.x - 110, top: edgeEdit.y - 14 }}
           onFocus={(e) => e.currentTarget.select()}

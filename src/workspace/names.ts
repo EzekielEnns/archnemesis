@@ -4,6 +4,7 @@ import type { ModelObject, ObjectKind } from "../../shared/model.ts";
 
 /** The name a new box gets: "New app", "new_table", "new_function()". */
 export function defaultName(kind: ObjectKind): string {
+  if (kind === "store") return "New service";
   return kind === "function" ? "new_function()" : kind === "table" ? "new_table" : `New ${kind}`;
 }
 export const isDefaultName = (name: string): boolean =>

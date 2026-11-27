@@ -12,7 +12,7 @@ import {
   traceRoute,
 } from "../../../shared/geometry";
 import { drawSteps } from "./flow";
-import { endRect, shapeOf } from "./lookup";
+import { endRect, forkFamily, shapeOf } from "./lookup";
 import { handles } from "./measure";
 import type { SceneState } from "./state";
 import { HANDLE_R, RADIUS, THEME } from "./theme";
@@ -79,6 +79,9 @@ function drawSelectedArrow(state: SceneState, g: Graphics, eh: Graphics, px: num
   if (!state.selectedEdge) return;
   const ev = state.edges.get(state.selectedEdge);
   if (ev) {
+    // Its forks (or the arrow it forks off) are lit with it: one arrow that splits.
+    for (const o of forkFamily(state, ev))
+      curve(eh, o.route).stroke({ color: THEME.select, width: 3 * px });
     curve(eh, ev.route).stroke({ color: THEME.select, width: 3 * px });
     // Handles: drag an end to pin the side it uses, a bend to move it, the line to add one.
     drawPinnedSide(state, g, ev, px);
@@ -108,8 +111,9 @@ function drawEdgeHighlights(state: SceneState, g: Graphics, px: number): void {
   const eh = state.edgeHighlight;
   eh.clear();
   if (state.hoveredEdge && state.hoveredEdge !== state.selectedEdge && !state.drag) {
-    const r = state.edges.get(state.hoveredEdge)?.route;
-    if (r) curve(eh, r).stroke({ color: THEME.select, width: 2.5 * px, alpha: 0.55 });
+    const hov = state.edges.get(state.hoveredEdge);
+    for (const o of hov ? [hov, ...forkFamily(state, hov)] : [])
+      curve(eh, o.route).stroke({ color: THEME.select, width: 2.5 * px, alpha: 0.55 });
   }
   drawSelectedArrow(state, g, eh, px);
   drawSpotPairs(state, eh, px);
@@ -158,7 +162,13 @@ function drawConnectPreview(
       color: THEME.select,
       width: 2 * px,
     });
-  if (from) {
+  if (d.like) {
+    // A branch: from where on the arrow it was picked up.
+    const end = target ? center(target) : d.current;
+    g.moveTo(d.start.x, d.start.y).lineTo(end.x, end.y);
+    g.stroke({ color: THEME.select, width: 2 * px });
+    g.circle(d.start.x, d.start.y, 4 * px).fill({ color: THEME.select });
+  } else if (from) {
     const end = target ? center(target) : d.current;
     const r = target ? route(from, target) : route(from, { x: end.x, y: end.y, w: 0, h: 0 });
     g.moveTo(r.p0.x, r.p0.y).bezierCurveTo(r.c1.x, r.c1.y, r.c2.x, r.c2.y, r.p1.x, r.p1.y);
