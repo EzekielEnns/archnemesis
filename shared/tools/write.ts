@@ -1430,8 +1430,15 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       if (!idx.diagrams.has(d.id)) continue;
       const was = measure(idx, d.id).score;
       const is = measure(now, d.id).score;
-      if (is.crossings < was.crossings + 2) continue;
       const key = d.key ?? d.id;
+      // A hand-arranged view that follows rules picked up boxes nobody put there.
+      if (is.boxes > was.boxes && is.boxes > 12 && handShaped(idx, d.id)) {
+        out.push(
+          `${key} went from ${was.boxes} to ${is.boxes} boxes through its rules, and somebody arranged it by hand. Keep theirs as it was: leave the new boxes out (exclude: [{ids: [...]}], with its include written again) and give them a view of their own. Look: show {render: "${key}"}.`,
+        );
+        continue;
+      }
+      if (is.crossings < was.crossings + 2) continue;
       out.push(
         `${key} reads worse now: ${was.crossings} → ${is.crossings} lines cross (${was.boxes} → ${is.boxes} boxes). Look before calling it done: show {render: "${key}"}. More than about 12 boxes wants a second view, not a bigger one; write {undo: true} takes this write back.`,
       );

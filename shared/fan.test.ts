@@ -167,3 +167,31 @@ describe("an opened box's panel", () => {
     expect(lane.w).toBe(300);
   });
 });
+
+describe("lines both ways between two boxes", () => {
+  it("are one line with a head at each end, on the arrow somebody shaped", async () => {
+    const { memHost } = await import("./tools/memhost.ts");
+    const { TOOLS } = await import("./tools/tools.ts");
+    const { projectDiagram } = await import("./project.ts");
+    const h = memHost({});
+    const write = TOOLS.find((t) => t.name === "write")!;
+    await write.run({ host: h } as never, {
+      yaml: [
+        "objects:",
+        '  bus: {kind: store, context: "Events."}',
+        '  mail: {kind: app, context: "Sends."}',
+        "connections:",
+        "  - {from: bus, to: mail, label: Send code}",
+        "  - {from: mail, to: bus, label: Delivery status}",
+        "views:",
+        "  main: {name: Main, boxes: [bus, mail]}",
+      ].join("\n"),
+    });
+    const idx = h.index();
+    const d = [...idx.diagrams.values()].find((x) => x.key === "main")!;
+    const g = projectDiagram(idx, d.id);
+    expect(g.edges).toHaveLength(1);
+    expect(g.edges[0]!.both).toBe(true);
+    expect(g.edges[0]!.labels).toEqual(["Send code", "Delivery status"]);
+  });
+});

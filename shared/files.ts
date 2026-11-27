@@ -482,6 +482,9 @@ interface FBoundary {
   exclude?: Selector[];
 }
 
+/** A connection's label is drawn on its line: past this many characters it reads as a sentence. */
+const LABEL_MAX = 32;
+
 export interface FConnection {
   from: string;
   to: string;
@@ -2894,6 +2897,19 @@ export function check(model: FileModel): Problem[] {
       level: "warning",
       file,
       message: `${n} guess${n === 1 ? "" : "es"} (guess: true): confirm each in the code and drop guess, or remove it`,
+    });
+  // A label is drawn on the line: a few words. A sentence there covers the picture.
+  const long = new Map<string, string[]>();
+  for (const c of model.connections) {
+    if ((c.label?.length ?? 0) <= LABEL_MAX) continue;
+    const file = at(`connection:${c.from}>${c.to}>${c.label ?? ""}`).replace(/:\d+$/, "");
+    long.set(file, [...(long.get(file) ?? []), `${c.from}>${c.to}`]);
+  }
+  for (const [file, ids] of long)
+    out.push({
+      level: "warning",
+      file,
+      message: `${ids.length} long label${ids.length === 1 ? "" : "s"} (${ids.slice(0, 4).join(", ")}${ids.length > 4 ? "…" : ""}): a label is drawn on the line, so keep it to a few words ("Session signals"); topic names, caveats and how it works go in description`,
     });
   for (const o of model.objects) {
     if (o.status === "removed" || o.external) continue;

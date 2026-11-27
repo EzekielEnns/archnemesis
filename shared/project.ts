@@ -689,6 +689,24 @@ export function projectDiagram(
       );
     e.connectionIds.push(c.id);
   }
+  // Lines both ways between the same two boxes are one line with a head at each end (two
+  // lines side by side say nothing more, and every such pair is one more thing to route).
+  // The one kept is the one somebody shaped, else the one with more on it.
+  const twoWay = new Set<string>();
+  for (const e of [...edges.values()]) {
+    const back = edges.get(`${e.to}>${e.from}`);
+    if (!back || !edges.has(e.id)) continue;
+    const weight = (x: CanvasEdge) => {
+      const sh = idx.arrows.get(`${diagramId}|${x.id}`);
+      return (
+        (sh?.split || sh?.join || sh?.bends?.length ? 1000 : sh ? 500 : 0) + x.connectionIds.length
+      );
+    };
+    const [keep, drop] = weight(back) > weight(e) ? [back, e] : [e, back];
+    keep.connectionIds.push(...drop.connectionIds);
+    edges.delete(drop.id);
+    twoWay.add(keep.id);
+  }
   for (const e of edges.values()) {
     const shape = idx.arrows.get(`${diagramId}|${e.id}`);
     if (shape) e.shape = shape;
@@ -708,7 +726,11 @@ export function projectDiagram(
       // A line drawn between the two boxes themselves says what the rest add up to: it's the
       // label, with how many more lie inside (an app-to-app line joined every child
       // call's label, with no way to give it one).
-      const own = conns.filter((c) => c.fromId === e.from && c.toId === e.to && c.name);
+      const own = conns.filter(
+        (c) =>
+          c.name &&
+          ((c.fromId === e.from && c.toId === e.to) || (c.fromId === e.to && c.toId === e.from)),
+      );
       if (own.length === 1) {
         e.label = `${own[0]!.name} (+${conns.length - 1} inside)`;
         e.labels = [e.label];
@@ -745,7 +767,7 @@ export function projectDiagram(
       idx.objects.get(e.from)?.kind === "library" || idx.objects.get(e.to)?.kind === "library";
     if ((toLib && !depGraph) || conns.every((c) => c.guess)) e.quiet = true;
     if (conns.every((c) => c.guess)) e.guess = true;
-    if (conns.some((c) => c.both)) e.both = true;
+    if (twoWay.has(e.id) || conns.some((c) => c.both)) e.both = true;
     const isCode = (id: string) => ["function", "module"].includes(idx.objects.get(id)?.kind ?? "");
     if (conns.every((c) => isCode(c.fromId) && isCode(c.toId))) e.code = true;
     e.status = conns.every((c) => c.status === "future")
