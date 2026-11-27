@@ -25,11 +25,24 @@ export interface NavRow {
    * row under each of its users, so a row is told apart by this and its own id together.
    */
   usedBy?: string;
+  /**
+   * Not a box: the "Libraries" folder under `o`, holding the libraries `o` uses (`count` of
+   * them). It folds on its own, as LIBS + o's id in the open set.
+   */
+  group?: "libraries";
+  count?: number;
 }
+
+/** A row's place in the open set when it's a box's Libraries folder. */
+export const LIBS = "libs:";
 
 /** What a row says: its name, or a compacted chain's joined with slashes. */
 export const rowLabel = (r: NavRow) =>
-  r.chain?.length ? [...r.chain, r.o].map((x) => x.name).join("/") : r.o.name;
+  r.group
+    ? "Libraries"
+    : r.chain?.length
+      ? [...r.chain, r.o].map((x) => x.name).join("/")
+      : r.o.name;
 
 const ORDER: Record<ModelObject["kind"], number> = {
   actor: 0,
@@ -71,9 +84,12 @@ export function navRows(
   idx: ModelIndex,
   open: Set<string>,
   only?: Set<string>,
-  opts: { unfold?: boolean } = {},
+  opts: { unfold?: boolean; libraries?: boolean } = {},
 ): NavRow[] {
   const unfold = opts.unfold ?? true;
+  // Only where the tree is the code (files and folders): on the tree of boxes and diagrams a
+  // library is secondary to the box that uses it, and isn't listed.
+  const withLibs = opts.libraries ?? false;
   let keep: Set<string> | null = null;
   if (only) {
     keep = new Set();
@@ -97,7 +113,7 @@ export function navRows(
     const lib = idx.objects.get(libId);
     let user = idx.objects.get(userId);
     if (user?.kind === "function" && user.parentId) user = idx.objects.get(user.parentId) ?? user;
-    if (!user || lib?.kind !== "library" || lib.status === "removed") return;
+    if (!withLibs || !user || lib?.kind !== "library" || lib.status === "removed") return;
     if (keep && !keep.has(lib.id)) return;
     used.add(lib.id);
     if (!libs.has(user.id)) libs.set(user.id, new Map());
@@ -138,20 +154,36 @@ export function navRows(
       });
       if (isOpen) {
         const under = [...lastAt, last];
-        // What's inside, then the libraries it uses: the last of either closes the guide line.
+        // What's inside, then one folder of the libraries it uses (folded, like any folder).
         walk(kids, depth + 1, under, mine.length > 0);
-        mine.forEach((lib, j) =>
+        if (mine.length) {
+          const groupOpen = open.has(LIBS + o.id) || (!!keep && unfold);
           out.push({
-            o: lib,
+            o,
             depth: depth + 1,
-            branch: false,
-            open: false,
+            branch: true,
+            open: groupOpen,
             lastAt: under,
-            last: j === mine.length - 1,
-            icon: "library",
+            last: true,
+            icon: "folder",
             usedBy: o.id,
-          }),
-        );
+            group: "libraries",
+            count: mine.length,
+          });
+          if (groupOpen)
+            mine.forEach((lib, k) =>
+              out.push({
+                o: lib,
+                depth: depth + 2,
+                branch: false,
+                open: false,
+                lastAt: [...under, true],
+                last: k === mine.length - 1,
+                icon: "library",
+                usedBy: o.id,
+              }),
+            );
+        }
       }
     });
   };
@@ -160,6 +192,7 @@ export function navRows(
   const loose = [...idx.objects.values()]
     .filter(
       (o) =>
+        withLibs &&
         o.kind === "library" &&
         o.status !== "removed" &&
         !used.has(o.id) &&

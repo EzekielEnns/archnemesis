@@ -3,7 +3,7 @@ import * as Y from "yjs";
 import { codeSeedOps } from "../server/seed.ts";
 import { applyOps, emptyState, mirror } from "./doc.ts";
 import { keyOps } from "./files.ts";
-import { navRows, rowLabel } from "./navtree.ts";
+import { LIBS, navRows, rowLabel } from "./navtree.ts";
 import { makeObject } from "./model.ts";
 import { buildIndex } from "./project.ts";
 
@@ -34,7 +34,19 @@ describe("model navigator", () => {
     expect(rows.map((r) => r.o.name)).toContain("Agent board");
     // A library is a row under what uses it (a function's, under its file), never a root of its own
     // while something uses it.
-    const all = navRows(idx, new Set(idx.objects.keys()));
+    // In a Libraries folder under each user, folded until opened.
+    const boxes = [...idx.objects.keys()];
+    const code = { libraries: true };
+    expect(navRows(idx, new Set(boxes), undefined, code).some((r) => r.icon === "library")).toBe(
+      false,
+    );
+    expect(navRows(idx, new Set(boxes), undefined, code).some((r) => r.group === "libraries")).toBe(
+      true,
+    );
+    const everything = new Set([...boxes, ...boxes.map((id) => LIBS + id)]);
+    // Not on the tree of boxes and diagrams: only where the tree is the code.
+    expect(navRows(idx, everything).some((r) => r.o.kind === "library" || r.group)).toBe(false);
+    const all = navRows(idx, everything, undefined, code);
     const libRows = all.filter((r) => r.o.kind === "library");
     const usedLibs = new Set(
       [

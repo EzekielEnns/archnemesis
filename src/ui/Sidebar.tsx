@@ -34,7 +34,8 @@ import { useMenu, type MenuItem } from "./ContextMenu";
 import { deleteObjects, updateObject } from "../../shared/actions.ts";
 import { OBJECT_DRAG_TYPE } from "../Workspace";
 import { KindDot } from "./KindDot";
-import { navRows, rowLabel, type NavRow } from "../../shared/navtree.ts";
+import { LIBS, navRows, rowLabel, type NavRow } from "../../shared/navtree.ts";
+import { libraryDocs } from "../../shared/references.ts";
 
 interface Props {
   idx: ModelIndex;
@@ -163,7 +164,7 @@ export function Sidebar(props: Props) {
       only = new Set(only ? code.filter((id) => only!.has(id)) : code);
     }
     // Just the code is the same tree, narrowed: it folds and opens like the tree does.
-    return navRows(idx, open, only, { unfold: finding });
+    return navRows(idx, open, only, { unfold: finding, libraries: codeOnly });
   }, [idx, open, onlyNew, changed, context, codeOnly]);
 
   // What's selected on the canvas, found in the tree: its folders open (and it, so what's
@@ -358,6 +359,27 @@ export function Sidebar(props: Props) {
     () =>
       tree.slice(first, last).map((r) => {
         const { o } = r;
+        // A box's Libraries folder: it only folds and unfolds.
+        if (r.group)
+          return (
+            <li key={`${LIBS}${o.id}`}>
+              <button
+                className="row nav"
+                style={{ paddingLeft: 6 }}
+                onClick={() => toggleRef.current(LIBS + o.id)}
+                title={`The ${r.count} librar${r.count === 1 ? "y" : "ies"} ${o.name} uses.`}
+              >
+                <Guides row={r} />
+                <span className={`twist ${r.open ? "open" : ""}`}>
+                  <ChevronRight size={12} />
+                </span>
+                <NavIcon row={r} />
+                <span className="name">Libraries</span>
+                <span className="count">{r.count}</span>
+              </button>
+            </li>
+          );
+        const docs = r.icon === "library" ? libraryDocs(o) : null;
         const on = idx.placedOn.get(o.id)?.size ?? 0;
         const isHere = !!here?.has(o.id);
         // ✦ on the outermost new row only: what's inside a new folder is new with it.
@@ -381,6 +403,8 @@ export function Sidebar(props: Props) {
               // Click goes to it: here, or on a diagram that shows it (opening its row too).
               // Placing it is a drag onto the canvas; the twist folds and unfolds.
               onClick={() => {
+                // A library opens its docs in a new tab (double-click goes to it on the canvas).
+                if (docs) return void window.open(docs, "_blank", "noopener,noreferrer");
                 // The panel: a folder opens its diagram and unfolds (the one you're in folds again).
                 if (cb.current.panel && r.branch) {
                   const scope = diagramId ? idx.diagrams.get(diagramId)?.scopeId : null;
@@ -393,7 +417,7 @@ export function Sidebar(props: Props) {
               }}
               onDoubleClick={() => cb.current.onOpen(o.id)}
               onContextMenu={menuRef.current.on(() => objectItemsRef.current(o))}
-              title={`${o.path ?? o.name}: on ${on} diagram${on === 1 ? "" : "s"}${isHere ? ", this one too" : ""}. Click to go to it; drag onto the canvas to place it here; right-click for more.`}
+              title={`${docs ? `Click opens its docs (${docs}); double-click goes to it. ` : ""}${o.path ?? o.name}: on ${on} diagram${on === 1 ? "" : "s"}${isHere ? ", this one too" : ""}. Click to go to it; drag onto the canvas to place it here; right-click for more.`}
             >
               <Guides row={r} />
               <span
