@@ -506,6 +506,29 @@ describe("write, twice the same", () => {
   });
 });
 
+describe("libraries", () => {
+  it("makes a Dependencies view with the first library, once", async () => {
+    const h = memHost({});
+    const out = await call(h, "write", {
+      yaml: 'objects:\n  shop: {kind: system, context: "Sells things."}\n  api: {kind: app, in: shop, context: "The API.", tech: [Hono]}\n  hono: {kind: library, package: {ecosystem: npm, name: hono}}\nconnections:\n  - {from: api, to: hono}\n',
+    });
+    expect(out.isError, out.text).toBeFalsy();
+    expect(out.text).toContain("made view dependencies");
+    expect(out.text).not.toMatch(/hono[^\n]* on no view/);
+    const view = [...h.index().diagrams.values()].find((d) => d.key === "dependencies")!;
+    const on = [...(h.index().placements.get(view.id)?.keys() ?? [])]
+      .map((id) => h.index().objects.get(id)!.key ?? id)
+      .sort();
+    expect(on).toEqual(["api", "hono"]);
+    // Removed, it isn't made again by the next library.
+    await call(h, "write", { remove: ["view:dependencies"] });
+    const next = await call(h, "write", {
+      yaml: "objects:\n  zod: {kind: library, package: {ecosystem: npm, name: zod}}\n",
+    });
+    expect(next.text).not.toContain("made view dependencies");
+  });
+});
+
 describe("note", () => {
   it("adds a note where the box is drawn, replies, resolves, lists", async () => {
     const h = shop();

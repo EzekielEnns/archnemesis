@@ -16,7 +16,13 @@ import {
   type FileModel,
   type Problem,
 } from "../files.ts";
-import type { Diagram, LayoutDirection, ModelObject, Op } from "../model.ts";
+import {
+  makeDiagram,
+  type Diagram,
+  type LayoutDirection,
+  type ModelObject,
+  type Op,
+} from "../model.ts";
 import { scoreView } from "../score.ts";
 import { ancestors, descendants, projectDiagram, type ModelIndex } from "../project.ts";
 import { arr, clip, fail, ok, plural, type Host, type Out } from "./host.ts";
@@ -551,6 +557,41 @@ export function liftParams<T extends WriteArgs & { as?: string }>(
     } else if (JSON.stringify(out[k]) !== JSON.stringify(val)) ignored.push(k);
   }
   return { args: out as T, lifted, ignored };
+}
+
+const DEPS_VIEW = "dependencies";
+
+/**
+ * The first library written into a design where no view draws libraries: a Dependencies view
+ * for them (each library with what uses it), in the same step. Libraries are kept off the
+ * landscape and the code views, so without it they were on no view at all, and agents wrote
+ * package names into tech instead. Null when there's nothing to make.
+ */
+async function dependenciesView(host: Host, before: ModelIndex, ops: Op[]): Promise<string | null> {
+  const fresh = ops.some(
+    (op) =>
+      op.op === "object.put" && op.object.kind === "library" && !before.objects.has(op.object.id),
+  );
+  if (!fresh) return null;
+  // Only with the design's first libraries: once someone has removed the view, it stays gone.
+  for (const o of before.objects.values()) if (o.kind === "library") return null;
+  const now = host.index();
+  for (const d of now.diagrams.values()) {
+    if (d.key === DEPS_VIEW) return null;
+    if (d.rules?.include?.some((r) => "kind" in r && r.kind === "library")) return null;
+  }
+  // A library someone already put on a view by hand: they have their own way of showing them.
+  for (const o of now.objects.values())
+    if (o.kind === "library" && now.placedOn.get(o.id)?.size) return null;
+  const diagram = makeDiagram({
+    name: "Dependencies",
+    key: DEPS_VIEW,
+    rules: { include: [{ kind: "library" }, { uses: "library" }], exclude: [] },
+  });
+  await host.commit([{ op: "diagram.put", diagram }], "", { join: true });
+  host.applyRules?.();
+  await host.settled?.();
+  return `made view ${DEPS_VIEW}: every library with what uses it (libraries stay off the other views). It follows rules, so new libraries show on it by themselves; remove: ["view:${DEPS_VIEW}"] if this design shouldn't have one.`;
 }
 
 export async function write(host: Host, given: WriteArgs, brief = false): Promise<Out> {
@@ -1235,6 +1276,8 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     );
     const elsewhere = host.wrote?.();
     if (elsewhere) out.push(elsewhere);
+    const deps = await dependenciesView(host, idx, ops);
+    if (deps) out.push(deps);
   } else if (!a.tidy) return ok("Nothing to change: the design already says that.");
   if (a.tidy) {
     const now = host.index();
@@ -1251,6 +1294,10 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       out.push(
         await tidyView(host, host.index().diagrams.get(id)!, a.direction, step, set.get(id)),
       );
+    // The Dependencies view this write made isn't in its ops: it's new, so it's laid out too.
+    for (const d of now.diagrams.values())
+      if (d.key === DEPS_VIEW && !idx.diagrams.has(d.id) && !ids.includes(d.id))
+        out.push(await tidyView(host, host.index().diagrams.get(d.id)!, a.direction, step));
     if (a.tidy === true && !ids.length) out.push("no view changed, so none was tidied");
   } else if (step.started) {
     // A view that had nothing on it and now has boxes: nobody has arranged it, so lay it out
