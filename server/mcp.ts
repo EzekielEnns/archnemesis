@@ -22,6 +22,7 @@ import type { TrailEvent } from "../shared/trail.ts";
 import { guide } from "../shared/tools/guide.ts";
 import type { Canvas, Designs, Host, Indexer, Out } from "../shared/tools/host.ts";
 import { INSTRUCTIONS, MANUAL_MAP, PLAYBOOKS } from "../shared/tools/teach.ts";
+import { OFFSHELF, OFFSHELF_LINE } from "../shared/tools/offshelf.ts";
 import { liftParams, type WriteArgs } from "../shared/tools/write.ts";
 import { TOOLS, runTool, type Call, type ToolDef } from "../shared/tools/tools.ts";
 import { canCreate } from "./access.ts";
@@ -54,6 +55,10 @@ interface Deps {
   challenge?: string;
   /** Cached library stats, when the stats job is on. */
   libstats?: (p: Package) => LibStats | null;
+  /** The same, fetched now for a library just written. */
+  libstatsNow?: (p: Package) => Promise<LibStats | null>;
+  /** Experiments that are on (ARCHNM_EXPERIMENTS). */
+  experiments?: string[];
   /** Repos sent from people's machines (index start). */
   uploads?: Uploads;
   /** The repo reader index start hands out: checked (built if missing) before it's handed out. */
@@ -199,13 +204,17 @@ const forks = (name: string, args: Record<string, unknown>) =>
   (name === "index" && args.action === "import" && !args.dry_run);
 
 export function buildServer(
-  { hub, baseUrl, libstats, uploads, scripts, created, telemetry }: Deps,
+  { hub, baseUrl, libstats, libstatsNow, experiments, uploads, scripts, created, telemetry }: Deps,
   principal: Principal,
   session?: Session,
 ): McpServer {
   const server = new McpServer(
     { name: "archnm", version: "2.0.0" },
-    { instructions: INSTRUCTIONS },
+    {
+      instructions: experiments?.includes(OFFSHELF)
+        ? `${INSTRUCTIONS}\n${OFFSHELF_LINE}`
+        : INSTRUCTIONS,
+    },
   );
   const designUrl = (design: string) => `${baseUrl}/#/${design}`;
   /**
@@ -380,6 +389,8 @@ export function buildServer(
       set: (at) => void notesSeen.set(`${principal.id}|${live.design}`, at),
     },
     stats: libstats,
+    ...(libstatsNow ? { statsNow: libstatsNow } : {}),
+    ...(experiments?.length ? { experiments: new Set(experiments) } : {}),
     canvas: canvasOf(live),
     indexer: indexerOf(live),
     render: async (d, o) => {

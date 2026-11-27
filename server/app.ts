@@ -149,6 +149,8 @@ export async function createApp(config: Config): Promise<App> {
     identify: (req) => identify(req, true),
     baseUrl: listen.publicUrl,
     libstats: (p) => libstats.get(p),
+    libstatsNow: (p) => libstats.now(p),
+    experiments: config.experiments,
     created: startInGit,
     telemetry,
   });

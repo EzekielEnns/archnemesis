@@ -29,6 +29,8 @@ export function memHost(
     config?: FConfig;
     canvas?: Canvas;
     canEdit?: boolean;
+    experiments?: string[];
+    stats?: Host["stats"];
     /** A fork's main: the host is then a fork (branch set) and read {diff} compares with this. */ base?: ModelState;
   } = {},
 ): MemHost {
@@ -49,6 +51,8 @@ export function memHost(
     branch: o.base ? `${o.key ?? "test"}-fork` : null,
     actor,
     canEdit: o.canEdit ?? true,
+    ...(o.experiments ? { experiments: new Set(o.experiments) } : {}),
+    ...(o.stats ? { stats: o.stats } : {}),
     state: () => state,
     index: () => (idx ??= indexOf(state)),
     config: () => config,

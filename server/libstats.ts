@@ -145,6 +145,18 @@ export class LibStatsJob {
     return v ? (JSON.parse(v) as LibStats) : null;
   }
 
+  /** One package, fetched now if it isn't kept yet (a library just written), within `ms`. */
+  async now(p: Package, ms = 4000): Promise<LibStats | null> {
+    const had = this.get(p);
+    if (had || !this.enabled || !SYSTEM[p.ecosystem]) return had;
+    const got = await Promise.race([
+      fetchStats(p, this.fetchImpl, { githubToken: this.opts.githubToken }),
+      new Promise<null>((r) => setTimeout(() => r(null), ms).unref()),
+    ]);
+    if (got) this.store.setSetting(`libstats:${statsKey(p)}`, JSON.stringify(got));
+    return got;
+  }
+
   /** Fetch what's missing or a day old, one at a time (gently: these are free APIs). */
   async refresh(now = Date.now()): Promise<number> {
     if (!this.enabled || this.running) return 0;

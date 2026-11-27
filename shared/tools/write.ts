@@ -26,6 +26,7 @@ import {
 import { scoreView } from "../score.ts";
 import { ancestors, descendants, projectDiagram, type ModelIndex } from "../project.ts";
 import { arr, clip, fail, ok, plural, type Host, type Out } from "./host.ts";
+import { offShelfNotes } from "./offshelf.ts";
 import { filesOf } from "./problems.ts";
 import { connRef, idOf, object, refOf, viewId } from "./refs.ts";
 import { resolveRef } from "../context.ts";
@@ -1278,6 +1279,7 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     if (elsewhere) out.push(elsewhere);
     const deps = await dependenciesView(host, idx, ops);
     if (deps) out.push(deps);
+    out.push(...(await offShelfNotes(host, idx, ops)));
   } else if (!a.tidy) return ok("Nothing to change: the design already says that.");
   if (a.tidy) {
     const now = host.index();

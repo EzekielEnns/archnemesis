@@ -2,6 +2,7 @@
 // points of failure, hotspots, cycles, contracts that disagree), as findings with refs.
 import { worklist } from "../curate.ts";
 import { review } from "../handover.ts";
+import { OFFSHELF } from "./offshelf.ts";
 import { impact } from "../impact.ts";
 import type { Connection } from "../model.ts";
 import { descendants, type ModelIndex } from "../project.ts";
@@ -150,7 +151,7 @@ export function lens(
       );
     }
     case "review": {
-      const r = review(idx);
+      const r = review(idx, { offShelf: !!host.experiments?.has(OFFSHELF) });
       if (within) {
         const names = new Set([...within].map((id) => idOf(idx.objects.get(id)!)));
         const ok2 = (x: { about: string }) =>

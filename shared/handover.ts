@@ -30,7 +30,7 @@ export interface Review {
 
 const keyOf = (idx: ModelIndex, id: string) => idx.objects.get(id)?.key ?? id;
 
-export function review(idx: ModelIndex): Review {
+export function review(idx: ModelIndex, opts: { offShelf?: boolean } = {}): Review {
   const must: ReviewItem[] = [];
   const should: ReviewItem[] = [];
   const live = [...idx.objects.values()].filter(
@@ -257,6 +257,15 @@ export function review(idx: ModelIndex): Review {
       about: "(notes)",
       problem: `${w.flags.length} open flag${w.flags.length === 1 ? "" : "s"} for agents`,
       fix: "answer them (notes, note reply_to)",
+    });
+
+  // The off-the-shelf experiment: a plan with code and no library in it is all hand-written.
+  const planned = code.filter((o) => o.status === "future");
+  if (opts.offShelf && planned.length >= 5 && !live.some((o) => o.kind === "library"))
+    must.push({
+      about: "(design)",
+      problem: `${planned.length} planned files and functions and not one library: nothing here is off the shelf`,
+      fix: "for each part, name the tool or library that does it (kind: library, package: {ecosystem, name, version}, connected from what uses it), and say in a box's context why it's written by hand where nothing fits",
     });
 
   // Planned libraries with no version: their links can't point at the docs for what will be used.

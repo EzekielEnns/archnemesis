@@ -124,6 +124,8 @@ export interface Config {
   backups: BackupOptions | null;
   telemetry: { calls: boolean; dbPath: string };
   libstats: { enabled: boolean; githubToken: string | undefined };
+  /** Experiments that are on, by name (lower case). */
+  experiments: string[];
   limits: { maxDesigns: number; examples: boolean };
 }
 
@@ -524,6 +526,10 @@ export function loadConfig(env: Env = process.env): Config {
       enabled: flag(env, "ARCHNM_LIBSTATS", false),
       githubToken: env.ARCHNM_LIBSTATS_GITHUB_TOKEN || undefined,
     },
+    experiments: (env.ARCHNM_EXPERIMENTS ?? "")
+      .split(",")
+      .map((x) => x.trim().toLowerCase())
+      .filter(Boolean),
     limits: {
       maxDesigns: num(env, "ARCHNM_MAX_DESIGNS", 100, "a number of designs, 1 or more", 1),
       examples: flag(env, "ARCHNM_EXAMPLES", true),

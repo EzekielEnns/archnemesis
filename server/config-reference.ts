@@ -411,6 +411,12 @@ export const VARIABLES = [
     default: "28",
     doc: "How many of the newest backups are kept.",
   },
+  {
+    name: "ARCHNM_EXPERIMENTS",
+    group: "limits",
+    default: "none",
+    doc: "Behaviour being tried out, by name, comma-separated. offshelf: writes push agents toward existing tools and libraries (each new library's stats when ARCHNM_LIBSTATS is on, a nudge for packages named only in tech and for parts that look hand-written). Unset it to go back.",
+  },
   // telemetry
   {
     name: "ARCHNM_TELEMETRY",

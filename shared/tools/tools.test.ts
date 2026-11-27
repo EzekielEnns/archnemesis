@@ -561,6 +561,84 @@ describe("review, for a plan", () => {
   });
 });
 
+describe("the off-the-shelf experiment", () => {
+  const plan = [
+    "objects:",
+    '  shop: {kind: system, context: "Sells things."}',
+    '  api: {kind: app, in: shop, context: "The API.", status: future, tech: [Bun, Hono, Drizzle]}',
+    '  job-queue: {kind: component, in: api, name: Job queue, context: "Runs jobs.", status: future}',
+    '  mailer: {kind: component, in: api, name: Retry worker, status: future, context: "Hand-written: no library fits our mail provider."}',
+    "  hono: {kind: library, package: {ecosystem: npm, name: hono, version: 4.6.0}}",
+    "connections:",
+    "  - {from: api, to: hono}",
+  ].join("\n");
+
+  it("says nothing unless the server has it on", async () => {
+    const out = await call(memHost({}), "write", { yaml: plan });
+    expect(out.text).not.toContain("off the shelf");
+    expect(out.text).not.toContain("library hono:");
+  });
+
+  it("gives a new library's stats, and asks about tech with no library and parts that look hand-written", async () => {
+    const h = memHost({
+      experiments: ["offshelf"],
+      stats: (p) =>
+        p.name === "hono"
+          ? {
+              fetchedAt: "2026-11-26T00:00:00Z",
+              stars: 22000,
+              licenses: ["MIT"],
+              latest: "4.9.1",
+              warnings: [],
+            }
+          : null,
+    });
+    const out = await call(h, "write", { yaml: plan });
+    expect(out.isError, out.text).toBeFalsy();
+    expect(out.text).toContain("library hono: ★ 22k · MIT · latest 4.9.1");
+    // Hono has its box; Bun and Drizzle are only words.
+    expect(out.text).toMatch(/tech names Bun, Drizzle with no library box/);
+    // The queue has no library behind it; the worker says why it's by hand.
+    expect(out.text).toMatch(/off the shelf: job-queue looks hand-written/);
+    expect(out.text).not.toMatch(/mailer[^\n]*hand-written/);
+    // Asked once: writing it again as it is says nothing more about it.
+    const again = await call(h, "write", {
+      yaml: 'objects:\n  job-queue: {context: "Runs the nightly jobs."}\n',
+    });
+    expect(again.text).not.toContain("hand-written");
+  });
+
+  it("says a package the registry doesn't have, and holds a plan with code and no libraries", async () => {
+    const h = memHost({
+      experiments: ["offshelf"],
+      stats: () => ({
+        fetchedAt: "2026-11-26T00:00:00Z",
+        warnings: [],
+        error: "api.deps.dev answered 404",
+      }),
+    });
+    const out = await call(h, "write", {
+      yaml: "objects:\n  fake: {kind: library, package: {ecosystem: npm, name: totally-made-up-pkg}}\n",
+    });
+    expect(out.text).toContain("totally-made-up-pkg wasn't found on npm");
+    const bare = memHost({ experiments: ["offshelf"] });
+    await call(bare, "write", {
+      yaml: [
+        "objects:",
+        '  shop: {kind: system, context: "Sells things."}',
+        '  api: {kind: app, in: shop, context: "The API.", status: future}',
+        ...["a", "b", "c", "d", "e"].map(
+          (f) =>
+            `  f-${f}: {kind: module, in: api, name: ${f}.ts, path: "shop:${f}.ts", status: future}`,
+        ),
+        "views:",
+        "  landscape: {name: Landscape, include: [{top: true}]}",
+      ].join("\n"),
+    });
+    expect((await call(bare, "read", { lens: "review" })).text).toContain("not one library");
+  });
+});
+
 describe("note", () => {
   it("adds a note where the box is drawn, replies, resolves, lists", async () => {
     const h = shop();

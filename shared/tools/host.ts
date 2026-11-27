@@ -152,6 +152,10 @@ export interface Host {
   /** When the actor last read notes here, for unread. */
   seen?: { get(): string | undefined; set(at: string): void };
   stats?: (p: Package) => LibStats | null;
+  /** The same, fetched now if the server hasn't got it yet (a library just written). */
+  statsNow?: (p: Package) => Promise<LibStats | null>;
+  /** Experiments this server has on (ARCHNM_EXPERIMENTS), by name. */
+  experiments?: ReadonlySet<string>;
   canvas?: Canvas;
   designs?: Designs;
   indexer?: Indexer;
