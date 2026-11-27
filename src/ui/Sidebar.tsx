@@ -362,12 +362,16 @@ export function Sidebar(props: Props) {
         // A box's Libraries folder: it only folds and unfolds.
         if (r.group)
           return (
-            <li key={`${LIBS}${o.id}`}>
+            <li key={`${LIBS}${r.usedBy}`}>
               <button
                 className="row nav"
                 style={{ paddingLeft: 6 }}
-                onClick={() => toggleRef.current(LIBS + o.id)}
-                title={`The ${r.count} librar${r.count === 1 ? "y" : "ies"} ${o.name} uses.`}
+                onClick={() => toggleRef.current(LIBS + r.usedBy)}
+                title={
+                  r.usedBy
+                    ? `The ${r.count} librar${r.count === 1 ? "y" : "ies"} ${o.name} uses.`
+                    : `${r.count} librar${r.count === 1 ? "y" : "ies"} nothing in the design is connected to yet.`
+                }
               >
                 <Guides row={r} />
                 <span className={`twist ${r.open ? "open" : ""}`}>
@@ -391,7 +395,7 @@ export function Sidebar(props: Props) {
         // How many diagrams it's on besides this one: ● already says "this one".
         const elsewhere = on - (isHere ? 1 : 0);
         return (
-          <li key={r.usedBy ? `${r.usedBy}/${o.id}` : o.id}>
+          <li key={r.usedBy !== undefined ? `${r.usedBy}/${o.id}` : o.id}>
             <button
               className={`row nav ${isHere ? "here" : ""} ${o.external ? "external" : ""} ${rowIds.some((id) => picked.has(id)) ? "picked" : ""}`}
               style={{ paddingLeft: 6 }}

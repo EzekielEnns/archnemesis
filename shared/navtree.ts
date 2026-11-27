@@ -26,8 +26,9 @@ export interface NavRow {
    */
   usedBy?: string;
   /**
-   * Not a box: the "Libraries" folder under `o`, holding the libraries `o` uses (`count` of
-   * them). It folds on its own, as LIBS + o's id in the open set.
+   * Not a box: a "Libraries" folder of `count` libraries. Under a box, the ones it uses
+   * (usedBy is that box, `o`); at the end of the tree, the ones nothing uses (usedBy is "").
+   * It folds on its own, as LIBS + usedBy in the open set.
    */
   group?: "libraries";
   count?: number;
@@ -199,18 +200,36 @@ export function navRows(
         (!keep || keep.has(o.id)),
     )
     .sort((a, b) => a.name.localeCompare(b.name));
-  if (loose.length && out.length) out[out.length - 1] = { ...out[out.length - 1]!, last: false };
-  loose.forEach((lib, j) =>
+  // In a folder of their own at the end, folded: a repo's dev tools can be dozens.
+  if (loose.length) {
+    if (out.length) out[out.length - 1] = { ...out[out.length - 1]!, last: false };
+    const groupOpen = open.has(LIBS) || (!!keep && unfold);
     out.push({
-      o: lib,
+      o: loose[0]!,
       depth: 0,
-      branch: false,
-      open: false,
+      branch: true,
+      open: groupOpen,
       lastAt: [],
-      last: j === loose.length - 1,
-      icon: "library",
-    }),
-  );
+      last: true,
+      icon: "folder",
+      usedBy: "",
+      group: "libraries",
+      count: loose.length,
+    });
+    if (groupOpen)
+      loose.forEach((lib, k) =>
+        out.push({
+          o: lib,
+          depth: 1,
+          branch: false,
+          open: false,
+          lastAt: [true],
+          last: k === loose.length - 1,
+          icon: "library",
+          usedBy: "",
+        }),
+      );
+  }
   return out;
 }
 
