@@ -36,13 +36,18 @@ export function dropTargetAt(
 
 /** The part of the selected arrow under the pointer: an end or a bend. */
 export function hitArrowPart(
-  state: Pick<SceneState, "selectedEdge" | "edges" | "camera" | "shaping">,
+  state: Pick<SceneState, "selectedEdge" | "edges" | "camera" | "shaping"> &
+    Partial<Pick<SceneState, "splitMove">>,
   p: Point,
-): { part: "from" | "to" | "bend"; index: number } | null {
+): { part: "from" | "to" | "bend" | "split"; index: number } | null {
   const ev = state.selectedEdge ? state.edges.get(state.selectedEdge) : undefined;
   if (!ev) return null;
   const r = ARROW_HANDLE_HIT / state.camera.scale;
-  const bends = shapeOf(state, ev.edge)?.bends ?? [];
+  const shape = shapeOf(state, ev.edge);
+  // index 0: its split point; 1: its join point.
+  for (const [i, sp] of [ev.route.dots?.split, ev.route.dots?.join].entries())
+    if (sp && Math.hypot(p.x - sp.x, p.y - sp.y) <= r * 1.3) return { part: "split", index: i };
+  const bends = shape?.bends ?? [];
   for (let i = 0; i < bends.length; i++)
     if (Math.hypot(p.x - bends[i]!.x, p.y - bends[i]!.y) <= r) return { part: "bend", index: i };
   if (Math.hypot(p.x - ev.route.p1.x, p.y - ev.route.p1.y) <= r) return { part: "to", index: -1 };

@@ -234,14 +234,17 @@ function overlapsAny(
 }
 
 /**
- * Boxes moved (laid out, straightened): hand-placed bends go with their arrow, moved by
- * how far its two ends moved on average, so a shaped arrow keeps its shape. Only shapes
- * that change come back.
+ * Boxes moved (laid out, straightened): what was placed by hand on an arrow goes with it. Its
+ * split point moves with the box it leaves, its join point with the box it enters. Its bends
+ * move with it when both ends moved the same way; when they didn't, the bends are moved by the
+ * average (a nudge keeps the shape), or with `reroute` (a whole new layout, where the old shape
+ * means nothing) dropped, so the line is routed afresh. Only shapes that change come back.
  */
 export function shiftBends(
   shapes: Iterable<ArrowShape>,
   before: Map<string, { x: number; y: number }>,
   after: Map<string, { x: number; y: number }>,
+  opts: { reroute?: boolean } = {},
 ): ArrowShape[] {
   const out: ArrowShape[] = [];
   const delta = (id: string) => {
@@ -249,14 +252,28 @@ export function shiftBends(
     const b = after.get(id) ?? a;
     return a && b ? { x: b.x - a.x, y: b.y - a.y } : { x: 0, y: 0 };
   };
+  const by = <P extends { x: number; y: number }>(p: P, d: { x: number; y: number }): P => ({
+    ...p,
+    x: p.x + d.x,
+    y: p.y + d.y,
+  });
   for (const s of shapes) {
-    if (!s.bends?.length) continue;
+    if (!s.bends?.length && !s.split && !s.join) continue;
     const f = delta(s.from);
     const t = delta(s.to);
-    const dx = Math.round((f.x + t.x) / 2);
-    const dy = Math.round((f.y + t.y) / 2);
-    if (!dx && !dy) continue;
-    out.push({ ...s, bends: s.bends.map((p) => ({ x: p.x + dx, y: p.y + dy })) });
+    if (!f.x && !f.y && !t.x && !t.y) continue;
+    const next: ArrowShape = { ...s };
+    if (s.split) next.split = by(s.split, f);
+    if (s.join) next.join = by(s.join, t);
+    if (s.bends?.length) {
+      const same = f.x === t.x && f.y === t.y;
+      if (!same && opts.reroute) delete next.bends;
+      else {
+        const d = { x: Math.round((f.x + t.x) / 2), y: Math.round((f.y + t.y) / 2) };
+        next.bends = s.bends.map((p) => by(p, d));
+      }
+    }
+    out.push(next);
   }
   return out;
 }

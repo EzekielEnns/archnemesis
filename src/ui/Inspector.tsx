@@ -239,11 +239,15 @@ function ManyConnections({
   conns,
   p,
   resetJoints,
+  leaveMeet,
+  meets,
   drawn,
 }: {
   conns: Connection[];
   p: Props;
   resetJoints?: () => void;
+  leaveMeet?: () => void;
+  meets?: "split" | "join";
   drawn: boolean;
 }) {
   const [pick, setPick] = useState<string | null>(null);
@@ -290,6 +294,8 @@ function ManyConnections({
       onShowConnection={p.onShowConnection}
       onHoverConnection={p.onHoverConnection}
       onResetJoints={resetJoints}
+      onLeaveMeet={leaveMeet}
+      meets={meets}
       drawn={drawn}
       onComment={(text) => p.onCommentConnection?.(c.id, text)}
       onOpenNote={(id) => p.onOpenNote?.(id)}
@@ -427,14 +433,32 @@ function InspectorBody(p: Props) {
         edge.shape.toSide ||
         edge.shape.bends?.length ||
         edge.shape.label !== undefined);
+    // Through a split or join point: taken off it, it's its own arrow again.
+    const meets = edge?.shape?.split ? "split" : edge?.shape?.join ? "join" : undefined;
+    const leaveMeet =
+      edge && meets
+        ? () => {
+            const { [meets]: _point, bends: _b, ...rest } = edge.shape!;
+            const bare = Object.keys(rest).every((k) => ["diagramId", "from", "to"].includes(k));
+            void p.run(
+              [
+                bare
+                  ? { op: "arrow.delete", diagramId: p.diagramId, from: edge.from, to: edge.to }
+                  : { op: "arrow.put", arrow: { ...rest, diagramId: p.diagramId } },
+              ],
+              `leave ${meets}`,
+            );
+          }
+        : undefined;
     const resetJoints =
       edge && shaped
         ? () => {
-            const { parts, forkOf, forkAt } = edge.shape ?? {};
-            // Where what it carries was put, and where it forks off another arrow, aren't joints.
+            const { parts, split, join } = edge.shape ?? {};
+            // Where what it carries was put, and its split or join point, aren't joints.
             const kept = {
               ...(parts ? { parts } : {}),
-              ...(forkOf && forkAt !== undefined ? { forkOf, forkAt } : {}),
+              ...(split ? { split } : {}),
+              ...(join ? { join } : {}),
             };
             void p.run(
               [
@@ -464,6 +488,8 @@ function InspectorBody(p: Props) {
           onShowConnection={p.onShowConnection}
           onHoverConnection={p.onHoverConnection}
           onResetJoints={resetJoints}
+          onLeaveMeet={leaveMeet}
+          meets={meets}
           drawn={!!edge}
           onComment={(text) => p.onCommentConnection?.(one.id, text)}
           onOpenNote={(id) => p.onOpenNote?.(id)}
@@ -477,6 +503,8 @@ function InspectorBody(p: Props) {
         conns={conns}
         p={p}
         resetJoints={resetJoints}
+        leaveMeet={leaveMeet}
+        meets={meets}
         drawn={!!edge}
       />
     );

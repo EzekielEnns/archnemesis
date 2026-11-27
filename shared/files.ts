@@ -568,9 +568,10 @@ interface FArrow {
   /** Where along that side, 0 to 1, when put there by hand. */
   from_at?: number;
   to_at?: number;
-  /** It forks off the arrow from the same box to `fork_of`, this far along it, 0 to 1. */
-  fork_of?: string;
-  fork_at?: number;
+  /** A split point: arrows from the same box with the same one run as one line to it. */
+  split?: [number, number];
+  /** A join point: arrows into the same box with the same one meet there and go in as one line. */
+  join?: [number, number];
   bends?: [number, number][];
   label?: number;
   /** Where what it carries was dragged to, from its label's corner. */
@@ -1351,10 +1352,8 @@ export function writeFiles(state: ModelState, config: FConfig = {}): Map<string,
       if (a.toSide) f.to = a.toSide;
       if (a.fromSide && a.fromAt !== undefined) f.from_at = a.fromAt;
       if (a.toSide && a.toAt !== undefined) f.to_at = a.toAt;
-      if (a.forkAt !== undefined && a.forkOf && state.objects.has(a.forkOf)) {
-        f.fork_of = key(a.forkOf);
-        f.fork_at = a.forkAt;
-      }
+      if (a.split) f.split = [Math.round(a.split.x), Math.round(a.split.y)];
+      if (a.join) f.join = [Math.round(a.join.x), Math.round(a.join.y)];
       if (a.bends?.length) f.bends = a.bends.map((p) => [Math.round(p.x), Math.round(p.y)]);
       if (a.label !== undefined) f.label = a.label;
       if (a.parts) f.parts = [Math.round(a.parts.x), Math.round(a.parts.y)];
@@ -1425,6 +1424,9 @@ function readArrows(
           "to",
           "from_at",
           "to_at",
+          "split",
+          "join",
+          // Read and dropped: forks as they were first written (0.4.1), before split points.
           "fork_of",
           "fork_at",
           "bends",
@@ -1438,19 +1440,24 @@ function readArrows(
       if (SIDES.includes(a[end] as BoxSide)) f[end] = a[end] as BoxSide;
       else (err(file, `${where}: ${end} is one of ${SIDES.join(", ")}`), (ok = false));
     }
-    for (const end of ["from_at", "to_at", "fork_at"] as const) {
+    for (const end of ["from_at", "to_at"] as const) {
       const t = a[end];
       if (t === undefined) continue;
       if (typeof t === "number" && t >= 0 && t <= 1) f[end] = t;
       else {
-        err(file, `${where}: ${end} is a number from 0 to 1`);
+        err(file, `${where}: ${end} is a number from 0 to 1 along that side`);
         ok = false;
       }
     }
-    if (typeof a.fork_of === "string") f.fork_of = a.fork_of;
-    else if (a.fork_of !== undefined) {
-      err(file, `${where}: fork_of is the box the arrow it forks off goes to`);
-      ok = false;
+    for (const k of ["split", "join"] as const) {
+      const sp = a[k];
+      if (sp === undefined) continue;
+      if (Array.isArray(sp) && sp.length === 2 && sp.every((n) => Number.isFinite(n)))
+        f[k] = sp as [number, number];
+      else {
+        err(file, `${where}: ${k} is a point, [x, y]`);
+        ok = false;
+      }
     }
     if (a.bends !== undefined) {
       const bends = a.bends;
@@ -3372,15 +3379,14 @@ export function toOps(state: ModelState, model: FileModel): Op[] {
       if (f.to) next.toSide = f.to;
       if (f.from && f.from_at !== undefined) next.fromAt = f.from_at;
       if (f.to && f.to_at !== undefined) next.toAt = f.to_at;
-      if (f.fork_at !== undefined && f.fork_of && keep.has(id(f.fork_of))) {
-        next.forkOf = id(f.fork_of);
-        next.forkAt = f.fork_at;
-      }
+      if (f.split) next.split = { x: Math.round(f.split[0]), y: Math.round(f.split[1]) };
+      if (f.join) next.join = { x: Math.round(f.join[0]), y: Math.round(f.join[1]) };
       if (f.bends?.length)
         next.bends = f.bends.map(([x, y]) => ({ x: Math.round(x), y: Math.round(y) }));
       if (f.label !== undefined) next.label = Math.round(f.label * 1000) / 1000;
       if (f.parts) next.parts = { x: Math.round(f.parts[0]), y: Math.round(f.parts[1]) };
-      const empty = !next.fromSide && !next.toSide && !next.bends && !next.parts && !next.forkOf;
+      const empty =
+        !next.fromSide && !next.toSide && !next.bends && !next.parts && !next.split && !next.join;
       if (empty && next.label === undefined) continue;
       const k = akey(diagramId, from, to);
       keepShapes.add(k);

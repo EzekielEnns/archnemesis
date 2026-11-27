@@ -1,8 +1,15 @@
 // Letting go: what each kind of drag does when it ends (select, move, resize, connect, shape).
 import { screenToWorld } from "../camera";
-import { intersects, nearestT, type Rect, rectFromCorners } from "../../../shared/geometry";
+import {
+  intersects,
+  nearestT,
+  type Point,
+  type Rect,
+  rectFromCorners,
+  routePoint,
+} from "../../../shared/geometry";
 import type { CanvasGroup } from "../types";
-import { commitShape } from "./arrows";
+import { commitShape, commitSplit } from "./arrows";
 import { drawStaticEdges } from "./edges";
 import { requestRender } from "./frame";
 import { hitBoundary, hitScope } from "./hit";
@@ -69,15 +76,12 @@ function finishMarquee(state: SceneState, d: Extract<Drag, { kind: "marquee" }>)
   if (state.groupDraw) state.cb.onGroupDraw?.([...state.selected]);
 }
 
-/** Drawn off an arrow: which arrow it forks from (by where that one goes), and how far along. */
-function forkSpot(
-  state: SceneState,
-  d: Extract<Drag, { kind: "connect" }>,
-): { of: string; at: number } | undefined {
+/** Drawn off an arrow: the point on it where the two part. */
+function splitSpot(state: SceneState, d: Extract<Drag, { kind: "connect" }>): Point | undefined {
   const ev = d.like ? state.edges.get(d.like) : undefined;
   if (!ev) return undefined;
-  const t = Math.max(0.05, Math.min(0.95, nearestT(ev.route, d.start)));
-  return { of: ev.edge.to, at: Math.round(t * 100) / 100 };
+  const p = routePoint(ev.route, Math.max(0.05, Math.min(0.95, nearestT(ev.route, d.start))));
+  return { x: Math.round(p.x), y: Math.round(p.y) };
 }
 
 /** A connection dropped on a box connects them; on nothing, it makes a new box there. */
@@ -92,9 +96,22 @@ function finishConnect(state: SceneState, d: Extract<Drag, { kind: "connect" }>)
     emitSelect(state);
     return;
   }
-  if (d.target) state.cb.onConnect?.(d.from, d.target, d.like, forkSpot(state, d));
+  const onto = d.onto ? state.edges.get(d.onto) : undefined;
+  if (d.target) state.cb.onConnect?.(d.from, d.target, d.like, splitSpot(state, d));
   else if (d.like) return;
-  else if (Math.hypot(d.current.x - d.start.x, d.current.y - d.start.y) * state.camera.scale > 24) {
+  else if (onto) {
+    const p = routePoint(
+      onto.route,
+      Math.max(0.05, Math.min(0.95, nearestT(onto.route, d.current))),
+    );
+    state.cb.onConnect?.(d.from, onto.edge.to, undefined, undefined, {
+      onto: onto.edge.id,
+      at: { x: Math.round(p.x), y: Math.round(p.y) },
+    });
+  } else if (
+    Math.hypot(d.current.x - d.start.x, d.current.y - d.start.y) * state.camera.scale >
+    24
+  ) {
     // Dropped on nothing: a new box, there, connected. Inside a file frame, it's in that file.
     const frame = state.groupList
       .filter(
@@ -181,7 +198,9 @@ export function onPointerUp(state: SceneState, e: PointerEvent): void {
   if (d.kind === "pan") finishPan(state, d, e);
   else if (d.kind === "marquee") finishMarquee(state, d);
   else if (d.kind === "arrow") {
-    if (d.moved && state.shaping?.edge === d.edge) commitShape(state, d.edge, state.shaping.shape);
+    if (d.moved && d.part === "split") commitSplit(state, d.edge);
+    else if (d.moved && state.shaping?.edge === d.edge)
+      commitShape(state, d.edge, state.shaping.shape);
   } else if (d.kind === "connect") finishConnect(state, d);
   else if (d.kind === "resize") {
     if (d.moved) finishResize(state, d);

@@ -71,7 +71,21 @@ export interface SceneCallbacks {
   onGroupDraw?: (ids: string[]) => void;
   /** A connection was dragged from one box's handle onto another box. */
   /** With `like`, it was drawn off that arrow: a fork, off the arrow to `of`, `at` of the way along. */
-  onConnect?: (from: string, to: string, like?: string, fork?: { of: string; at: number }) => void;
+  /** `split`: drawn off the arrow `like` at this point, where the two part (if `like` has no split point yet). */
+  onConnect?: (
+    from: string,
+    to: string,
+    like?: string,
+    split?: Point,
+    /** Dropped on this arrow, here: the new one joins it at that point on the way into its box. */
+    join?: { onto: string; at: Point },
+  ) => void;
+  /** A split or join point was dragged: these arrows now meet at `at`. False if it can't be saved. */
+  onSplitMove?: (
+    arrows: { from: string; to: string }[],
+    kind: "split" | "join",
+    at: Point,
+  ) => boolean;
   /**
    * A connection was dragged from a box's handle into empty space: make a new box there,
    * connected to it. `frame` is the file (module) frame it was dropped in, if any.
@@ -182,6 +196,8 @@ export type Drag =
       target: string | null;
       /** Drawn off this arrow: a branch of it, to another box. */
       like?: string;
+      /** Over this arrow, not a box: dropped here it joins it, into the box that one goes to. */
+      onto?: string | null;
     }
   | { kind: "resize"; id: string; start: Point; origin: { w: number; h: number }; moved: boolean }
   | { kind: "minimap" }
@@ -189,7 +205,7 @@ export type Drag =
   | {
       kind: "arrow";
       edge: string;
-      part: "from" | "to" | "bend" | "label" | "line";
+      part: "from" | "to" | "bend" | "label" | "line" | "split";
       index: number;
       start: Point;
       moved: boolean;

@@ -359,6 +359,7 @@ export async function layoutOps(
     g.edges.flatMap((e) => (e.shape ? [e.shape] : [])),
     before,
     at,
+    { reroute: true },
   ).map((arrow) => ({ op: "arrow.put", arrow }));
   return [...moveOps(idx, diagramId, moves), ...bends];
 }

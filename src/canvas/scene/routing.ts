@@ -3,11 +3,7 @@
 import {
   BoxGrid,
   chooseSides,
-  clipToBoxes,
   intersects,
-  lineRoute,
-  type Point,
-  routePoint,
   fanSides,
   pinOffset,
   ports,
@@ -44,33 +40,9 @@ export function syncAvoid(state: SceneState): void {
     shape: shapeOf(state, ev.edge),
   }));
   const ends = new Map([...boxes, ...state.frameEnds]);
-  // A fork is routed from its spot on the arrow it comes off: from that arrow's routed path,
-  // or, bent by hand or a fork itself, the line it was last drawn with.
-  const junction = (id: string): Point | undefined => {
-    const e = state.edges.get(id)?.edge;
-    const up = e?.forkOf ? state.edges.get(e.forkOf) : undefined;
-    const t = e && shapeOf(state, e)?.forkAt;
-    if (!up || t === undefined) return undefined;
-    const [a, b] = [endRect(state, up.edge.from), endRect(state, up.edge.to)];
-    const pts =
-      !up.edge.forkOf && !shapeOf(state, up.edge)?.bends?.length && state.avoid!.path(up.edge.id);
-    return routePoint(pts && a && b ? lineRoute(clipToBoxes(pts, a, b)) : up.route, t);
-  };
   const style = state.arrowStyle === "straight" ? "straight" : "elbow";
   try {
-    const first = routerEdges(list, ends, boxes, junction);
-    state.avoid!.sync(boxes, first, style);
-    // The arrows forks come off may have just been routed: route the forks from where they are now.
-    if (list.some((e) => e.forkOf)) {
-      const again = routerEdges(list, ends, boxes, junction);
-      const moved = again.some((e, i) => {
-        const [p, q] = [e.fromAt, first[i]?.fromAt];
-        return (
-          first[i]?.id !== e.id || (p && q && Math.hypot(p.x - q.x, p.y - q.y) > 0.5) || !p !== !q
-        );
-      });
-      if (moved || again.length !== first.length) state.avoid!.sync(boxes, again, style);
-    }
+    state.avoid!.sync(boxes, routerEdges(list, ends, boxes), style);
   } catch (e) {
     // Never let the router break drawing: drop it, and arrows go back to curves.
     console.warn("archnm: arrow router failed; arrows are curved for now", e);

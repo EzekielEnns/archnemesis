@@ -30,7 +30,7 @@ import { offShelfNotes } from "./offshelf.ts";
 import { filesOf } from "./problems.ts";
 import { connRef, idOf, object, refOf, viewId } from "./refs.ts";
 import { resolveRef } from "../context.ts";
-import { tidyView } from "./tidy.ts";
+import { measure, tidyView } from "./tidy.ts";
 import { findView } from "../agent.ts";
 import { FIELDS } from "../spec.ts";
 
@@ -39,14 +39,18 @@ export interface WriteArgs {
   /** Whole files (model/x.yaml, views/v.yaml…), as the folder has them: what read {file} gives, or a view exported to copy. */
   files?: Record<string, string>;
   remove?: string | string[];
-  /** Arrows drawn as forks of another from the same box, on a view. off: null undoes it. */
-  forks?: { view: string; arrow: string; off: string | null; at?: number }[];
+  /** Arrows from one box drawn as one line to a point, where they part, on a view. at: null undoes it. */
+  splits?: { view: string; from: string; to: string[]; at: [number, number] | null }[];
+  /** Arrows into one box drawn meeting at a point and going in as one line, on a view. at: null undoes it. */
+  joins?: { view: string; to: string; from: string[]; at: [number, number] | null }[];
   dry_run?: boolean;
   /** Only changes inside this box's subtree; anything else is refused with what to note instead. */
   scope?: string;
   /** Lay out these views after (or true: every view this changed). */
   tidy?: boolean | string | string[];
   direction?: LayoutDirection;
+  /** Lay out again even a view somebody arranged by hand. */
+  rearrange?: boolean;
   undo?: boolean;
   label?: string;
   /** A passing dry run's id: write exactly what it checked (refused if the design changed since). */
@@ -527,8 +531,10 @@ function knownRepos(model: FileModel, registered: string[]): Set<string> {
 /** write's own parameters, which agents also write inside the yaml: taken out and used as the parameters. */
 const PARAM_KEYS = [
   "tidy",
+  "rearrange",
   "remove",
-  "forks",
+  "splits",
+  "joins",
   "scope",
   "dry_run",
   "as",
@@ -571,51 +577,63 @@ export function liftParams<T extends WriteArgs & { as?: string }>(
   return { args: out as T, lifted, ignored };
 }
 
+/** How many of a view's arrows somebody shaped by hand, as it was before this write. */
+function handShaped(idx: ModelIndex, diagramId: string): number {
+  let n = 0;
+  for (const s of idx.arrows.values())
+    if (s.diagramId === diagramId && (s.bends?.length || s.split || s.join)) n++;
+  return n;
+}
+
 /**
- * forks: on a view, an arrow drawn coming off another arrow from the same box, partway along
- * it (one line that splits). It's how the view draws them: both stay their own connections.
+ * splits: on a view, arrows from one box drawn as one line to a point and on from there to each
+ * of their boxes (a bus, a fan-out). It's how the view draws them: each stays its own connection.
  */
-function setForks(
+function setSplits(
   model: FileModel,
-  forks: NonNullable<WriteArgs["forks"]>,
+  splits: NonNullable<WriteArgs["splits"]>,
+  kind: "split" | "join" = "split",
 ): { model: FileModel; problems: string[] } {
   const problems: string[] = [];
   const arrows = new Map(model.arrows);
   const drawn = (ends: string) => model.connections.some((c) => `${c.from}>${c.to}` === ends);
-  for (const f of forks) {
-    const say = (m: string) => problems.push(`${f?.arrow ?? "?"}: ${m}`);
-    if (!f || typeof f.view !== "string" || typeof f.arrow !== "string")
-      return { model, problems: ["each fork is {view, arrow: a>b, off: a>c, at: 0.5}"] };
+  for (const f of splits) {
+    const say = (m: string) => problems.push(`${f?.from ?? "?"}: ${m}`);
+    const at = f?.at;
+    const point = Array.isArray(at) && at.length === 2 && at.every((n) => Number.isFinite(n));
+    if (!f || typeof f.view !== "string" || typeof f.from !== "string" || !Array.isArray(f.to))
+      return {
+        model,
+        problems: [
+          kind === "split"
+            ? "each split is {view, from: a, to: [b, c], at: [x, y]}"
+            : "each join is {view, to: a, from: [b, c], at: [x, y]}",
+        ],
+      };
     const view = f.view.replace(/^view:/, "");
     if (!model.views.some((v) => v.key === view)) {
       say(`no view "${view}" (${model.views.map((v) => v.key).join(", ")})`);
       continue;
     }
-    if (!drawn(f.arrow)) {
-      say("no connection has those ends (arrow is from>to, by box id)");
+    if (at !== null && !point) {
+      say(
+        "at is the point they part at, [x, y] as boxes are placed in the view's layout (null undoes it)",
+      );
       continue;
     }
     const mine = { ...arrows.get(view) };
-    const { fork_of: _of, fork_at: _at, ...rest } = mine[f.arrow] ?? {};
-    if (f.off === null) {
-      if (Object.keys(rest).length) mine[f.arrow] = rest;
-      else delete mine[f.arrow];
-      arrows.set(view, mine);
-      continue;
+    for (const to of f.to) {
+      const key = kind === "split" ? `${f.from}>${to}` : `${to}>${f.from}`;
+      if (!drawn(key)) {
+        say(`no connection ${key} (from and to are box ids)`);
+        continue;
+      }
+      const { [kind]: _was, ...rest } = mine[key] ?? {};
+      if (at) mine[key] = { ...rest, [kind]: [Math.round(at[0]), Math.round(at[1])] };
+      else if (Object.keys(rest).length) mine[key] = rest;
+      else delete mine[key];
     }
-    const [from, to] = f.arrow.split(">") as [string, string];
-    const [offFrom, offTo] = String(f.off).split(">") as [string, string | undefined];
-    if (!offTo || !drawn(String(f.off)))
-      say(`off: no connection ${f.off} (it's from>to, by box id)`);
-    else if (offFrom !== from)
-      say(`it forks off an arrow from the same box (${from}>…), not ${f.off}`);
-    else if (offTo === to) say("an arrow can't fork off itself");
-    else if (mine[f.off]?.fork_of === to) say(`${f.off} already forks off it`);
-    else {
-      const at = typeof f.at === "number" && f.at >= 0 && f.at <= 1 ? f.at : 0.5;
-      mine[f.arrow] = { ...rest, fork_of: offTo, fork_at: Math.round(at * 100) / 100 };
-      arrows.set(view, mine);
-    }
+    arrows.set(view, mine);
   }
   return { model: { ...model, arrows }, problems };
 }
@@ -775,7 +793,14 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       a.dry_run ? `Dry run, nothing changed. Undo would take back: ${what}.` : `Undone: ${what}.`,
     );
   }
-  if (!a.yaml?.trim() && !a.files && !remove.length && !a.tidy && !a.forks?.length)
+  if (
+    !a.yaml?.trim() &&
+    !a.files &&
+    !remove.length &&
+    !a.tidy &&
+    !a.splits?.length &&
+    !a.joins?.length
+  )
     return fail(`Send yaml (a fragment in the file grammar), remove, or tidy.\n${EXAMPLE}`);
   if (!a.dry_run && !host.canEdit)
     return fail(`${host.actor.name} can read this design but not edit it`);
@@ -957,11 +982,22 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     }
   }
   model = without(model, gone);
-  if (Array.isArray(a.forks) && a.forks.length) {
-    const forked = setForks(model, a.forks);
+  if (Array.isArray(a.splits) && a.splits.length) {
+    const forked = setSplits(model, a.splits);
     model = forked.model;
     problems.push(
-      ...forked.problems.map((message) => ({ level: "error" as const, file: "forks", message })),
+      ...forked.problems.map((message) => ({ level: "error" as const, file: "splits", message })),
+    );
+  }
+  if (Array.isArray(a.joins) && a.joins.length) {
+    const forked = setSplits(
+      model,
+      a.joins.map((x) => ({ view: x?.view, from: x?.to, to: x?.from, at: x?.at })),
+      "join",
+    );
+    model = forked.model;
+    problems.push(
+      ...forked.problems.map((message) => ({ level: "error" as const, file: "joins", message })),
     );
   }
   // A dropped tag group takes its tags off the boxes, and its lanes off the views (the
@@ -1359,10 +1395,19 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
           : [],
       ),
     );
-    for (const id of ids)
-      out.push(
-        await tidyView(host, host.index().diagrams.get(id)!, a.direction, step, set.get(id)),
-      );
+    for (const id of ids) {
+      const d = host.index().diagrams.get(id)!;
+      // A view somebody shaped by hand (bent arrows, splits, joins), and tidy: true that only
+      // means "the views this changed": laying it out again would throw their work away.
+      const shaped = handShaped(idx, id);
+      if (shaped && !a.rearrange) {
+        out.push(
+          `${d.key ?? d.id}: not tidied. Somebody arranged it by hand (${shaped} shaped ${shaped === 1 ? "arrow" : "arrows"}), and a tidy would throw that away; new boxes went next to what they connect to. Look at it (show {render: "${d.key ?? d.id}"}). Only if the person asked for a new layout: write {tidy: ["${d.key ?? d.id}"], rearrange: true}.`,
+        );
+        continue;
+      }
+      out.push(await tidyView(host, d, a.direction, step, set.get(id)));
+    }
     // The Dependencies view this write made isn't in its ops: it's new, so it's laid out too.
     for (const d of now.diagrams.values())
       if (d.key === DEPS_VIEW && !idx.diagrams.has(d.id) && !ids.includes(d.id))
@@ -1376,6 +1421,20 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     for (const d of now.diagrams.values()) {
       if (idx.placements.get(d.id)?.size || !now.placements.get(d.id)?.size) continue;
       out.push(await tidyView(host, d, a.direction, step));
+    }
+  }
+  // A view that reads worse than before this write: say so while it's one undo away.
+  if (step.started) {
+    const now = host.index();
+    for (const d of now.diagrams.values()) {
+      if (!idx.diagrams.has(d.id)) continue;
+      const was = measure(idx, d.id).score;
+      const is = measure(now, d.id).score;
+      if (is.crossings < was.crossings + 2) continue;
+      const key = d.key ?? d.id;
+      out.push(
+        `${key} reads worse now: ${was.crossings} → ${is.crossings} lines cross (${was.boxes} → ${is.boxes} boxes). Look before calling it done: show {render: "${key}"}. More than about 12 boxes wants a second view, not a bigger one; write {undo: true} takes this write back.`,
+      );
     }
   }
   out.push(...(warn && !brief ? [warn.trim()] : []));

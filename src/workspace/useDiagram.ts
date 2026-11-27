@@ -13,7 +13,7 @@ import {
 import { growFrames, hasRow, layoutParts, ROW_ROOM } from "../ui/Layers";
 import { makeSpread, NO_SPREAD, spreadGraph } from "../canvas/spread";
 import type { Store } from "../store";
-import { explode, PARTS_GUTTER } from "../../shared/explode.ts";
+import { explode, PARTS_GUTTER, wrapPanels } from "../../shared/explode.ts";
 import { FOLD_FRAME } from "../../shared/project.ts";
 
 import type { LayerState } from "../ui/Layers";
@@ -53,7 +53,10 @@ export function useDiagram({
       removedToo: !!diffIdx,
       loose: made,
     });
-    if (ex) g.groups.push(...ex.frames);
+    if (ex) {
+      wrapPanels(g.groups, ex.frames);
+      g.groups.push(...ex.frames);
+    }
     return { ...colorGraph(g, from, colorBy, tagGroups), exploded: ex };
   }, [
     idx,

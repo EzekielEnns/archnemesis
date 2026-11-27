@@ -5,6 +5,7 @@ import { DRAWER_W, PANEL_ROOM } from "./constants";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { connect } from "../../shared/actions.ts";
 import type { Op } from "../../shared/model.ts";
+import type { ModelIndex } from "../../shared/project.ts";
 import { type CanvasGraph } from "../../shared/project.ts";
 import { Scene } from "../canvas/Scene";
 import type { Store } from "../store";
@@ -14,6 +15,53 @@ import type { LatestRef } from "./latest";
 import { sceneCallbacks, type SceneDeps } from "./sceneCallbacks";
 import { useStoredFlag } from "./useStored";
 import type { useSceneRefs } from "./useSceneRefs";
+
+type XY = { x: number; y: number };
+
+/**
+ * Drawn off the arrow `like`: the two part at a split point, the one that arrow has or else
+ * where this was drawn off it (its bends were for the way it went before). An arrow that's
+ * already through a point of its own stays there.
+ */
+function splitOps(i: ModelIndex, d: string, from: string, to: string, like: string, at?: XY): Op[] {
+  const was = i.arrows.get(`${d}|${like}`);
+  const there = i.arrows.get(`${d}|${from}>${to}`);
+  const split = was?.split ?? at;
+  const likeTo = like.slice(from.length + 1);
+  if (!split || likeTo === to || there?.split) return [];
+  const ops: Op[] = [{ op: "arrow.put", arrow: { ...there, diagramId: d, from, to, split } }];
+  if (!was?.split)
+    ops.push({
+      op: "arrow.put",
+      arrow: { ...was, diagramId: d, from, to: likeTo, bends: undefined, split },
+    });
+  return ops;
+}
+
+/**
+ * Dropped on the arrow `onto`: the two meet at a join point (the one that arrow has, or else
+ * where this was dropped on it) and go into the box as one line.
+ */
+function joinOps(i: ModelIndex, d: string, from: string, to: string, onto: string, at: XY): Op[] {
+  const had = i.arrows.get(`${d}|${onto}`);
+  const there = i.arrows.get(`${d}|${from}>${to}`);
+  if (onto === `${from}>${to}` || there?.join) return [];
+  const join = had?.join ?? at;
+  const ops: Op[] = [{ op: "arrow.put", arrow: { ...there, diagramId: d, from, to, join } }];
+  if (!had?.join)
+    ops.push({
+      op: "arrow.put",
+      arrow: {
+        ...had,
+        diagramId: d,
+        from: onto.slice(0, -to.length - 1),
+        to,
+        bends: undefined,
+        join,
+      },
+    });
+  return ops;
+}
 
 export function useScene({
   store,
@@ -55,9 +103,17 @@ export function useScene({
 
   /** Make a connection and say what it did, since it may land on an arrow that's already there. */
   const makeConnection = useCallback(
-    (from: string, to: string, s: Scene, like?: string, fork?: { of: string; at: number }) => {
-      const { idx: i, run: r, graph: g, toast: say, diagramId: d } = latest.current;
-      // Drawn off an arrow: a fork of it, so it's the same connection to one more box.
+    (
+      from: string,
+      to: string,
+      s: Scene,
+      like?: string,
+      at?: XY,
+      join?: { onto: string; at: XY },
+    ) => {
+      const { idx: i, run: r, graph: g, toast: say, diagramId: d, spread: sp } = latest.current;
+      const up = (p: XY) => ({ x: p.x, y: Math.round(sp.up(p.y)) });
+      // Drawn off an arrow: a branch of it, so it's the same connection to one more box.
       const src = like
         ? i.connections.get(g?.edges.find((e) => e.id === like)?.connectionIds[0] ?? "")
         : undefined;
@@ -69,17 +125,11 @@ export function useScene({
           : {},
       );
       const { connection } = made;
-      // Where on the arrow it comes off is part of how it's drawn here.
-      const ops: Op[] =
-        src && d && fork && fork.of !== to
-          ? [
-              ...made.ops,
-              {
-                op: "arrow.put",
-                arrow: { diagramId: d, from, to, forkOf: fork.of, forkAt: fork.at },
-              },
-            ]
-          : made.ops;
+      const ops: Op[] = [
+        ...made.ops,
+        ...(d && src && like ? splitOps(i, d, from, to, like, at && up(at)) : []),
+        ...(d && join ? joinOps(i, d, from, to, join.onto, up(join.at)) : []),
+      ];
       const key = `${from}>${to}`;
       const existing = g?.edges.find((e) => e.id === key);
       const name = (id: string) => i.objects.get(id)?.name ?? "?";
@@ -91,7 +141,7 @@ export function useScene({
       });
       // Select the new arrow and name it where its label goes: type, Enter, and that's its label.
       // The arrow is drawn once the model has it (and, routed, once its route is back): wait for it.
-      // A fork has its arrow's name (or, like it, none).
+      // A branch has its arrow's name (or, like it, none).
       if (src) return;
       const named = (tries: number) => {
         const at = latest.current.idx.connections.has(connection.id)

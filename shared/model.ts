@@ -394,10 +394,12 @@ export interface ArrowShape {
    * (its left, or its top), 1 at its end. Left out, the ends on a side share it out between them. */
   fromAt?: number;
   toAt?: number;
-  /** It forks off another arrow from the same box (the one to `forkOf`), `forkAt` of the way
-   * along it (0 at its start, 1 at its end), instead of starting at the box. */
-  forkOf?: string;
-  forkAt?: number;
+  /** A split point on the diagram: the arrows from the same box with the same one leave as one
+   * line to it, then each goes on to its own box (a bus, a fan-out). */
+  split?: { x: number; y: number };
+  /** A join point, the other way round: the arrows into the same box with the same one meet
+   * there and go on into the box as one line. */
+  join?: { x: number; y: number };
   /** Points it goes through, in order, on the diagram. */
   bends?: { x: number; y: number }[];
   /** Where its label sits: 0 at the start, 1 at the end. */

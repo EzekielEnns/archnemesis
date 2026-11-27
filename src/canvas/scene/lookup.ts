@@ -25,27 +25,33 @@ export function endRect(state: SceneState, id: string): Rect | undefined {
   return state.views.get(id)?.node ?? state.frameEnds.get(id);
 }
 
-/** The arrow a fork comes off in the end: up through the forks to the one that starts at the box. */
-function forkRoot(state: SceneState, ev: EdgeView): string {
-  let at = ev;
-  for (let i = 0; at.edge.forkOf && i < 32; i++) {
-    const up = state.edges.get(at.edge.forkOf);
-    if (!up) break;
-    at = up;
-  }
-  return at.edge.id;
-}
-
-/** The rest of an arrow that splits: the arrow a fork comes off, and every other fork of it. One arrow to the eye. */
-export function forkFamily(state: SceneState, ev: EdgeView): EdgeView[] {
-  const root = forkRoot(state, ev);
-  return (state.edgesByNode.get(ev.edge.from) ?? []).filter(
-    (o) => o !== ev && (o.edge.forkOf || ev.edge.forkOf) && forkRoot(state, o) === root,
+/**
+ * What lights up with an arrow that splits or joins. The first arrow of a group (the one the
+ * others were drawn off, or onto) shows the whole of it; any other is picked by itself.
+ */
+export function splitFamily(state: SceneState, ev: EdgeView): EdgeView[] {
+  const split = ev.edge.splitLead ? ev.edge.split : undefined;
+  const join = ev.edge.joinLead ? ev.edge.join : undefined;
+  if (!split && !join) return [];
+  return [...state.edges.values()].filter(
+    (o) => o !== ev && ((split && o.edge.split === split) || (join && o.edge.join === join)),
   );
 }
 
-export function shapeOf(state: Pick<SceneState, "shaping">, e: CanvasEdge): ArrowShape | undefined {
-  return state.shaping?.edge === e.id ? state.shaping.shape : e.shape;
+/** The arrows through one split or join point, by its group. */
+export function meetGroup(state: SceneState, key: string): EdgeView[] {
+  return [...state.edges.values()].filter((o) => o.edge.split === key || o.edge.join === key);
+}
+
+export function shapeOf(
+  state: Pick<SceneState, "shaping"> & Partial<Pick<SceneState, "splitMove">>,
+  e: CanvasEdge,
+): ArrowShape | undefined {
+  const s = state.shaping?.edge === e.id ? state.shaping.shape : e.shape;
+  const m = state.splitMove;
+  if (!m || !s) return s;
+  if (e.split === m.key) return { ...s, split: m.at };
+  return e.join === m.key ? { ...s, join: m.at } : s;
 }
 
 export function local(state: SceneState, e: MouseEvent): Point {

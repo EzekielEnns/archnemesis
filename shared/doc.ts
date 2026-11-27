@@ -1168,7 +1168,7 @@ function exec(d: Draft, op: Op): void {
       check(a.from !== a.to, "an arrow needs two different ends");
       for (const s of [a.fromSide, a.toSide])
         check(s === undefined || SIDES.includes(s), `a side is one of ${SIDES.join(", ")}`);
-      for (const t of [a.fromAt, a.toAt, a.forkAt])
+      for (const t of [a.fromAt, a.toAt])
         check(t === undefined || (num(t) && t >= 0 && t <= 1), "where an end sits is 0 to 1");
       check(
         a.bends === undefined ||
@@ -1194,7 +1194,8 @@ function exec(d: Draft, op: Op): void {
         clean.bends ||
         clean.label !== undefined ||
         clean.parts ||
-        clean.forkOf
+        clean.split ||
+        clean.join
       )
         d.set("arrows", k, clean);
       else if (d.get("arrows", k)) d.set("arrows", k, null);
@@ -1656,11 +1657,12 @@ function cleanArrow(r: Record<string, unknown>): ArrowShape {
       : undefined;
   if (out.fromSide && at(r.fromAt) !== undefined) out.fromAt = at(r.fromAt);
   if (out.toSide && at(r.toAt) !== undefined) out.toAt = at(r.toAt);
-  // A fork needs both: the arrow it comes off (by where that one goes) and how far along.
-  if (at(r.forkAt) !== undefined && typeof r.forkOf === "string" && r.forkOf !== r.to) {
-    out.forkOf = r.forkOf;
-    out.forkAt = at(r.forkAt);
-  }
+  const sp = r.split as { x?: unknown; y?: unknown } | undefined;
+  if (sp && num(sp.x) && num(sp.y))
+    out.split = { x: Math.round(sp.x as number), y: Math.round(sp.y as number) };
+  const jp = r.join as { x?: unknown; y?: unknown } | undefined;
+  if (jp && num(jp.x) && num(jp.y))
+    out.join = { x: Math.round(jp.x as number), y: Math.round(jp.y as number) };
   if (Array.isArray(r.bends)) {
     const bends = (r.bends as { x: unknown; y: unknown }[])
       .filter((p) => num(p?.x) && num(p?.y))

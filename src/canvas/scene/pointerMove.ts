@@ -144,6 +144,12 @@ function dragConnect(state: SceneState, d: Extract<Drag, { kind: "connect" }>, w
   d.target = hit && hit.node.id !== d.from ? hit.node.id : null;
   // A branch goes somewhere its arrow doesn't already.
   if (d.like && d.target === state.edges.get(d.like)?.edge.to) d.target = null;
+  // Over an arrow, not a box: dropped here it joins that arrow, into the box it goes to.
+  const over = d.target || d.like ? null : hitEdge(state, world);
+  d.onto =
+    over && over.edge.from !== d.from && over.edge.to !== d.from && state.views.has(over.edge.to)
+      ? over.edge.id
+      : null;
   drawOverlay(state);
   requestRender(state);
 }

@@ -52,10 +52,15 @@ export function spreadGraph(g: CanvasGraph, s: Spread): CanvasGraph {
   return {
     nodes: g.nodes.map((n) => ({ ...n, y: s.down(n.y) })),
     edges: g.edges.map((e) =>
-      e.shape?.bends?.length
+      e.shape?.bends?.length || e.shape?.split || e.shape?.join
         ? {
             ...e,
-            shape: { ...e.shape, bends: e.shape.bends.map((b) => ({ x: b.x, y: s.down(b.y) })) },
+            shape: {
+              ...e.shape,
+              bends: e.shape.bends?.map((b) => ({ x: b.x, y: s.down(b.y) })),
+              split: e.shape.split && { x: e.shape.split.x, y: s.down(e.shape.split.y) },
+              join: e.shape.join && { x: e.shape.join.x, y: s.down(e.shape.join.y) },
+            },
           }
         : e,
     ),

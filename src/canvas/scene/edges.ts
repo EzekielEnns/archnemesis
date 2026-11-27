@@ -22,12 +22,14 @@ import {
   traceDashed,
   traceRoute,
   fanStart,
-  forkRoute,
+  ownStretch,
+  meetRoute,
+  sharedDots,
   lineLength,
   sharedRun,
-  startAt,
 } from "../../../shared/geometry";
 import type { ArrowShape } from "../../../shared/model.ts";
+import { tailId, trunkId } from "../../../shared/router";
 import type { CanvasEdge, CanvasNode } from "../types";
 import { endRect, shapeOf } from "./lookup";
 import { clip, rowOffset } from "./measure";
@@ -116,26 +118,22 @@ function portOffsets(
   };
 }
 
-/** No box: a fork starts on a line, not in one. */
-const NOWHERE: Rect = { x: -1e9, y: -1e9, w: 0, h: 0 };
-
-/** A fork's line: from its spot on the arrow it comes off, not from the box. Undefined when it isn't one. */
-function forkedRoute(
+/** An arrow through a split or join point: by way of the point. Undefined when it has neither. */
+function splitRouteOf(
   state: SceneState,
   e: CanvasEdge,
   s: ArrowShape | undefined,
+  a: Rect,
   b: Rect,
-  index?: RectIndex,
 ): Route | undefined {
-  const parent = e.forkOf ? state.edges.get(e.forkOf)?.edge : undefined;
-  if (!parent || s?.forkAt === undefined || !endRect(state, parent.to)) return undefined;
-  const up = routeOf(state, parent, index);
-  const round = state.arrowStyle === "straight" ? 0 : 10;
-  // Routed around boxes from its spot; with bends of its own, or unrouted, one turn into its box.
-  const pts = !s.bends?.length && routed(state) ? state.avoid!.path(e.id) : null;
-  return pts
-    ? lineRoute(clipToBoxes(startAt(pts, routePoint(up, s.forkAt)), NOWHERE, b), round)
-    : forkRoute(up, s.forkAt, b, s.bends, round);
+  if (!state.views.has(e.from) || !state.views.has(e.to)) return undefined;
+  const on = routed(state);
+  return meetRoute(a, b, s, {
+    trunk: on && s?.split ? state.avoid!.path(trunkId(e.from, s.split)) : null,
+    own: on ? state.avoid!.path(e.id) : null,
+    tail: on && s?.join ? state.avoid!.path(tailId(e.to, s.join)) : null,
+    round: state.arrowStyle === "straight" ? 0 : 10,
+  });
 }
 
 /** Past this many boxes a redraw asks an index for the boxes near each arrow, not the whole list. */
@@ -145,8 +143,8 @@ export function routeOf(state: SceneState, e: CanvasEdge, index?: RectIndex): Ro
   const a = endRect(state, e.from)!;
   const b = endRect(state, e.to)!;
   const s = shapeOf(state, e);
-  const fork = forkedRoute(state, e, s, b, index);
-  if (fork) return fork;
+  const split = splitRouteOf(state, e, s, a, b);
+  if (split) return split;
   const pin = {
     from: s?.fromSide && SIDE_OF_WORD[s.fromSide],
     to: s?.toSide && SIDE_OF_WORD[s.toSide],
@@ -200,7 +198,7 @@ function lineColor(state: SceneState, ev: EdgeView, live: boolean, focused: bool
 /** For the arrow that leads a fan: how far along it (0 to 1) the middle of the shared line is; 0 when there's none to speak of. */
 function fanTrunk(state: SceneState, ev: EdgeView): number {
   const pts = ev.route.pts;
-  if (!ev.edge.fanLead || !pts) return 0;
+  if (!ev.edge.fanLead || !ev.edge.fan || !pts) return 0;
   let run = Infinity;
   for (const o of state.edgesByNode.get(ev.edge.from) ?? [])
     if (o !== ev && o.edge.fan === ev.edge.fan && o.route.pts)
@@ -232,18 +230,11 @@ function placeEdgeLabel(
   } else {
     // Where it would still cover a box (a title, a footer), a shorter label usually fits.
     if (ev.short) setEdgeLabel(ev, false);
-    const trial = placeLabelOn(
-      ev.route,
-      ev.labelSize.w,
-      ev.labelSize.h,
-      boxes,
-      taken,
-      false,
-      others,
-    );
+    const line = ownStretch(ev.route, shapeOf(state, ev.edge));
+    const trial = placeLabelOn(line, ev.labelSize.w, ev.labelSize.h, boxes, taken, false, others);
     if (trial.covers > 0 && ev.edge.label.length > SHORT_LABEL) {
       setEdgeLabel(ev, true);
-      mid = placeLabel(ev.route, ev.labelSize.w, ev.labelSize.h, boxes, taken, others);
+      mid = placeLabel(line, ev.labelSize.w, ev.labelSize.h, boxes, taken, others);
     } else {
       // Nothing changed since the trial, so placing it again would give the same spot.
       mid = trial.at;
@@ -264,7 +255,7 @@ interface LineGroup {
 }
 
 /** Stroke each group of arrows that look alike in one go, then their arrowheads. */
-function strokeGroups(g: Graphics, groups: Map<string, LineGroup>): void {
+function strokeGroups(g: Graphics, groups: Map<string, LineGroup>, dots: Set<string>): void {
   for (const { color, alpha, width, hop, list } of groups.values()) {
     // A hop between processes is dashed: the call leaves the process here.
     for (const { route: r } of list) (hop ? traceDashed : traceRoute)(g, r);
@@ -272,8 +263,10 @@ function strokeGroups(g: Graphics, groups: Map<string, LineGroup>): void {
     for (const { route: r, edge } of list) {
       const [a, b] = arrowHead(r.p1, r.c2, 9);
       g.poly([r.p1.x, r.p1.y, a.x, a.y, b.x, b.y]);
-      // A fork: a dot where it comes off its arrow.
-      if (edge.forkOf) g.circle(r.p0.x, r.p0.y, 3.5);
+      // A dot where the arrows through a split point part.
+      // A dot where arrows part, and where they meet.
+      for (const p of [r.dots?.split, r.dots?.join])
+        if (p && dots.has(`${p.x},${p.y}`)) g.circle(p.x, p.y, 3.5);
       if (!edge.both) continue;
       // Both ways: a head at the start too.
       const [c, d] = arrowHead(r.p0, r.c1, 9);
@@ -327,7 +320,15 @@ export function drawEdges(
     if (ev.label && !strokesOnly)
       placeEdgeLabel(state, ev, ev.label, { dim, focused, live }, { boxes, taken, others });
   }
-  strokeGroups(g, groups);
+  // (From every arrow, not only the ones drawn on this layer: the others of a group may be on the other.)
+  const dots = sharedDots(
+    [...state.edges.values()].map((o) => ({
+      route: o.route,
+      split: o.edge.split,
+      join: o.edge.join,
+    })),
+  );
+  strokeGroups(g, groups, dots);
 }
 
 /** 1.5 world units, but never thinner than about a pixel on screen. */

@@ -26,7 +26,7 @@ function preview(idx: ModelIndex, ops: Op[]): ModelIndex {
   return { ...idx, placements, diagrams };
 }
 
-function measure(idx: ModelIndex, diagramId: string) {
+export function measure(idx: ModelIndex, diagramId: string) {
   const g = projectDiagram(idx, diagramId);
   const all = [...g.nodes, ...g.groups];
   if (!all.length) return { score: scoreGraph(g), w: 0, h: 0 };

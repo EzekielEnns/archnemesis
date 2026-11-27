@@ -110,8 +110,13 @@ export interface CanvasEdge {
   fan?: string;
   /** The one of a fan that carries its label. */
   fanLead?: true;
-  /** It forks off this arrow of its fan partway along (shape.forkAt), not from the box. */
-  forkOf?: string;
+  /** It runs through a split point (shape.split) with the others from its box that share it: which group. */
+  split?: string;
+  /** The first arrow of its split group, or of its join group: the one the others were drawn off, or onto. */
+  splitLead?: boolean;
+  joinLead?: boolean;
+  /** It runs through a join point (shape.join) with the others into its box that share it: which group. */
+  join?: string;
   /** Every connection on it is a call between code (functions, files): a call graph, tangled by nature. */
   code?: true;
   /** Its ends are in different regions ("us-central1 → europe-west2"): a pointer or call that
@@ -128,43 +133,46 @@ export interface CanvasEdge {
 }
 
 /**
- * Mark the arrows that are drawn as one line that splits. A fork comes off another arrow from
- * the same box partway along (its shape says which, and where). Arrows that leave one box
- * under one name for different boxes are a fan: one start, named once.
+ * Mark the arrows that are drawn as one line that parts. Arrows from one box with the same split
+ * point run as one to it, then each to its own box. Arrows that leave one box under one name
+ * for different boxes are a fan: one start, named once.
  */
 function markFans(edges: CanvasEdge[]): void {
-  const byId = new Map(edges.map((e) => [e.id, e]));
-  const forks = (e: CanvasEdge): CanvasEdge | undefined => {
-    const s = e.shape;
-    const parent =
-      s?.forkAt !== undefined && s.forkOf ? byId.get(`${e.from}>${s.forkOf}`) : undefined;
-    // Forks can come off forks, but never round in a ring.
-    let up = parent;
-    for (let i = 0; up && i < 32; i++) {
-      if (up === e) return undefined;
-      const us = up.shape;
-      up = us?.forkAt !== undefined && us.forkOf ? byId.get(`${up.from}>${us.forkOf}`) : undefined;
-    }
-    return up ? undefined : parent;
-  };
   const by = new Map<string, CanvasEdge[]>();
+  const same = (a: CanvasEdge, b: CanvasEdge) =>
+    a.label.trim().toLowerCase() === b.label.trim().toLowerCase();
   for (const e of edges) {
-    const parent = forks(e);
-    if (parent) {
-      e.forkOf = parent.id;
-      // Named as the arrow it comes off: that one's label says it for both.
-      if (e.label.trim().toLowerCase() === parent.label.trim().toLowerCase()) e.fan = "fork";
-      continue;
-    }
+    const sp = e.shape?.split;
     const label = e.label.trim().toLowerCase();
-    if (!label || e.labels?.length || e.fromColumn) continue;
-    const k = `${e.from}|${label}`;
+    if (!sp && (!label || e.labels?.length || e.fromColumn)) continue;
+    const k = sp ? `${e.from}|${sp.x},${sp.y}` : `${e.from}|${label}`;
     by.set(k, [...(by.get(k) ?? []), e]);
   }
+  // Into one box through the same join point: they meet there and go in as one.
+  const joined = new Set<string>();
+  for (const e of edges) {
+    const jp = e.shape?.join;
+    if (!jp) continue;
+    e.join = `${e.to}|join|${jp.x},${jp.y}`;
+    // The first of them is the one the others were drawn onto.
+    if (!joined.has(e.join)) e.joinLead = true;
+    joined.add(e.join);
+  }
   for (const [k, list] of by) {
-    if (list.length < 2) continue;
-    for (const e of list) e.fan = k;
-    list[0]!.fanLead = true;
+    const lead = list[0]!;
+    if (lead.shape?.split) {
+      // Each branch keeps its own name; when they all say the same, it's said once, before they part.
+      const one = list.length > 1 && list.every((e) => same(e, lead));
+      for (const e of list) {
+        e.split = k;
+        if (one) e.fan = k;
+      }
+      lead.fanLead = true;
+      lead.splitLead = true;
+    } else if (list.length > 1) {
+      for (const e of list) e.fan = k;
+      lead.fanLead = true;
+    }
   }
 }
 

@@ -10,9 +10,11 @@ import {
   route,
   SIDE_OF_WORD,
   traceRoute,
+  nearestT,
+  routePoint,
 } from "../../../shared/geometry";
 import { drawSteps } from "./flow";
-import { endRect, forkFamily, shapeOf } from "./lookup";
+import { endRect, splitFamily, shapeOf } from "./lookup";
 import { handles } from "./measure";
 import type { SceneState } from "./state";
 import { HANDLE_R, RADIUS, THEME } from "./theme";
@@ -79,15 +81,19 @@ function drawSelectedArrow(state: SceneState, g: Graphics, eh: Graphics, px: num
   if (!state.selectedEdge) return;
   const ev = state.edges.get(state.selectedEdge);
   if (ev) {
-    // Its forks (or the arrow it forks off) are lit with it: one arrow that splits.
-    for (const o of forkFamily(state, ev))
+    // The others through its split point are lit with it: one arrow that splits.
+    for (const o of splitFamily(state, ev))
       curve(eh, o.route).stroke({ color: THEME.select, width: 3 * px });
     curve(eh, ev.route).stroke({ color: THEME.select, width: 3 * px });
     // Handles: drag an end to pin the side it uses, a bend to move it, the line to add one.
     drawPinnedSide(state, g, ev, px);
     for (const p of [ev.route.p0, ev.route.p1]) g.circle(p.x, p.y, 4.5 * px);
     g.fill(0xffffff).stroke({ color: THEME.select, width: 1.5 * px });
-    for (const p of shapeOf(state, ev.edge)?.bends ?? []) g.circle(p.x, p.y, 4 * px);
+    const shape = shapeOf(state, ev.edge);
+    for (const p of shape?.bends ?? []) g.circle(p.x, p.y, 4 * px);
+    // The split point: drag it and every arrow through it follows.
+    for (const meet of [ev.route.dots?.split, ev.route.dots?.join])
+      if (meet) g.circle(meet.x, meet.y, 6 * px);
     g.fill(THEME.select);
   }
 }
@@ -112,7 +118,7 @@ function drawEdgeHighlights(state: SceneState, g: Graphics, px: number): void {
   eh.clear();
   if (state.hoveredEdge && state.hoveredEdge !== state.selectedEdge && !state.drag) {
     const hov = state.edges.get(state.hoveredEdge);
-    for (const o of hov ? [hov, ...forkFamily(state, hov)] : [])
+    for (const o of hov ? [hov, ...splitFamily(state, hov)] : [])
       curve(eh, o.route).stroke({ color: THEME.select, width: 2.5 * px, alpha: 0.55 });
   }
   drawSelectedArrow(state, g, eh, px);
@@ -162,6 +168,21 @@ function drawConnectPreview(
       color: THEME.select,
       width: 2 * px,
     });
+  const onto = d.onto ? state.edges.get(d.onto) : undefined;
+  if (onto && from) {
+    // Over an arrow: it lights, with the spot this would join it at.
+    const p = routePoint(
+      onto.route,
+      Math.max(0.05, Math.min(0.95, nearestT(onto.route, d.current))),
+    );
+    traceRoute(g, onto.route);
+    g.stroke({ color: THEME.select, width: 3 * px, alpha: 0.7 });
+    const r = route(from, { x: p.x, y: p.y, w: 0, h: 0 });
+    g.moveTo(r.p0.x, r.p0.y).bezierCurveTo(r.c1.x, r.c1.y, r.c2.x, r.c2.y, r.p1.x, r.p1.y);
+    g.stroke({ color: THEME.select, width: 2 * px });
+    g.circle(p.x, p.y, 5 * px).fill({ color: THEME.select });
+    return;
+  }
   if (d.like) {
     // A branch: from where on the arrow it was picked up.
     const end = target ? center(target) : d.current;

@@ -6,7 +6,7 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { initWasm, Resvg } from "@resvg/resvg-wasm";
 import { AvoidLib, type Avoid } from "libavoid-js";
-import { EdgeRouter, routerEdges } from "../shared/router.ts";
+import { EdgeRouter, routerEdges, tailId, trunkId } from "../shared/router.ts";
 import type { FConfig } from "../shared/files.ts";
 import type { Flow } from "../shared/model.ts";
 import {
@@ -32,8 +32,9 @@ import {
   placeLabelOn,
   fanSides,
   fanStart,
-  forkRoute,
-  startAt,
+  ownStretch,
+  meetRoute,
+  sharedDots,
   ports,
   route,
   routePoint,
@@ -180,26 +181,19 @@ export function renderSvg(
     const a = rect(graph.edges.find((e) => e.id === id)!.from)!;
     spread.set(id, { a: pinOffset(a, f.side, f.at ?? 0.5) ?? 0, b: spread.get(id)?.b ?? 0 });
   }
-  const byEdge = new Map(graph.edges.map((e) => [e.id, e]));
-  // A fork: from the spot on the arrow it comes off, not from its box.
-  const forked = (e: CanvasEdge): Route | undefined => {
-    const parent = e.forkOf ? byEdge.get(e.forkOf) : undefined;
-    if (!parent || e.shape?.forkAt === undefined || !ends.has(parent.to)) return undefined;
-    const round = d.arrows === "straight" ? 0 : 10;
-    const up = routeOf(parent);
-    const pts = e.shape.bends?.length ? undefined : opts.paths?.get(e.id);
-    return pts
-      ? lineRoute(
-          clipToBoxes(
-            startAt(pts, routePoint(up, e.shape.forkAt)),
-            { x: -1e9, y: -1e9, w: 0, h: 0 },
-            ends.get(e.to)!,
-          ),
-          round,
-        )
-      : forkRoute(up, e.shape.forkAt, ends.get(e.to)!, e.shape.bends, round);
+  // Through a split point: its box to the point, then on to its own box.
+  const routeOf = (e: CanvasEdge): Route => {
+    const s = e.shape;
+    if (!nodes.has(e.from) || !nodes.has(e.to)) return boxRoute(e);
+    return (
+      meetRoute(ends.get(e.from)!, ends.get(e.to)!, s, {
+        trunk: s?.split && opts.paths?.get(trunkId(e.from, s.split)),
+        own: opts.paths?.get(e.id),
+        tail: s?.join && opts.paths?.get(tailId(e.to, s.join)),
+        round: d.arrows === "straight" ? 0 : 10,
+      }) ?? boxRoute(e)
+    );
   };
-  const routeOf = (e: CanvasEdge): Route => forked(e) ?? boxRoute(e);
   const boxRoute = (e: CanvasEdge): Route => {
     const a = ends.get(e.from)!;
     const b = ends.get(e.to)!;
@@ -247,7 +241,8 @@ export function renderSvg(
     for (const e of graph.edges) {
       if (!e.label || !ends.has(e.from) || !ends.has(e.to)) continue;
       const shaped = e.shape?.label;
-      const r = routes.get(e.id)!;
+      // Through a split point, its name goes on its own stretch, after the point.
+      const r = shaped === undefined ? ownStretch(routes.get(e.id)!, e.shape) : routes.get(e.id)!;
       // Several connections' labels are the point of the label: each keeps a part, but where the
       // whole would cover a box (a title on a short hop), each part is cut short, not dropped.
       const covers = (x: string) =>
@@ -416,6 +411,11 @@ export function renderSvg(
 
   // Arrows, then their labels on top.
   const labels: string[] = [];
+  const dots = sharedDots(
+    graph.edges
+      .filter((e) => ends.has(e.from) && ends.has(e.to))
+      .map((e) => ({ route: routeOf(e), split: e.split, join: e.join })),
+  );
   for (const e of graph.edges) {
     if (!ends.has(e.from) || !ends.has(e.to)) continue;
     const r = routeOf(e);
@@ -442,7 +442,7 @@ export function renderSvg(
       ? `<polygon points="${r.p0.x},${r.p0.y} ${b1.x},${b1.y} ${b2.x},${b2.y}" fill="${col}"/>`
       : "";
     out.push(
-      `<g${e.quiet && !on ? ` opacity="0.25"` : dim(on)}><path d="${pathOf(r)}" fill="none" stroke="${col}" stroke-width="${on ? 2.5 : 1.5}"${dash}/><polygon points="${r.p1.x},${r.p1.y} ${h1.x},${h1.y} ${h2.x},${h2.y}" fill="${col}"/>${back}${e.forkOf ? `<circle cx="${r.p0.x}" cy="${r.p0.y}" r="3.5" fill="${col}"/>` : ""}</g>`,
+      `<g${e.quiet && !on ? ` opacity="0.25"` : dim(on)}><path d="${pathOf(r)}" fill="none" stroke="${col}" stroke-width="${on ? 2.5 : 1.5}"${dash}/><polygon points="${r.p1.x},${r.p1.y} ${h1.x},${h1.y} ${h2.x},${h2.y}" fill="${col}"/>${back}${[r.dots?.split, r.dots?.join].map((p) => (p && dots.has(`${p.x},${p.y}`) ? `<circle cx="${p.x}" cy="${p.y}" r="3.5" fill="${col}"/>` : "")).join("")}</g>`,
     );
     if (e.label) {
       const m = labelAt.get(e.id) ?? routePoint(r, 0.5);
@@ -589,25 +589,10 @@ export async function routePaths(
     g.nodes.map((n) => [n.id, { x: n.x, y: n.y, w: n.w, h: n.h }]),
   );
   const ends = lineEnds(g);
-  const byId = new Map(g.edges.map((e) => [e.id, e]));
   const r = new EdgeRouter(A);
-  // A fork is routed from its spot on the arrow it comes off, once that arrow has its path.
-  const junction = (id: string): Point | undefined => {
-    const e = byId.get(id);
-    const up = e?.forkOf ? byId.get(e.forkOf) : undefined;
-    const pts = up && r.path(up.id);
-    const [a, b] = [up && ends.get(up.from), up && ends.get(up.to)];
-    if (!pts || !a || !b || e?.shape?.forkAt === undefined) return undefined;
-    return routePoint(lineRoute(up!.forkOf ? pts : clipToBoxes(pts, a, b)), e.shape.forkAt);
-  };
   try {
-    let edges = routerEdges(g.edges, ends, boxes, junction);
+    const edges = routerEdges(g.edges, ends, boxes);
     r.sync(boxes, edges, d.arrows);
-    // Forks, then forks of forks: each pass routes the ones whose arrow now has a path.
-    for (let i = 0; i < 3 && g.edges.some((e) => e.forkOf && !r.path(e.id)); i++) {
-      edges = routerEdges(g.edges, ends, boxes, junction);
-      r.sync(boxes, edges, d.arrows);
-    }
     return new Map(
       edges.flatMap((e) => (r.path(e.id) ? [[e.id, r.path(e.id)!] as [string, Point[]]] : [])),
     );

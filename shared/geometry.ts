@@ -88,6 +88,8 @@ export interface Route {
   p1: Point;
   pts?: Point[];
   round?: number;
+  /** Where it parts from the others out of its box, and where it meets the others into its box: a dot each. */
+  dots?: { split?: Point; join?: Point };
 }
 
 /** A route along points (at least two). */
@@ -286,14 +288,14 @@ export interface PortEdge {
 export function fanSides(
   edges: (PortEdge & {
     fan?: string;
-    forkOf?: string;
+    split?: string;
     shape?: { fromSide?: keyof typeof SIDE_OF_WORD; fromAt?: number; bends?: unknown[] };
   })[],
   rect: (id: string) => Rect | undefined,
 ): Map<string, { side: Side; at?: number }> {
   const by = new Map<string, typeof edges>();
   for (const e of edges) {
-    if (!e.fan || e.forkOf) continue;
+    if (!e.fan || e.split) continue;
     if (!rect(e.from) || !rect(e.to)) continue;
     by.set(e.fan, [...(by.get(e.fan) ?? []), e]);
   }
@@ -314,44 +316,196 @@ export function fanSides(
   return out;
 }
 
-/**
- * An arrow that forks off another: from the point `t` along that one, through its own bends,
- * to the side of its box facing the fork, turning once on the way.
- */
-export function forkRoute(
-  parent: Route,
-  t: number,
-  to: Rect,
-  bends: Point[] = [],
-  round = 0,
-): Route {
-  const p = routePoint(parent, t);
-  const last = bends[bends.length - 1] ?? p;
-  const side = sides({ x: last.x, y: last.y, w: 0, h: 0 }, to).to;
-  const q = anchor(to, side);
-  const turn = side === "t" || side === "b" ? { x: q.x, y: last.y } : { x: last.x, y: q.y };
-  const pts = [p, ...bends, turn, q].filter(
-    (x, i, a) => i === 0 || Math.hypot(x.x - a[i - 1]!.x, x.y - a[i - 1]!.y) > 0.5,
-  );
-  return lineRoute(pts.length > 1 ? pts : [p, q], round);
+/** A line through these points made of level and upright stretches: a corner goes in wherever two aren't in line. */
+function squared(pts: Point[]): Point[] {
+  const out: Point[] = [];
+  for (const p of pts) {
+    const last = out[out.length - 1];
+    if (last && Math.hypot(p.x - last.x, p.y - last.y) < 0.5) continue;
+    if (last && Math.abs(p.x - last.x) > 0.5 && Math.abs(p.y - last.y) > 0.5)
+      out.push({ x: p.x, y: last.y });
+    out.push(p);
+  }
+  return out;
 }
 
 /**
- * A routed line made to start exactly at `p` (a fork's spot on its arrow, which may have moved a
- * little since it was routed): its first corner moves with it, so the first stretch stays straight.
+ * The part of an arrow that's its own, where its name goes: after its split point, or before
+ * its join point. The whole arrow when it has neither.
  */
-export function startAt(pts: Point[], p: Point): Point[] {
-  if (pts.length < 2) return pts;
-  const [a, b] = [pts[0]!, pts[1]!];
-  const next =
-    pts.length === 2
-      ? b
-      : Math.abs(a.x - b.x) < 0.5
-        ? { x: p.x, y: b.y }
-        : Math.abs(a.y - b.y) < 0.5
-          ? { x: b.x, y: p.y }
-          : b;
-  return [p, next, ...pts.slice(2)];
+export function ownStretch(r: Route, shape: { split?: Point; join?: Point } | undefined): Route {
+  const pts = r.pts;
+  if (!pts) return r;
+  const at = (p: Point | undefined) =>
+    p ? pts.findIndex((q) => Math.hypot(q.x - p.x, q.y - p.y) < 1) : -1;
+  const [i, j] = [at(r.dots?.split ?? shape?.split), at(r.dots?.join ?? shape?.join)];
+  const own = pts.slice(i > 0 ? i : 0, j > 0 ? j + 1 : pts.length);
+  return own.length > 1 && own.length < pts.length ? lineRoute(own) : r;
+}
+
+/** From a point into a box: to the middle of the side facing it, turning once so it arrives square. */
+function intoBox(from: Point, to: Rect): Point[] {
+  const side = sides({ x: from.x, y: from.y, w: 0, h: 0 }, to).to;
+  const q = anchor(to, side);
+  return [side === "t" || side === "b" ? { x: q.x, y: from.y } : { x: from.x, y: q.y }, q];
+}
+
+/** q is on the stretch from a to b, past a. */
+function along(q: Point, a: Point, b: Point): boolean {
+  const cross = (q.x - a.x) * (b.y - a.y) - (q.y - a.y) * (b.x - a.x);
+  const dot = (q.x - a.x) * (b.x - a.x) + (q.y - a.y) * (b.y - a.y);
+  const len = (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
+  return Math.abs(cross) < 1 && dot > 1 && dot <= len + 1;
+}
+
+/**
+ * A line in to a point and a line out of it that starts back the way the first came: the two
+ * with that overlap taken off, so the second leaves the first where they really part.
+ */
+function untangle(inn: Point[], out: Point[]): { inn: Point[]; out: Point[] } {
+  for (let i = 0; i < 8 && inn.length > 1 && out.length > 1; i++) {
+    const [p, before, next] = [inn[inn.length - 1]!, inn[inn.length - 2]!, out[1]!];
+    if (along(next, p, before)) {
+      // It turns off partway back: they part there.
+      const whole = Math.hypot(next.x - before.x, next.y - before.y) < 1;
+      inn = whole ? inn.slice(0, -1) : [...inn.slice(0, -1), next];
+      out = out.slice(1);
+    } else if (along(before, p, next)) {
+      // It runs back past the corner: that corner goes, and the next stretch is checked.
+      inn = inn.slice(0, -1);
+      out = [before, ...out.slice(1)];
+    } else break;
+  }
+  return { inn, out };
+}
+
+/**
+ * An arrow through a split point: out of its box to the point (the stretch it shares with the
+ * others that split there), then on to its own box. Each stretch is the router's path when there
+ * is one, else a line that turns once; bends put in by hand shape the stretch after the point.
+ */
+export function splitRoute(
+  a: Rect,
+  p: Point,
+  b: Rect,
+  o: { trunk?: Point[] | null; branch?: Point[] | null; bends?: Point[]; round?: number } = {},
+): Route {
+  const far: Rect = { x: -1e9, y: -1e9, w: 0, h: 0 };
+  const out = intoBox(p, a).reverse();
+  const trunk = o.trunk ? [...clipToBoxes(o.trunk, a, far).slice(0, -1), p] : [...out, p];
+  const bends = o.bends ?? [];
+  const tail = bends[bends.length - 1] ?? p;
+  const branch =
+    o.branch && !bends.length
+      ? [p, ...clipToBoxes(o.branch, far, b).slice(1)]
+      : [p, ...bends, ...intoBox(tail, b)];
+  // Never back along the line it came in on: it parts where the two really go different ways.
+  const { inn, out: on } = untangle(squared(trunk), squared(branch));
+  const pts = squared([...inn, ...on.slice(1)]);
+  if (pts.length < 2) return lineRoute([anchor(a, "b"), anchor(b, "t")], o.round ?? 0);
+  return { ...lineRoute(pts, o.round ?? 0), dots: { split: inn[inn.length - 1] } };
+}
+
+/** Which way a line heads off from the point x on it: towards its start (`back`) or its end. Undefined when x isn't on it. */
+function headingAt(pts: Point[], x: Point, back: boolean): string | undefined {
+  for (let i = 0; i < pts.length; i++) {
+    const [p, next] = [pts[i]!, pts[i + 1]];
+    const here = Math.hypot(p.x - x.x, p.y - x.y) < 1;
+    if (!here && !(next && along(x, p, next) && Math.hypot(next.x - x.x, next.y - x.y) >= 1))
+      continue;
+    // On a corner: the corner before or after it. Partway along a stretch: that stretch's end.
+    const to = back ? (here ? pts[i - 1] : p) : next;
+    return to && `${Math.sign(Math.round(to.x - x.x))},${Math.sign(Math.round(to.y - x.y))}`;
+  }
+  return undefined;
+}
+
+/**
+ * The dots worth drawing, as "x,y": the spots where arrows of one split group really part, or
+ * arrows of one join group really meet (two of them come or go different ways there). An
+ * arrow's own point with nothing parting or meeting at it gets none.
+ */
+export function sharedDots(
+  arrows: { route?: Route; split?: string; join?: string }[],
+): Set<string> {
+  const out = new Set<string>();
+  for (const kind of ["split", "join"] as const) {
+    const groups = new Map<string, Route[]>();
+    for (const a of arrows)
+      if (a[kind] && a.route?.pts) groups.set(a[kind], [...(groups.get(a[kind]) ?? []), a.route]);
+    for (const routes of groups.values())
+      for (const r of routes) {
+        const x = r.dots?.[kind];
+        if (!x) continue;
+        const ways = new Set(routes.map((o) => headingAt(o.pts!, x, kind === "join")));
+        ways.delete(undefined);
+        if (ways.size > 1) out.add(`${x.x},${x.y}`);
+      }
+  }
+  return out;
+}
+
+/**
+ * An arrow through both: out to its split point with the others from its box, across to its
+ * join point, and into the other box with the others that join there.
+ */
+function throughRoute(
+  a: Rect,
+  b: Rect,
+  s: { split: Point; join: Point; bends?: Point[] },
+  o: { trunk?: Point[] | null; own?: Point[] | null; tail?: Point[] | null; round?: number },
+): Route {
+  const far: Rect = { x: -1e9, y: -1e9, w: 0, h: 0 };
+  const head = o.trunk
+    ? [...clipToBoxes(o.trunk, a, far).slice(0, -1), s.split]
+    : [...intoBox(s.split, a).reverse(), s.split];
+  const end = o.tail
+    ? [s.join, ...clipToBoxes(o.tail, far, b).slice(1)]
+    : [s.join, ...intoBox(s.join, b)];
+  const middle = s.bends?.length ? s.bends : (o.own?.slice(1, -1) ?? []);
+  const r = lineRoute(squared([...head, ...middle, ...end]), o.round ?? 0);
+  return { ...r, dots: { split: s.split, join: s.join } };
+}
+
+/**
+ * The line of an arrow that goes by a split point, a join point or both; undefined when it has
+ * neither. `paths` are the router's: the shared stretch from its box, its own, the shared one in.
+ */
+export function meetRoute(
+  a: Rect,
+  b: Rect,
+  s: { split?: Point; join?: Point; bends?: Point[] } | undefined,
+  o: { trunk?: Point[] | null; own?: Point[] | null; tail?: Point[] | null; round?: number },
+): Route | undefined {
+  if (s?.split && s.join) return throughRoute(a, b, { ...s, split: s.split, join: s.join }, o);
+  if (s?.split)
+    return splitRoute(a, s.split, b, {
+      trunk: o.trunk,
+      branch: o.own,
+      bends: s.bends,
+      round: o.round,
+    });
+  if (s?.join)
+    return joinRoute(a, s.join, b, { branch: o.own, tail: o.tail, bends: s.bends, round: o.round });
+  return undefined;
+}
+
+/**
+ * An arrow through a join point: from its box to the point, then into the other box along the
+ * stretch it shares with the others that join there. A split, the other way round.
+ */
+export function joinRoute(
+  a: Rect,
+  p: Point,
+  b: Rect,
+  o: { branch?: Point[] | null; tail?: Point[] | null; bends?: Point[]; round?: number } = {},
+): Route {
+  const back = splitRoute(b, p, a, {
+    trunk: o.tail && [...o.tail].reverse(),
+    branch: o.branch && [...o.branch].reverse(),
+    bends: o.bends && [...o.bends].reverse(),
+  });
+  return { ...lineRoute([...back.pts!].reverse(), o.round ?? 0), dots: { join: back.dots?.split } };
 }
 
 /** An arrow bent by hand that's in a fan still leaves from the fan's spot: its pin and offsets, with that start. */

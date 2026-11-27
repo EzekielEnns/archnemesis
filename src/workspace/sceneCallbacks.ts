@@ -6,7 +6,8 @@ import { defaultName } from "./names";
 import type { Dispatch, SetStateAction } from "react";
 import { addObject, connect } from "../../shared/actions.ts";
 import { boxSize } from "../../shared/model.ts";
-import type { ModelObject, ObjectKind, Op } from "../../shared/model.ts";
+import type { ArrowShape, ModelObject, ObjectKind, Op } from "../../shared/model.ts";
+import type { ModelIndex } from "../../shared/project.ts";
 import { iconOf } from "../../shared/navtree.ts";
 import { Scene, type Selection } from "../canvas/Scene";
 import type { Store } from "../store";
@@ -32,7 +33,8 @@ export interface SceneDeps {
     to: string,
     s: Scene,
     like?: string,
-    fork?: { of: string; at: number },
+    split?: { x: number; y: number },
+    join?: { onto: string; at: { x: number; y: number } },
   ) => void;
   pointer: MutableRefObject<{ x: number; y: number } | null>;
   groupRef: MutableRefObject<(ids: string[]) => void>;
@@ -48,6 +50,37 @@ export interface SceneDeps {
   setRenaming: ReturnType<typeof useOverlays>["setRenaming"];
   setMenu: ReturnType<typeof useOverlays>["setMenu"];
   setZoom: Dispatch<SetStateAction<number>>;
+}
+
+/**
+ * The shared end of a split or join is pinned by one arrow: the one just dragged. Any other of
+ * the group lets go of it, or the line would follow whichever came last.
+ */
+function letGo(
+  idx: ModelIndex,
+  d: string,
+  from: string,
+  to: string,
+  shape: Partial<ArrowShape>,
+): Op[] {
+  const others: Op[] = [];
+  const same = (a?: { x: number; y: number }, b?: { x: number; y: number }) =>
+    !!a && !!b && a.x === b.x && a.y === b.y;
+  for (const o of idx.arrows.values()) {
+    if (o.diagramId !== d || (o.from === from && o.to === to)) continue;
+    const next = { ...o };
+    if (shape.fromSide && o.fromSide && o.from === from && same(o.split, shape.split)) {
+      delete next.fromSide;
+      delete next.fromAt;
+    }
+    if (shape.toSide && o.toSide && o.to === to && same(o.join, shape.join)) {
+      delete next.toSide;
+      delete next.toAt;
+    }
+    if (next.fromSide !== o.fromSide || next.toSide !== o.toSide)
+      others.push({ op: "arrow.put", arrow: next });
+  }
+  return others;
 }
 
 export function sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCallbacks {
@@ -77,14 +110,30 @@ export function sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCal
     },
     onArrowShape: (from, to, drawnShape) => {
       const { diagramId: d, run: r, spread: sp } = latest.current;
-      const shape = drawnShape?.bends
-        ? { ...drawnShape, bends: drawnShape.bends.map((b) => ({ x: b.x, y: sp.up(b.y) })) }
-        : drawnShape;
+      const up = (b: { x: number; y: number }) => ({ x: b.x, y: Math.round(sp.up(b.y)) });
+      const shape = drawnShape && {
+        ...drawnShape,
+        ...(drawnShape.bends ? { bends: drawnShape.bends.map(up) } : {}),
+        ...(drawnShape.split ? { split: up(drawnShape.split) } : {}),
+        ...(drawnShape.join ? { join: up(drawnShape.join) } : {}),
+      };
       if (!d || !store.canEdit) return false;
       const op: Op = shape
         ? { op: "arrow.put", arrow: { diagramId: d, from, to, ...shape } }
         : { op: "arrow.delete", diagramId: d, from, to };
-      void r([op], shape ? "shape arrow" : "reset arrow");
+      const others = shape ? letGo(latest.current.idx, d, from, to, shape) : [];
+      void r([op, ...others], shape ? "shape arrow" : "reset arrow");
+      return true;
+    },
+    onSplitMove: (arrows, kind, at) => {
+      const { diagramId: d, run: r, spread: sp, idx: i } = latest.current;
+      if (!d || !store.canEdit) return false;
+      const p = { x: at.x, y: Math.round(sp.up(at.y)) };
+      const ops: Op[] = arrows.map(({ from, to }) => ({
+        op: "arrow.put",
+        arrow: { ...i.arrows.get(`${d}|${from}>${to}`), diagramId: d, from, to, [kind]: p },
+      }));
+      void r(ops, `move ${kind}`);
       return true;
     },
     // Simple mode: right-click on a box or an arrow opens its panel instead of the menu.
@@ -117,13 +166,13 @@ export function sceneCallbacks(deps: SceneDeps, getScene: () => Scene): SceneCal
     loadIcon: (technology, color) => backend.icons.svg(technology, color),
     onPlace: placeHandler(deps, getScene),
     onMove: moveHandler(latest),
-    onConnect: (from, to, like, fork) => {
+    onConnect: (from, to, like, split, join) => {
       // Drawn with the connect tool: that's the connection made, back to selecting.
       if (latest.current.tool === "connect") {
         deps.setConnectFrom(null);
         latest.current.setTool("select");
       }
-      makeConnection(from, to, getScene(), like, fork);
+      makeConnection(from, to, getScene(), like, split, join);
     },
     onOpen: open,
     onOffDiagram: () => showObjectTab("connections"),

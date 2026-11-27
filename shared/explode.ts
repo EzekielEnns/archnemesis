@@ -80,6 +80,30 @@ function insideOf(idx: ModelIndex, boxId: string): Placement[] {
   }));
 }
 
+/**
+ * The frames drawn around boxes (the view's own, a boundary, a module's) are measured from the
+ * boxes, so an opened box's panel, wider than what's in it, pokes out of them. Each frame that
+ * holds a panel's middle grows to hold the whole panel, with room around it.
+ */
+export function wrapPanels(groups: CanvasGroup[], panels: CanvasGroup[]): void {
+  const ROOM = 24;
+  // Biggest panel first, so a frame that grew for one still holds the next.
+  for (const p of [...panels].sort((a, b) => b.w * b.h - a.w * a.h)) {
+    const cx = p.x + p.w / 2;
+    const cy = p.y + p.h / 2;
+    for (const g of groups) {
+      if (g.inset || g.lane) continue;
+      if (cx < g.x || cx > g.x + g.w || cy < g.y || cy > g.y + g.h) continue;
+      const x = Math.min(g.x, p.x - ROOM);
+      const y = Math.min(g.y, p.y - ROOM);
+      g.w = Math.max(g.x + g.w, p.x + p.w + ROOM) - x;
+      g.h = Math.max(g.y + g.h, p.y + p.h + ROOM) - y;
+      g.x = x;
+      g.y = y;
+    }
+  }
+}
+
 /** Can it open here: it has something inside. */
 export function canExplode(idx: ModelIndex, boxId: string): boolean {
   return insideOf(idx, boxId).length > 0;

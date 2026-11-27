@@ -56,7 +56,12 @@ const STEPS: Partial<Record<ObjectKind, Step[]>> = {
     { key: "cols", ask: "Its columns" },
     SUMMARY("what's in it"),
   ],
-  module: [{ key: "path", ask: "Path: services/orders/src/http.rs" }, SUMMARY("what's in it")],
+  // Its name first: a module can be a part of the design that has no file yet. The path is a Tab away.
+  module: [
+    { key: "name", ask: "Name it: Checks, http.rs…" },
+    { key: "path", ask: "Path: services/orders/src/http.rs", optional: true },
+    SUMMARY("what's in it"),
+  ],
   function: [{ key: "sig", ask: "create_order(Cart, UserId) -> Order" }, SUMMARY("what it does")],
   library: [{ key: "pkg", ask: "Package: axum, react@18, cargo:sqlx" }],
 };

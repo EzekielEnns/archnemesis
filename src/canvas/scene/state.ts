@@ -132,6 +132,8 @@ export class SceneState {
   avoid: AsyncRouter | null = null;
   /** An arrow being shaped: drawn this way until the change comes back from the model. */
   shaping: { edge: string; shape: ArrowShape } | null = null;
+  /** A split point being dragged: every arrow through it (by its group) is drawn through here meanwhile. */
+  splitMove: { key: string; at: Point } | null = null;
   shapeSig = "";
 
   // --- frames, timers and lifetime --------------------------------------------------------

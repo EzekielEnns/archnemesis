@@ -661,7 +661,7 @@ describe("arrows people asked for", () => {
     expect([...h.state().connections.values()][0]?.both).toBe(true);
   });
 
-  it("forks: an arrow drawn coming off another, on a view", async () => {
+  it("splits: arrows from one box drawn as one line that parts at a point", async () => {
     const h = memHost({});
     const made = await call(h, "write", {
       yaml: [
@@ -678,17 +678,29 @@ describe("arrows people asked for", () => {
     });
     expect(made.isError, made.text).toBeFalsy();
     const out = await call(h, "write", {
-      forks: [{ view: "main", arrow: "bus>b", off: "bus>a", at: 0.4 }],
+      splits: [{ view: "main", from: "bus", to: ["a", "b"], at: [120.4, 300] }],
     });
     expect(out.isError, out.text).toBeFalsy();
-    const shape = [...h.state().arrows.values()][0];
-    expect(shape?.forkAt).toBe(0.4);
-    expect(h.state().objects.get(shape!.forkOf!)?.name).toBe("a");
-    // Off something that isn't there, or itself: said, nothing written.
-    const bad = await call(h, "write", { forks: [{ view: "main", arrow: "bus>b", off: "a>b" }] });
-    expect(bad.text).toContain("forks");
-    // off: null makes it its own arrow again.
-    await call(h, "write", { forks: [{ view: "main", arrow: "bus>b", off: null }] });
+    const shapes = [...h.state().arrows.values()];
+    expect(shapes.map((s) => s.split)).toEqual([
+      { x: 120, y: 300 },
+      { x: 120, y: 300 },
+    ]);
+    // To a box it has no connection to: said, nothing written.
+    const bad = await call(h, "write", {
+      splits: [{ view: "main", from: "a", to: ["b"], at: [0, 0] }],
+    });
+    expect(bad.text).toContain("no connection a>b");
+    // A view shaped by hand isn't tidied, by name or not, until rearrange says so.
+    const where = () => JSON.stringify([...h.state().placements.values()]);
+    const before = where();
+    const left = await call(h, "write", { tidy: "main" });
+    expect(left.text).toContain("main: not tidied");
+    expect(where()).toBe(before);
+    const again = await call(h, "write", { tidy: "main", rearrange: true, direction: "down" });
+    expect(again.text).not.toContain("not tidied");
+    // at: null makes them their own arrows again.
+    await call(h, "write", { splits: [{ view: "main", from: "bus", to: ["a", "b"], at: null }] });
     expect(h.state().arrows.size).toBe(0);
   });
 

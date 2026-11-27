@@ -14,6 +14,7 @@ import {
   MoveHorizontal,
   Pencil,
   Spline,
+  Unlink,
   Trash2,
   X,
 } from "lucide-react";
@@ -2000,6 +2001,9 @@ export interface ConnectionCardProps {
   onHoverConnection?: (c: Connection | null) => void;
   /** Back to the automatic route, when it has a hand-made one. */
   onResetJoints?: () => void;
+  /** Through a split or join point: take it off, so it's its own arrow again. */
+  onLeaveMeet?: () => void;
+  meets?: "split" | "join";
   /** Post a comment pinned on its arrow here. */
   onComment?: (text: string) => void;
   onOpenNote?: (noteId: string) => void;
@@ -2247,6 +2251,20 @@ export function ConnectionCard(p: ConnectionCardProps) {
               >
                 <Spline size={13} />
                 <span>Reset joints</span>
+              </button>
+            )}
+            {p.canEdit && p.onLeaveMeet && (
+              <button
+                className="act"
+                onClick={p.onLeaveMeet}
+                data-tip={
+                  p.meets === "join"
+                    ? "Stop joining the others: its own arrow into the box again"
+                    : "Stop sharing the line: its own arrow from the box again"
+                }
+              >
+                <Unlink size={13} />
+                <span>{p.meets === "join" ? "Leave join" : "Leave split"}</span>
               </button>
             )}
             <span className="spacer" />

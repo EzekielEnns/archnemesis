@@ -174,8 +174,8 @@ Example: read {q: "checkout"} then read {ref: "checkout"}.`,
 - tags: tag groups (archnm.yaml's): tags: {lane: {values: [callers, doors, domain, vendors]}} declares one (null drops it); then a box takes tags: [lane:doors], and a view lanes: lane or color_by: lane.
 - remove: box ids; a>b or a>b:label (the label when two share the ends); entity names; view:<key>, boundary:<id>, decision:<id>. In yaml, objects: {x: null} removes only the box x, views: {x: null} only the view.
 - views: setting boxes makes a view hand-picked (its include/exclude go); setting include/exclude makes it follow rules (its boxes go); a view with a scope and no include shows its children and neighbours, less what exclude takes.
-- forks: one line that splits, for one thing going to several boxes: [{view: landscape, arrow: bus>billing, off: bus>orders, at: 0.5}] draws bus>billing coming off the bus>orders arrow halfway along. Both stay their own connections.
-- tidy: true (the views this changed) or view keys: lay them out, in the same step. undo: true: your own last write back (dry_run: say which); notes aren't in it.
+- splits: one line that parts, for one box sending to several (a bus, a fan-out): [{view: landscape, from: bus, to: [billing, orders, email], at: [640, 520]}] draws those arrows as one line from bus to that point, then one to each box. at is where they part, in the view's layout (read {file: "layout/<view>.json"} for where the boxes are; between the box and the row it feeds works well). Each stays its own connection with its own label. joins is the same the other way round, several boxes into one: [{view, to: db, from: [api, worker], at: [x, y]}].
+- tidy: true (the views this changed) or view keys: lay them out, in the same step. A view a person arranged by hand (bent arrows, splits) is theirs: tidy leaves it alone and says so, and what you add lands next to what it connects to. rearrange: true lays it out again anyway and drops their shapes: only when the person asked for a new layout. undo: true: your own last write back (dry_run: say which); notes aren't in it.
 Text with a comma or colon goes in quotes (context: "…", label: "…"), or the box in block style.
 Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], context: \\"Charges orders, then emails the invoice.\\"}\\nconnections:\\n  - {from: checkout, to: billing, label: bills the order, tech: HTTPS, carries: [Invoice]}\\nentities:\\n  Invoice: {in: billing, fields: {id: uuid, total: Money}}", dry_run: true}`,
     input: {
@@ -193,23 +193,37 @@ Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], c
           "Whole files, as read {file} shows them (each replaces the boxes it names, with their connections)",
         ),
       remove: list(z.string()).optional(),
-      forks: z
+      splits: z
         .array(
           z.object({
             view: z.string(),
-            arrow: z.string(),
-            off: z.string().nullable(),
-            at: z.number().min(0).max(1).optional(),
+            from: z.string(),
+            to: z.array(z.string()),
+            at: z.tuple([z.number(), z.number()]).nullable(),
           }),
         )
         .optional()
         .describe(
-          "Draw an arrow on a view as a fork of another from the same box: {view, arrow: a>b, off: a>c, at: 0.5 (how far along a>c it comes off)}. off: null makes it its own arrow again.",
+          "Draw arrows from one box as one line that parts at a point: {view, from: a, to: [b, c], at: [x, y]}. at: null makes them their own arrows again.",
+        ),
+      joins: z
+        .array(
+          z.object({
+            view: z.string(),
+            to: z.string(),
+            from: z.array(z.string()),
+            at: z.tuple([z.number(), z.number()]).nullable(),
+          }),
+        )
+        .optional()
+        .describe(
+          "The other way round: arrows into one box meet at a point and go in as one line: {view, to: a, from: [b, c], at: [x, y]}. at: null undoes it.",
         ),
       dry_run: z.boolean().optional(),
       scope: z.string().optional(),
       tidy: z.union([z.boolean(), z.string(), z.array(z.string())]).optional(),
       direction: z.enum(LAYOUT_DIRECTIONS).optional(),
+      rearrange: z.boolean().optional(),
       undo: z.boolean().optional(),
       apply: z
         .string()

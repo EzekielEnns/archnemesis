@@ -101,7 +101,10 @@ export function sync(state: SceneState, graph: CanvasGraph): void {
   const before = rebuildEdges(state, graph);
   for (const id of state.edges.keys()) if (!before.has(id)) dirty.edges!.add(id);
   // A shape change (here or from someone else) re-routes; the draft it came from is done.
-  if (!state.drag || state.drag.kind !== "arrow") state.shaping = null;
+  if (!state.drag || state.drag.kind !== "arrow") {
+    state.shaping = null;
+    state.splitMove = null;
+  }
   const shapeSig = JSON.stringify(graph.edges.filter((e) => e.shape).map((e) => e.shape));
   if (shapeSig !== state.shapeSig) {
     state.shapeSig = shapeSig;

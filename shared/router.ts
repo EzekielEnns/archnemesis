@@ -73,9 +73,10 @@ export function routerEdges(
     from: string;
     to: string;
     fan?: string;
-    forkOf?: string;
     shape?: {
       bends?: Point[];
+      split?: Point;
+      join?: Point;
       fromSide?: keyof typeof SIDE_OF_WORD;
       toSide?: keyof typeof SIDE_OF_WORD;
       fromAt?: number;
@@ -84,18 +85,29 @@ export function routerEdges(
   }[],
   ends: Map<string, Rect>,
   boxes: Map<string, Rect>,
-  /** Where a fork comes off its arrow, once that's known: it's routed from there. */
-  junction?: (id: string) => Point | undefined,
 ): RouterEdge[] {
+  // The stretch from a box to a split point is routed once, for all the arrows that share it.
+  const trunks = new Set<string>();
+  // Its side of the box is the one any of them was pinned to.
+  // (The stretch from a join point into its box, the same.)
+  const trunkSide: Pins = new Map();
+  for (const e of edges) {
+    const sh = e.shape;
+    if (sh?.split && sh.fromSide)
+      trunkSide.set(trunkId(e.from, sh.split), { side: SIDE_OF_WORD[sh.fromSide], at: sh.fromAt });
+    if (sh?.join && sh.toSide)
+      trunkSide.set(tailId(e.to, sh.join), { side: SIDE_OF_WORD[sh.toSide], at: sh.toAt });
+  }
   // A fan's arrows all start at one spot, so they run as one line until they part.
   const fans = fanSides(edges, (id) => (boxes.has(id) ? ends.get(id) : undefined));
   return edges.flatMap((e) => {
+    const met = meetEdges(e, boxes, trunks, trunkSide);
+    if (met) return met;
     // Bent by hand: drawn through its bends, not routed.
     if (e.shape?.bends?.length) return [];
     const a = ends.get(e.from);
     const b = ends.get(e.to);
     if (!a || !b) return [];
-    if (e.forkOf) return forkEdge(e, boxes, junction?.(e.id));
     const out: RouterEdge = {
       id: e.id,
       from: e.from,
@@ -118,15 +130,146 @@ export function routerEdges(
   });
 }
 
-/** A fork is routed from its spot on the arrow it comes off, around the boxes in its way. */
-function forkEdge(
-  e: { id: string; from: string; to: string; shape?: { toSide?: keyof typeof SIDE_OF_WORD } },
+/** Where a shared stretch was pinned to its box by hand, by the stretch's name. */
+type Pins = Map<string, { side: Side; at?: number }>;
+type Pinned = {
+  bends?: Point[];
+  fromSide?: keyof typeof SIDE_OF_WORD;
+  toSide?: keyof typeof SIDE_OF_WORD;
+  fromAt?: number;
+  toAt?: number;
+};
+
+/** An end's side and, when it was put on a spot along it, that spot. */
+function pinned(
+  box: Rect | undefined,
+  side: Side | undefined,
+  at: number | undefined,
+): { side?: Side; at?: FramePoint } {
+  return { side, at: box && side && at !== undefined ? pinPoint(box, side, at) : undefined };
+}
+
+/** The router's name for the stretch from a box to one of its split points. */
+export const trunkId = (from: string, p: Point) => `@split:${from}|${p.x},${p.y}`;
+
+/**
+ * An arrow through a split point is two routed stretches: box to point (once for every arrow
+ * that shares the point), and point to its own box (not when it's bent by hand).
+ */
+function splitEdges(
+  e: {
+    id: string;
+    from: string;
+    to: string;
+    shape?: Pinned;
+  },
+  p: Point,
   boxes: Map<string, Rect>,
-  p: Point | undefined,
+  trunks: Set<string>,
+  trunkSide: Pins,
 ): RouterEdge[] {
-  if (!p || !boxes.has(e.to)) return [];
-  const toSide = e.shape?.toSide && SIDE_OF_WORD[e.shape.toSide];
-  return [{ id: e.id, from: e.from, to: e.to, toSide, fromAt: { ...p, side: "r" } }];
+  if (!boxes.has(e.from) || !boxes.has(e.to)) return [];
+  const at: FramePoint = { ...p, side: "r" };
+  const out: RouterEdge[] = [];
+  const trunk = trunkId(e.from, p);
+  if (!trunks.has(trunk)) {
+    trunks.add(trunk);
+    const pin = trunkSide.get(trunk);
+    const from = pinned(boxes.get(e.from), pin?.side, pin?.at);
+    out.push({
+      id: trunk,
+      from: e.from,
+      to: "@split",
+      fromSide: from.side,
+      fromAt: from.at,
+      toAt: at,
+    });
+  }
+  if (!e.shape?.bends?.length) {
+    const to = pinned(
+      boxes.get(e.to),
+      e.shape?.toSide && SIDE_OF_WORD[e.shape.toSide],
+      e.shape?.toAt,
+    );
+    out.push({ id: e.id, from: "@split", to: e.to, toSide: to.side, toAt: to.at, fromAt: at });
+  }
+  return out;
+}
+
+/** The stretches to route for an arrow that goes by a split point, a join point or both; undefined for any other. */
+function meetEdges(
+  e: Parameters<typeof splitEdges>[0] & { shape?: { split?: Point; join?: Point } },
+  boxes: Map<string, Rect>,
+  seen: Set<string>,
+  trunkSide: Pins,
+): RouterEdge[] | undefined {
+  const { split, join } = e.shape ?? {};
+  if (split && join) return bothEdges(e, split, join, boxes, seen, trunkSide);
+  if (split) return splitEdges(e, split, boxes, seen, trunkSide);
+  return join ? joinEdges(e, join, boxes, seen, trunkSide) : undefined;
+}
+
+/** Through a split point and a join point: the two shared stretches, and its own between the points. */
+function bothEdges(
+  e: Parameters<typeof splitEdges>[0],
+  sp: Point,
+  jp: Point,
+  boxes: Map<string, Rect>,
+  seen: Set<string>,
+  trunkSide: Pins,
+): RouterEdge[] {
+  // (A bend stands in for "bent by hand": only the shared stretch is asked for.)
+  const shared = [
+    ...splitEdges({ ...e, shape: { ...e.shape, bends: [sp] } }, sp, boxes, seen, trunkSide),
+    ...joinEdges({ ...e, shape: { ...e.shape, bends: [jp] } }, jp, boxes, seen, trunkSide),
+  ];
+  if (!boxes.has(e.from) || !boxes.has(e.to) || e.shape?.bends?.length) return shared;
+  const own = { id: e.id, from: "@split", to: "@join" };
+  return [...shared, { ...own, fromAt: { ...sp, side: "r" }, toAt: { ...jp, side: "r" } }];
+}
+
+/** The router's name for the stretch from a join point into its box. */
+export const tailId = (to: string, p: Point) => `@join:${to}|${p.x},${p.y}`;
+
+/** An arrow through a join point: its box to the point, and (once for all that share it) the point into the box. */
+function joinEdges(
+  e: {
+    id: string;
+    from: string;
+    to: string;
+    shape?: Pinned;
+  },
+  p: Point,
+  boxes: Map<string, Rect>,
+  tails: Set<string>,
+  tailSide: Pins,
+): RouterEdge[] {
+  if (!boxes.has(e.from) || !boxes.has(e.to)) return [];
+  const at: FramePoint = { ...p, side: "r" };
+  const out: RouterEdge[] = [];
+  const tail = tailId(e.to, p);
+  if (!tails.has(tail)) {
+    tails.add(tail);
+    const pin = tailSide.get(tail);
+    const to = pinned(boxes.get(e.to), pin?.side, pin?.at);
+    out.push({ id: tail, from: "@join", to: e.to, toSide: to.side, toAt: to.at, fromAt: at });
+  }
+  if (!e.shape?.bends?.length) {
+    const from = pinned(
+      boxes.get(e.from),
+      e.shape?.fromSide && SIDE_OF_WORD[e.shape.fromSide],
+      e.shape?.fromAt,
+    );
+    out.push({
+      id: e.id,
+      from: e.from,
+      to: "@join",
+      fromSide: from.side,
+      fromAt: from.at,
+      toAt: at,
+    });
+  }
+  return out;
 }
 
 /** An end put on a spot by hand: that point, a step off the box's border (the box is in the way of a point on it). */
