@@ -32,8 +32,23 @@ describe("model navigator", () => {
     const rows = navRows(idx, new Set());
     expect(rows.every((r) => r.depth === 0)).toBe(true);
     expect(rows.map((r) => r.o.name)).toContain("Agent board");
-    // Libraries aren't rows: they're references on the code that uses them.
-    expect(navRows(idx, new Set(idx.objects.keys())).map((r) => r.o.kind)).not.toContain("library");
+    // A library is a row under what uses it (a function's, under its file), never a root of its own
+    // while something uses it.
+    const all = navRows(idx, new Set(idx.objects.keys()));
+    const libRows = all.filter((r) => r.o.kind === "library");
+    const usedLibs = new Set(
+      [
+        ...[...idx.connections.values()].map((c) => c.toId),
+        ...[...idx.objects.values()].flatMap((o) =>
+          (o.references ?? []).filter((r) => r.kind === "dependency").map((r) => r.to),
+        ),
+      ].filter((id) => idx.objects.get(id)?.kind === "library"),
+    );
+    expect(usedLibs.size).toBeGreaterThan(0);
+    expect(new Set(libRows.filter((r) => r.usedBy).map((r) => r.o.id))).toEqual(usedLibs);
+    for (const r of libRows.filter((x) => x.usedBy))
+      expect(idx.objects.get(r.usedBy!)?.kind).not.toBe("function");
+    expect(rows.some((r) => r.o.kind === "library" && usedLibs.has(r.o.id))).toBe(false);
     expect(rows.find((r) => r.o.name === "Agent board")?.branch).toBe(true);
   });
 

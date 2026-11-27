@@ -20,6 +20,11 @@ export interface NavRow {
    * deepest, whose insides are listed under the row.
    */
   chain?: ModelObject[];
+  /**
+   * A library, listed under something that uses it: that thing's id. The same library is a
+   * row under each of its users, so a row is told apart by this and its own id together.
+   */
+  usedBy?: string;
 }
 
 /** What a row says: its name, or a compacted chain's joined with slashes. */
@@ -58,8 +63,9 @@ export function iconOf(o: ModelObject): NavRow["icon"] {
  * opens the way to them; one that only narrows the tree (just the code) folds like the tree,
  * so pass `unfold: false` for that.
  *
- * Libraries aren't rows: they're references on the code that uses them (shown on its card
- * and on the canvas), not things of their own to find your way by.
+ * A library is listed under each thing that uses it (a connection to it, or a dependency
+ * reference), after what's inside: the file, folder, app or component, with a function's
+ * libraries shown on its file. One nothing uses is a row at the end of the roots.
  */
 export function navRows(
   idx: ModelIndex,
@@ -83,7 +89,26 @@ export function navRows(
     (o) => !o.parentId || !idx.objects.has(o.parentId),
   );
   const childrenOf = (o: ModelObject) => (idx.children.get(o.id) ?? []).filter(listed);
-  const walk = (list: ModelObject[], depth: number, lastAt: boolean[]) => {
+  // Who uses each library: the box at the other end, or for a function, the file it's in (a
+  // row of libraries under every function would bury the functions).
+  const libs = new Map<string, Map<string, ModelObject>>();
+  const used = new Set<string>();
+  const uses = (userId: string, libId: string) => {
+    const lib = idx.objects.get(libId);
+    let user = idx.objects.get(userId);
+    if (user?.kind === "function" && user.parentId) user = idx.objects.get(user.parentId) ?? user;
+    if (!user || lib?.kind !== "library" || lib.status === "removed") return;
+    if (keep && !keep.has(lib.id)) return;
+    used.add(lib.id);
+    if (!libs.has(user.id)) libs.set(user.id, new Map());
+    libs.get(user.id)!.set(lib.id, lib);
+  };
+  for (const c of idx.connections.values()) if (c.status !== "removed") uses(c.fromId, c.toId);
+  for (const o of idx.objects.values())
+    for (const r of o.references ?? []) if (r.kind === "dependency") uses(o.id, r.to);
+  const libsOf = (o: ModelObject) =>
+    [...(libs.get(o.id)?.values() ?? [])].sort((a, b) => a.name.localeCompare(b.name));
+  const walk = (list: ModelObject[], depth: number, lastAt: boolean[], more = false) => {
     const shown = list.filter(listed).sort(navOrder);
     shown.forEach((top, i) => {
       let o = top;
@@ -91,28 +116,68 @@ export function navRows(
       for (;;) {
         if (iconOf(o) !== "folder") break;
         const only1 = childrenOf(o);
-        if (only1.length !== 1 || iconOf(only1[0]!) !== "folder") break;
+        if (only1.length !== 1 || iconOf(only1[0]!) !== "folder" || libs.has(o.id)) break;
         chain.push(o);
         o = only1[0]!;
       }
       const kids = childrenOf(o);
+      const mine = libsOf(o);
+      const inside = kids.length + mine.length;
       // Finding opens the way to what it found.
-      const isOpen = kids.length > 0 && (open.has(o.id) || (!!keep && unfold));
-      const last = i === shown.length - 1;
+      const isOpen = inside > 0 && (open.has(o.id) || (!!keep && unfold));
+      const last = i === shown.length - 1 && !more;
       out.push({
         o,
         depth,
-        branch: kids.length > 0,
+        branch: inside > 0,
         open: isOpen,
         lastAt,
         last,
         icon: iconOf(o),
         ...(chain.length ? { chain } : {}),
       });
-      if (isOpen) walk(kids, depth + 1, [...lastAt, last]);
+      if (isOpen) {
+        const under = [...lastAt, last];
+        // What's inside, then the libraries it uses: the last of either closes the guide line.
+        walk(kids, depth + 1, under, mine.length > 0);
+        mine.forEach((lib, j) =>
+          out.push({
+            o: lib,
+            depth: depth + 1,
+            branch: false,
+            open: false,
+            lastAt: under,
+            last: j === mine.length - 1,
+            icon: "library",
+            usedBy: o.id,
+          }),
+        );
+      }
     });
   };
   walk(roots, 0, []);
+  // Libraries nothing uses yet: still findable, at the end.
+  const loose = [...idx.objects.values()]
+    .filter(
+      (o) =>
+        o.kind === "library" &&
+        o.status !== "removed" &&
+        !used.has(o.id) &&
+        (!keep || keep.has(o.id)),
+    )
+    .sort((a, b) => a.name.localeCompare(b.name));
+  if (loose.length && out.length) out[out.length - 1] = { ...out[out.length - 1]!, last: false };
+  loose.forEach((lib, j) =>
+    out.push({
+      o: lib,
+      depth: 0,
+      branch: false,
+      open: false,
+      lastAt: [],
+      last: j === loose.length - 1,
+      icon: "library",
+    }),
+  );
   return out;
 }
 

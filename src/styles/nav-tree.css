@@ -79,6 +79,9 @@
 .row.nav .nav-icon.table {
   color: #f2c46d;
 }
+.row.nav .nav-icon.lib {
+  color: #b79cf2;
+}
 .row.nav .name.code {
   font-family: ui-monospace, Menlo, monospace;
   font-size: 12px;

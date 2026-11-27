@@ -17,6 +17,7 @@ import {
   Search,
   Sparkles,
   SquareFunction,
+  Package,
   Table2,
   Pencil,
   Layers,
@@ -368,7 +369,7 @@ export function Sidebar(props: Props) {
         // How many diagrams it's on besides this one: ● already says "this one".
         const elsewhere = on - (isHere ? 1 : 0);
         return (
-          <li key={o.id}>
+          <li key={r.usedBy ? `${r.usedBy}/${o.id}` : o.id}>
             <button
               className={`row nav ${isHere ? "here" : ""} ${o.external ? "external" : ""} ${rowIds.some((id) => picked.has(id)) ? "picked" : ""}`}
               style={{ paddingLeft: 6 }}
@@ -701,6 +702,7 @@ function NavIcon({ row }: { row: NavRow }) {
   if (row.icon === "file") return <FileCode size={14} className="nav-icon file" />;
   if (row.icon === "function") return <SquareFunction size={14} className="nav-icon fn" />;
   if (row.icon === "table") return <Table2 size={14} className="nav-icon table" />;
+  if (row.icon === "library") return <Package size={14} className="nav-icon lib" />;
   return <KindDot kind={row.o.kind} external={row.o.external} />;
 }
 
