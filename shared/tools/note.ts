@@ -171,6 +171,9 @@ function where(
   return { diagramId: at.d.id, objectId: at.objectId, about: target };
 }
 
+/** A list of notes this long or shorter prints every thread whole. */
+const FULL_LIST = 6000;
+
 function list(host: Host, idx: ModelIndex, a: NoteArgs): Out {
   const limit = a.limit ?? 20;
   const since = a.unread ? (host.seen?.get() ?? "") : "";
@@ -206,20 +209,30 @@ function list(host: Host, idx: ModelIndex, a: NoteArgs): Out {
       { notes: [] },
     );
   const shown = all.slice(0, limit);
-  const lines = shown.flatMap((n) => {
-    const replies = idx.replies.get(n.id) ?? [];
-    const last = replies[replies.length - 1];
-    return [
-      noteLine(idx, n),
-      ...(last ? [`    latest, ${last.author.name}: ${clip(last.text, 120)}`] : []),
-    ];
-  });
+  // Every thread whole (each note's full text and all its replies) when that's short enough to
+  // print: an agent read 11 comments with 12 more calls, one per thread. Past that, the first
+  // 120 characters and the latest reply, and the thread is a read away.
+  const whole = shown.flatMap((n) => [
+    noteLine(idx, n, 4000),
+    ...(idx.replies.get(n.id) ?? []).map((r) => `    ${r.author.name}: ${clip(r.text, 4000)}`),
+  ]);
+  const full = whole.join("\n").length <= FULL_LIST;
+  const lines = full
+    ? whole
+    : shown.flatMap((n) => {
+        const replies = idx.replies.get(n.id) ?? [];
+        const last = replies[replies.length - 1];
+        return [
+          noteLine(idx, n),
+          ...(last ? [`    latest, ${last.author.name}: ${clip(last.text, 120)}`] : []),
+        ];
+      });
   return ok(
     [
       `${plural(all.length, "note")}:`,
       ...lines,
       more(all.length, shown.length, `note {action: "list", limit: ${all.length}}`),
-      `A whole thread: read {ref: "<note id>"}.`,
+      full ? "" : `A whole thread: read {ref: "<note id>"}.`,
     ]
       .filter(Boolean)
       .join("\n"),

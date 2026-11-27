@@ -427,7 +427,21 @@ export class Store {
           this.forkTimer = setTimeout(() => void this.flushFork(), 120);
       });
     }
-    applyOps(this.doc, this.state, ops, this.me, label, this.origin);
+    // A new comment or reply stays out of undo, as an agent's does: undoing one would delete the
+    // thread, with other people's replies in it. (Moving or editing one can still be undone.)
+    const posted = ops.every(
+      (op) =>
+        isThreadOp(op, this.state.notes) &&
+        (op.op === "reply.put" || (op.op === "note.put" && !this.state.notes.has(op.note.id))),
+    );
+    applyOps(
+      this.doc,
+      this.state,
+      ops,
+      this.me,
+      label,
+      posted ? { untracked: this.me.id } : this.origin,
+    );
   }
 
   private async flushFork(): Promise<void> {

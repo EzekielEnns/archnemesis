@@ -153,6 +153,31 @@ describe("the MCP, end to end", () => {
     await other.close();
   });
 
+  it("carries a session on after a restart: an id it doesn't know is one it now keeps", async () => {
+    const id = "0f0f0f0f-1111-4222-8333-444444444444";
+    const rpc = async (args: Record<string, unknown>) => {
+      const res = await fetch(`${BASE}/mcp`, {
+        method: "POST",
+        headers: {
+          origin: BASE,
+          "content-type": "application/json",
+          accept: "application/json, text/event-stream",
+          "mcp-session-id": id,
+        },
+        body: JSON.stringify({
+          jsonrpc: "2.0",
+          id: 1,
+          method: "tools/call",
+          params: { name: "read", arguments: args },
+        }),
+      });
+      return res.text();
+    };
+    // Never initialized here, as after a restart. It names a design once, and that sticks.
+    expect(await rpc({ design: "example", view: "*" })).not.toContain("which design?");
+    expect(await rpc({ view: "*" })).not.toContain("which design?");
+  });
+
   it("says once per line when prose in {…} needs quotes, and switches a view to hand-picked", async () => {
     const comma = await call("write", {
       design: "delivery",

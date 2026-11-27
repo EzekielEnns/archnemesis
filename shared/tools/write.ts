@@ -553,7 +553,7 @@ export function liftParams<T extends WriteArgs & { as?: string }>(
   return { args: out as T, lifted, ignored };
 }
 
-export async function write(host: Host, given: WriteArgs): Promise<Out> {
+export async function write(host: Host, given: WriteArgs, brief = false): Promise<Out> {
   // A dry run's id: the same write, if the design is as it was when it was checked.
   if (given.apply) {
     const d = dryRuns.get(given.apply.trim());
@@ -580,12 +580,18 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
         ? true
         : [...new Set([...arr(x ?? []), ...arr(y ?? [])].map(String))];
     const tidy = given.tidy ? both(d.args.tidy, given.tidy) : d.args.tidy;
-    const out = await write(host, {
-      ...d.args,
-      ...(given.label ? { label: given.label } : {}),
-      ...(tidy ? { tidy } : {}),
-      ...(given.direction ? { direction: given.direction } : {}),
-    });
+    // The design is as the dry run saw it: its list of changes and its warnings were just
+    // read, so they aren't printed a second time (applies were as long as their dry runs).
+    const out = await write(
+      host,
+      {
+        ...d.args,
+        ...(given.label ? { label: given.label } : {}),
+        ...(tidy ? { tidy } : {}),
+        ...(given.direction ? { direction: given.direction } : {}),
+      },
+      now === d.print,
+    );
     return now === d.print || out.isError
       ? out
       : {
@@ -1225,7 +1231,7 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
     if (lifted.length || ignored.length) out.push(liftedNote(lifted, ignored));
     out.push(
       `Written by ${host.actor.name}${host.actor.session && !host.actor.name.endsWith(host.actor.session) ? ` (${host.actor.session})` : ""}: "${a.label?.trim() || autoLabel(ops, tbd)}" (undo with write {undo: true}):`,
-      ...diff,
+      ...(brief ? [`  the ${plural(diff.length, "line")} of changes the dry run listed`] : diff),
     );
     const elsewhere = host.wrote?.();
     if (elsewhere) out.push(elsewhere);
@@ -1256,7 +1262,7 @@ export async function write(host: Host, given: WriteArgs): Promise<Out> {
       out.push(await tidyView(host, d, a.direction, step));
     }
   }
-  out.push(...(warn ? [warn.trim()] : []));
+  out.push(...(warn && !brief ? [warn.trim()] : []));
   // New boxes that no view draws (nor anything they are inside): the person sees nothing of them.
   {
     const now = host.index();
@@ -1742,9 +1748,14 @@ function dropConnection(folder: Folder, from: string, to: string, label?: string
   const hits =
     label === undefined ? same : same.filter((x) => str(x.map.get("label", true)) === label);
   if (!hits.length) return "none";
-  if (hits.length > 1)
+  // Several with the very same label (or none): no ref can say which, and they read the same,
+  // so one of them goes (the last written). Different labels: the label has to say which.
+  const twins = hits.every(
+    (x) => str(x.map.get("label", true)) === str(hits[0]!.map.get("label", true)),
+  );
+  if (hits.length > 1 && !twins)
     return `${from}>${to}: there are ${hits.length} connections between them (${refsOf(from, to, hits).join(", ")}); remove one by its label`;
-  const { map, seq } = hits[0]!;
+  const { map, seq } = hits[hits.length - 1]!;
   seq.items.splice(seq.items.indexOf(map), 1);
   return null;
 }

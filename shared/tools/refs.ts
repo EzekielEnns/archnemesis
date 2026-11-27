@@ -114,7 +114,7 @@ export function entityLine(idx: ModelIndex, e: Entity): string {
   return `${e.name} (entity · ${entitySummary(e)})${home ? ` in ${idOf(home)}` : ""}${e.description ? ` — ${purpose(e.description, 80)}` : ""}`;
 }
 
-export function noteLine(idx: ModelIndex, n: Note): string {
+export function noteLine(idx: ModelIndex, n: Note, cut = 120): string {
   const about = n.about ?? n.objectId;
   const conn = n.connectionId ? idx.connections.get(n.connectionId) : undefined;
   const what = n.kind === "link" ? "link" : n.forAgent ? "flag" : "note";
@@ -124,7 +124,7 @@ export function noteLine(idx: ModelIndex, n: Note): string {
     : about
       ? ` on ${refOf(idx, about)}`
       : ` ${looseSpot(idx, n)}`;
-  return `${n.id} ${what}${n.resolved ? " (resolved)" : ""}${on} ${n.author.name}: ${clip(n.kind === "link" ? `${n.text} ${n.url ?? ""}` : n.text, 120)}${replies ? ` (${replies} repl${replies === 1 ? "y" : "ies"})` : ""}`;
+  return `${n.id} ${what}${n.resolved ? " (resolved)" : ""}${on} ${n.author.name}: ${clip(n.kind === "link" ? `${n.text} ${n.url ?? ""}` : n.text, cut)}${replies ? ` (${replies} repl${replies === 1 ? "y" : "ies"})` : ""}`;
 }
 
 /**
@@ -267,7 +267,8 @@ function connection(idx: ModelIndex, a: string, b: string, label?: string): Conn
   const hit = label
     ? (all.find((c) => c.name === label) ??
       all.find((c) => c.name.toLowerCase() === label.toLowerCase()))
-    : all.length === 1
+    : // Several with the very same label can't be told apart by any ref: the first stands for them.
+      all.length === 1 || (all.length > 1 && all.every((c) => c.name === all[0]!.name))
       ? all[0]
       : undefined;
   if (hit) return hit;

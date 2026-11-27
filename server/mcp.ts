@@ -105,8 +105,17 @@ function sessionFor(req: http.IncomingMessage, body: unknown): Session | undefin
     return s;
   }
   const id = req.headers["mcp-session-id"];
-  const s = typeof id === "string" ? sessions.get(id) : undefined;
-  if (s) s.at = now;
+  if (typeof id !== "string" || !/^[0-9a-f-]{36}$/i.test(id)) return undefined;
+  let s = sessions.get(id);
+  // An id this server doesn't know: it restarted, or the session sat idle past its time. The
+  // agent carries on under the same id (its name in history stays the same), with nothing
+  // remembered; without this every later call ran with no session at all.
+  if (!s) {
+    if (sessions.size > 5000) return undefined;
+    s = { id, at: now };
+    sessions.set(id, s);
+  }
+  s.at = now;
   return s;
 }
 

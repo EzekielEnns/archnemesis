@@ -476,6 +476,36 @@ describe("read, reviewed", () => {
   });
 });
 
+describe("write, twice the same", () => {
+  it("removes one of two connections nothing tells apart, and reads them as one", async () => {
+    const h = shop();
+    const yaml = "connections:\n  - {from: checkout, to: payments, label: twin}\n";
+    await call(h, "write", { yaml });
+    const before = [...h.index().connections.values()].filter((c) => c.name === "twin");
+    expect(before).toHaveLength(1);
+    h.commit([{ op: "connection.put", connection: { ...before[0]!, id: "c_twin2" } }], "a twin");
+    expect((await call(h, "read", { ref: "checkout>payments:twin" })).isError).toBeFalsy();
+    const out = await call(h, "write", { remove: ["checkout>payments:twin"] });
+    expect(out.isError).toBeFalsy();
+    expect([...h.index().connections.values()].filter((c) => c.name === "twin")).toHaveLength(1);
+  });
+
+  it("applies a dry run without printing its changes again", async () => {
+    const h = shop();
+    const yaml = "objects:\n  ledger: {kind: store, in: shop, name: Ledger}\n";
+    const dry = await call(h, "write", { yaml, dry_run: true });
+    expect(dry.text).toContain("ledger");
+    const out = await call(h, "write", { apply: dry.data!.apply });
+    expect(out.isError).toBeFalsy();
+    expect(out.text).toContain("of changes the dry run listed");
+    expect(out.text.length).toBeLessThan(dry.text.length);
+    expect(
+      h.index().objects.has("ledger") ||
+        [...h.index().objects.values()].some((o) => o.key === "ledger"),
+    ).toBe(true);
+  });
+});
+
 describe("note", () => {
   it("adds a note where the box is drawn, replies, resolves, lists", async () => {
     const h = shop();
@@ -485,7 +515,8 @@ describe("note", () => {
     await call(h, "note", { action: "reply", note: id, text: "No: the worker too." });
     const list = await call(h, "note", { action: "list" });
     expect(list.text).toContain(`${id} note on orders-db`);
-    expect(list.text).toContain("latest, Test agent: No: the worker too.");
+    expect(list.text).toContain("    Test agent: No: the worker too.");
+    expect(list.text).not.toContain("A whole thread");
     await call(h, "note", { action: "resolve", note: id });
     expect((await call(h, "note", { action: "list" })).text).toMatch(/^no open notes/);
   });
@@ -518,6 +549,22 @@ describe("note", () => {
     );
     expect(text).toMatch(new RegExp(`note loose on ${key} Zeek: nowhere`));
     expect(text).toMatch(new RegExp(`note on ${other.key ?? other.id} Zeek: inner`));
+  });
+
+  it("prints threads whole when they fit, and cut short with the latest reply when they don't", async () => {
+    const h = shop();
+    const long = "word ".repeat(300).trim();
+    const add = await call(h, "note", { text: long, about: "orders-db" });
+    await call(h, "note", { action: "reply", note: add.data!.note, text: "first" });
+    await call(h, "note", { action: "reply", note: add.data!.note, text: "second" });
+    const whole = (await call(h, "note", { action: "list" })).text;
+    expect(whole).toContain(long);
+    expect(whole).toContain("    Test agent: first");
+    for (let i = 0; i < 5; i++) await call(h, "note", { text: long, about: "orders-db" });
+    const cut = (await call(h, "note", { action: "list" })).text;
+    expect(cut).not.toContain(long);
+    expect(cut).toContain("latest, Test agent: second");
+    expect(cut).toContain("A whole thread: read");
   });
 
   it("leaves claims and flags for agents", async () => {
