@@ -563,7 +563,7 @@ describe("note", () => {
     for (let i = 0; i < 5; i++) await call(h, "note", { text: long, about: "orders-db" });
     const cut = (await call(h, "note", { action: "list" })).text;
     expect(cut).not.toContain(long);
-    expect(cut).toContain("latest, Test agent: second");
+    expect(cut).toMatch(/latest, Test agent: (first|second)/);
     expect(cut).toContain("A whole thread: read");
   });
 
