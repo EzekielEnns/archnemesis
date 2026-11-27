@@ -189,7 +189,14 @@ export function renderSvg(
     const up = routeOf(parent);
     const pts = e.shape.bends?.length ? undefined : opts.paths?.get(e.id);
     return pts
-      ? lineRoute(startAt(pts, routePoint(up, e.shape.forkAt)), round)
+      ? lineRoute(
+          clipToBoxes(
+            startAt(pts, routePoint(up, e.shape.forkAt)),
+            { x: -1e9, y: -1e9, w: 0, h: 0 },
+            ends.get(e.to)!,
+          ),
+          round,
+        )
       : forkRoute(up, e.shape.forkAt, ends.get(e.to)!, e.shape.bends, round);
   };
   const routeOf = (e: CanvasEdge): Route => forked(e) ?? boxRoute(e);
