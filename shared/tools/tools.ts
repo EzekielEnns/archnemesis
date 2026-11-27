@@ -175,6 +175,8 @@ Example: read {q: "checkout"} then read {ref: "checkout"}.`,
 - remove: box ids; a>b or a>b:label (the label when two share the ends); entity names; view:<key>, boundary:<id>, decision:<id>. In yaml, objects: {x: null} removes only the box x, views: {x: null} only the view.
 - views: setting boxes makes a view hand-picked (its include/exclude go); setting include/exclude makes it follow rules (its boxes go); a view with a scope and no include shows its children and neighbours, less what exclude takes.
 - splits: one line that parts, for one box sending to several (a bus, a fan-out): [{view: landscape, from: bus, to: [billing, orders, email], at: [640, 520]}] draws those arrows as one line from bus to that point, then one to each box. at is where they part, in the view's layout (read {file: "layout/<view>.json"} for where the boxes are; between the box and the row it feeds works well). Each stays its own connection with its own label. joins is the same the other way round, several boxes into one: [{view, to: db, from: [api, worker], at: [x, y]}].
+- place: where a box goes on a view, when what you add to a view somebody arranged lands badly (look: show {render}): [{view: landscape, box: company, side: left, of: api}] puts it beside that box, clear of the rest, and moves nothing else. Put a caller above or left of what it calls and what's called below or right, at the edge of the drawing, never in the middle of it.
+- route: how one line runs on a view, for a line that cuts across the drawing or over a box (look: show {render}): [{view: landscape, from: company, to: dashboard, leaves: left, enters: left, bends: [[40, 200], [40, 1100]]}] takes it down the outside. The side it leaves, the side it enters, and corners on the way; nothing else moves. A line that still crosses the middle after that belongs on another view.
 - tidy: true (the views this changed) or view keys: lay them out, in the same step. A view a person arranged by hand (bent arrows, splits) is theirs: tidy leaves it alone and says so, and what you add lands next to what it connects to. rearrange: true lays it out again anyway and drops their shapes: only when the person asked for a new layout. undo: true: your own last write back (dry_run: say which); notes aren't in it.
 Text with a comma or colon goes in quotes (context: "…", label: "…"), or the box in block style.
 Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], context: \\"Charges orders, then emails the invoice.\\"}\\nconnections:\\n  - {from: checkout, to: billing, label: bills the order, tech: HTTPS, carries: [Invoice]}\\nentities:\\n  Invoice: {in: billing, fields: {id: uuid, total: Money}}", dry_run: true}`,
@@ -218,6 +220,38 @@ Example: write {yaml: "objects:\\n  billing: {kind: app, in: shop, tech: [Go], c
         .optional()
         .describe(
           "The other way round: arrows into one box meet at a point and go in as one line: {view, to: a, from: [b, c], at: [x, y]}. at: null undoes it.",
+        ),
+      route: z
+        .array(
+          z.object({
+            view: z.string(),
+            from: z.string(),
+            to: z.string(),
+            leaves: z.enum(["top", "right", "bottom", "left"]).nullable().optional(),
+            enters: z.enum(["top", "right", "bottom", "left"]).nullable().optional(),
+            bends: z
+              .array(z.tuple([z.number(), z.number()]))
+              .nullable()
+              .optional(),
+          }),
+        )
+        .optional()
+        .describe(
+          "How one line runs on a view: {view, from, to, leaves: top|right|bottom|left, enters: …, bends: [[x, y]]}. The side it leaves its from box, the side it enters its to box, corners on the way (as boxes are placed). null clears one.",
+        ),
+      place: z
+        .array(
+          z.object({
+            view: z.string(),
+            box: z.string(),
+            side: z.enum(["left", "right", "above", "below"]).optional(),
+            of: z.string().optional(),
+            at: z.tuple([z.number(), z.number()]).optional(),
+          }),
+        )
+        .optional()
+        .describe(
+          "Where a box sits on a view: {view, box, side: left|right|above|below, of: <a box on it>} puts it beside that box, clear of the rest; {view, box, at: [x, y]} at a spot. Nothing else moves.",
         ),
       dry_run: z.boolean().optional(),
       scope: z.string().optional(),

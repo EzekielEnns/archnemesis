@@ -565,7 +565,7 @@ interface Box {
 }
 
 /** An arrow shaped by hand, in a layout file under "@arrows", keyed "from>to". */
-interface FArrow {
+export interface FArrow {
   from?: BoxSide;
   to?: BoxSide;
   /** Where along that side, 0 to 1, when put there by hand. */

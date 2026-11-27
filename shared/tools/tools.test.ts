@@ -691,6 +691,27 @@ describe("arrows people asked for", () => {
       splits: [{ view: "main", from: "a", to: ["b"], at: [0, 0] }],
     });
     expect(bad.text).toContain("no connection a>b");
+    // A box added to it is put where the write says, and nothing else moves.
+    const spots = () =>
+      Object.fromEntries(
+        [...h.state().placements.values()].map((p) => [
+          h.state().objects.get(p.objectId)?.key ?? p.objectId,
+          [p.x, p.y],
+        ]),
+      );
+    const was = spots();
+    const added = await call(h, "write", {
+      yaml: 'objects:\n  c: {kind: app, context: "C."}\nconnections:\n  - {from: c, to: bus, label: asks}\nviews:\n  main: {boxes: [bus, a, b, c]}',
+      place: [{ view: "main", box: "c", side: "left", of: "bus" }],
+    });
+    expect(added.isError, added.text).toBeFalsy();
+    const now = spots();
+    expect(now.c).toEqual([was.bus![0]! - 344, was.bus![1]]);
+    expect({ ...now, c: undefined }).toEqual({ ...was, c: undefined });
+    const lost = await call(h, "write", {
+      place: [{ view: "main", box: "c", side: "left", of: "nope" }],
+    });
+    expect(lost.text).toContain("nope isn't on main");
     // A view shaped by hand isn't tidied, by name or not, until rearrange says so.
     const where = () => JSON.stringify([...h.state().placements.values()]);
     const before = where();
@@ -702,6 +723,68 @@ describe("arrows people asked for", () => {
     // at: null makes them their own arrows again.
     await call(h, "write", { splits: [{ view: "main", from: "bus", to: ["a", "b"], at: null }] });
     expect(h.state().arrows.size).toBe(0);
+  });
+
+  it("a view arranged by hand keeps new boxes off it unless the write places them", async () => {
+    const h = memHost({});
+    await call(h, "write", {
+      yaml: [
+        "objects:",
+        '  bus: {kind: system, context: "Events."}',
+        '  a: {kind: system, context: "A."}',
+        '  b: {kind: system, context: "B."}',
+        "connections:",
+        "  - {from: bus, to: a, label: one}",
+        "  - {from: bus, to: b, label: two}",
+        "views:",
+        "  main: {name: Main, include: [{kind: system}]}",
+      ].join("\n"),
+    });
+    await call(h, "write", {
+      splits: [{ view: "main", from: "bus", to: ["a", "b"], at: [100, 300] }],
+    });
+    const on = () => {
+      const d = [...h.state().diagrams.values()].find((x) => x.key === "main")!;
+      return [...h.state().placements.values()]
+        .filter((p) => p.diagramId === d.id)
+        .map((p) => h.state().objects.get(p.objectId)?.key ?? p.objectId)
+        .sort();
+    };
+    expect(on()).toEqual(["a", "b", "bus"]);
+    const r = await call(h, "write", {
+      yaml: 'objects:\n  c: {kind: system, context: "C."}\n  d: {kind: system, context: "D."}\nconnections:\n  - {from: c, to: bus, label: asks}',
+      place: [{ view: "main", box: "c", side: "left", of: "bus" }],
+    });
+    expect(r.isError, r.text).toBeFalsy();
+    expect(r.text).toContain("main was arranged by hand, so d");
+    expect(on()).toEqual(["a", "b", "bus", "c"]);
+    // A line is told which sides to use and where to turn; its split stays.
+    const routed = await call(h, "write", {
+      route: [
+        { view: "main", from: "c", to: "bus", leaves: "top", enters: "left", bends: [[10, 20]] },
+        { view: "main", from: "bus", to: "a", enters: "right" },
+      ],
+    });
+    expect(routed.isError, routed.text).toBeFalsy();
+    const cb = [...h.state().arrows.values()].find((x) => x.fromSide === "top");
+    expect(cb).toMatchObject({ fromSide: "top", toSide: "left", bends: [{ x: 10, y: 20 }] });
+    expect(
+      [...h.state().arrows.values()].some((x) => x.toSide === "right" && x.split?.x === 100),
+    ).toBe(true);
+    const wrong = await call(h, "write", {
+      route: [{ view: "main", from: "bus", to: "c", leaves: "top" }],
+    });
+    expect(wrong.text).toContain("the connection runs c>bus");
+    // A dry run says where a new box would land.
+    const dry = await call(h, "write", {
+      dry_run: true,
+      yaml: 'objects:\n  e: {kind: system, context: "E."}\nconnections:\n  - {from: e, to: bus, label: asks}',
+      place: [{ view: "main", box: "e", at: [500, 40] }],
+    });
+    expect(dry.text).toContain("main: gains e at [500, 40]");
+    // Placed later, it's on it.
+    await call(h, "write", { place: [{ view: "main", box: "d", side: "right", of: "bus" }] });
+    expect(on()).toEqual(["a", "b", "bus", "c", "d"]);
   });
 
   it("a real package whose version couldn't be looked up isn't called made up", async () => {

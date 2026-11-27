@@ -15,6 +15,7 @@ import {
   toOps,
   type FileModel,
   type Problem,
+  type FArrow,
 } from "../files.ts";
 import {
   makeDiagram,
@@ -31,6 +32,12 @@ import { filesOf } from "./problems.ts";
 import { connRef, idOf, object, refOf, viewId } from "./refs.ts";
 import { resolveRef } from "../context.ts";
 import { measure, tidyView } from "./tidy.ts";
+import { sideSpot, type Beside } from "../actions.ts";
+import { boxSize, type BoxSide } from "../model.ts";
+import * as Y from "yjs";
+import { applyOps, emptyState, mirror } from "../doc.ts";
+import { viewOps } from "../views.ts";
+import { indexOf } from "./problems.ts";
 import { findView } from "../agent.ts";
 import { FIELDS } from "../spec.ts";
 
@@ -43,6 +50,23 @@ export interface WriteArgs {
   splits?: { view: string; from: string; to: string[]; at: [number, number] | null }[];
   /** Arrows into one box drawn meeting at a point and going in as one line, on a view. at: null undoes it. */
   joins?: { view: string; to: string; from: string[]; at: [number, number] | null }[];
+  /** How one line runs on a view: the side it leaves its from box, the side it enters its to box, corners on the way. null clears one. */
+  route?: {
+    view: string;
+    from: string;
+    to: string;
+    leaves?: BoxSide | null;
+    enters?: BoxSide | null;
+    bends?: [number, number][] | null;
+  }[];
+  /** Where a box goes on a view: beside another box (side, of), or at a spot. */
+  place?: {
+    view: string;
+    box: string;
+    side?: Beside;
+    of?: string;
+    at?: [number, number];
+  }[];
   dry_run?: boolean;
   /** Only changes inside this box's subtree; anything else is refused with what to note instead. */
   scope?: string;
@@ -535,6 +559,8 @@ const PARAM_KEYS = [
   "remove",
   "splits",
   "joins",
+  "place",
+  "route",
   "scope",
   "dry_run",
   "as",
@@ -636,6 +662,269 @@ function setSplits(
     arrows.set(view, mine);
   }
   return { model: { ...model, arrows }, problems };
+}
+
+/** Would a view's rules put this box on it (the rules a new box usually arrives by; the rest: no). */
+function ruleTakes(
+  model: FileModel,
+  v: FileModel["views"][number],
+  o: FileModel["objects"][number],
+) {
+  const hit = (s: NonNullable<typeof v.include>[number]): boolean => {
+    if ("ids" in s) return s.ids.includes(o.id);
+    if ("kind" in s) return s.kind === o.kind;
+    if ("top" in s) return !o.in;
+    if ("children" in s) return o.in === s.children;
+    if ("tag" in s) return (o.tags ?? []).includes(s.tag as string);
+    if ("neighbours" in s)
+      return model.connections.some(
+        (c) =>
+          (c.from === o.id && c.to === s.neighbours) || (c.to === o.id && c.from === s.neighbours),
+      );
+    return false;
+  };
+  return (v.include ?? []).some(hit) && !(v.exclude ?? []).some(hit);
+}
+
+/**
+ * A view somebody arranged by hand, that follows rules: boxes this write makes would land on
+ * it by those rules, in the middle of their work. They're left off it (excluded by id) unless
+ * the write places them there or rewrites the view itself, and the answer says so.
+ */
+function keepArranged(
+  was: FileModel,
+  model: FileModel,
+  places: NonNullable<WriteArgs["place"]>,
+): { model: FileModel; notes: string[] } {
+  const notes: string[] = [];
+  const old = new Set(was.objects.map((o) => o.id));
+  const fresh = model.objects.filter((o) => !old.has(o.id));
+  if (!fresh.length) return { model, notes };
+  const views = model.views.map((v) => {
+    const before = was.views.find((x) => x.key === v.key);
+    const shaped = Object.values(model.arrows.get(v.key) ?? {}).some(
+      (s) => s.bends?.length || s.split || s.join,
+    );
+    // Not arranged, not following rules, or its rules rewritten by this very write: theirs to say.
+    if (!before || !shaped || !v.include?.length) return v;
+    if (JSON.stringify([before.include, before.exclude]) !== JSON.stringify([v.include, v.exclude]))
+      return v;
+    const placed = new Set(
+      places.filter((p) => p?.view?.replace(/^view:/, "") === v.key).map((p) => p.box),
+    );
+    const off = fresh.filter((o) => !placed.has(o.id) && ruleTakes(model, v, o)).map((o) => o.id);
+    if (!off.length) return v;
+    notes.push(
+      `${v.key} was arranged by hand, so ${off.join(", ")} (which its rules would add) ${off.length === 1 ? "was" : "were"} left off it. Give ${off.length === 1 ? "it" : "them"} a view of ${off.length === 1 ? "its" : "their"} own with what ${off.length === 1 ? "it connects" : "they connect"} to (views: {<key>: {name, boxes: [...]}}); one or two that belong on ${v.key} go on with place: [{view: "${v.key}", box, side, of}], at its edge.`,
+    );
+    const ids = (v.exclude ?? []).find((s): s is { ids: string[] } => "ids" in s);
+    const exclude = ids
+      ? (v.exclude ?? []).map((s) => (s === ids ? { ids: [...ids.ids, ...off] } : s))
+      : [...(v.exclude ?? []), { ids: off }];
+    return { ...v, exclude };
+  });
+  return { model: { ...model, views }, notes };
+}
+
+/**
+ * What a write would do to the views already drawn, said in the dry run: which boxes each
+ * gains and where they'd land, and whether its lines would cross more. (The model as it
+ * would be is built aside, with its rules applied, and measured.)
+ */
+function foresee(idx: ModelIndex, model: FileModel): string[] {
+  const doc = new Y.Doc();
+  const state = emptyState();
+  const stop = mirror(doc, state, () => {});
+  const system = { id: "archnm", name: "archnm", kind: "system" as const };
+  try {
+    applyOps(doc, state, toOps(emptyState(), model), system, "preview", system, { log: false });
+    const mid = indexOf(state);
+    const follow = [...state.diagrams.values()]
+      .filter((d) => d.rules)
+      .flatMap((d) => viewOps(mid, d.id));
+    if (follow.length)
+      applyOps(doc, state, follow, system, "rules", system, { pin: false, log: false });
+  } catch {
+    return [];
+  } finally {
+    stop();
+  }
+  const then = indexOf(state);
+  const keyOf = (i: ModelIndex, id: string) => i.objects.get(id)?.key ?? id;
+  const out: string[] = [];
+  for (const d of idx.diagrams.values()) {
+    const was = idx.placements.get(d.id);
+    const after = [...then.diagrams.values()].find((x) => (x.key ?? x.id) === (d.key ?? d.id));
+    if (!was?.size || !after) continue;
+    const key = d.key ?? d.id;
+    const had = new Set([...was.keys()].map((id) => keyOf(idx, id)));
+    const gains = [...(then.placements.get(after.id)?.values() ?? [])]
+      .filter((p) => !had.has(keyOf(then, p.objectId)))
+      .map((p) => `${keyOf(then, p.objectId)} at [${Math.round(p.x)}, ${Math.round(p.y)}]`);
+    const a = measure(idx, d.id).score;
+    const b = measure(then, after.id).score;
+    const worse = b.crossings >= a.crossings + 2;
+    if (!gains.length && !worse) continue;
+    out.push(
+      `  ${key}: ${gains.length ? `gains ${gains.slice(0, 8).join(", ")}${gains.length > 8 ? "…" : ""} (${a.boxes} → ${b.boxes} boxes)` : "no new boxes"}; lines crossing ${a.crossings} → ${b.crossings}${worse ? `. That reads worse${handShaped(idx, d.id) ? ", and somebody arranged this view by hand" : ""}: put the new boxes on a view of their own, or place: and route: them round the outside` : ""}`,
+    );
+  }
+  return out.length ? ["On the views as drawn:", ...out] : [];
+}
+
+/** A route's corners as whole numbers; undefined or null as given; false when they aren't points. */
+function cornersOf(v: unknown): [number, number][] | null | undefined | false {
+  if (v === undefined || v === null) return v;
+  if (!Array.isArray(v)) return false;
+  const ok = v.every(
+    (b) => Array.isArray(b) && b.length === 2 && b.every((n) => Number.isFinite(n)),
+  );
+  return ok && (v as [number, number][]).map(([x, y]) => [Math.round(x), Math.round(y)]);
+}
+
+/** An arrow's shape with a route's sides and corners put on it (null takes one off). */
+function reshaped(
+  was: FArrow | undefined,
+  r: { leaves?: BoxSide | null; enters?: BoxSide | null },
+  bends: [number, number][] | null | undefined,
+): FArrow {
+  const shape = { ...was };
+  if (r.leaves !== undefined) {
+    delete shape.from_at;
+    if (r.leaves) shape.from = r.leaves;
+    else delete shape.from;
+  }
+  if (r.enters !== undefined) {
+    delete shape.to_at;
+    if (r.enters) shape.to = r.enters;
+    else delete shape.to;
+  }
+  if (bends !== undefined) {
+    if (bends?.length) shape.bends = bends;
+    else delete shape.bends;
+  }
+  return shape;
+}
+
+const BOX_SIDES: readonly BoxSide[] = ["top", "right", "bottom", "left"];
+
+/**
+ * route: how one line runs on a view, so a line that would cut across a drawing goes round
+ * it: the side it leaves, the side it enters, and corners on the way. Its split or join stays.
+ */
+function setRoutes(
+  model: FileModel,
+  routes: NonNullable<WriteArgs["route"]>,
+): { model: FileModel; problems: string[] } {
+  const problems: string[] = [];
+  const arrows = new Map(model.arrows);
+  const HOW =
+    "each route is {view, from, to, leaves: top|right|bottom|left, enters: top|right|bottom|left, bends: [[x, y], …]} (any of the three; null clears one)";
+  const side = (v: unknown) => v === undefined || v === null || BOX_SIDES.includes(v as BoxSide);
+  for (const r of routes) {
+    if (!r || typeof r.view !== "string" || typeof r.from !== "string" || typeof r.to !== "string")
+      return { model, problems: [HOW] };
+    const key = `${r.from}>${r.to}`;
+    const say = (m: string) => problems.push(`${key}: ${m}`);
+    const view = r.view.replace(/^view:/, "");
+    if (!model.views.some((v) => v.key === view)) {
+      say(`no view "${view}" (${model.views.map((v) => v.key).join(", ")})`);
+      continue;
+    }
+    if (!model.connections.some((c) => c.from === r.from && c.to === r.to)) {
+      const back = model.connections.some((c) => c.from === r.to && c.to === r.from);
+      say(
+        back
+          ? `the connection runs ${r.to}>${r.from}: route that`
+          : "no such connection (from and to are box ids)",
+      );
+      continue;
+    }
+    const bends = cornersOf(r.bends);
+    if (!side(r.leaves) || !side(r.enters) || bends === false) {
+      say(HOW);
+      continue;
+    }
+    if (r.leaves === undefined && r.enters === undefined && bends === undefined) {
+      say(HOW);
+      continue;
+    }
+    const mine = { ...arrows.get(view) };
+    const shape = reshaped(mine[key], r, bends);
+    if (Object.keys(shape).length) mine[key] = shape;
+    else delete mine[key];
+    arrows.set(view, mine);
+  }
+  return { model: { ...model, arrows }, problems };
+}
+
+const SIDES: readonly Beside[] = ["left", "right", "above", "below"];
+
+/**
+ * place: where a box sits on a view, so something added to a view somebody arranged goes
+ * where it reads well and nothing else moves. Beside another box (side, of), clear of the
+ * rest; or at a spot.
+ */
+function setPlaces(
+  model: FileModel,
+  places: NonNullable<WriteArgs["place"]>,
+): { model: FileModel; problems: string[] } {
+  const problems: string[] = [];
+  const layouts = new Map(model.layouts);
+  let views = model.views;
+  const HOW =
+    "each place is {view, box, side: left|right|above|below, of: <a box on the view>} or {view, box, at: [x, y]}";
+  for (const p of places) {
+    if (!p || typeof p.view !== "string" || typeof p.box !== "string")
+      return { model, problems: [HOW] };
+    const view = p.view.replace(/^view:/, "");
+    const say = (m: string) => problems.push(`${p.box}: ${m}`);
+    if (!model.views.some((v) => v.key === view)) {
+      say(`no view "${view}" (${model.views.map((v) => v.key).join(", ")})`);
+      continue;
+    }
+    const o = model.objects.find((x) => x.id === p.box);
+    if (!o) {
+      say("no such box");
+      continue;
+    }
+    const mine = { ...layouts.get(view) };
+    const size = boxSize(o.kind);
+    const at = p.at;
+    if (Array.isArray(at) && at.length === 2 && at.every((n) => Number.isFinite(n))) {
+      mine[p.box] = { ...mine[p.box], x: Math.round(at[0]), y: Math.round(at[1]) };
+    } else if (p.side && SIDES.includes(p.side) && typeof p.of === "string") {
+      const of = mine[p.of];
+      if (!of) {
+        say(`${p.of} isn't on ${view} (on it: ${Object.keys(mine).slice(0, 20).join(", ")})`);
+        continue;
+      }
+      const rect = (id: string, b: { x: number; y: number; w?: number; h?: number }) => {
+        const k = model.objects.find((x) => x.id === id)?.kind ?? "app";
+        return { x: b.x, y: b.y, w: b.w ?? boxSize(k).w, h: b.h ?? boxSize(k).h };
+      };
+      const others = Object.entries(mine)
+        .filter(([id]) => id !== p.box)
+        .map(([id, b]) => rect(id, b));
+      mine[p.box] = { ...mine[p.box], ...sideSpot(others, rect(p.of, of), p.side, size) };
+    } else {
+      say(HOW);
+      continue;
+    }
+    layouts.set(view, mine);
+    // Placed on a view that left it off: it's on it now.
+    views = views.map((v) =>
+      v.key !== view || !v.exclude
+        ? v
+        : {
+            ...v,
+            exclude: v.exclude
+              .map((s) => ("ids" in s ? { ids: s.ids.filter((id) => id !== p.box) } : s))
+              .filter((s) => !("ids" in s) || s.ids.length),
+          },
+    );
+  }
+  return { model: { ...model, layouts, views }, problems };
 }
 
 const DEPS_VIEW = "dependencies";
@@ -799,7 +1088,9 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     !remove.length &&
     !a.tidy &&
     !a.splits?.length &&
-    !a.joins?.length
+    !a.joins?.length &&
+    !a.place?.length &&
+    !a.route?.length
   )
     return fail(`Send yaml (a fragment in the file grammar), remove, or tidy.\n${EXAMPLE}`);
   if (!a.dry_run && !host.canEdit)
@@ -826,8 +1117,9 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       problems.push({
         level: "error",
         file: p,
-        message:
-          "write takes model/, code/, views/ and decisions/ YAML files, boundaries.yaml, libraries.yaml, and a view's layout/<view>.json beside its views/<view>.yaml",
+        message: layoutOfView
+          ? `a layout file is written together with its view: send views/${layoutOfView[1]}.yaml (as read {file: "views/${layoutOfView[1]}.yaml"} gives it) in the same files as ${p}`
+          : "write takes model/, code/, views/ and decisions/ YAML files, boundaries.yaml, libraries.yaml, and a view's layout/<view>.json beside its views/<view>.yaml",
       });
   }
 
@@ -998,6 +1290,27 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
     model = forked.model;
     problems.push(
       ...forked.problems.map((message) => ({ level: "error" as const, file: "joins", message })),
+    );
+  }
+  if (Array.isArray(a.route) && a.route.length) {
+    const routed = setRoutes(model, a.route);
+    model = routed.model;
+    problems.push(
+      ...routed.problems.map((message) => ({ level: "error" as const, file: "route", message })),
+    );
+  }
+  if (Array.isArray(a.place) && a.place.length) {
+    const placed = setPlaces(model, a.place);
+    model = placed.model;
+    problems.push(
+      ...placed.problems.map((message) => ({ level: "error" as const, file: "place", message })),
+    );
+  }
+  {
+    const kept = keepArranged(baseModel, model, a.place ?? []);
+    model = kept.model;
+    problems.push(
+      ...kept.notes.map((message) => ({ level: "warning" as const, file: "views", message })),
     );
   }
   // A dropped tag group takes its tags off the boxes, and its lanes off the views (the
@@ -1359,7 +1672,13 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
   if (a.dry_run) {
     const applyId = ops.length || a.tidy ? keepDryRun(host.key, a, fingerprint(start.files)) : null;
     return ok(
-      `${lifted.length || ignored.length ? `${liftedNote(lifted, ignored)}\n` : ""}Dry run, nothing changed. It would:\n${diff.join("\n") || "  change nothing (the design already says that)"}${a.tidy ? "\n  and tidy the views" : ""}${warn}\n${applyId ? `Looks right? write {apply: "${applyId}"} writes exactly this (no need to send it again), as long as nobody changes the design first.` : "Nothing to write."}`,
+      `${lifted.length || ignored.length ? `${liftedNote(lifted, ignored)}\n` : ""}Dry run, nothing changed. It would:\n${diff.join("\n") || "  change nothing (the design already says that)"}${a.tidy ? "\n  and tidy the views" : ""}${
+        ops.length && !a.tidy
+          ? foresee(idx, model)
+              .map((l) => `\n${l}`)
+              .join("")
+          : ""
+      }${warn}\n${applyId ? `Looks right? write {apply: "${applyId}"} writes exactly this (no need to send it again), as long as nobody changes the design first.` : "Nothing to write."}`,
       { ops: ops.length, ...(applyId ? { apply: applyId } : {}) },
     );
   }
@@ -1402,7 +1721,7 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
       const shaped = handShaped(idx, id);
       if (shaped && !a.rearrange) {
         out.push(
-          `${d.key ?? d.id}: not tidied. Somebody arranged it by hand (${shaped} shaped ${shaped === 1 ? "arrow" : "arrows"}), and a tidy would throw that away; new boxes went next to what they connect to. Look at it (show {render: "${d.key ?? d.id}"}). Only if the person asked for a new layout: write {tidy: ["${d.key ?? d.id}"], rearrange: true}.`,
+          `${d.key ?? d.id}: not tidied. Somebody arranged it by hand (${shaped} shaped ${shaped === 1 ? "arrow" : "arrows"}), and a tidy would throw that away; new boxes went beside what they connect to (place: [{view, box, side, of}] moves one). Look at it (show {render: "${d.key ?? d.id}"}). Only if the person asked for a new layout: write {tidy: ["${d.key ?? d.id}"], rearrange: true}.`,
         );
         continue;
       }
@@ -1427,7 +1746,8 @@ export async function write(host: Host, given: WriteArgs, brief = false): Promis
   if (step.started) {
     const now = host.index();
     for (const d of now.diagrams.values()) {
-      if (!idx.diagrams.has(d.id)) continue;
+      // (A view that had nothing on it can't have got worse.)
+      if (!idx.diagrams.has(d.id) || !idx.placements.get(d.id)?.size) continue;
       const was = measure(idx, d.id).score;
       const is = measure(now, d.id).score;
       const key = d.key ?? d.id;

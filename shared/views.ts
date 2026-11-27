@@ -21,7 +21,7 @@
 // remain the record of where boxes sit; the rules decide which boxes there are.
 //
 // A diagram without rules is a hand-picked one: its placements are the whole story.
-import { freeSpot } from "./actions.ts";
+import { outwardSide, sideSpot } from "./actions.ts";
 import {
   boxSize,
   CARD_H,
@@ -287,8 +287,17 @@ export function viewOps(
     }
     const near = nearestPlacedNeighbour(idx, diagramId, id);
     let spot: { x: number; y: number };
-    if (near) spot = freeSpot(idx, diagramId, { x: near.x + near.w + 96, y: near.y }, taken);
-    else {
+    // Beside what it connects to, on the side facing out of the drawing: in the middle it
+    // lands on top of lines somebody arranged.
+    if (near) {
+      const all = [...placed.values(), ...taken];
+      spot = sideSpot(
+        all,
+        near,
+        outwardSide(boxes, near),
+        boxSize(idx.objects.get(id)?.kind ?? "app"),
+      );
+    } else {
       // Grid cells are right of every box already there, so free unless a neighbour-placed
       // box took one: then step on.
       do {

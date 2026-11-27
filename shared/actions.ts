@@ -48,6 +48,58 @@ export function freeSpot(
   return { x: snap(at.x), y: snap(Number.isFinite(bottom) ? bottom + GAP_Y : at.y) };
 }
 
+export type Beside = "left" | "right" | "above" | "below";
+
+/**
+ * A card-sized spot on one side of a box, clear of every other: the spot right next to it,
+ * else along that side (one over, one back, two over…), else a step further out.
+ */
+export function sideSpot(
+  boxes: Box[],
+  of: Box,
+  side: Beside,
+  size: { w: number; h: number } = { w: CARD_W, h: CARD_H },
+): { x: number; y: number } {
+  // Room for a labelled line between the two (a label is about 130 wide).
+  const dx = CARD_W + 160;
+  const dy = CARD_H + 112;
+  const out = { left: [-1, 0], right: [1, 0], above: [0, -1], below: [0, 1] }[side] as [
+    number,
+    number,
+  ];
+  const free = (p: { x: number; y: number }) =>
+    !boxes.some((b) =>
+      intersectsRect({ x: p.x - 12, y: p.y - 12, w: size.w + 24, h: size.h + 24 }, b),
+    );
+  for (let far = 1; far <= 6; far++)
+    for (const k of [0, 1, -1, 2, -2, 3, -3]) {
+      // Along the side: across for above and below, down for left and right.
+      const p = {
+        x: snap(of.x + out[0] * far * dx + (out[0] ? 0 : k * dx)),
+        y: snap(of.y + out[1] * far * dy + (out[1] ? k * dy : 0)),
+      };
+      if (free(p)) return p;
+    }
+  return { x: snap(of.x + out[0] * 7 * dx), y: snap(of.y + out[1] * 7 * dy) };
+}
+
+/** The side of a box that faces away from the middle of everything drawn: where something new beside it is least in the way. */
+export function outwardSide(boxes: Box[], of: Box): Beside {
+  if (boxes.length < 3) return "right";
+  const x0 = Math.min(...boxes.map((b) => b.x));
+  const x1 = Math.max(...boxes.map((b) => b.x + b.w));
+  const y0 = Math.min(...boxes.map((b) => b.y));
+  const y1 = Math.max(...boxes.map((b) => b.y + b.h));
+  // How far it is from each edge of the drawing, as a share of the drawing: nearest edge wins.
+  const gaps: [Beside, number][] = [
+    ["left", (of.x - x0) / Math.max(1, x1 - x0)],
+    ["right", (x1 - (of.x + of.w)) / Math.max(1, x1 - x0)],
+    ["above", (of.y - y0) / Math.max(1, y1 - y0)],
+    ["below", (y1 - (of.y + of.h)) / Math.max(1, y1 - y0)],
+  ];
+  return gaps.sort((a, b) => a[1] - b[1])[0]![0];
+}
+
 /** A new object, inside the diagram's scope (actors and externals stay at the top). */
 /** What a new file or function dropped on a box goes inside, or null to leave it where it's dropped. */
 export function codeHolder(idx: ModelIndex, kind: ObjectKind, overId: string): string | null {
