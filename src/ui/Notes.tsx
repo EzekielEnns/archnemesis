@@ -49,6 +49,8 @@ export interface NoteDraft {
   objectId: string | null;
   /** Pinned to an arrow instead (x, y from its middle). */
   connectionId?: string;
+  /** The box it's about when it can't be pinned to it: one drawn inside a box opened in place. */
+  about?: string;
   x: number;
   y: number;
 }

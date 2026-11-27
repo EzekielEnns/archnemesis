@@ -38,6 +38,10 @@ function placeNote(
         }
       : {
           objectId: box ? over : null,
+          // A box drawn inside one opened in place has no spot of its own on this diagram to pin
+          // to. The note stays where it was dropped, and still says which box it's about: without
+          // that, an agent reading the notes sees only loose text.
+          ...(over && !box && i.objects.has(over) ? { about: over } : {}),
           x: Math.round(world.x - (box?.x ?? 0)),
           y: Math.round(world.y - (box?.y ?? 0)),
         };

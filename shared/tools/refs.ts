@@ -119,7 +119,35 @@ export function noteLine(idx: ModelIndex, n: Note): string {
   const conn = n.connectionId ? idx.connections.get(n.connectionId) : undefined;
   const what = n.kind === "link" ? "link" : n.forAgent ? "flag" : "note";
   const replies = idx.replies.get(n.id)?.length ?? 0;
-  return `${n.id} ${what}${n.resolved ? " (resolved)" : ""}${conn ? ` on ${connRef(idx, conn)}` : about ? ` on ${refOf(idx, about)}` : ""} ${n.author.name}: ${clip(n.kind === "link" ? `${n.text} ${n.url ?? ""}` : n.text, 120)}${replies ? ` (${replies} repl${replies === 1 ? "y" : "ies"})` : ""}`;
+  const on = conn
+    ? ` on ${connRef(idx, conn)}`
+    : about
+      ? ` on ${refOf(idx, about)}`
+      : ` ${looseSpot(idx, n)}`;
+  return `${n.id} ${what}${n.resolved ? " (resolved)" : ""}${on} ${n.author.name}: ${clip(n.kind === "link" ? `${n.text} ${n.url ?? ""}` : n.text, 120)}${replies ? ` (${replies} repl${replies === 1 ? "y" : "ies"})` : ""}`;
+}
+
+/**
+ * Where a note that's pinned to nothing sits: the view, and the box it was dropped over or
+ * next to there. It's a hint from where it was put, not something the person said, so it
+ * reads as one ("over", "near"), unlike "on" for a pinned note.
+ */
+function looseSpot(idx: ModelIndex, n: Note): string {
+  const view = idx.diagrams.get(n.diagramId);
+  const where = view ? `on ${viewId(view)}` : "on a view that's gone";
+  let over: { id: string; area: number } | null = null;
+  let near: { id: string; d: number } | null = null;
+  for (const [id, p] of idx.placements.get(n.diagramId) ?? []) {
+    const dx = Math.max(p.x - n.x, 0, n.x - (p.x + p.w));
+    const dy = Math.max(p.y - n.y, 0, n.y - (p.y + p.h));
+    const d = Math.hypot(dx, dy);
+    // Inside several (a frame and a box in it): the smallest is the one meant.
+    if (d === 0 && (!over || p.w * p.h < over.area)) over = { id, area: p.w * p.h };
+    else if (d > 0 && d <= 160 && (!near || d < near.d)) near = { id, d };
+  }
+  const box = over ?? near;
+  if (!box) return `loose ${where}`;
+  return `loose ${where}, ${over ? "over" : "near"} ${refOf(idx, box.id)}`;
 }
 
 export type Resolved =

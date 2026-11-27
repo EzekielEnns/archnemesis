@@ -2,6 +2,7 @@
 import { describe, expect, it } from "vitest";
 import { seedOps } from "../seed.ts";
 import { keyOps } from "../files.ts";
+import { makeNote } from "../model.ts";
 import type { Canvas, Designs, Stop, StopReply } from "./host.ts";
 import { memHost } from "./memhost.ts";
 import { INSTRUCTIONS, PLAYBOOKS } from "./teach.ts";
@@ -487,6 +488,36 @@ describe("note", () => {
     expect(list.text).toContain("latest, Test agent: No: the worker too.");
     await call(h, "note", { action: "resolve", note: id });
     expect((await call(h, "note", { action: "list" })).text).toMatch(/^no open notes/);
+  });
+
+  it("says where a note pinned to nothing sits, and what one inside an opened box is about", async () => {
+    const h = shop();
+    const idx = h.index();
+    const [viewId, placed] = [...idx.placements].find(([, m]) => m.size > 1)!;
+    const [boxId, at] = [...placed][0]!;
+    const view = idx.diagrams.get(viewId)!;
+    const box = idx.objects.get(boxId)!;
+    const other = [...idx.objects.values()].find((o) => !placed.has(o.id))!;
+    const author = { id: "ts:zeek", name: "Zeek", kind: "human" as const };
+    const base = { diagramId: viewId, kind: "note" as const, author };
+    h.commit(
+      [
+        // Dropped over a box without pinning it.
+        { op: "note.put", note: makeNote({ ...base, text: "over it", x: at.x + 5, y: at.y + 5 }) },
+        // Far from everything.
+        { op: "note.put", note: makeNote({ ...base, text: "nowhere", x: -90000, y: -90000 }) },
+        // On a box drawn inside one opened in place: about it, pinned to nothing.
+        { op: "note.put", note: makeNote({ ...base, text: "inner", about: other.id }) },
+      ],
+      "notes",
+    );
+    const text = (await call(h, "note", { action: "list" })).text;
+    const key = view.key ?? view.id;
+    expect(text).toMatch(
+      new RegExp(`note loose on ${key}, over ${box.key ?? box.id} Zeek: over it`),
+    );
+    expect(text).toMatch(new RegExp(`note loose on ${key} Zeek: nowhere`));
+    expect(text).toMatch(new RegExp(`note on ${other.key ?? other.id} Zeek: inner`));
   });
 
   it("leaves claims and flags for agents", async () => {
