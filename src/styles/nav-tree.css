@@ -144,3 +144,49 @@
   padding: 0 4px;
   margin-left: 6px;
 }
+
+/* The brief card beside a hovered library row. */
+.lib-peek {
+  position: fixed;
+  z-index: 60;
+  width: 264px;
+  padding: 10px 12px;
+  pointer-events: none;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  color: var(--text);
+}
+.lib-peek-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.lib-peek-head .nav-icon.lib {
+  color: #b79cf2;
+}
+.lib-peek-pkg {
+  margin-top: 2px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.lib-peek-text {
+  margin: 8px 0 0;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.lib-peek-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--muted);
+}

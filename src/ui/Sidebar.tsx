@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import {
   isCodeKind,
+  mergedContext,
   now,
   type Diagram,
   type Flow,
@@ -149,6 +151,23 @@ export function Sidebar(props: Props) {
       return new Set([...cur, ...want]);
     });
   }, [diagramId, idx]);
+  // A library row, hovered: a brief card beside it (what it is, its version, what it's for).
+  const [peek, setPeek] = useState<{ id: string; x: number; y: number } | null>(null);
+  const peekTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const peekAt = useRef({
+    show: (id: string, el: HTMLElement) => {
+      if (peekTimer.current) clearTimeout(peekTimer.current);
+      peekTimer.current = setTimeout(() => {
+        const r = el.getBoundingClientRect();
+        setPeek({ id, x: r.right + 8, y: Math.min(r.top, window.innerHeight - 180) });
+      }, 250);
+    },
+    hide: () => {
+      if (peekTimer.current) clearTimeout(peekTimer.current);
+      setPeek(null);
+    },
+  });
+  useEffect(() => () => void (peekTimer.current && clearTimeout(peekTimer.current)), []);
   const toggle = (id: string) =>
     setOpen((cur) => {
       const next = new Set(cur);
@@ -406,6 +425,10 @@ export function Sidebar(props: Props) {
               }}
               // Click goes to it: here, or on a diagram that shows it (opening its row too).
               // Placing it is a drag onto the canvas; the twist folds and unfolds.
+              onMouseEnter={
+                r.icon === "library" ? (e) => peekAt.current.show(o.id, e.currentTarget) : undefined
+              }
+              onMouseLeave={r.icon === "library" ? () => peekAt.current.hide() : undefined}
               onClick={() => {
                 // A library opens its docs in a new tab (double-click goes to it on the canvas).
                 if (docs) return void window.open(docs, "_blank", "noopener,noreferrer");
@@ -421,7 +444,11 @@ export function Sidebar(props: Props) {
               }}
               onDoubleClick={() => cb.current.onOpen(o.id)}
               onContextMenu={menuRef.current.on(() => objectItemsRef.current(o))}
-              title={`${docs ? `Click opens its docs (${docs}); double-click goes to it. ` : ""}${o.path ?? o.name}: on ${on} diagram${on === 1 ? "" : "s"}${isHere ? ", this one too" : ""}. Click to go to it; drag onto the canvas to place it here; right-click for more.`}
+              title={
+                r.icon === "library"
+                  ? undefined
+                  : `${o.path ?? o.name}: on ${on} diagram${on === 1 ? "" : "s"}${isHere ? ", this one too" : ""}. Click to go to it; drag onto the canvas to place it here; right-click for more.`
+              }
             >
               <Guides row={r} />
               <span
@@ -703,7 +730,41 @@ export function Sidebar(props: Props) {
           </ul>
         </section>
       )}
+      {peek && <LibPeek idx={idx} at={peek} />}
     </aside>
+  );
+}
+
+/** The brief card beside a hovered library row: its package, what it's for, and what a click does. */
+function LibPeek({ idx, at }: { idx: ModelIndex; at: { id: string; x: number; y: number } }) {
+  const lib = idx.objects.get(at.id);
+  if (!lib) return null;
+  const pkg = [lib.package?.ecosystem, lib.package?.name, lib.package?.version]
+    .filter(Boolean)
+    .join(" ");
+  const text = mergedContext(lib.description, lib.context);
+  const docs = libraryDocs(lib);
+  // Whatever points at it: a connection to it, or a dependency reference.
+  const users = new Set([
+    ...[...idx.connections.values()].filter((c) => c.toId === lib.id).map((c) => c.fromId),
+    ...[...idx.objects.values()]
+      .filter((o) => o.references?.some((r) => r.kind === "dependency" && r.to === lib.id))
+      .map((o) => o.id),
+  ]).size;
+  return createPortal(
+    <div className="lib-peek" style={{ left: at.x, top: at.y }} role="tooltip">
+      <div className="lib-peek-head">
+        <Package size={13} className="nav-icon lib" />
+        <b>{lib.name}</b>
+      </div>
+      {pkg && <div className="lib-peek-pkg">{pkg}</div>}
+      {text && <p className="lib-peek-text">{text}</p>}
+      <div className="lib-peek-foot">
+        {users > 0 && <span>used by {users}</span>}
+        <span>{docs ? `click: docs (${new URL(docs).host})` : "no docs link"}</span>
+      </div>
+    </div>,
+    document.body,
   );
 }
 
